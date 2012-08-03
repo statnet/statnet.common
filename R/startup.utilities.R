@@ -9,7 +9,7 @@ mkStartupMessage <- function(pkgname){
   desc <- packageDescription(pkgname)
   pns <- eval(parse(text=desc$`Authors@R`))
   pnnames <- format(pns, include=c("given","family"))
-  pninsts <- sapply(pns, function(pn) NVL(INST_MAP[[gsub(".*?([^.@]+\\.[^.]{2,4})$","\\1",pn$email)]],""))
+  pninsts <- sapply(pns, function(pn) NVL(INST_MAP[[gsub(".*?([^.@]+\\.[^.]{2,4})$","\\1",NVL(pn$email,""))]],""))
 
   authors <- sapply(pns, function(pn) "aut" %in% pn$role)
 
