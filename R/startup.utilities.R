@@ -1,7 +1,7 @@
 mkStartupMessage <- function(pkgname){
   INST_MAP <- list(washington.edu="University of Washington",
                    uw.edu="University of Washington",
-                   psu.edu="Penn Statue University",
+                   psu.edu="Penn State University",
                    uci.edu="University of California -- Irvine",
                    ucla.edu="University of California -- Los Angeles",
                    nyu.edu="New York University") 
