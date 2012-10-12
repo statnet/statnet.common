@@ -8,7 +8,7 @@ This function is inspired by SQL function \code{NVL}, and simply returns
 the first argument that is not \code{NULL}, or \code{NULL} if all arguments are NULL.
 }
 \usage{
-NVL(...)
+NVL(\dots)
 }
 \arguments{
   \item{\dots}{
@@ -42,9 +42,9 @@ print(b) # 1
 print(NVL(b,0)) # 1
 
 # Also,
-print(NVL(NULL,1,0) # 1
-print(NVL(NULL,0,1) # 0
-print(NVL(NULL,NULL,0) # 0
-print(NVL(NULL,NULL,NULL) # NULL
+print(NVL(NULL,1,0)) # 1
+print(NVL(NULL,0,1)) # 0
+print(NVL(NULL,NULL,0)) # 0
+print(NVL(NULL,NULL,NULL)) # NULL
 }
 \keyword{ utilities }
