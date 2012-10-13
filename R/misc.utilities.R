@@ -19,3 +19,12 @@ NVL <- function(...){
     if(!is.null(x)) break
   x
 }
+
+## Only run expr if environment variable testvar is set. Otherwise, skip them and optionally print a message documenting this.
+opttest <- function(expr, testname=NULL, testvar="ENABLE_FULL_TESTS"){
+  if(Sys.getenv(testvar)!="")
+    eval.parent(expr)
+  else
+    if(!is.null(testname))
+      message(testname,"test(s) skipped. Set",testvar,"environment variable to run.")
+}
