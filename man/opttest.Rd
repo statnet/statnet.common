@@ -8,7 +8,7 @@ A convenience wrapper to run code based on whether an environment
 variable is defined.
 }
 \usage{
-opttest(expr, testname = NULL, testvar = "ENABLE_FULL_TESTS")
+opttest(expr, testname = NULL, testvar = "ENABLE_statnet_TESTS")
 }
 \arguments{
   \item{expr}{

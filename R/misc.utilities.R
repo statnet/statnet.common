@@ -21,7 +21,7 @@ NVL <- function(...){
 }
 
 ## Only run expr if environment variable testvar is set. Otherwise, skip them and optionally print a message documenting this.
-opttest <- function(expr, testname=NULL, testvar="ENABLE_FULL_TESTS"){
+opttest <- function(expr, testname=NULL, testvar="ENABLE_statnet_TESTS"){
   if(Sys.getenv(testvar)!="")
     eval.parent(expr)
   else
