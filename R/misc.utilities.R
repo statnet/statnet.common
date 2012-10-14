@@ -13,5 +13,18 @@ sort.data.frame<-function(x, decreasing=FALSE, ...){
   x[do.call(order,c(sapply(seq_along(x),function(i)x[[i]],simplify=FALSE), decreasing=decreasing)),]
 }
 
-## If EXPR is NULL, return NULLV, otherwise return EXPR.
-NVL <- function(EXPR, NULLV) if(!is.null(EXPR)) EXPR else NULLV
+## Return the first non-NULL argument. If all arguments are NULL, return NULL.
+NVL <- function(...){
+  for(x in list(...))
+    if(!is.null(x)) break
+  x
+}
+
+## Only run expr if environment variable testvar is set. Otherwise, skip them and optionally print a message documenting this.
+opttest <- function(expr, testname=NULL, testvar="ENABLE_FULL_TESTS"){
+  if(Sys.getenv(testvar)!="")
+    eval.parent(expr)
+  else
+    if(!is.null(testname))
+      message(testname,"test(s) skipped. Set",testvar,"environment variable to run.")
+}
