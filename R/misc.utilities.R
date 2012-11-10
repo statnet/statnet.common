@@ -26,5 +26,5 @@ opttest <- function(expr, testname=NULL, testvar="ENABLE_statnet_TESTS"){
     eval.parent(expr)
   else
     if(!is.null(testname))
-      message(testname,"test(s) skipped. Set",testvar,"environment variable to run.")
+      message(testname," test(s) skipped. Set ",testvar," environment variable to run.")
 }
