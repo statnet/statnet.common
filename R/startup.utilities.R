@@ -1,15 +1,34 @@
-mkStartupMessage <- function(pkgname){
+statnetStartupMessage <- function(pkgname, friends, nofriends){
   INST_MAP <- list(washington.edu="University of Washington",
                    uw.edu="University of Washington",
                    psu.edu="Penn State University",
                    uci.edu="University of California -- Irvine",
                    ucla.edu="University of California -- Los Angeles",
-                   nyu.edu="New York University") 
+                   nyu.edu="New York University",
+                   murdoch.edu.au="Murdoch University"
+                   ) 
 
+  # Note that all options are ignored at this time, and the "wall of
+  # text" is displayed unconditionally.
+  
   desc <- packageDescription(pkgname)
   pns <- eval(parse(text=desc$`Authors@R`))
   pnnames <- format(pns, include=c("given","family"))
-  pninsts <- sapply(pns, function(pn) NVL(INST_MAP[[gsub(".*?([^.@]+\\.[^.]{2,4})$","\\1",NVL(pn$email,""))]],""))
+
+  # Find the institution associated with the domain of the specific e-mail message.
+  find.inst <- function(email, map){
+    if(is.null(email)) return(NULL)
+    insts <- which(sapply(names(map),
+                          function(inst){
+                            instre <- paste('[@.]',gsub('.','\\.',inst,fixed=TRUE),sep='')
+                            grepl(instre, email)
+                          }
+                          ))
+    if(length(insts)) map[[insts]]
+    else NULL
+  }
+  
+  pninsts <- sapply(pns, function(pn) NVL(find.inst(pn$email, INST_MAP),""))
 
   authors <- sapply(pns, function(pn) "aut" %in% pn$role)
 
