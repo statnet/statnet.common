@@ -1,0 +1,4 @@
+library(statnet.common)
+statnet.cite.head("statnet.common")
+statnet.cite.pkg("statnet.common")
+statnet.cite.foot("statnet.common")

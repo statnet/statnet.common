@@ -24,11 +24,10 @@ statnet.cite.pkg <- function(pkg){
   bibentry("Manual",
            author = auts,
            title = desc$Title,
+           organization = paste("The Statnet Project (\\url{", projhomepage, "})",sep=""),
            year         = substr(desc$Date,1,4),
-           note         = paste("Version ", desc$Version,
-             ".  Project home page at \\url{", projhomepage, "}", 
-             sep=""),
-           address      = "Seattle, WA",
+           note         = paste("Version ", desc$Version, sep=""),
+#           address      = "Seattle, WA",
            url          = paste("CRAN.R-project.org/package=",desc$Package,sep="")
            )
 }
