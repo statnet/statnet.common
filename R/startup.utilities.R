@@ -29,7 +29,8 @@ statnetStartupMessage <- function(pkgname, friends, nofriends){
   
   desc <- packageDescription(pkgname)
   pns <- eval(parse(text=desc$`Authors@R`))
-  pnnames <- format(pns, include=c("given","family"))
+  # The gsub is necessary because R CMD build can put line breaks in all sorts of fun places.
+  pnnames <- gsub("[\n ]+", " ", format(pns, include=c("given","family")))
 
   # Find the institution associated with the domain of the specific e-mail message.
   find.inst <- function(email, map){
