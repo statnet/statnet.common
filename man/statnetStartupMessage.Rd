@@ -13,7 +13,7 @@
   University of Washington.)
   }
 \usage{
-mkStartupMessage(pkgname, friends, nofriends)
+statnetStartupMessage(pkgname, friends, nofriends)
 }
 \arguments{
   \item{pkgname}{

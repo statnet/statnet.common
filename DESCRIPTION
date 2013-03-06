@@ -1,6 +1,6 @@
 Package: statnet.common
 Version: 3.1-0
-Date: 2013-01-13
+Date: 2013-03-05
 Title: Common R Scripts and Utilities Used by the Statnet Project Software
 Authors@R:c(
 	person("Pavel N.", "Krivitsky", role=c("aut","cre"), email="krivitsky@stat.psu.edu"))
