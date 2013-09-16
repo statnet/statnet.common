@@ -3,7 +3,7 @@ Version: 3.2-11882-11883.1-2013.02.23-18.06.22
 Date: 2013-02-23
 Title: Common R Scripts and Utilities Used by the Statnet Project Software
 Authors@R:c(
-	person("Pavel N.", "Krivitsky", role=c("aut","cre"), email="krivitsky@stat.psu.edu"))
+	person("Pavel N.", "Krivitsky", role=c("aut","cre"), email="pavel@uow.edu.au"))
 Description: This package contains non-statistical utilities used by the software developed by the Statnet Project. They may also be of use to others.
 License: GPL-3 + file LICENSE
 URL: http://www.statnet.org
