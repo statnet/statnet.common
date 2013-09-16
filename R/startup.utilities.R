@@ -14,7 +14,8 @@ statnetStartupMessage <- function(pkgname, friends, nofriends){
                    uci.edu="University of California -- Irvine",
                    ucla.edu="University of California -- Los Angeles",
                    nyu.edu="New York University",
-                   murdoch.edu.au="Murdoch University"
+                   murdoch.edu.au="Murdoch University",
+                   uow.edu.au="University of Wollongong"
                    ) 
 
   # Note that all options are ignored at this time, and the "wall of
