@@ -13,7 +13,7 @@ check.control.class <- function(OKnames={sc <- sys.calls(); as.character(sc[[len
 }
 
 set.control.class <- function(myname={sc <- sys.calls(); as.character(sc[[length(sc)-1]][[1]])}, control=get("control",pos=parent.frame())){
-  class(control) <- c(myname, "control.list")
+  class(control) <- c(myname, "control.list", "list")
   control
 }
 
