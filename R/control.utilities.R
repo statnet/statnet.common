@@ -26,3 +26,6 @@ print.control.list <- function(x, ...){
     }
   }
 }
+
+# Disable partial matching in control lists.
+`$.control.list` <- getElement
