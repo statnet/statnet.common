@@ -28,7 +28,8 @@ statnet.cite.foot(pkg)
   substituted into the template.
 
   For \code{statnet.cite.pkg}, an object of class \code{\link{bibentry}}
-  containing the citation for the package constructed from
+  containing a 'software manual' citation for the package constructed from
+  the current version and author information in the
   \code{DESCRIPTION} and a template. 
 }
 \seealso{
