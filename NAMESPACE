@@ -2,3 +2,6 @@ importFrom(utils, packageDescription)
 
 # Export all names that do not begin with a dot.
 exportPattern("^[^\\.]")
+
+S3method(sort,data.frame)
+S3method(print,control.list)
