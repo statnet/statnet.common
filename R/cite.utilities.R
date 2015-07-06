@@ -1,7 +1,7 @@
 # ---- BEGIN STATNET CITATION FUNCTIONS ----
 # A header function for ensuring that all the statnet packages provide consistent messaging
 statnet.cite.head <- function(pkg){
-  citHeader(
+  utils::citHeader(
     paste("`",pkg,"` is part of the Statnet suite of packages.  ",
           "If you are using the `",pkg,"` package for research that will be published, ",
           "we request that you acknowledge this by citing the following.\n",
@@ -16,9 +16,9 @@ statnet.cite.foot <- function(pkg){
   # instead of using packageDescription().  But if this code is called in another context
   # use packageDescription() to assign meta
   if(!exists("meta") || is.null(meta)){
-    meta <- packageDescription(pkg) 
+    meta <- utils::packageDescription(pkg) 
   }
-  citFooter("We have invested a lot of time and effort in creating the",
+  utils::citFooter("We have invested a lot of time and effort in creating the",
             "Statnet suite of packages for use by other researchers.",
             "Please cite it in all papers where it is used. The package",pkg," is made distributed under the terms of the license:",meta$License )
 }
@@ -30,7 +30,7 @@ statnet.cite.pkg <- function(pkg){
   # instead of using packageDescription().  But if this code is called in another context
   # use packageDescription() to assign meta
   if(!exists("meta") || is.null(meta)){
-      meta <- packageDescription(pkg) 
+      meta <- utils::packageDescription(pkg) 
   }
 
   projhomepage <- "http://www.statnet.org"
@@ -39,7 +39,7 @@ statnet.cite.pkg <- function(pkg){
   auts <- auts[sapply(auts, function(aut) "aut" %in% aut$role)]
   # create a citation entry for a "software manual" for this version of the software
   # it will be appended with any specific articles defineded inthe package citation file
-  bibentry("Manual",
+  utils::bibentry("Manual",
            author = auts,
            title = paste(meta$Package,": ", meta$Title, sep=""),
            organization = paste("The Statnet Project (\\url{", projhomepage, "})",sep=""),

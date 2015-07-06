@@ -28,7 +28,7 @@ statnetStartupMessage <- function(pkgname, friends, nofriends){
   # Note that all options are ignored at this time, and the "wall of
   # text" is displayed unconditionally.
   
-  desc <- packageDescription(pkgname)
+  desc <- utils::packageDescription(pkgname)
   pns <- eval(parse(text=desc$`Authors@R`))
   # The gsub is necessary because R CMD build can put line breaks in all sorts of fun places.
   pnnames <- gsub("[\n ]+", " ", format(pns, include=c("given","family")))
