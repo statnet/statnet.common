@@ -1,9 +1,10 @@
 Package: statnet.common
-Version: 3.3-13954.1-2015.07.06-13.50.58
-Date: 2015-07-06
+Version: 3.3-13959.1-2015.07.09-13.58.05
+Date: 2015-07-09
 Title: Common R Scripts and Utilities Used by the Statnet Project Software
 Authors@R:c(
-	person("Pavel N.", "Krivitsky", role=c("aut","cre"), email="pavel@uow.edu.au"))
+	person("Pavel N.", "Krivitsky", role=c("aut","cre"), email="pavel@uow.edu.au"),
+	person("Skye", "Bender-deMoll", role=c("ctb"), email="skyebend@uw.edu"))
 Description: Non-statistical utilities used by the software developed by the Statnet Project. They may also be of use to others.
 Imports: utils
 License: GPL-3 + file LICENSE

@@ -1,5 +1,5 @@
 importFrom(utils, packageDescription, citHeader, citFooter, bibentry)
-
+importFrom(stats, as.formula)
 # Export all names that do not begin with a dot.
 exportPattern("^[^\\.]")
 
