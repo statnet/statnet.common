@@ -1,0 +1,17 @@
+3.3.0
+	append.rhs.formula, vectors.namesmatch, term.list.formula, ergm.update.formula (renamed to nosimp.update.formula), and ERRVL moved from ergm.
+
+	Some NAMESPACE and other fixes to pass CRAN checks.
+
+	Skye Bender-deMoll has been added as a contributor.
+
+3.2.2
+	control class improvements and bug fixes.
+
+3.1.1
+	Updated e-mail address
+
+	Some improvements to opttest.
+
+3.1.0
+	Initial release, incorporating the control class framework (set.control.class, check.control.class, print.control.list);	startup message framework; NVL; sort.data.frame;	compress.data.frame; paste.and; citation utilities framework; and opttest framework.
