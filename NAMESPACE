@@ -1,4 +1,8 @@
-importFrom(utils, packageDescription)
+importFrom(utils, packageDescription, citHeader, citFooter, bibentry)
 
 # Export all names that do not begin with a dot.
 exportPattern("^[^\\.]")
+
+S3method(sort,data.frame)
+S3method(print,control.list)
+S3method(`$`,control.list)

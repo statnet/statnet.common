@@ -20,6 +20,13 @@ NVL <- function(...){
   x
 }
 
+## Return the first non-try-error argument. If all arguments are try-errors, stop with an error.
+ERRVL <- function(...){
+  for(x in list(...))
+    if(!inherits(x, "try-error")) return(x)
+  stop("No non-error expressions passed.")
+}
+
 ## Only run expr if environment variable testvar is set to specified values. Otherwise, skip them and optionally print a message documenting this.
 opttest <- function(expr, testname=NULL, testvar="ENABLE_statnet_TESTS", yesvals=c("y","yes","t","true","1"), lowercase=TRUE){
   testval <- Sys.getenv(testvar)

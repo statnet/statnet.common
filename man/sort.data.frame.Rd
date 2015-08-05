@@ -20,7 +20,7 @@
     Whether to sort in decreasing order.
 }
   \item{\dots}{
-    Ignored. Needed for compatibility with 
+    Ignored. Needed for compatibility with the generic.
 }
 }
 \value{

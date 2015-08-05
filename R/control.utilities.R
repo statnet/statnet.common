@@ -28,4 +28,5 @@ print.control.list <- function(x, ...){
 }
 
 # Disable partial matching in control lists.
-`$.control.list` <- getElement
+`$.control.list` <- function(object, name) object[[name, exact = TRUE]]
+

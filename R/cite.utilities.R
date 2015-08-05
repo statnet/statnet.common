@@ -1,33 +1,51 @@
-statnet.cite.head <- function(pkg)
-  citHeader(
+# ---- BEGIN STATNET CITATION FUNCTIONS ----
+# A header function for ensuring that all the statnet packages provide consistent messaging
+statnet.cite.head <- function(pkg){
+  utils::citHeader(
     paste("`",pkg,"` is part of the Statnet suite of packages.  ",
           "If you are using the `",pkg,"` package for research that will be published, ",
-          "we request that you acknowledge this by citing the following.\n\n",
+          "we request that you acknowledge this by citing the following.\n",
           'For BibTeX format, use toBibtex(citation("',pkg,'")).',
           sep="")
     )
+}
 
-statnet.cite.foot <- function(pkg)
-  citFooter("We have invested a lot of time and effort in creating the",
+# A footer function for ensuring that all the statnet packages provide consistent messaging
+statnet.cite.foot <- function(pkg){
+  # the 'meta' variable should be provided by R's CITATION processing script
+  # instead of using packageDescription().  But if this code is called in another context
+  # use packageDescription() to assign meta
+  if(!exists("meta") || is.null(meta)){
+    meta <- utils::packageDescription(pkg) 
+  }
+  utils::citFooter("We have invested a lot of time and effort in creating the",
             "Statnet suite of packages for use by other researchers.",
-            "Please cite it in all papers where it is used.")
+            "Please cite it in all papers where it is used. The package",pkg," is made distributed under the terms of the license:",meta$License )
+}
 
+# generates a consistent bibentry citation for the software manual of the package
 statnet.cite.pkg <- function(pkg){
   
-  desc <- packageDescription(pkg)
+  # the 'meta' variable should be provided by R's CITATION processing script
+  # instead of using packageDescription().  But if this code is called in another context
+  # use packageDescription() to assign meta
+  if(!exists("meta") || is.null(meta)){
+      meta <- utils::packageDescription(pkg) 
+  }
 
   projhomepage <- "http://www.statnet.org"
-    
-  auts <- eval(parse(text=desc$`Authors@R`))
+  # compute the list of authors  
+  auts <- eval(parse(text=meta$`Authors@R`))
   auts <- auts[sapply(auts, function(aut) "aut" %in% aut$role)]
-  
-  bibentry("Manual",
+  # create a citation entry for a "software manual" for this version of the software
+  # it will be appended with any specific articles defineded inthe package citation file
+  utils::bibentry("Manual",
            author = auts,
-           title = paste(desc$Package,": ", desc$Title, sep=""),
+           title = paste(meta$Package,": ", meta$Title, sep=""),
            organization = paste("The Statnet Project (\\url{", projhomepage, "})",sep=""),
-           year         = substr(desc$Date,1,4),
-           note         = paste("R package version ", desc$Version, sep=""),
-#           address      = "Seattle, WA",
-           url          = paste("CRAN.R-project.org/package=",desc$Package,sep="")
+           year         = substr(meta$Date,1,4),
+           note         = paste("R package version ", meta$Version, sep=""),
+           url          = paste("CRAN.R-project.org/package=",meta$Package,sep="")
            )
 }
+# ---- END STATNET CITATION FUNCTIONS ----

@@ -28,7 +28,7 @@ NVL(\dots)
   are.
 }
 \seealso{
-  is.null, if
+  \code{\link[base]{is.null}}, \code{\link[base]{if}}
 }
 \examples{
 a <- NULL
