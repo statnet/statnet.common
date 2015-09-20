@@ -1,9 +1,12 @@
 3.3.0
-	append.rhs.formula, vectors.namesmatch, term.list.formula, ergm.update.formula (renamed to nosimp.update.formula), and ERRVL moved from ergm.
-
-	Some NAMESPACE and other fixes to pass CRAN checks.
+	append.rhs.formula, vectors.namesmatch, term.list.formula, and ergm.update.formula (renamed to nosimp.update.formula) moved from ergm.
 
 	Skye Bender-deMoll has been added as a contributor.
+
+3.2.3
+	ERRVL moved from ergm.
+
+	Some NAMESPACE and other fixes to pass CRAN checks.
 
 3.2.2
 	control class improvements and bug fixes.
