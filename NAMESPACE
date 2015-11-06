@@ -4,5 +4,7 @@ importFrom(stats, as.formula)
 exportPattern("^[^\\.]")
 
 S3method(sort,data.frame)
+S3method(order,data.frame)
+S3method(order,default)
 S3method(print,control.list)
 S3method(`$`,control.list)

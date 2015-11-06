@@ -1,34 +1,46 @@
 \name{compress.data.frame}
 \alias{compress.data.frame}
+\alias{decompress.data.frame}
 \title{
-  "Compress" a data frame
+  "Compress" a data frame.
 }
 \description{
-  This function "compresses" a data frame, returning unique rows and a tally of the
-  number of times each row is repeated
+  \code{compress.data.frame} "compresses" a data frame, returning unique rows and a tally of the
+  number of times each row is repeated, as well as a permutation vector
+  that can reconstruct the original data
+  frame. \code{decompress.data.frame} reconstructs the original data frame.
 }
 \usage{
 compress.data.frame(x)
+
+decompress.data.frame(x)
 }
 \arguments{
   \item{x}{
-    A data frame.
+    For \code{compress.data.frame} a \code{\link{data.frame}} to be compressed. For
+    \code{decompress.data.frame} a \code{\link{list}} as returned by \code{compress.data.frame}.
 }
 }
 \value{
-  A \code{\link{list}} with two elements:
+  For \code{compress.data.frame}, a \code{\link{list}} with three elements:
   \item{rows }{Unique rows of \code{x}}
   \item{frequencies }{A vector of the same length as the number or rows,
     giving the number of times the corresponding row is repeated }
+  \item{ordering}{A vector such that if \code{c} is the compressed data
+    frame, \code{c$rows[c$ordering,,drop=FALSE]} equals the original
+    data frame, except for row names}
+  \item{rownames}{Row names of \code{x}}
+
+  For \code{decompress.data.frame}, the original data frame.
 }
 \seealso{
-  data.frame
+  \code{\link{data.frame}}
 }
 \examples{
-data(faithful)
+(x <- data.frame(V1=sample.int(3,30,replace=TRUE),V2=sample.int(2,30,replace=TRUE),V3=sample.int(4,30,replace=TRUE)))
 
-head(faithful)
+(c <- compress.data.frame(x))
 
-lapply(compress.data.frame(faithful),head)
+stopifnot(all(decompress.data.frame(c)==x))
 }
 \keyword{ manip }

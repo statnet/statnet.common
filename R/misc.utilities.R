@@ -20,18 +20,42 @@ vector.namesmatch<-function(v,names,errname=NULL){
 }
 
 ## Compress a data frame by eliminating duplicate rows while keeping
-## track of their frequency.
+## track of their frequency and keeping track of the original ordering.
 compress.data.frame<-function(x){
-  x<-sort(x)
+  r <- rownames(x)
+  o <- order.data.frame(x)
+  x <- x[o, , drop=FALSE]
   firsts<-which(!duplicated(x))
   freqs<-diff(c(firsts,nrow(x)+1))
-  x<-x[firsts,]
-  list(rows=x,frequencies=freqs)
+  x<-x[firsts, , drop=FALSE]
+  list(rows=x, frequencies=freqs, ordering=order(o), rownames=r) # Note that x[order(x)][order(order(x))]==x.
 }
+
+decompress.data.frame<-function(x){
+  r <- x$rows
+  rn <- x$rownames
+  f <- x$frequencies
+  o <- x$ordering
+
+  out <- r[rep.int(seq_along(f), f),, drop=FALSE][o,, drop=FALSE]
+  rownames(out) <- rn
+  out
+}
+
+order <- function(..., na.last = TRUE, decreasing = FALSE) UseMethod("order")
+
+order.default <- function(..., na.last = TRUE, decreasing = FALSE) base::order(..., na.last=na.last, decreasing=decreasing)
+
+## order method for a data frame in lexicographic order.
+order.data.frame<-function(..., na.last = TRUE, decreasing=FALSE){
+  x <- list(...)[[1]]
+  do.call(base::order,c(sapply(seq_along(x),function(i)x[[i]],simplify=FALSE), na.last=na.last, decreasing=decreasing))
+}
+
 
 ## Sorts rows of a data frame in lexicographic order.
 sort.data.frame<-function(x, decreasing=FALSE, ...){
-  x[do.call(order,c(sapply(seq_along(x),function(i)x[[i]],simplify=FALSE), decreasing=decreasing)),]
+  x[order(x,decreasing=decreasing),,drop=FALSE]
 }
 
 ## Return the first non-NULL argument. If all arguments are NULL, return NULL.
