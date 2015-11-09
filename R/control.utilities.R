@@ -30,3 +30,11 @@ print.control.list <- function(x, ...){
 # Disable partial matching in control lists.
 `$.control.list` <- function(object, name) object[[name, exact = TRUE]]
 
+control.remap <- function(control, from, to){
+  from <- paste0("^",from,"\\.")
+  to <- paste0(to,"\\.")
+  nfrom <- grep(from, names(control), value=TRUE)
+  nto <- sub(from, to, nfrom)
+  for(i in seq_along(nfrom)) control[[nto[i]]] <- control[[nfrom[i]]]
+  control
+}
