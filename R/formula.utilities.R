@@ -54,8 +54,12 @@ nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
         op <- as.character(c[[1]])
         if(length(c)==2 && is.call(c[[2]]) && c[[2]][[1]]==op)
           return(deparen(c[[2]], ops))
-        else if(length(c)==3 && is.call(c[[3]]) && c[[3]][[1]]==op)
-          return(call(op, call(op, deparen(c[[2]],ops), deparen(c[[3]][[2]],ops)), deparen(c[[3]][[3]],ops)))
+        else if(length(c)==3 && is.call(c[[3]]) && c[[3]][[1]]==op){
+          if(length(c[[3]])==3)
+            return(call(op, call(op, deparen(c[[2]],ops), deparen(c[[3]][[2]],ops)), deparen(c[[3]][[3]],ops)))
+          else
+            return(call(op, deparen(c[[2]],ops), deparen(c[[3]][[2]],ops)))
+        }
       }
       return(as.call(c(list(c[[1]]), lapply(c[-1], deparen, ops)))) # If it's a non-reducible call, construct a call consisting of the call and each of the arguments with the substitution performed, recursively.
     }else return(c)
