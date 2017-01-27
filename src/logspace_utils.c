@@ -55,19 +55,19 @@ SEXP log_sum_exp_wrapper(SEXP logx, SEXP long_double){
  */
 double logspace_wmean (const double *x, const double* logw, int n)
 {
-    if(n == 1) return x[0];
-    // else (n >= 2) :
-    int i;
-    // Mw := max_i log(w_i)
-    double Mw = logw[0];
-    for(i = 1; i < n; i++) if(Mw < logw[i]) Mw = logw[i];
-    double sw = 0., sxw = 0.;
-    for(i = 0; i < n; i++){
-      double w = exp(logw[i] - Mw);
-      sw += w;
-      sxw += w*x[i];
-    }
-    return (double) sxw/sw;
+  if(n == 1) return x[0];
+  // else (n >= 2) :
+  int i;
+  // Mw := max_i log(w_i)
+  double Mw = logw[0];
+  for(i = 1; i < n; i++) if(Mw < logw[i]) Mw = logw[i];
+  double sw = 0., sxw = 0.;
+  for(i = 0; i < n; i++){
+    double w = exp(logw[i] - Mw);
+    sw += w;
+    sxw += w*x[i];
+  }
+  return (double) sxw/sw;
 }
 
 
@@ -79,5 +79,44 @@ SEXP logspace_wmean_wrapper(SEXP x, SEXP logw){
   SEXP out = PROTECT(allocVector(REALSXP, 1));
   REAL(out)[0] = logspace_wmean(REAL(x), REAL(logw), n);
   UNPROTECT(3);
+  return(out);
+}
+
+/*
+  Matrix version of logspace_wmean
+ */
+void logspace_wmeans (const double *xm, const double* logw, int n, int p, double *out)
+{
+  if(n == 1){
+    memcpy(out, xm, p*sizeof(double));
+    return;
+  }
+  // else (n >= 2) :
+  int i;
+  // Mw := max_i log(w_i)
+  double Mw = logw[0];
+  for(i = 1; i < n; i++) if(Mw < logw[i]) Mw = logw[i];
+  memset(out, 0, p*sizeof(double));
+  double sw = 0.;
+  for(i = 0; i < n; i++){
+    double w = exp(logw[i] - Mw);
+    sw += w;
+    for(unsigned int j = 0; j < p; j++)
+      out[j] += w*xm[i + j*n];
+  }
+  for(unsigned int j = 0; j < p; j++) out[j] /= sw;
+}
+
+
+
+SEXP logspace_wmeans_wrapper(SEXP xm, SEXP logw){
+  SEXP xdim = PROTECT(getAttrib(xm, R_DimSymbol));
+  int n = INTEGER(xdim)[0], p = INTEGER(xdim)[1];
+  xm = PROTECT(coerceVector(xm, REALSXP));
+  logw = PROTECT(coerceVector(logw, REALSXP));
+  if(n != length(logw)) error("Number of rows in the value matrix differs from the length of the log-weights vector.");
+  SEXP out = PROTECT(allocVector(REALSXP, p));
+  logspace_wmeans(REAL(xm), REAL(logw), n, p, REAL(out));
+  UNPROTECT(4);
   return(out);
 }

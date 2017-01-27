@@ -22,7 +22,9 @@ lweighted.mean(x, logw)
   }
   \item{x}{
     Numeric vector of \eqn{x}, the (raw) values
-    to be summed or averaged.
+    to be summed or averaged. For \code{lweighted.mean}, \code{x} may
+    also be a matrix, in which case the weighted mean will be computed
+    for each column of \code{x}.
   }
   \item{logw}{
     Numeric vector of \eqn{\log(w)}, the natural logarithms of the weights.
@@ -41,7 +43,9 @@ lweighted.mean(x, logw)
   \describe{
     \item{\code{log_sum_exp(logx)}}{\code{log(sum(exp(logx)))}}
     \item{\code{log_mean_exp(logx)}}{\code{log(mean(exp(logx)))}}
-    \item{\code{lweighted.mean(x, logw)}}{\code{sum(x*exp(logw))/sum(exp(logw))}}
+    \item{\code{lweighted.mean(x,
+	logw)}}{\code{sum(x*exp(logw))/sum(exp(logw))} for \code{x}
+      scalar and \code{colSums(x*exp(logw))/sum(exp(logw))} for \code{x} matrix}
   }
 }
 \references{
@@ -62,5 +66,9 @@ stopifnot(all.equal(log(mean(exp(logx))),log_mean_exp(logx)))
 x <- rnorm(1000)
 logw <- rnorm(1000)
 stopifnot(all.equal(sum(x*exp(logw))/sum(exp(logw)),lweighted.mean(x, logw)))
+
+x <- cbind(x, rnorm(1000))
+stopifnot(all.equal(colSums(x*exp(logw))/sum(exp(logw)),lweighted.mean(x, logw), check.attributes=FALSE))
+
 }
 \keyword{arith}
