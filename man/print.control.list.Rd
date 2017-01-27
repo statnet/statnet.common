@@ -19,7 +19,7 @@
 }
 }
 \seealso{
-  check.control.class, set.control.class
+  \code{\link{check.control.class}}, \code{\link{set.control.class}}
 }
 
 \keyword{ utilities }

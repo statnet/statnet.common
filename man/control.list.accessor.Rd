@@ -27,7 +27,7 @@ Returns the named list element exactly matching \code{name}, or \code{NULL} if n
 }
 
 \author{
-pavel
+Pavel N. Krivitsky
 }
 
 
