@@ -2,6 +2,7 @@
 \alias{log_mean_exp}
 \alias{log_sum_exp}
 \alias{lweighted.mean}
+\alias{lweighted.var}
 \title{
   Utilities for performing calculations on logarithmic scale.
 }
@@ -13,6 +14,7 @@
 log_mean_exp(logx, use_ldouble = FALSE)
 log_sum_exp(logx, use_ldouble = FALSE)
 lweighted.mean(x, logw)
+lweighted.var(x, logw)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -45,7 +47,10 @@ lweighted.mean(x, logw)
     \item{\code{log_mean_exp(logx)}}{\code{log(mean(exp(logx)))}}
     \item{\code{lweighted.mean(x,
 	logw)}}{\code{sum(x*exp(logw))/sum(exp(logw))} for \code{x}
-      scalar and \code{colSums(x*exp(logw))/sum(exp(logw))} for \code{x} matrix}
+      scalar and \code{colSums(x*exp(logw))/sum(exp(logw))} for \code{x}
+      matrix}
+    \item{\code{lweighted.var(x,
+	logw)}}{\code{crossprod(x*exp(logw/2))/sum(exp(logw))}}
   }
 }
 \references{
@@ -60,15 +65,18 @@ lweighted.mean(x, logw)
 }
 \examples{
 logx <- rnorm(1000)
-stopifnot(all.equal(log(sum(exp(logx))),log_sum_exp(logx)))
-stopifnot(all.equal(log(mean(exp(logx))),log_mean_exp(logx)))
+stopifnot(all.equal(log(sum(exp(logx))), log_sum_exp(logx)))
+stopifnot(all.equal(log(mean(exp(logx))), log_mean_exp(logx)))
 
 x <- rnorm(1000)
 logw <- rnorm(1000)
-stopifnot(all.equal(sum(x*exp(logw))/sum(exp(logw)),lweighted.mean(x, logw)))
+stopifnot(all.equal(m <- sum(x*exp(logw))/sum(exp(logw)),lweighted.mean(x, logw)))
+stopifnot(all.equal(sum((x-m)^2*exp(logw))/sum(exp(logw)), lweighted.var(x, logw), check.attributes=FALSE))
 
 x <- cbind(x, rnorm(1000))
-stopifnot(all.equal(colSums(x*exp(logw))/sum(exp(logw)),lweighted.mean(x, logw), check.attributes=FALSE))
+stopifnot(all.equal(m <- colSums(x*exp(logw))/sum(exp(logw)), lweighted.mean(x, logw), check.attributes=FALSE))
+stopifnot(all.equal(crossprod(t(t(x)-m)*exp(logw/2))/sum(exp(logw)), lweighted.var(x, logw), check.attributes=FALSE))
+
 
 }
 \keyword{arith}

@@ -53,8 +53,7 @@ SEXP log_sum_exp_wrapper(SEXP logx, SEXP long_double){
  * without causing overflows or throwing much accuracy.
  * Based on logspace_sum in pgamma.c in R.
  */
-double logspace_wmean (const double *x, const double* logw, int n)
-{
+double logspace_wmean (const double *x, const double* logw, int n){
   if(n == 1) return x[0];
   // else (n >= 2) :
   int i;
@@ -85,8 +84,7 @@ SEXP logspace_wmean_wrapper(SEXP x, SEXP logw){
 /*
   Matrix version of logspace_wmean
  */
-void logspace_wmeans (const double *xm, const double* logw, int n, int p, double *out)
-{
+void logspace_wmeans (const double *xm, const double* logw, int n, int p, double *out){
   if(n == 1){
     memcpy(out, xm, p*sizeof(double));
     return;
@@ -117,6 +115,58 @@ SEXP logspace_wmeans_wrapper(SEXP xm, SEXP logw){
   if(n != length(logw)) error("Number of rows in the value matrix differs from the length of the log-weights vector.");
   SEXP out = PROTECT(allocVector(REALSXP, p));
   logspace_wmeans(REAL(xm), REAL(logw), n, p, REAL(out));
+  UNPROTECT(4);
+  return(out);
+}
+
+SEXP sweep2m(SEXP xm, SEXP stats){
+  SEXP xdim = PROTECT(getAttrib(xm, R_DimSymbol));
+  int n = INTEGER(xdim)[0], p = INTEGER(xdim)[1];
+  xm = PROTECT(coerceVector(xm, REALSXP));
+  stats = PROTECT(coerceVector(stats, REALSXP));
+  if(p != length(stats)) error("Number of columns in the value matrix differs from the length of the STATS vector.");
+  for(unsigned int i=0; i<p; i++){
+    double s = REAL(stats)[i];
+    for(unsigned int j=0; j<n; j++){
+      REAL(xm)[j + i*n] -= s;
+    }
+  }
+  UNPROTECT(3);
+  return(R_NilValue);
+}
+
+
+void logspace_wmean2 (const double *xm, const double* logw, int n, int p, double *out)
+{
+  // else (n >= 2) :
+  int i;
+  // Mw := max_i log(w_i)
+  double Mw = logw[0];
+  for(i = 1; i < n; i++) if(Mw < logw[i]) Mw = logw[i];
+  memset(out, 0, p*p*sizeof(double));
+  double sw = 0.;
+  for(i = 0; i < n; i++){
+    double w = exp(logw[i] - Mw);
+    sw += w;
+    for(unsigned int j = 0; j < p; j++)
+      for(unsigned int k = 0; k <= j; k++)
+	out[j + k*p] += w*xm[i + j*n]*xm[i + k*n];
+  }
+  for(unsigned int j = 0; j < p; j++)
+    for(unsigned int k = 0; k <= j; k++){
+      out[j + k*p] /= sw;
+      out[k + j*p] = out[j + k*p];
+    }
+}
+
+SEXP logspace_wmean2_wrapper(SEXP xm, SEXP logw){
+  SEXP xdim = PROTECT(getAttrib(xm, R_DimSymbol));
+  int n = INTEGER(xdim)[0], p = INTEGER(xdim)[1];
+  xm = PROTECT(coerceVector(xm, REALSXP));
+  logw = PROTECT(coerceVector(logw, REALSXP));
+  if(n != length(logw)) error("Number of rows in the value matrix differs from the length of the log-weights vector.");
+  SEXP out = PROTECT(coerceVector(allocMatrix(REALSXP, p, p), REALSXP));
+  logspace_wmean2(REAL(xm), REAL(logw), n, p, REAL(out));
   UNPROTECT(4);
   return(out);
 }

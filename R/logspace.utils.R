@@ -23,3 +23,20 @@ lweighted.mean <- function(x, logw){
   }
 }
 
+lweighted.var <- function(x, logw){
+  E <- lweighted.mean(x, logw)
+  if(is.null(dim(x))){
+    if(length(x)<2) return(NA)
+    x <- x - E
+    lweighted.mean(x*x, logw)
+  }else{
+    if(nrow(x)<2) return(matrix(NA, 1, ncol(x)))
+    tmp <- x
+    .sweep2m(tmp, E)
+    .Call("logspace_wmean2_wrapper", tmp, logw, PACKAGE="statnet.common")
+  }
+}
+
+.sweep2m <- function(x, STATS){
+  .Call("sweep2m", x, STATS, PACKAGE="statnet.common")
+}
