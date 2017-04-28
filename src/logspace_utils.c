@@ -124,11 +124,14 @@ SEXP sweep2m(SEXP xm, SEXP stats){
   int n = INTEGER(xdim)[0], p = INTEGER(xdim)[1];
   xm = PROTECT(coerceVector(xm, REALSXP));
   stats = PROTECT(coerceVector(stats, REALSXP));
-  if(p != length(stats)) error("Number of columns in the value matrix differs from the length of the STATS vector.");
+  /* if(p != length(stats)) error("Number of columns in the value matrix differs from the length of the STATS vector."); */
   for(unsigned int i=0; i<p; i++){
     double s = REAL(stats)[i];
     for(unsigned int j=0; j<n; j++){
-      REAL(xm)[j + i*n] -= s;
+      REAL(xm)[j + i*n] -= s; // FIXME: May be possible to speed up by
+			      // replacing this multiplication by
+			      // "walking" a pointer along xm and a
+			      // poinater along with s.
     }
   }
   UNPROTECT(3);
