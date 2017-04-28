@@ -69,6 +69,6 @@ lweighted.var <- function(x, logw){
 #' @export
 sweep_cols.matrix <- function(x, STATS, disable_checks=FALSE){
   if(!disable_checks)
-    if(!exists(deparse(substitute(x))) || !is.matrix(x) || mode(x)!="numeric" || ncol(x)!=length(STATS)) stop("Argument ",sQuote("x")," must be a numeric matrix variable (not an expression that evaluates to a numeric matrix).")
+    if(!exists(deparse(substitute(x)),parent.frame(),inherits=FALSE) || !is.matrix(x) || mode(x)!="numeric" || ncol(x)!=length(STATS)) stop("Argument ",sQuote("x")," must be a numeric matrix variable (not an expression that evaluates to a numeric matrix).")
   invisible(.Call("sweep2m", x, STATS, PACKAGE="statnet.common"))
 }
