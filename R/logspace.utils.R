@@ -32,7 +32,7 @@ lweighted.var <- function(x, logw){
   }else{
     if(nrow(x)<2) return(matrix(NA, 1, ncol(x)))
     tmp <- x
-    .sweep_cols.matrix(tmp, E)
+    sweep_cols.matrix(tmp, E)
     .Call("logspace_wmean2_wrapper", tmp, logw, PACKAGE="statnet.common")
   }
 }
