@@ -3,20 +3,24 @@
 \alias{order}
 \alias{order.default}
 \alias{order.data.frame}
+\alias{order.matrix}
 \title{
-  Implement the \code{\link{sort}} and \code{\link{order}} methods for \code{\link{data.frame}},
+  Implement the \code{\link{sort}} and \code{\link{order}} methods for
+  \code{\link{data.frame}} and \code{\link{matrix}},
   sorting it in lexicographic order.
 }
 \description{
   These function return a data frame sorted in lexcographic order or a
   permutation that will rearrange it into lexicographic order: first
   by the first column, ties broken by the second, remaining ties by the
-  third, etc.. Note that \code{order.data.frame} is \emph{not} a generic.
+  third, etc..
 }
 \usage{
 \method{sort}{data.frame}(x, decreasing = FALSE, ...)
 
 \method{order}{data.frame}(\dots, na.last = TRUE, decreasing = FALSE)
+}
+\method{order}{matrix}(\dots, na.last = TRUE, decreasing = FALSE)
 }
 \arguments{
   \item{x}{
@@ -40,7 +44,7 @@
   lexicographically.
 }
 \seealso{
-  \code{\link{data.frame}}, \code{\link{sort}}, \code{\link{order}}
+  \code{\link{data.frame}}, \code{\link{sort}}, \code{\link{order}}, \code{\link{matrix}}
 }
 \examples{
 data(iris)

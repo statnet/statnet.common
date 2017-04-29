@@ -49,9 +49,14 @@ order.default <- function(..., na.last = TRUE, decreasing = FALSE) base::order(.
 ## order method for a data frame in lexicographic order.
 order.data.frame<-function(..., na.last = TRUE, decreasing=FALSE){
   x <- list(...)[[1]]
-  do.call(base::order,c(sapply(seq_along(x),function(i)x[[i]],simplify=FALSE), na.last=na.last, decreasing=decreasing))
+  do.call(base::order,c(unname(x), na.last=na.last, decreasing=decreasing))
 }
 
+## order method for a matrix in lexicographic order.
+order.matrix<-function(..., na.last = TRUE, decreasing=FALSE){
+  x <- list(...)[[1]]
+  do.call(base::order,c(lapply(seq_len(ncol(x)), function(i) x[,i]), na.last=na.last, decreasing=decreasing))
+}
 
 ## Sorts rows of a data frame in lexicographic order.
 sort.data.frame<-function(x, decreasing=FALSE, ...){
