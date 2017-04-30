@@ -122,20 +122,19 @@ SEXP logspace_wmeans_wrapper(SEXP xm, SEXP logw){
 SEXP sweep2m(SEXP xm, SEXP stats){
   SEXP xdim = PROTECT(getAttrib(xm, R_DimSymbol));
   int n = INTEGER(xdim)[0], p = INTEGER(xdim)[1];
+  SEXP out = PROTECT(allocMatrix(REALSXP, n, p));
   xm = PROTECT(coerceVector(xm, REALSXP));
   stats = PROTECT(coerceVector(stats, REALSXP));
   /* if(p != length(stats)) error("Number of columns in the value matrix differs from the length of the STATS vector."); */
+  unsigned int pos = 0;
   for(unsigned int i=0; i<p; i++){
     double s = REAL(stats)[i];
-    for(unsigned int j=0; j<n; j++){
-      REAL(xm)[j + i*n] -= s; // FIXME: May be possible to speed up by
-			      // replacing this multiplication by
-			      // "walking" a pointer along xm and a
-			      // poinater along with s.
+    for(unsigned int j=0; j<n; j++, pos++){
+      REAL(out)[pos] = REAL(xm)[pos] - s;
     }
   }
-  UNPROTECT(3);
-  return(R_NilValue);
+  UNPROTECT(4);
+  return(out);
 }
 
 

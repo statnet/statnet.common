@@ -2,40 +2,31 @@
 % Please edit documentation in R/logspace.utils.R
 \name{sweep_cols.matrix}
 \alias{sweep_cols.matrix}
-\title{Suptract a elements of a vector from respective columns of a matrix
-in place}
+\title{Suptract a elements of a vector from respective columns of a matrix}
 \usage{
 sweep_cols.matrix(x, STATS, disable_checks = FALSE)
 }
 \arguments{
-\item{x}{a variable containing a numeric matrix; is overwritten
-with the result.}
+\item{x}{a numeric matrix;}
 
 \item{STATS}{a numeric vector whose length equals to the number of
 columns of \code{x}.}
 
-\item{disable_checks}{if \code{TRUE}, do not check that \code{x} is a
-variable containing a numeric matrix and its number of columns
-matches the length of \code{STATS}; set in production code for a
-significant speed-up.}
+\item{disable_checks}{if \code{TRUE}, do not check that \code{x} is a numeric
+matrix and its number of columns matches the length of \code{STATS};
+set in production code for a significant speed-up.}
 }
 \value{
-Always returns \code{NULL}, as a reminder that the operation
-occurs in place. If you need to keep \code{x}, see the example below.
+A matrix of the same attributes as \code{x}.
 }
 \description{
-An optimized function equivalent to \code{x <- sweep(x, 2, STATS)} for a
+An optimized function equivalent to \code{sweep(x, 2, STATS)} for a
 matrix \code{x}.
 }
 \examples{
-x <- y <- matrix(runif(1000), ncol=4)
+x <- matrix(runif(1000), ncol=4)
 s <- 1:4
 
-sweep_cols.matrix(y, s) # Note that y is overwritten.
-stopifnot(any(y != sweep(x, 2, s)))
-
-# Invalid input: x+y is an expression that evaluates to a matrix,
-# not a matrix variable.
-try(sweep_cols.matrix(x+y, s))
+stopifnot(all.equal(sweep_cols.matrix(x, s), sweep(x, 2, s)))
 
 }
