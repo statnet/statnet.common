@@ -20,6 +20,7 @@
 \alias{print.linwmatrix}
 \alias{compress_rows.logwmatrix}
 \alias{compress_rows.linwmatrix}
+\alias{decompress_rows.wmatrix}
 \alias{[.wmatrix}
 \alias{[<-.wmatrix}
 \title{A data matrix with row weights}
@@ -62,6 +63,8 @@ as.logwmatrix(x, ...)
 
 \method{compress_rows}{linwmatrix}(x, ...)
 
+\method{decompress_rows}{wmatrix}(x, target.nrows = NULL, ...)
+
 \method{[}{wmatrix}(x, i, j, ..., drop = FALSE)
 
 \method{[}{wmatrix}(x, i, j, ...) <- value
@@ -74,6 +77,8 @@ as.logwmatrix(x, ...)
 \item{x}{an object to be coerced or tested.}
 
 \item{...}{extra arguments, currently unused.}
+
+\item{target.nrows}{see \code{\link[=decompress_rows]{decompress_rows()}}.}
 
 \item{i, j, value}{rows and columns and values for extraction or
 replacement; as \code{\link[=matrix]{matrix()}}.}
@@ -121,5 +126,5 @@ stopifnot(all.equal(compress_rows(as.logwmatrix(m)), as.logwmatrix(m3),check.att
 stopifnot(all.equal(rowweights(compress_rows(as.logwmatrix(m))), rowweights(as.logwmatrix(m3)),check.attributes=FALSE))
 }
 \seealso{
-\code{\link[=rowweights]{rowweights()}}, \code{\link[=rowlogweights]{rowlogweights()}}, \code{\link[=compress_rows]{compress_rows()}}
+\code{\link[=rowweights]{rowweights()}}, \code{\link[=lrowweights]{lrowweights()}}, \code{\link[=compress_rows]{compress_rows()}}
 }

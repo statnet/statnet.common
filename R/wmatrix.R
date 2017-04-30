@@ -10,6 +10,7 @@
 #' @param x an object to be coerced or tested.
 #' @param data,nrow,ncol,byrow,dimnames passed to [matrix()].
 #' @param w row weights on the appropriate scale.
+#' @param target.nrows see [decompress_rows()].
 #' @param i,j,value rows and columns and values for extraction or
 #'   replacement; as [matrix()].
 #' @param drop Used for consistency with the generic. Ignored, and
@@ -28,7 +29,7 @@
 #'   which is a [matrix()] but also has an attribute `w` containing
 #'   row weights on the linear or the natural-log-transformed scale.
 #'
-#' @seealso [rowweights()], [rowlogweights()], [compress_rows()]
+#' @seealso [rowweights()], [lrowweights()], [compress_rows()]
 #' 
 #' @name wmatrix
 #'
@@ -158,11 +159,11 @@ rowweights.linwmatrix <- function(x, ...) attr(x, "w")
 rowweights.logwmatrix <- function(x, ...) exp(attr(x, "w"))
 
 #' @rdname wmatrix_weights
-rowlogweights <- function(x, ...) UseMethod("rowlogweights")
+lrowweights <- function(x, ...) UseMethod("lrowweights")
 #' @rdname wmatrix_weights
-rowlogweights.logwmatrix <- function(x, ...) attr(x, "w")
+lrowweights.logwmatrix <- function(x, ...) attr(x, "w")
 #' @rdname wmatrix_weights
-rowlogweights.linwmatrix <- function(x, ...) log(attr(x, "w"))
+lrowweights.linwmatrix <- function(x, ...) log(attr(x, "w"))
 
 #' @rdname wmatrix_weights
 `rowweights<-` <- function(x, ..., value) UseMethod("rowweights<-")
@@ -178,14 +179,14 @@ rowlogweights.linwmatrix <- function(x, ...) log(attr(x, "w"))
 }
 
 #' @rdname wmatrix_weights
-`rowlogweights<-` <- function(x, ..., value) UseMethod("rowlogweights<-")
+`lrowweights<-` <- function(x, ..., value) UseMethod("lrowweights<-")
 #' @rdname wmatrix_weights
-`rowlogweights<-.linwmatrix` <- function(x, update=TRUE, ..., value){
+`lrowweights<-.linwmatrix` <- function(x, update=TRUE, ..., value){
   attr(x, "w") <- exp(value + if(update) log(attr(x, "w")) else 0)
   x
 }
 #' @rdname wmatrix_weights
-`rowlogweights<-.logwmatrix` <- function(x, update=TRUE,..., value){
+`lrowweights<-.logwmatrix` <- function(x, update=TRUE,..., value){
   attr(x, "w") <- value + if(update) attr(x, "w") else 0
   x
 }
@@ -198,7 +199,7 @@ rowlogweights.linwmatrix <- function(x, ...) log(attr(x, "w"))
 }
 
 #' @rdname wmatrix_weights
-`rowlogweights<-.matrix` <- function(x, ..., value){
+`lrowweights<-.matrix` <- function(x, ..., value){
   attr(x, "w") <- value
   class(x) <- c("logwmatrix", "wmatrix", class(x))
   x
@@ -207,13 +208,20 @@ rowlogweights.linwmatrix <- function(x, ...) log(attr(x, "w"))
 #' A generic function to compress a row-weighted table
 #'
 #' Compress a matrix or a data frame with duplicated rows, updating
-#' row weights to reflect frequencies.
+#' row weights to reflect frequencies, or reverse the process,
+#' reconstructing a matrix like the one compressed (subject to
+#' permutation of rows and weights not adding up to an integer).
 #'
 #' @param x a weighted matrix or data frame.
+#' @param target.nrows the approximate number of rows the uncompressed
+#'   matrix should have; if not achievable exactly while respecting
+#'   proportionality, a matrix with a slightly different number of
+#'   rows will be constructed.
 #' @param ... extra arguments for methods.
 #'
-#' @return A weighted matrix or data frame of the same type with
-#'   duplicated rows removed and weights updated appropriately.
+#' @return For `compress_rows` A weighted matrix or data frame of the
+#'   same type with duplicated rows removed and weights updated
+#'   appropriately.
 #'
 #' @export
 compress_rows <- function(x, ...) UseMethod("compress_rows")
@@ -240,6 +248,19 @@ compress_rows.linwmatrix <- function(x, ...){
   attr(cx, "w") <- c(tapply(attr(x, "w"), list(groups), sum), use.names=FALSE)
 
   cx
+}
+
+#' @rdname compress_rows
+decompress_rows <- function(x, target.nrows=NULL, ...) UseMethod("decompress_rows")
+
+#' @rdname wmatrix 
+decompress_rows.wmatrix <- function(x, target.nrows=NULL, ...){
+  w <- rowweights(x)
+  if(is.null(target.nrows)) target.nrows <- sum(w) 
+  n <- round(w/sum(w)*target.nrows) # Number of replications of each row
+
+  rowweights(x) <- 1/n
+  x[rep(seq_along(n), n),]
 }
 
 #' @rdname wmatrix

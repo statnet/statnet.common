@@ -5,17 +5,17 @@
 \alias{rowweights}
 \alias{rowweights.linwmatrix}
 \alias{rowweights.logwmatrix}
-\alias{rowlogweights}
-\alias{rowlogweights.logwmatrix}
-\alias{rowlogweights.linwmatrix}
+\alias{lrowweights}
+\alias{lrowweights.logwmatrix}
+\alias{lrowweights.linwmatrix}
 \alias{rowweights<-}
 \alias{rowweights<-.linwmatrix}
 \alias{rowweights<-.logwmatrix}
-\alias{rowlogweights<-}
-\alias{rowlogweights<-.linwmatrix}
-\alias{rowlogweights<-.logwmatrix}
+\alias{lrowweights<-}
+\alias{lrowweights<-.linwmatrix}
+\alias{lrowweights<-.logwmatrix}
 \alias{rowweights<-.matrix}
-\alias{rowlogweights<-.matrix}
+\alias{lrowweights<-.matrix}
 \title{Set or extract weighted matrix row weights}
 \usage{
 rowweights(x, ...)
@@ -24,11 +24,11 @@ rowweights(x, ...)
 
 \method{rowweights}{logwmatrix}(x, ...)
 
-rowlogweights(x, ...)
+lrowweights(x, ...)
 
-\method{rowlogweights}{logwmatrix}(x, ...)
+\method{lrowweights}{logwmatrix}(x, ...)
 
-\method{rowlogweights}{linwmatrix}(x, ...)
+\method{lrowweights}{linwmatrix}(x, ...)
 
 rowweights(x, ...) <- value
 
@@ -36,15 +36,15 @@ rowweights(x, ...) <- value
 
 \method{rowweights}{logwmatrix}(x, update = TRUE, ...) <- value
 
-rowlogweights(x, ...) <- value
+lrowweights(x, ...) <- value
 
-\method{rowlogweights}{linwmatrix}(x, update = TRUE, ...) <- value
+\method{lrowweights}{linwmatrix}(x, update = TRUE, ...) <- value
 
-\method{rowlogweights}{logwmatrix}(x, update = TRUE, ...) <- value
+\method{lrowweights}{logwmatrix}(x, update = TRUE, ...) <- value
 
 \method{rowweights}{matrix}(x, ...) <- value
 
-\method{rowlogweights}{matrix}(x, ...) <- value
+\method{lrowweights}{matrix}(x, ...) <- value
 }
 \arguments{
 \item{x}{a \code{\link[=linwmatrix]{linwmatrix()}}, a \code{\link[=logwmatrix]{logwmatrix()}}, or a \code{\link[=matrix]{matrix()}}; a
