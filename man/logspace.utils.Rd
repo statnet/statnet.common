@@ -53,16 +53,10 @@ lweighted.var(x, logw)
 	logw)}}{\code{crossprod(x*exp(logw/2))/sum(exp(logw))}}
   }
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
 \author{
   Pavel N. Krivitsky
 }
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 logx <- rnorm(1000)
 stopifnot(all.equal(log(sum(exp(logx))), log_sum_exp(logx)))
