@@ -19,7 +19,7 @@
 \method{sort}{data.frame}(x, decreasing = FALSE, ...)
 
 \method{order}{data.frame}(\dots, na.last = TRUE, decreasing = FALSE)
-}
+
 \method{order}{matrix}(\dots, na.last = TRUE, decreasing = FALSE)
 }
 \arguments{
