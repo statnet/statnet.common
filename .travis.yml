@@ -1,0 +1,9 @@
+language: r
+r:
+- release
+- devel
+sudo: false
+cache: packages
+r_github_packages:
+- statnet/network-private
+warnings_are_errors: false
