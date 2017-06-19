@@ -25,7 +25,8 @@ append.rhs.formula(object, newterms, keep.onesided = FALSE)
   \code{fmla[[2]]} for a one-sided formula.}
   \item{sign}{an internal parameter used by \code{term.list.formula}
     when calling itself recursively}
-  \item{newterms}{list of terms (names) to append to the formula }
+  \item{newterms}{list of terms (names) to append to the formula, or
+    a formula whose RHS terms will be used }
   \item{keep.onesided}{if the initial formula is one-sided, keep it
     whether to keep it one-sided or whether to make the initial formula
     the new LHS}
@@ -57,8 +58,17 @@ append.rhs.formula(object, newterms, keep.onesided = FALSE)
 \examples{
 ## append.rhs.formula
 
-append.rhs.formula(y~x,list(as.name("z1"),as.name("z2"))) # y~x+z1+z2
-append.rhs.formula(~y,list(as.name("z"))) # y~z
-append.rhs.formula(~y+x,list(as.name("z"))) # y+x~z
-append.rhs.formula(~y,list(as.name("z")),TRUE) # ~y+z
+(f1 <- append.rhs.formula(y~x,list(as.name("z1"),as.name("z2"))))
+(f2 <- append.rhs.formula(~y,list(as.name("z"))))
+(f3 <- append.rhs.formula(~y+x,list(as.name("z"))))
+(f4 <- append.rhs.formula(~y,list(as.name("z")),TRUE))
+(f5 <- append.rhs.formula(y~x,~z1+z2))
+
+\dontshow{
+stopifnot(f1 == (y~x+z1+z2))
+stopifnot(f2 == (y~z))
+stopifnot(f3 == (y+x~z))
+stopifnot(f4 == (~y+z))
+stopifnot(f5 == (y~x+z1+z2))
+}
 }

@@ -21,6 +21,7 @@
 ## append.rhs.formula(~y+x,list(as.name("z"))) -> y+x~z
 ## append.rhs.formula(~y,list(as.name("z")),TRUE) -> ~y+z
 append.rhs.formula<-function(object,newterms,keep.onesided=FALSE){
+  if(inherits(newterms,"formula")) newterms <- term.list.formula(newterms[[length(newterms)]])
   for(newterm in newterms){
     if(length(object)==3) object[[3]]<-call("+",object[[3]],newterm)
     else if(keep.onesided) object[[2]]<-call("+",object[[2]],newterm)
