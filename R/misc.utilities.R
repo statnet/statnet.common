@@ -253,3 +253,25 @@ opttest <- function(expr, testname=NULL, testvar="ENABLE_statnet_TESTS", yesvals
     if(!is.null(testname))
       message(testname," test(s) skipped. Set ",testvar," environment variable to run.")
 }
+
+#' Test if all items in a vector or a list are identical.
+#'
+#' @param x a vector or a list
+#'
+#' @return `TRUE` if all elements of `x` are identical to each other.
+#'
+#' @seealso [base::identical()]
+#'
+#' @examples
+#'
+#' stopifnot(!all_identical(1:3))
+#'
+#' stopifnot(all_identical(list("a", "a", "a")))
+#' @export
+
+all_identical <- function(x){
+  if(length(x)==0) return(TRUE)
+  v0 <- x[[1]]
+  for(v in x[-1]) if(!identical(v0,v)) return(FALSE)
+  return(TRUE)
+}
