@@ -9,21 +9,22 @@ sweep_cols.matrix(x, STATS, disable_checks = FALSE)
 \arguments{
 \item{x}{a numeric matrix;}
 
-\item{STATS}{a numeric vector whose length equals to the number of
-columns of \code{x}.}
+\item{STATS}{a numeric vector whose length equals to the number of columns
+of \code{x}.}
 
-\item{disable_checks}{if \code{TRUE}, do not check that \code{x} is a numeric
-matrix and its number of columns matches the length of \code{STATS};
+\item{disable_checks}{if \code{TRUE}, do not check that \code{x} is a
+numeric matrix and its number of columns matches the length of \code{STATS};
 set in production code for a significant speed-up.}
 }
 \value{
 A matrix of the same attributes as \code{x}.
 }
 \description{
-An optimized function equivalent to \code{sweep(x, 2, STATS)} for a
-matrix \code{x}.
+An optimized function equivalent to \code{sweep(x, 2, STATS)} for a matrix
+\code{x}.
 }
 \examples{
+
 x <- matrix(runif(1000), ncol=4)
 s <- 1:4
 

@@ -1,6 +1,3 @@
-## Note: wmatrix is an abstract class: you can't actually create
-## one. You can only create its subclasses: linwmatrix and logwmatrix.
-
 #' A data matrix with row weights
 #'
 #' A representation of a numeric matrix with row weights, represented
@@ -52,36 +49,44 @@
 #'
 #' stopifnot(all.equal(compress_rows(as.logwmatrix(m)), as.logwmatrix(m3),check.attributes=FALSE))
 #' stopifnot(all.equal(rowweights(compress_rows(as.logwmatrix(m))), rowweights(as.logwmatrix(m3)),check.attributes=FALSE))
-#' @export
 NULL
 
 #' @rdname wmatrix
+#' @export
 logwmatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE, dimnames = NULL, w = NULL){
   x <- matrix(data, nrow, ncol, byrow, dimnames)
   as.logwmatrix(x, w)
 }
 
 #' @rdname wmatrix
+#' @export
 linwmatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE, dimnames = NULL, w = NULL){
   x <- matrix(data, nrow, ncol, byrow, dimnames)
   as.linwmatrix(x, w)
 }
 
 #' @rdname wmatrix
+#' @export
 is.wmatrix <- function(x) inherits(x, "wmatrix")
 #' @rdname wmatrix
+#' @export
 is.logwmatrix <- function(x) inherits(x, "logwmatrix")
 #' @rdname wmatrix
+#' @export
 is.linwmatrix <- function(x) inherits(x, "linwmatrix")
 
 #' @rdname wmatrix
+#' @export
 as.linwmatrix <- function(x, ...) UseMethod("as.linwmatrix")
 #' @rdname wmatrix
+#' @export
 as.logwmatrix <- function(x, ...) UseMethod("as.logwmatrix")
 
 #' @rdname wmatrix
+#' @export
 as.linwmatrix.linwmatrix <- function(x, ...) x
 #' @rdname wmatrix
+#' @export
 as.linwmatrix.logwmatrix <- function(x, ...){
   attr(x, "w") <- exp(attr(x, "w"))
   class(x)[class(x)=="logwmatrix"] <- "linwmatrix" 
@@ -89,8 +94,10 @@ as.linwmatrix.logwmatrix <- function(x, ...){
 }
 
 #' @rdname wmatrix
+#' @export
 as.logwmatrix.logwmatrix <- function(x, ...) x
 #' @rdname wmatrix
+#' @export
 as.logwmatrix.linwmatrix <- function(x, ...){
   attr(x, "w") <- log(attr(x, "w"))
   class(x)[class(x)=="linwmatrix"] <- "logwmatrix" 
@@ -98,12 +105,14 @@ as.logwmatrix.linwmatrix <- function(x, ...){
 }
 
 #' @rdname wmatrix
+#' @export
 as.linwmatrix.matrix <- function(x, w=NULL, ...){
   attr(x, "w") <- NVL(w, rep(1, nrow(x)))
   class(x) <- c("linwmatrix", "wmatrix", class(x))
   x
 }
 #' @rdname wmatrix
+#' @export
 as.logwmatrix.matrix <- function(x, w=NULL, ...){
   attr(x, "w") <- NVL(w, rep(0, nrow(x)))
   class(x) <- c("logwmatrix", "wmatrix", class(x))
@@ -111,18 +120,21 @@ as.logwmatrix.matrix <- function(x, w=NULL, ...){
 }
 
 #' @rdname wmatrix
+#' @export
 print.wmatrix <- function(x, ...){
   x <- cbind(unclass(x), Weight = attr(x, "w"))
   print(x, ...)
 }
 
 #' @rdname wmatrix
+#' @export
 print.logwmatrix <- function(x, ...){
   cat("A row-weighted matrix with natural-log-scaled weights:\n")
   NextMethod("print")
 }
 
 #' @rdname wmatrix
+#' @export
 print.linwmatrix <- function(x, ...){
   cat("A row-weighted matrix with linear-scaled weights:\n")
   NextMethod("print")
@@ -147,51 +159,62 @@ print.linwmatrix <- function(x, ...){
 #'   preserved.
 #' 
 #' @name wmatrix_weights
-#'
-#' @export
 NULL
 
 #' @rdname wmatrix_weights
+#' @export
 rowweights <- function(x, ...) UseMethod("rowweights")
 #' @rdname wmatrix_weights
+#' @export
 rowweights.linwmatrix <- function(x, ...) attr(x, "w")
 #' @rdname wmatrix_weights
+#' @export
 rowweights.logwmatrix <- function(x, ...) exp(attr(x, "w"))
 
 #' @rdname wmatrix_weights
+#' @export
 lrowweights <- function(x, ...) UseMethod("lrowweights")
 #' @rdname wmatrix_weights
+#' @export
 lrowweights.logwmatrix <- function(x, ...) attr(x, "w")
 #' @rdname wmatrix_weights
+#' @export
 lrowweights.linwmatrix <- function(x, ...) log(attr(x, "w"))
 
 #' @rdname wmatrix_weights
+#' @export
 `rowweights<-` <- function(x, ..., value) UseMethod("rowweights<-")
 #' @rdname wmatrix_weights
+#' @export
 `rowweights<-.linwmatrix` <- function(x, update=TRUE, ..., value){
   attr(x, "w") <- value * if(update) attr(x, "w") else 1
   x
 }
 #' @rdname wmatrix_weights
+#' @export
 `rowweights<-.logwmatrix` <- function(x, update=TRUE,..., value){
   attr(x, "w") <- log(value) + if(update) log(attr(x, "w")) else 0
   x
 }
 
 #' @rdname wmatrix_weights
+#' @export
 `lrowweights<-` <- function(x, ..., value) UseMethod("lrowweights<-")
 #' @rdname wmatrix_weights
+#' @export
 `lrowweights<-.linwmatrix` <- function(x, update=TRUE, ..., value){
   attr(x, "w") <- exp(value + if(update) log(attr(x, "w")) else 0)
   x
 }
 #' @rdname wmatrix_weights
+#' @export
 `lrowweights<-.logwmatrix` <- function(x, update=TRUE,..., value){
   attr(x, "w") <- value + if(update) attr(x, "w") else 0
   x
 }
 
 #' @rdname wmatrix_weights
+#' @export
 `rowweights<-.matrix` <- function(x, ..., value){
   attr(x, "w") <- value
   class(x) <- c("linwmatrix", "wmatrix", class(x))
@@ -199,34 +222,34 @@ lrowweights.linwmatrix <- function(x, ...) log(attr(x, "w"))
 }
 
 #' @rdname wmatrix_weights
+#' @export
 `lrowweights<-.matrix` <- function(x, ..., value){
   attr(x, "w") <- value
   class(x) <- c("logwmatrix", "wmatrix", class(x))
   x
 } 
 
+
+
 #' A generic function to compress a row-weighted table
-#'
-#' Compress a matrix or a data frame with duplicated rows, updating
-#' row weights to reflect frequencies, or reverse the process,
-#' reconstructing a matrix like the one compressed (subject to
-#' permutation of rows and weights not adding up to an integer).
-#'
+#' 
+#' Compress a matrix or a data frame with duplicated rows, updating row weights
+#' to reflect frequencies, or reverse the process, reconstructing a matrix like
+#' the one compressed (subject to permutation of rows and weights not adding up
+#' to an integer).
+#' 
 #' @param x a weighted matrix or data frame.
-#' @param target.nrows the approximate number of rows the uncompressed
-#'   matrix should have; if not achievable exactly while respecting
-#'   proportionality, a matrix with a slightly different number of
-#'   rows will be constructed.
 #' @param ... extra arguments for methods.
-#'
-#' @return For `compress_rows` A weighted matrix or data frame of the
-#'   same type with duplicated rows removed and weights updated
-#'   appropriately.
-#'
+#' @param target.nrows the approximate number of rows the uncompressed matrix
+#' should have; if not achievable exactly while respecting proportionality, a
+#' matrix with a slightly different number of rows will be constructed.
+#' @return For \code{compress_rows} A weighted matrix or data frame of the same
+#' type with duplicated rows removed and weights updated appropriately.
 #' @export
 compress_rows <- function(x, ...) UseMethod("compress_rows")
 
-#' @rdname wmatrix 
+#' @rdname wmatrix
+#' @export
 compress_rows.logwmatrix <- function(x, ...){
   o <- order.matrix(x)
   x <- x[o, , drop=FALSE]
@@ -239,6 +262,7 @@ compress_rows.logwmatrix <- function(x, ...){
 }
 
 #' @rdname wmatrix
+#' @export
 compress_rows.linwmatrix <- function(x, ...){
   o <- order.matrix(x)
   x <- x[o, , drop=FALSE]
@@ -251,9 +275,11 @@ compress_rows.linwmatrix <- function(x, ...){
 }
 
 #' @rdname compress_rows
+#' @export
 decompress_rows <- function(x, target.nrows=NULL, ...) UseMethod("decompress_rows")
 
-#' @rdname wmatrix 
+#' @rdname wmatrix
+#' @export
 decompress_rows.wmatrix <- function(x, target.nrows=NULL, ...){
   w <- rowweights(x)
   if(is.null(target.nrows)) target.nrows <- sum(w) 
@@ -264,6 +290,7 @@ decompress_rows.wmatrix <- function(x, target.nrows=NULL, ...){
 }
 
 #' @rdname wmatrix
+#' @export
 `[.wmatrix` <- function(x, i, j, ..., drop=FALSE){
   if(drop) warning("Row-weighted matrices cannot drop dimensions.")
   o <- unclass(x)[i,j,...,drop=FALSE]
@@ -273,6 +300,7 @@ decompress_rows.wmatrix <- function(x, target.nrows=NULL, ...){
 }
 
 #' @rdname wmatrix
+#' @export
 `[<-.wmatrix` <- function(x, i, j, ..., value){
   o <- unclass(x)
   o[i,j,...] <- value

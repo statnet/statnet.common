@@ -14,6 +14,58 @@
 ##   else top.pkg
 ## }
 
+
+
+#' Construct a "standard" startup message to be printed when the package is
+#' loaded.
+#' 
+#' This function uses information returned by \code{\link{packageDescription}}
+#' to construct a standard package startup message according to the policy of
+#' the Statnet Project. To determine institutional affiliation, it uses a
+#' lookup table that maps domain names to institutions. (E.g., *.uw.edu or
+#' *.washington.edu maps to University of Washington.)
+#' 
+#' 
+#' @param pkgname Name of the package whose information is used.
+#' @param friends This argument is required, but will only be interpreted if
+#' the Statnet Project policy makes use of "friendly" package information.
+#' 
+#' A character vector of names of packages whose attribution information
+#' incorporates the attribution information of this package, or \code{TRUE}.
+#' (This may, in the future, lead the package to suppress its own startup
+#' message when loaded by a "friendly" package.)
+#' 
+#' If \code{TRUE}, the package considers all other packages "friendly". (This
+#' may, in the future, lead the package to suppress its own startup message
+#' when loaded by another package, but print it when loaded directly by the
+#' user.)
+#' @param nofriends This argument controls the startup message if the Statnet
+#' Project policy does not make use of "friendly" package information but does
+#' make use of whether or not the package is being loaded directly or as a
+#' dependency.
+#' 
+#' If \code{TRUE}, the package is willing to suppress its startup message if
+#' loaded as a dependency. If \code{FALSE}, it is not.
+#' @return A string containing the startup message, to be passed to the
+#' \code{\link{packageStartupMessage}} call or \code{NULL}, if policy
+#' prescribes printing 's default startup message. (Thus, if
+#' \code{statnetStartupMessage} returns \code{NULL}, the calling package should
+#' not call \code{\link{packageStartupMessage}} at all.)
+#' 
+#' Note that arguments to \code{friends} and \code{nofriends} are merely
+#' requests, to be interpreted (or ignored) by the \code{statnetStartupMessage}
+#' according to the Statnet Project policy.
+#' @seealso packageDescription
+#' @keywords utilities
+#' @examples
+#' 
+#' \dontrun{
+#' .onAttach <- function(lib, pkg){
+#'   sm <- statnetStartupMessage("ergm", friends=c("statnet","ergm.count","tergm"), nofriends=FALSE)
+#'   if(!is.null(sm)) packageStartupMessage(sm)
+#' }
+#' }
+#' @export
 statnetStartupMessage <- function(pkgname, friends, nofriends){
   INST_MAP <- list(washington.edu="University of Washington",
                    uw.edu="University of Washington",

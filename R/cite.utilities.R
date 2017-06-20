@@ -1,5 +1,35 @@
 # ---- BEGIN STATNET CITATION FUNCTIONS ----
+
+#' \code{CITATION} file utilities for Statnet packages
+#' 
+#' These functions automate citation generation for Statnet Project packages.
+#' 
+#' 
+#' @param pkg Name of the package whose citation is being generated.
+#' @return For \code{statnet.cite.head} and \code{statnet.cite.foot}, an object
+#' of type \code{citationHeader} and \code{citationFooter}, respectively,
+#' understood by the \code{\link{citation}} function, with package name
+#' substituted into the template.
+#' 
+#' For \code{statnet.cite.pkg}, an object of class \code{\link{bibentry}}
+#' containing a 'software manual' citation for the package constructed from the
+#' current version and author information in the \code{DESCRIPTION} and a
+#' template.
+#' @seealso citation, citHeader, citFooter, bibentry
+#' @keywords utilities
+#' @name statnet.cite
+#' @examples
+#' 
+#' statnet.cite.head("statnet.common")
+#' 
+#' statnet.cite.pkg("statnet.common")
+#' 
+#' statnet.cite.foot("statnet.common")
+NULL
+
 # A header function for ensuring that all the statnet packages provide consistent messaging
+#' @rdname statnet.cite
+#' @export
 statnet.cite.head <- function(pkg){
   utils::citHeader(
     paste("`",pkg,"` is part of the Statnet suite of packages.  ",
@@ -11,6 +41,8 @@ statnet.cite.head <- function(pkg){
 }
 
 # A footer function for ensuring that all the statnet packages provide consistent messaging
+#' @rdname statnet.cite
+#' @export
 statnet.cite.foot <- function(pkg){
   # the 'meta' variable should be provided by R's CITATION processing script
   # instead of using packageDescription().  But if this code is called in another context
@@ -24,6 +56,8 @@ statnet.cite.foot <- function(pkg){
 }
 
 # generates a consistent bibentry citation for the software manual of the package
+#' @rdname statnet.cite
+#' @export
 statnet.cite.pkg <- function(pkg){
   
   # the 'meta' variable should be provided by R's CITATION processing script

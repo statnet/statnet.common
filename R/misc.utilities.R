@@ -1,5 +1,24 @@
-## A helper function to reorder vector v (if named) into order
-## specified by names. Copied from ergm::ergm.model.utils.R.
+#' reorder vector v into order determined by matching the names of its elements
+#' to a vector of names
+#' 
+#' A helper function to reorder vector \code{v} (if named) into order specified
+#' by matching its names to the argument \code{names}
+#' 
+#' does some checking of appropriateness of arguments, and reorders v by
+#' matching its names to character vector \code{names}
+#' 
+#' @param v a vector (or list) with named elements, to be reorderd
+#' @param names a character vector of element names, corresponding to names of
+#' \code{v}, specificying desired orering of \code{v}
+#' @param errname optional, name to be reported in any error messages. default
+#' to \code{deparse(substitute(v))}
+#' @return returns \code{v}, with elements reordered
+#' @note earlier versions of this function did not order as advertiased
+#' @examples
+#' 
+#' test<-list(c=1,b=2,a=3)
+#' vector.namesmatch(test,names=c('a','c','b'))
+#' @export
 vector.namesmatch<-function(v,names,errname=NULL){
   if(is.null(errname)) errname <- deparse(substitute(v))
 
@@ -19,8 +38,37 @@ vector.namesmatch<-function(v,names,errname=NULL){
   v
 }
 
-## Compress a data frame by eliminating duplicate rows while keeping
-## track of their frequency and keeping track of the original ordering.
+
+#' "Compress" a data frame.
+#' 
+#' \code{compress.data.frame} "compresses" a data frame, returning unique rows
+#' and a tally of the number of times each row is repeated, as well as a
+#' permutation vector that can reconstruct the original data frame.
+#' \code{decompress.data.frame} reconstructs the original data frame.
+#' 
+#' 
+#' @param x For \code{compress.data.frame} a \code{\link{data.frame}} to be
+#' compressed. For \code{decompress.data.frame} a \code{\link{list}} as
+#' returned by \code{compress.data.frame}.
+#' @return For \code{compress.data.frame}, a \code{\link{list}} with three
+#' elements: \item{rows }{Unique rows of \code{x}} \item{frequencies }{A vector
+#' of the same length as the number or rows, giving the number of times the
+#' corresponding row is repeated } \item{ordering}{A vector such that if
+#' \code{c} is the compressed data frame, \code{c$rows[c$ordering,,drop=FALSE]}
+#' equals the original data frame, except for row names} \item{rownames}{Row
+#' names of \code{x}}
+#' 
+#' For \code{decompress.data.frame}, the original data frame.
+#' @seealso \code{\link{data.frame}}
+#' @keywords manip
+#' @examples
+#' 
+#' (x <- data.frame(V1=sample.int(3,30,replace=TRUE),V2=sample.int(2,30,replace=TRUE),V3=sample.int(4,30,replace=TRUE)))
+#' 
+#' (c <- compress.data.frame(x))
+#' 
+#' stopifnot(all(decompress.data.frame(c)==x))
+#' @export
 compress.data.frame<-function(x){
   r <- rownames(x)
   o <- order.data.frame(x)
@@ -31,6 +79,8 @@ compress.data.frame<-function(x){
   list(rows=x, frequencies=freqs, ordering=order(o), rownames=r) # Note that x[order(x)][order(order(x))]==x.
 }
 
+#' @rdname compress.data.frame
+#' @export
 decompress.data.frame<-function(x){
   r <- x$rows
   rn <- x$rownames
@@ -42,35 +92,130 @@ decompress.data.frame<-function(x){
   out
 }
 
+#' @rdname sort.data.frame
+#' @export
 order <- function(..., na.last = TRUE, decreasing = FALSE) UseMethod("order")
 
+#' @rdname sort.data.frame
+#' @export
 order.default <- function(..., na.last = TRUE, decreasing = FALSE) base::order(..., na.last=na.last, decreasing=decreasing)
 
-## order method for a data frame in lexicographic order.
+#' @rdname sort.data.frame
+#' @export
 order.data.frame<-function(..., na.last = TRUE, decreasing=FALSE){
   x <- list(...)[[1]]
   do.call(base::order,c(unname(x), na.last=na.last, decreasing=decreasing))
 }
 
-## order method for a matrix in lexicographic order.
+#' @rdname sort.data.frame
+#' @export
 order.matrix<-function(..., na.last = TRUE, decreasing=FALSE){
   x <- list(...)[[1]]
   do.call(base::order,c(lapply(seq_len(ncol(x)), function(i) x[,i]), na.last=na.last, decreasing=decreasing))
 }
 
-## Sorts rows of a data frame in lexicographic order.
+
+
+#' Implement the \code{\link{sort}} and \code{\link{order}} methods for
+#' \code{\link{data.frame}} and \code{\link{matrix}}, sorting it in
+#' lexicographic order.
+#' 
+#' These function return a data frame sorted in lexcographic order or a
+#' permutation that will rearrange it into lexicographic order: first by the
+#' first column, ties broken by the second, remaining ties by the third, etc..
+#' 
+#' 
+#' @param x A \code{\link{data.frame}} to sort.
+#' @param \dots Ignored for \code{sort}. For \code{order}, first argument is
+#' the data frame to be ordered. (This is needed for compatibility with
+#' \code{\link[base]{order}}.)
+#' @param decreasing Whether to sort in decreasing order.
+#' @param na.last See \code{\link[base]{order}} documentation.
+#' @return For \code{sort}, a data frame, sorted lexicographically. For
+#' \code{order}, a permutation \code{I} (of a vector \code{1:nrow(x)}) such
+#' that \code{x[I,,drop=FALSE]} equals \code{x} ordered lexicographically.
+#' @seealso \code{\link{data.frame}}, \code{\link{sort}}, \code{\link{order}},
+#' \code{\link{matrix}}
+#' @keywords manip
+#' @examples
+#' 
+#' data(iris)
+#' 
+#' head(iris)
+#' 
+#' head(order(iris))
+#' 
+#' head(sort(iris))
+#' 
+#' stopifnot(identical(sort(iris),iris[order(iris),]))
+#' @export
 sort.data.frame<-function(x, decreasing=FALSE, ...){
   x[order(x,decreasing=decreasing),,drop=FALSE]
 }
 
-## Return the first non-NULL argument. If all arguments are NULL, return NULL.
+
+#' Return the first argument passed (out of any number) that is not
+#' \code{NULL}.
+#' 
+#' This function is inspired by SQL function \code{NVL}, and simply returns the
+#' first argument that is not \code{NULL}, or \code{NULL} if all arguments are
+#' NULL.
+#' 
+#' Note that an earlier version of this function took only two arguments:
+#' \code{EXPR}, that was tested and returned if not \code{NULL} and
+#' \code{NULLV}, which was returned if \code{EXPR} was \code{NULL}. The new
+#' version produces identical output for the same (two-argument) input, but
+#' tests any number of expressions sequentially.
+#' 
+#' @param \dots Expressions to be tested.
+#' @return The first argument that is not \code{NULL}, or \code{NULL} if all
+#' are.
+#' @seealso \code{\link[base]{is.null}}, \code{\link[base]{if}}
+#' @keywords utilities
+#' @examples
+#' 
+#' a <- NULL
+#' 
+#' print(a) # NULL
+#' print(NVL(a,0)) # 0
+#' 
+#' b <- 1
+#' 
+#' print(b) # 1
+#' print(NVL(b,0)) # 1
+#' 
+#' # Also,
+#' print(NVL(NULL,1,0)) # 1
+#' print(NVL(NULL,0,1)) # 0
+#' print(NVL(NULL,NULL,0)) # 0
+#' print(NVL(NULL,NULL,NULL)) # NULL
+#' @export
 NVL <- function(...){
   for(x in list(...))
     if(!is.null(x)) break
   x
 }
 
-## Return the first non-try-error argument. If all arguments are try-errors, stop with an error.
+
+#' Return the first argument passed (out of any number) that is not a
+#' \code{try-error} (result of \code{\link[base]{try}} encountering an error.
+#' 
+#' This function is inspired by \code{\link{NVL}}, and simply returns the first
+#' argument that is not a \code{try-error}, raising an error if all arguments
+#' are \code{try-error}s.
+#' 
+#' 
+#' @param \dots Expressions to be tested; usually outputs of
+#' \code{\link[base]{try}}.
+#' @return The first argument that is not a \code{try-error}. Stops with an
+#' error if all are.
+#' @seealso \code{\link[base]{try}}, \code{\link[base]{inherits}}
+#' @keywords utilities
+#' @examples
+#' 
+#' print(ERRVL(1,2,3)) # 1
+#' print(ERRVL(try(solve(0)),2,3)) # 2
+#' @export
 ERRVL <- function(...){
   for(x in list(...))
     if(!inherits(x, "try-error")) return(x)
@@ -78,6 +223,27 @@ ERRVL <- function(...){
 }
 
 ## Only run expr if environment variable testvar is set to specified values. Otherwise, skip them and optionally print a message documenting this.
+
+
+#' Optionally test code depending on environment variable.
+#' 
+#' A convenience wrapper to run code based on whether an environment variable
+#' is defined.
+#' 
+#' 
+#' @param expr An expression to be evaluated only if \code{testvar} is set to a
+#' non-empty value.
+#' @param testname Optional name of the test. If given, and the test is
+#' skipped, will print a message to that end, including the name of the test,
+#' and instructions on how to enable it.
+#' @param testvar Environment variable name. If set to one of the
+#' \code{yesvals}, \code{expr} is run. Otherwise, an optional message is
+#' printed.
+#' @param yesvals A character vector of strings considered affirmative values
+#' for \code{testvar}.
+#' @param lowercase Whether to convert the value of \code{testvar} to lower
+#' case before comparing it to \code{yesvals}.
+#' @keywords utilities environment debugging
 opttest <- function(expr, testname=NULL, testvar="ENABLE_statnet_TESTS", yesvals=c("y","yes","t","true","1"), lowercase=TRUE){
   testval <- Sys.getenv(testvar)
   if(lowercase) testval <- tolower(testval)

@@ -12,14 +12,41 @@
 ## manipulating ERGM formulas.                                   ##
 ###################################################################
 
-## This function appends a list of terms to the RHS of a formula. If
-## the formula is one-sided, the RHS becomes the LHS, if
-## keep.onesided==FALSE (the default).
-## For example,
-## append.rhs.formula(y~x,list(as.name("z1"),as.name("z2"))) -> y~x+z1+z2
-## append.rhs.formula(~y,list(as.name("z"))) -> y~z
-## append.rhs.formula(~y+x,list(as.name("z"))) -> y+x~z
-## append.rhs.formula(~y,list(as.name("z")),TRUE) -> ~y+z
+#' Functions for Querying, Validating and Extracting from ERGM Formulas
+#' 
+#' \code{append.rhs.formula} appends a list of terms to the RHS of a
+#' formula. If the formula is one-sided, the RHS becomes the LHS, if
+#' \code{keep.onesided==FALSE} (the default).
+#' 
+#' @param object formula object to be updated
+#' @param newterms list of terms (names) to append to the formula, or a formula
+#' whose RHS terms will be used
+#' @param keep.onesided if the initial formula is one-sided, keep it whether to
+#' keep it one-sided or whether to make the initial formula the new LHS
+#' @param \dots Additional arguments. Currently unused.
+#' @return 
+#' \code{append.rhs.formula} each return an
+#' updated formula object
+#' @examples
+#' 
+#' ## append.rhs.formula
+#' 
+#' (f1 <- append.rhs.formula(y~x,list(as.name("z1"),as.name("z2"))))
+#' (f2 <- append.rhs.formula(~y,list(as.name("z"))))
+#' (f3 <- append.rhs.formula(~y+x,list(as.name("z"))))
+#' (f4 <- append.rhs.formula(~y,list(as.name("z")),TRUE))
+#' (f5 <- append.rhs.formula(y~x,~z1+z2))
+#' 
+#' \dontshow{
+#' stopifnot(f1 == (y~x+z1+z2))
+#' stopifnot(f2 == (y~z))
+#' stopifnot(f3 == (y+x~z))
+#' stopifnot(f4 == (~y+z))
+#' stopifnot(f5 == (y~x+z1+z2))
+#' }
+#'
+#' @export
+#' @rdname formula.utilities
 append.rhs.formula<-function(object,newterms,keep.onesided=FALSE){
   if(inherits(newterms,"formula")) newterms <- term.list.formula(newterms[[length(newterms)]])
   for(newterm in newterms){
@@ -30,11 +57,23 @@ append.rhs.formula<-function(object,newterms,keep.onesided=FALSE){
   object
 }
 
-# A reimplementation of update.formula() that does not simplify.  Note
-# that the resulting formula's environment is set as follows: If
-# from.new==FALSE, it is set to that of object. Otherwise, a new
-# sub-environment of object, containing, in addition, variables in new
-# listed in from.new (if a character vector) or all of new (if TRUE).
+#' @describeIn formula.utilities
+#'
+#' \code{nonsimp.update.formula} is a reimplementation of
+#' \code{\link{update.formula}} that does not simplify.  Note that the
+#' resulting formula's environment is set as follows. If
+#' \code{from.new==FALSE}, it is set to that of object. Otherwise, a new
+#' sub-environment of object, containing, in addition, variables in new listed
+#' in from.new (if a character vector) or all of new (if TRUE).
+#' 
+#' @param new new formula to be used in updating
+#' @param from.new logical or character vector of variable names. controls how
+#' environment of formula gets updated.
+#' @return 
+#' \code{nonsimp.update.formula} each return an
+#' updated formula object
+#' @importFrom stats as.formula
+#' @export
 nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
   old.lhs <- if(length(object)==2) NULL else object[[2]]
   old.rhs <- if(length(object)==2) object[[2]] else object[[3]]
@@ -86,6 +125,21 @@ nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
   as.formula(out, env = e)
 }
 
+#' @describeIn formula.utilities
+#'
+#' \code{term.list.formula} returns a list containing terms in a given
+#' formula, handling \code{+} and \code{-} operators and parentheses, and
+#' keeping track of whether a term has a plus or a minus sign.
+#' 
+#' @param rhs a formula-style call containing the right hand side of formula,
+#' obtained by \code{fmla[[3]]} for a two-sided formula and \code{fmla[[2]]}
+#' for a one-sided formula.
+#' @param sign an internal parameter used by \code{term.list.formula} when
+#' calling itself recursively
+#' @return
+#' \code{terms.list.formula} returns a list of formula terms, each of
+#' witch having an additional attribute \code{"sign"}.
+#' @export
 term.list.formula<-function(rhs, sign=+1){
   if(length(rhs)==1) {attr(rhs,"sign")<-sign; list(rhs)}
   else if(length(rhs)==2 && rhs[[1]]=="+") term.list.formula(rhs[[2]],sign)

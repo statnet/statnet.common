@@ -14,19 +14,17 @@ decompress_rows(x, target.nrows = NULL, ...)
 
 \item{...}{extra arguments for methods.}
 
-\item{target.nrows}{the approximate number of rows the uncompressed
-matrix should have; if not achievable exactly while respecting
-proportionality, a matrix with a slightly different number of
-rows will be constructed.}
+\item{target.nrows}{the approximate number of rows the uncompressed matrix
+should have; if not achievable exactly while respecting proportionality, a
+matrix with a slightly different number of rows will be constructed.}
 }
 \value{
-For \code{compress_rows} A weighted matrix or data frame of the
-same type with duplicated rows removed and weights updated
-appropriately.
+For \code{compress_rows} A weighted matrix or data frame of the same
+type with duplicated rows removed and weights updated appropriately.
 }
 \description{
-Compress a matrix or a data frame with duplicated rows, updating
-row weights to reflect frequencies, or reverse the process,
-reconstructing a matrix like the one compressed (subject to
-permutation of rows and weights not adding up to an integer).
+Compress a matrix or a data frame with duplicated rows, updating row weights
+to reflect frequencies, or reverse the process, reconstructing a matrix like
+the one compressed (subject to permutation of rows and weights not adding up
+to an integer).
 }
