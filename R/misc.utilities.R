@@ -154,23 +154,12 @@ sort.data.frame<-function(x, decreasing=FALSE, ...){
 }
 
 
-#' Return the first argument passed (out of any number) that is not
-#' \code{NULL}.
+#' Convenience functions for handling [`NULL`] objects.
+#'
 #' 
-#' This function is inspired by SQL function \code{NVL}, and simply returns the
-#' first argument that is not \code{NULL}, or \code{NULL} if all arguments are
-#' NULL.
 #' 
-#' Note that an earlier version of this function took only two arguments:
-#' \code{EXPR}, that was tested and returned if not \code{NULL} and
-#' \code{NULLV}, which was returned if \code{EXPR} was \code{NULL}. The new
-#' version produces identical output for the same (two-argument) input, but
-#' tests any number of expressions sequentially.
-#' 
-#' @param \dots Expressions to be tested.
-#' @return The first argument that is not \code{NULL}, or \code{NULL} if all
-#' are.
-#' @seealso \code{\link[base]{is.null}}, \code{\link[base]{if}}
+#' @name NVL
+#' @seealso [`NULL`], \code{\link[base]{is.null}}, \code{\link[base]{if}}
 #' @keywords utilities
 #' @examples
 #' 
@@ -189,11 +178,46 @@ sort.data.frame<-function(x, decreasing=FALSE, ...){
 #' print(NVL(NULL,0,1)) # 0
 #' print(NVL(NULL,NULL,0)) # 0
 #' print(NVL(NULL,NULL,NULL)) # NULL
+#'
+#' NVL(a) <- 2
+#' a # 2
+#' NVL(b) <- 2
+#' b # still 1
+#' @docType class
+NULL
+
+#' @describeIn NVL
+#'
+#' Inspired by SQL function \code{NVL}, `NVL(...)` returns the first
+#' argument that is not \code{NULL}, or \code{NULL} if all arguments
+#' are `NULL`.
+#'
+#' @param \dots Expressions to be tested.
+#'
+#' @docType class
+#'
 #' @export
 NVL <- function(...){
   for(x in list(...))
     if(!is.null(x)) break
   x
+}
+
+#' @describeIn NVL
+#'
+#' Assigning to `NVL` overwrites its first argument if that argument
+#' is [`NULL`]. Note that it will *always* return the right-hand-side
+#' of the assignment (`value`), regardless of what `x` is.
+#'
+#' @param x an object to be overwritten if [`NULL`].
+#' @param value new value for `x`.
+#'
+#' @docType class
+#'
+#' @export
+`NVL<-` <- function(x, value){
+  if(is.null(x)) value
+  else x
 }
 
 
