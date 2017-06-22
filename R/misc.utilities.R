@@ -246,8 +246,6 @@ ERRVL <- function(...){
   stop("No non-error expressions passed.")
 }
 
-## Only run expr if environment variable testvar is set to specified values. Otherwise, skip them and optionally print a message documenting this.
-
 
 #' Optionally test code depending on environment variable.
 #' 
@@ -268,6 +266,7 @@ ERRVL <- function(...){
 #' @param lowercase Whether to convert the value of \code{testvar} to lower
 #' case before comparing it to \code{yesvals}.
 #' @keywords utilities environment debugging
+#' @export
 opttest <- function(expr, testname=NULL, testvar="ENABLE_statnet_TESTS", yesvals=c("y","yes","t","true","1"), lowercase=TRUE){
   testval <- Sys.getenv(testvar)
   if(lowercase) testval <- tolower(testval)
@@ -292,7 +291,6 @@ opttest <- function(expr, testname=NULL, testvar="ENABLE_statnet_TESTS", yesvals
 #'
 #' stopifnot(all_identical(list("a", "a", "a")))
 #' @export
-
 all_identical <- function(x){
   if(length(x)==0) return(TRUE)
   v0 <- x[[1]]
