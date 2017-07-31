@@ -119,3 +119,159 @@ compact.rle <- function(x){
                  values = x$values[compinfo$vali[seq_len(compinfo$nruns)]]),
             class = "rle")
 }
+
+#' @rdname rle.utils
+#' @examples
+#'
+#' x <- rle(as.logical(rbinom(10,1,.9)))
+#' y <- rle(as.logical(rbinom(10,1,.1)))
+#' 
+#' stopifnot(any(x)==any(inverse.rle(x)))
+#' stopifnot(any(y)==any(inverse.rle(y)))
+#' 
+#' @export
+any.rle <- function(..., na.rm = FALSE){
+  inl <- list(...)
+  inl <- lapply(inl, function(x) if(is(x, "rle")) x else rle(x))
+  if(length(inl)==1){
+    any(inl[[1]]$values, na.rm = na.rm)
+  }else{
+    any(sapply(inl, any, na.rm = na.rm))
+  }
+}
+
+#' @rdname rle.utils
+#' @examples
+#' 
+#' stopifnot(all(x)==all(inverse.rle(x)))
+#' stopifnot(all(y)==all(inverse.rle(y)))
+#' 
+#' @export
+all.rle <- function(..., na.rm = FALSE){
+  inl <- list(...)
+  inl <- lapply(inl, function(x) if(is(x, "rle")) x else rle(x))
+  if(length(inl)==1){
+    all(inl[[1]]$values, na.rm = na.rm)
+  }else{
+    all(sapply(inl, all, na.rm = na.rm))
+  }
+}
+
+#' @rdname rle.utils
+#' @examples
+#'
+#' x <- rle(sample(c(-1,+1), 10, c(.7,.3), replace=TRUE))
+#' y <- rle(sample(c(-1,+1), 10, c(.3,.7), replace=TRUE))
+#' 
+#' stopifnot((inverse.rle(x)*inverse.rle(y))==inverse.rle(x*y))
+#' @export
+`*.rle` <- function(e1, e2){
+  binop.rle(e1, e2, `*`)
+}
+
+#' @rdname rle.utils
+#' @examples
+#' stopifnot((inverse.rle(x)/inverse.rle(y))==inverse.rle(x/y))
+#' @export
+`/.rle` <- function(e1, e2){
+  binop.rle(e1, e2, `/`)
+}
+
+#' @rdname rle.utils
+#' @examples
+#' stopifnot((-inverse.rle(y))==inverse.rle(-y))
+#' stopifnot((inverse.rle(x)-inverse.rle(y))==inverse.rle(x-y))
+#' @export
+`-.rle` <- function(e1, e2){
+  if(missing(e2)){
+    e1$values <- -e1$values
+    e1
+  }else
+    binop.rle(e1, e2, `-`)
+}
+
+#' @rdname rle.utils
+#' @examples
+#' stopifnot((+inverse.rle(y))==inverse.rle(+y))
+#' stopifnot((inverse.rle(x)+inverse.rle(y))==inverse.rle(x+y))
+#' @export
+`+.rle` <- function(e1, e2){
+  if(missing(e2)){
+    e1$values <- +e1$values
+    e1
+  }else
+    binop.rle(e1, e2, `+`)
+}
+
+#' @rdname rle.utils
+#' @examples
+#' stopifnot((inverse.rle(x)^inverse.rle(y))==inverse.rle(x^y))
+#' @export
+`^.rle` <- function(e1, e2){
+  binop.rle(e1, e2, `^`)
+}
+
+#' @rdname rle.utils
+#' @examples
+#' stopifnot((inverse.rle(x)%%inverse.rle(y))==inverse.rle(x%%y))
+#' @export
+`%%.rle` <- function(e1, e2){
+  binop.rle(e1, e2, `%%`)
+}
+
+#' @rdname rle.utils
+#' @examples
+#' stopifnot((inverse.rle(x)%/%inverse.rle(y))==inverse.rle(x%/%y))
+#' @export
+`%/%.rle` <- function(e1, e2){
+  binop.rle(e1, e2, `%/%`)
+}
+
+#' @rdname rle.utils
+#' @examples
+#' stopifnot((inverse.rle(x)==inverse.rle(y))==inverse.rle(x==y))
+#' @export
+`==.rle` <- function(e1, e2){
+  binop.rle(e1, e2, `==`)
+}
+
+#' @rdname rle.utils
+#' @examples
+#' stopifnot((inverse.rle(x)>inverse.rle(y))==inverse.rle(x>y))
+#' @export
+`>.rle` <- function(e1, e2){
+  binop.rle(e1, e2, `>`)
+}
+
+#' @rdname rle.utils
+#' @examples
+#' stopifnot((inverse.rle(x)<inverse.rle(y))==inverse.rle(x<y))
+#' @export
+`<.rle` <- function(e1, e2){
+  binop.rle(e1, e2, `<`)
+}
+
+#' @rdname rle.utils
+#' @examples
+#' stopifnot((inverse.rle(x)!=inverse.rle(y))==inverse.rle(x!=y))
+#' @export
+`!=.rle` <- function(e1, e2){
+  binop.rle(e1, e2, `!=`)
+}
+
+#' @rdname rle.utils
+#' @examples
+#' stopifnot((inverse.rle(x)<=inverse.rle(y))==inverse.rle(x<=y))
+#' @export
+`<=.rle` <- function(e1, e2){
+  binop.rle(e1, e2, `<=`)
+}
+
+#' @rdname rle.utils
+#' @examples
+#' stopifnot((inverse.rle(x)>=inverse.rle(y))==inverse.rle(x>=y))
+#' @export
+`>=.rle` <- function(e1, e2){
+  binop.rle(e1, e2, `>=`)
+}
+

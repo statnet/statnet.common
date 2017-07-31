@@ -8,6 +8,21 @@
 \alias{|.rle}
 \alias{&.rle}
 \alias{compact.rle}
+\alias{any.rle}
+\alias{all.rle}
+\alias{*.rle}
+\alias{/.rle}
+\alias{-.rle}
+\alias{+.rle}
+\alias{^.rle}
+\alias{\%\%.rle}
+\alias{\%/\%.rle}
+\alias{==.rle}
+\alias{>.rle}
+\alias{<.rle}
+\alias{!=.rle}
+\alias{<=.rle}
+\alias{>=.rle}
 \title{RLE utilities}
 \usage{
 \method{c}{rle}(...)
@@ -21,6 +36,36 @@ binop.rle(e1, e2, FUN)
 \method{&}{rle}(e1, e2)
 
 compact.rle(x)
+
+\method{any}{rle}(..., na.rm = FALSE)
+
+\method{all}{rle}(..., na.rm = FALSE)
+
+\method{*}{rle}(e1, e2)
+
+\method{/}{rle}(e1, e2)
+
+\method{-}{rle}(e1, e2)
+
+\method{+}{rle}(e1, e2)
+
+\method{^}{rle}(e1, e2)
+
+\method{\%\%}{rle}(e1, e2)
+
+\method{\%/\%}{rle}(e1, e2)
+
+\method{==}{rle}(e1, e2)
+
+\method{>}{rle}(e1, e2)
+
+\method{<}{rle}(e1, e2)
+
+\method{!=}{rle}(e1, e2)
+
+\method{<=}{rle}(e1, e2)
+
+\method{>=}{rle}(e1, e2)
 }
 \arguments{
 \item{...}{Objects to be concatenated. The first object must be of
@@ -74,4 +119,34 @@ stopifnot(all(aggregate(as.numeric(lengths)~values,
                         data=as.data.frame(unclass(big)),FUN=sum)
               ==
               aggregate(as.numeric(lengths)~values,data=as.data.frame(unclass(compact.rle(big))),FUN=sum)))
+
+x <- rle(as.logical(rbinom(10,1,.9)))
+y <- rle(as.logical(rbinom(10,1,.1)))
+
+stopifnot(any(x)==any(inverse.rle(x)))
+stopifnot(any(y)==any(inverse.rle(y)))
+
+
+stopifnot(all(x)==all(inverse.rle(x)))
+stopifnot(all(y)==all(inverse.rle(y)))
+
+
+x <- rle(sample(c(-1,+1), 10, c(.7,.3), replace=TRUE))
+y <- rle(sample(c(-1,+1), 10, c(.3,.7), replace=TRUE))
+
+stopifnot((inverse.rle(x)*inverse.rle(y))==inverse.rle(x*y))
+stopifnot((inverse.rle(x)/inverse.rle(y))==inverse.rle(x/y))
+stopifnot((-inverse.rle(y))==inverse.rle(-y))
+stopifnot((inverse.rle(x)-inverse.rle(y))==inverse.rle(x-y))
+stopifnot((+inverse.rle(y))==inverse.rle(+y))
+stopifnot((inverse.rle(x)+inverse.rle(y))==inverse.rle(x+y))
+stopifnot((inverse.rle(x)^inverse.rle(y))==inverse.rle(x^y))
+stopifnot((inverse.rle(x)\%\%inverse.rle(y))==inverse.rle(x\%\%y))
+stopifnot((inverse.rle(x)\%/\%inverse.rle(y))==inverse.rle(x\%/\%y))
+stopifnot((inverse.rle(x)==inverse.rle(y))==inverse.rle(x==y))
+stopifnot((inverse.rle(x)>inverse.rle(y))==inverse.rle(x>y))
+stopifnot((inverse.rle(x)<inverse.rle(y))==inverse.rle(x<y))
+stopifnot((inverse.rle(x)!=inverse.rle(y))==inverse.rle(x!=y))
+stopifnot((inverse.rle(x)<=inverse.rle(y))==inverse.rle(x<=y))
+stopifnot((inverse.rle(x)>=inverse.rle(y))==inverse.rle(x>=y))
 }
