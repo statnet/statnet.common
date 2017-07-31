@@ -74,3 +74,38 @@ SEXP sync_RLEs(SEXP lens1, SEXP lens2){
   UNPROTECT(5);
   return(out);
 }
+
+
+SEXP compact_RLE(SEXP l, SEXP v){
+  const char *names[] = {"lengths", "vali", "nruns", ""};
+  SEXP out = PROTECT(mkNamed(VECSXP, names));
+  SEXP lengths = PROTECT(allocVector(INTSXP, length(l)));
+  SEXP vi = PROTECT(allocVector(INTSXP, length(l)));
+  SEXP nruns = PROTECT(allocVector(INTSXP, 1));
+
+  INTEGER(lengths)[0] = INTEGER(l)[0];
+  INTEGER(vi)[0] = 1;
+  unsigned int o = 0;
+  for(unsigned int i = 1; i < length(l); i++){
+    unsigned int nextl = INTEGER(l)[i];
+    if(INTEGER(lengths)[o] > INT_MAX-nextl || // If cumulative run is too long or
+       INTEGER(v)[INTEGER(vi)[o]-1] != INTEGER(v)[i]){ // the value is not the same as the previous one...
+      // advance the output vector;
+      o++;
+      INTEGER(lengths)[o] = nextl;
+      INTEGER(vi)[o] = i+1;
+    }else{ // otherwise...
+      // stay put and add to the run length.
+      INTEGER(lengths)[o] += nextl;
+    }
+  }
+  
+  *INTEGER(nruns) = o+1;
+  
+  SET_VECTOR_ELT(out, 0, lengths);
+  SET_VECTOR_ELT(out, 1, vi);
+  SET_VECTOR_ELT(out, 2, nruns);
+
+  UNPROTECT(4);
+  return(out);
+}

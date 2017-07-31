@@ -50,9 +50,10 @@ represented by the \code{\link[=rle]{rle()}} objects.
 }}
 
 \note{
-\code{\link[=compact.rle]{compact.rle()}} may not be safe if the combined run lenth
-exceeds the maximum value representable by a 32-bit signed
-integer (\Sexpr{.Machine$integer.max}).
+Since \code{\link[=rle]{rle()}} stores run lengths as integers, \code{\link[=compact.rle]{compact.rle()}}
+will not merge runs that add up to lengths greater than what can
+be represented by a 32-bit signed integer
+(\Sexpr{.Machine$integer.max}).
 }
 \examples{
 
@@ -65,4 +66,12 @@ stopifnot((!inverse.rle(x))==inverse.rle(!x))
 stopifnot((inverse.rle(x)|inverse.rle(y))==inverse.rle(x|y))
 stopifnot((inverse.rle(x)&inverse.rle(y))==inverse.rle(x&y))
 stopifnot(identical(rle(inverse.rle(x)&inverse.rle(y)),compact.rle(x&y)))
+
+big <- structure(list(lengths=as.integer(rep(.Machine$integer.max/4,6)),
+                      values=rep(TRUE,6)), class="rle")
+
+stopifnot(all(aggregate(as.numeric(lengths)~values,
+                        data=as.data.frame(unclass(big)),FUN=sum)
+              ==
+              aggregate(as.numeric(lengths)~values,data=as.data.frame(unclass(compact.rle(big))),FUN=sum)))
 }

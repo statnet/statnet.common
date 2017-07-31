@@ -35,12 +35,13 @@ NULL
 #' @examples
 #' stopifnot(c(inverse.rle(x),inverse.rle(y))==inverse.rle(c(x,y)))
 #' 
-#' @importFrom methods is
 #' @export
 c.rle <- function(...){
   l <- list(...)
   o <- l[[1]]
+  # This might be suboptimal.
   for(x in l[-1]){
+    #' @importFrom methods is
     if(!is(x, "rle")) x <- rle(x)
     o$lengths <- c(o$lengths, x$lengths)
     o$values <- c(o$values, x$values)
@@ -94,20 +95,27 @@ binop.rle <- function(e1, e2, FUN){
 #'
 #' Compact the [rle()] object by merging adjacent runs.
 #'
-#' @note [compact.rle()] may not be safe if the combined run lenth
-#'   exceeds the maximum value representable by a 32-bit signed
-#'   integer (\Sexpr{.Machine$integer.max}).
+#' @note Since [rle()] stores run lengths as integers, [compact.rle()]
+#'   will not merge runs that add up to lengths greater than what can
+#'   be represented by a 32-bit signed integer
+#'   (\Sexpr{.Machine$integer.max}).
 #' 
 #' @examples
 #' stopifnot(identical(rle(inverse.rle(x)&inverse.rle(y)),compact.rle(x&y)))
+#'
+#' big <- structure(list(lengths=as.integer(rep(.Machine$integer.max/4,6)),
+#'                       values=rep(TRUE,6)), class="rle")
+#'
+#' stopifnot(all(aggregate(as.numeric(lengths)~values,
+#'                         data=as.data.frame(unclass(big)),FUN=sum)
+#'               ==
+#'               aggregate(as.numeric(lengths)~values,data=as.data.frame(unclass(compact.rle(big))),FUN=sum)))
 #' @export
 compact.rle <- function(x){
-  tmp <- rle(x$values)
-  l <- tmp$lengths
-  v <- tmp$values
-  i <- rep(seq_along(v), l)
-  l <- as.vector(tapply(x$lengths, list(i), sum))
-  structure(list(lengths = l,
-                 values = v),
+  vf <- as.integer(as.factor(x$values))
+  vf[is.na(vf)] <- 0L # NA runs get coded 0.
+  compinfo <- .Call("compact_RLE", x$lengths, vf)
+  structure(list(lengths = compinfo$lengths[seq_len(compinfo$nruns)],
+                 values = x$values[compinfo$vali[seq_len(compinfo$nruns)]]),
             class = "rle")
 }

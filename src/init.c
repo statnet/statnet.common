@@ -14,6 +14,7 @@ extern SEXP logspace_wmean2_wrapper(SEXP, SEXP);
 extern SEXP logspace_wmeans_wrapper(SEXP, SEXP);
 extern SEXP sweep2m(SEXP, SEXP);
 extern SEXP sync_RLEs(SEXP, SEXP);
+extern SEXP compact_RLE(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
     {"log_sum_exp_wrapper",     (DL_FUNC) &log_sum_exp_wrapper,     2},
@@ -22,6 +23,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"logspace_wmeans_wrapper", (DL_FUNC) &logspace_wmeans_wrapper, 2},
     {"sweep2m",                 (DL_FUNC) &sweep2m,                 2},
     {"sync_RLEs",               (DL_FUNC) &sync_RLEs,               2},
+    {"compact_RLE",             (DL_FUNC) &compact_RLE,             2},
     {NULL, NULL, 0}
 };
 
