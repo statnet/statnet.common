@@ -121,6 +121,9 @@ compact.rle <- function(x){
 }
 
 #' @rdname rle.utils
+#' 
+#' @param na.rm see documentation for [any()] and [all()].
+#' 
 #' @examples
 #'
 #' x <- rle(as.logical(rbinom(10,1,.9)))
@@ -275,3 +278,33 @@ all.rle <- function(..., na.rm = FALSE){
   binop.rle(e1, e2, `>=`)
 }
 
+
+#' @rdname rle.utils
+#'
+#' @param scale whether to replicate the elements of the
+#'   RLE-compressed vector or the runs.
+#' @param ... see documentation for [rep()].
+#' 
+#' @note The [rep()] method for [rle()] objects is very limited at
+#'   this time: . Even though the default setting is to replicate
+#'   elements of the vector, only the run-replicating functionality is
+#'   implemented at this time.
+#'
+#' @examples
+#' 
+#' x <- rle(sample(c(-1,+1), 10, c(.7,.3), replace=TRUE))
+#' y <- rpois(length(x$lengths), 2)
+#' 
+#' 
+#' stopifnot(all(rep(inverse.rle(x), rep(y, x$lengths))==inverse.rle(rep(x, y, scale="run"))))
+#' @export
+rep.rle <- function(x, ..., scale = c("element", "run")){
+  scale <- match.arg(scale)
+
+  if(scale=="element") stop("RLE on element scale is not supported at this time.")
+
+  x$values <- rep(x$values, ...)
+  x$lengths <- rep(x$lengths, ...)
+
+  x
+}

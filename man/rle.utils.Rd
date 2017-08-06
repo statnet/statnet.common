@@ -23,6 +23,7 @@
 \alias{!=.rle}
 \alias{<=.rle}
 \alias{>=.rle}
+\alias{rep.rle}
 \title{RLE utilities}
 \usage{
 \method{c}{rle}(...)
@@ -66,6 +67,8 @@ compact.rle(x)
 \method{<=}{rle}(e1, e2)
 
 \method{>=}{rle}(e1, e2)
+
+\method{rep}{rle}(x, ..., scale = c("element", "run"))
 }
 \arguments{
 \item{...}{Objects to be concatenated. The first object must be of
@@ -77,6 +80,13 @@ operators.}
 \item{FUN}{A binary function or operator or a name of one. It is
 assumed to be vectorized: it expects two vectors of equal lengths
 and outputs a vector of the same length.}
+
+\item{na.rm}{see documentation for \code{\link[=any]{any()}} and \code{\link[=all]{all()}}.}
+
+\item{scale}{whether to replicate the elements of the
+RLE-compressed vector or the runs.}
+
+\item{...}{see documentation for \code{\link[=rep]{rep()}}.}
 }
 \value{
 All functions return an \code{\link[=rle]{rle()}} object. By default, the
@@ -99,6 +109,11 @@ Since \code{\link[=rle]{rle()}} stores run lengths as integers, \code{\link[=com
 will not merge runs that add up to lengths greater than what can
 be represented by a 32-bit signed integer
 (\Sexpr{.Machine$integer.max}).
+
+The \code{\link[=rep]{rep()}} method for \code{\link[=rle]{rle()}} objects is very limited at
+this time: . Even though the default setting is to replicate
+elements of the vector, only the run-replicating functionality is
+implemented at this time.
 }
 \examples{
 
@@ -149,4 +164,10 @@ stopifnot((inverse.rle(x)<inverse.rle(y))==inverse.rle(x<y))
 stopifnot((inverse.rle(x)!=inverse.rle(y))==inverse.rle(x!=y))
 stopifnot((inverse.rle(x)<=inverse.rle(y))==inverse.rle(x<=y))
 stopifnot((inverse.rle(x)>=inverse.rle(y))==inverse.rle(x>=y))
+
+x <- rle(sample(c(-1,+1), 10, c(.7,.3), replace=TRUE))
+y <- rpois(length(x$lengths), 2)
+
+
+stopifnot(all(rep(inverse.rle(x), rep(y, x$lengths))==inverse.rle(rep(x, y, scale="run"))))
 }
