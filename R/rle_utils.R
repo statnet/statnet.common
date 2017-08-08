@@ -112,9 +112,15 @@ binop.rle <- function(e1, e2, FUN){
 #'               aggregate(as.numeric(lengths)~values,data=as.data.frame(unclass(compact.rle(big))),FUN=sum)))
 #' @export
 compact.rle <- function(x){
+  # First, strip the 0-length runs.
+  x$values <- x$values[x$lengths!=0]
+  x$lengths <- x$lengths[x$lengths!=0]
+  # Second, code distinct values as integers.
   vf <- as.integer(as.factor(x$values))
   vf[is.na(vf)] <- 0L # NA runs get coded 0.
+  # Third, call the C code to produce the mapping onto the compacted vector.
   compinfo <- .Call("compact_RLE", x$lengths, vf)
+  # Lastly, rebuild the rle with the combined lengths and remapped values.
   structure(list(lengths = compinfo$lengths[seq_len(compinfo$nruns)],
                  values = x$values[compinfo$vali[seq_len(compinfo$nruns)]]),
             class = "rle")
