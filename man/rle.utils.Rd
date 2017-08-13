@@ -71,8 +71,8 @@ compact.rle(x)
 \method{rep}{rle}(x, ..., scale = c("element", "run"))
 }
 \arguments{
-\item{...}{Objects to be concatenated. The first object must be of
-class \code{\link[=rle]{rle()}}.}
+\item{...}{For \code{c}, objects to be concatenated. The first object must be of
+class \code{\link[=rle]{rle()}}. For \code{rep}, see documentation for \code{\link[=rep]{rep()}}.}
 
 \item{x, e1, e2}{Arguments to unary (\code{x}) and binary (\code{e1} and \code{e2})
 operators.}
@@ -85,8 +85,6 @@ and outputs a vector of the same length.}
 
 \item{scale}{whether to replicate the elements of the
 RLE-compressed vector or the runs.}
-
-\item{...}{see documentation for \code{\link[=rep]{rep()}}.}
 }
 \value{
 All functions return an \code{\link[=rle]{rle()}} object. By default, the

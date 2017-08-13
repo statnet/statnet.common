@@ -14,8 +14,8 @@
 #'   assumed to be vectorized: it expects two vectors of equal lengths
 #'   and outputs a vector of the same length.
 #' 
-#' @param ... Objects to be concatenated. The first object must be of
-#'   class [rle()].
+#' @param ... For `c`, objects to be concatenated. The first object must be of
+#'   class [rle()]. For `rep`, see documentation for [rep()].
 #' 
 #' @name rle.utils
 #'
@@ -289,7 +289,6 @@ all.rle <- function(..., na.rm = FALSE){
 #'
 #' @param scale whether to replicate the elements of the
 #'   RLE-compressed vector or the runs.
-#' @param ... see documentation for [rep()].
 #' 
 #' @note The [rep()] method for [rle()] objects is very limited at
 #'   this time: . Even though the default setting is to replicate
