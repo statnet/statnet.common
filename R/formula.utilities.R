@@ -135,18 +135,29 @@ nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
 #' obtained by \code{fmla[[3]]} for a two-sided formula and \code{fmla[[2]]}
 #' for a one-sided formula.
 #' @param sign an internal parameter used by \code{term.list.formula} when
-#' calling itself recursively
+#' calling itself recursively.
 #' @return
-#' \code{terms.list.formula} returns a list of formula terms, each of
-#' witch having an additional attribute \code{"sign"}.
+#' \code{terms.list.formula} returns a list of formula terms, with an additional numerical vector attribute \code{"sign"} with of the same length, giving the corresponding term's sign as \code{+1} or \code{-1}.
 #' @export
 term.list.formula<-function(rhs, sign=+1){
-  if(length(rhs)==1) {attr(rhs,"sign")<-sign; list(rhs)}
+  if(length(rhs)==1) {out <- list(rhs); attr(out,"sign")<-sign; out}
   else if(length(rhs)==2 && rhs[[1]]=="+") term.list.formula(rhs[[2]],sign)
   else if(length(rhs)==2 && rhs[[1]]=="-") term.list.formula(rhs[[2]],-sign)
-  else if(length(rhs)==3 && rhs[[1]]=="+") c(term.list.formula(rhs[[2]],sign),term.list.formula(rhs[[3]],sign))
-  else if(length(rhs)==3 && rhs[[1]]=="-") c(term.list.formula(rhs[[2]],sign),term.list.formula(rhs[[3]],-sign))
+  else if(length(rhs)==3 && rhs[[1]]=="+") {
+    l1 <- term.list.formula(rhs[[2]],sign)
+    l2 <- term.list.formula(rhs[[3]],sign)
+    out <- c(l1, l2)
+    attr(out,"sign") <- c(attr(l1,"sign"), attr(l2,"sign"))
+    out
+  }
+  else if(length(rhs)==3 && rhs[[1]]=="-"){
+    l1 <- term.list.formula(rhs[[2]],sign)
+    l2 <- term.list.formula(rhs[[3]],-sign)
+    out <- c(l1, l2)
+    attr(out,"sign") <- c(attr(l1,"sign"), attr(l2,"sign"))
+    out    
+  }
   else if(rhs[[1]]=="(") term.list.formula(rhs[[2]], sign)
-  else {attr(rhs,"sign")<-sign; list(rhs)}
+  else {out <- list(rhs); attr(out,"sign")<-sign; out}
 }
 

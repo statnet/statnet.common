@@ -33,7 +33,7 @@ obtained by \code{fmla[[3]]} for a two-sided formula and \code{fmla[[2]]}
 for a one-sided formula.}
 
 \item{sign}{an internal parameter used by \code{term.list.formula} when
-calling itself recursively}
+calling itself recursively.}
 }
 \value{
 \code{append.rhs.formula} each return an
@@ -42,8 +42,7 @@ updated formula object
 \code{nonsimp.update.formula} each return an
 updated formula object
 
-\code{terms.list.formula} returns a list of formula terms, each of
-witch having an additional attribute \code{"sign"}.
+\code{terms.list.formula} returns a list of formula terms, with an additional numerical vector attribute \code{"sign"} with of the same length, giving the corresponding term's sign as \code{+1} or \code{-1}.
 }
 \description{
 \code{append.rhs.formula} appends a list of terms to the RHS of a
