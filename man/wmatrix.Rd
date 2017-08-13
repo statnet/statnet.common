@@ -123,7 +123,8 @@ stopifnot(sum(rowweights(cmlog))==nrow(m))
 (rowweights(m3) <- c(4, 2, 2))
 
 stopifnot(all.equal(compress_rows(as.logwmatrix(m)), as.logwmatrix(m3),check.attributes=FALSE))
-stopifnot(all.equal(rowweights(compress_rows(as.logwmatrix(m))), rowweights(as.logwmatrix(m3)),check.attributes=FALSE))
+stopifnot(all.equal(rowweights(compress_rows(as.logwmatrix(m))),
+                    rowweights(as.logwmatrix(m3)),check.attributes=FALSE))
 }
 \seealso{
 \code{\link[=rowweights]{rowweights()}}, \code{\link[=lrowweights]{lrowweights()}}, \code{\link[=compress_rows]{compress_rows()}}

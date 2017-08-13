@@ -131,7 +131,9 @@ big <- structure(list(lengths=as.integer(rep(.Machine$integer.max/4,6)),
 stopifnot(all(aggregate(as.numeric(lengths)~values,
                         data=as.data.frame(unclass(big)),FUN=sum)
               ==
-              aggregate(as.numeric(lengths)~values,data=as.data.frame(unclass(compact.rle(big))),FUN=sum)))
+              aggregate(as.numeric(lengths)~values,
+                        data=as.data.frame(unclass(compact.rle(big))),
+                        FUN=sum)))
 
 x <- rle(as.logical(rbinom(10,1,.9)))
 y <- rle(as.logical(rbinom(10,1,.1)))

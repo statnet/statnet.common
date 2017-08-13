@@ -63,7 +63,9 @@ vector.namesmatch<-function(v,names,errname=NULL){
 #' @keywords manip
 #' @examples
 #' 
-#' (x <- data.frame(V1=sample.int(3,30,replace=TRUE),V2=sample.int(2,30,replace=TRUE),V3=sample.int(4,30,replace=TRUE)))
+#' (x <- data.frame(V1=sample.int(3,30,replace=TRUE),
+#'                  V2=sample.int(2,30,replace=TRUE),
+#'                  V3=sample.int(4,30,replace=TRUE)))
 #' 
 #' (c <- compress.data.frame(x))
 #' 

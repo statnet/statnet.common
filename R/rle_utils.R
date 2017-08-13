@@ -109,7 +109,9 @@ binop.rle <- function(e1, e2, FUN){
 #' stopifnot(all(aggregate(as.numeric(lengths)~values,
 #'                         data=as.data.frame(unclass(big)),FUN=sum)
 #'               ==
-#'               aggregate(as.numeric(lengths)~values,data=as.data.frame(unclass(compact.rle(big))),FUN=sum)))
+#'               aggregate(as.numeric(lengths)~values,
+#'                         data=as.data.frame(unclass(compact.rle(big))),
+#'                         FUN=sum)))
 #' @export
 compact.rle <- function(x){
   # First, strip the 0-length runs.

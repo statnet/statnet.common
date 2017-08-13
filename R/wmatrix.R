@@ -48,7 +48,8 @@
 #' (rowweights(m3) <- c(4, 2, 2))
 #'
 #' stopifnot(all.equal(compress_rows(as.logwmatrix(m)), as.logwmatrix(m3),check.attributes=FALSE))
-#' stopifnot(all.equal(rowweights(compress_rows(as.logwmatrix(m))), rowweights(as.logwmatrix(m3)),check.attributes=FALSE))
+#' stopifnot(all.equal(rowweights(compress_rows(as.logwmatrix(m))),
+#'                     rowweights(as.logwmatrix(m3)),check.attributes=FALSE))
 NULL
 
 #' @rdname wmatrix
