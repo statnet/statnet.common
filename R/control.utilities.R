@@ -1,3 +1,12 @@
+.autodetect_dep_warn <- local({
+  warned <- c()
+  function(caller = {sc <- sys.calls(); as.character(sc[[length(sc)-2]][[1]])}){
+    if(!caller %in% warned)
+      warning("In ",sQuote(caller),": Autodetection of acceptable control parameter generators and of the calling function name has been deprecated and will be removed in a future version. They must be set explicitly.", call.=FALSE)
+    warned <<- c(warned, caller)
+  }
+})
+
 #' Check if the class of the control list is one of those that can be used by
 #' the calling function
 #' 
@@ -5,18 +14,18 @@
 #' appropriate for the function to be controlled. It does so by looking up the
 #' class of the \code{control} argument (defaulting to the \code{control}
 #' variable in the calling function) and checking if it matches a list of
-#' acceptable classes (defaulting to the name of the calling function with
-#' "control." prepended).
-#' 
+#' acceptable classes.
 #' 
 #' @param OKnames List of control function names which are acceptable.
 #' @param myname Name of the calling function (used in the error message).
 #' @param control The control list. Defaults to the \code{control} variable in
 #' the calling function.
+#' @note In earlier versions, `OKnames` and `myname` were autodetected. This capability has been deprecated and results in a warning issued once per session. They now need to be set explicitly.
 #' @seealso set.control.class, print.control.list
 #' @keywords utilities
 #' @export
 check.control.class <- function(OKnames={sc <- sys.calls(); as.character(sc[[length(sc)-1]][[1]])}, myname={sc <- sys.calls(); as.character(sc[[length(sc)-1]][[1]])}, control=get("control",pos=parent.frame())){
+  if(missing(OKnames) || missing(myname)) .autodetect_dep_warn() 
   funs <- paste("control", OKnames, sep=".")
   
   if(inherits(control, funs[1])) return(TRUE)
@@ -38,15 +47,16 @@ check.control.class <- function(OKnames={sc <- sys.calls(); as.character(sc[[len
 #' name of the calling function.
 #' 
 #' 
-#' @param myname Name of the class to set. Defaults to the name of the calling
-#' function.
+#' @param myname Name of the class to set.
 #' @param control Control list. Defaults to the \code{control} variable in the
 #' calling function.
 #' @return The control list with class set.
+#' @note In earlier versions, `OKnames` and `myname` were autodetected. This capability has been deprecated and results in a warning issued once per session. They now need to be set explicitly.
 #' @seealso check.control.class, print.control.list
 #' @keywords utilities
 #' @export
 set.control.class <- function(myname={sc <- sys.calls(); as.character(sc[[length(sc)-1]][[1]])}, control=get("control",pos=parent.frame())){
+  if(missing(myname)) .autodetect_dep_warn()
   class(control) <- c(myname, "control.list", "list")
   control
 }

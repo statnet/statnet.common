@@ -23,8 +23,10 @@ This function can be called to check that the control list passed is
 appropriate for the function to be controlled. It does so by looking up the
 class of the \code{control} argument (defaulting to the \code{control}
 variable in the calling function) and checking if it matches a list of
-acceptable classes (defaulting to the name of the calling function with
-"control." prepended).
+acceptable classes.
+}
+\note{
+In earlier versions, \code{OKnames} and \code{myname} were autodetected. This capability has been deprecated and results in a warning issued once per session. They now need to be set explicitly.
 }
 \seealso{
 set.control.class, print.control.list

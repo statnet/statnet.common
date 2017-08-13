@@ -9,8 +9,7 @@ set.control.class(myname = {     sc <- sys.calls()
   parent.frame()))
 }
 \arguments{
-\item{myname}{Name of the class to set. Defaults to the name of the calling
-function.}
+\item{myname}{Name of the class to set.}
 
 \item{control}{Control list. Defaults to the \code{control} variable in the
 calling function.}
@@ -21,6 +20,9 @@ The control list with class set.
 \description{
 This function sets the class of the control list, with the default being the
 name of the calling function.
+}
+\note{
+In earlier versions, \code{OKnames} and \code{myname} were autodetected. This capability has been deprecated and results in a warning issued once per session. They now need to be set explicitly.
 }
 \seealso{
 check.control.class, print.control.list
