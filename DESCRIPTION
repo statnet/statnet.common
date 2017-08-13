@@ -1,5 +1,5 @@
 Package: statnet.common
-Version: 3.4-122
+Version: 4.0.0-126
 Date: 2017-08-13
 Title: Common R Scripts and Utilities Used by the Statnet Project Software
 Authors@R: c(
@@ -7,6 +7,7 @@ Authors@R: c(
 	person("Skye", "Bender-deMoll", role=c("ctb"), email="skyebend@uw.edu"))
 Description: Non-statistical utilities used by the software developed by the Statnet Project. They may also be of use to others.
 Imports: utils, methods
+BugReports: https://github.com/statnet/statnet.common/issues
 License: GPL-3 + file LICENSE
 URL: http://www.statnet.org
 Roxygen: list(markdown = TRUE)
