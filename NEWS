@@ -1,10 +1,31 @@
+4.0.0
+	The package now uses Roxygen for documentation.
+
+	term.list.formula() output format has been changed, since support of attributes on symbols is being deprecated.
+
+	A library of methods has been added for the base `rle` class, implementing concatenation, compaction, and a number of binary operations.
+
+	all_same() has been  moved from ergm and renamed to all_identical().
+
+	A new assignment method NVL()<- overwrites a variable if its value is NULL.
+
+	A set of classes and functions for manipulating and efficiently performing calculations on dense matrices or vectors with weighted rows or elements (possibly on the log scale) has been added.
+
+	New control parameter helper function, control.remap() has been added. Autodetection of function names by set.control.class() and check.control.class() has been deprecated and now results in a warning.
+
+	Improvements to the compressed data frame code, including an order() generic.
+
+	Miscellaneous robustifications added.
+
+	Native routine registration has been added.
+
 3.3.0
-	append.rhs.formula, vectors.namesmatch, term.list.formula, and ergm.update.formula (renamed to nosimp.update.formula) moved from ergm.
+	append.rhs.formula(), vectors.namesmatch(), term.list.formula(), and ergm.update.formula() (renamed to nosimp.update.formula()) moved from ergm.
 
 	Skye Bender-deMoll has been added as a contributor.
 
 3.2.3
-	ERRVL moved from ergm.
+	ERRVL() moved from ergm.
 
 	Some NAMESPACE and other fixes to pass CRAN checks.
 
@@ -17,4 +38,4 @@
 	Some improvements to opttest.
 
 3.1.0
-	Initial release, incorporating the control class framework (set.control.class, check.control.class, print.control.list);	startup message framework; NVL; sort.data.frame;	compress.data.frame; paste.and; citation utilities framework; and opttest framework.
+	Initial release, incorporating the control class framework (set.control.class(), check.control.class(), print.control.list()); startup message framework; NVL(); sort.data.frame(); compress.data.frame(); paste.and(); citation utilities framework; and opttest() framework.
