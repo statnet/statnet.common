@@ -1,3 +1,12 @@
+#  File R/rle_utils.R in package statnet.common, part of the Statnet suite
+#  of packages for network analysis, http://statnet.org .
+#
+#  This software is distributed under the GPL-3 license.  It is free,
+#  open source, and has the attribution requirements (GPL Section 7) at
+#  http://statnet.org/attribution
+#
+#  Copyright 2007-2017 Statnet Commons
+#######################################################################
 .check_lengths <- function(rle1, rle2){
   if(sum(rle1$lengths)!=sum(rle2$lengths))
     stop("At this time, binary rle operators require the vectors represented by the encoding to have equal lengths.")
