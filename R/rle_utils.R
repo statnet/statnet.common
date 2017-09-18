@@ -23,8 +23,9 @@
 #'   assumed to be vectorized: it expects two vectors of equal lengths
 #'   and outputs a vector of the same length.
 #' 
-#' @param ... For `c`, objects to be concatenated. The first object must be of
-#'   class [rle()]. For `rep`, see documentation for [rep()].
+#' @param ... For `c`, objects to be concatenated. The first object
+#'   must be of class [rle()]. For `rep`, see documentation for
+#'   [rep()]. For `sum`, objects to be summed.
 #' 
 #' @name rle.utils
 #'
@@ -50,8 +51,7 @@ c.rle <- function(...){
   o <- l[[1]]
   # This might be suboptimal.
   for(x in l[-1]){
-    #' @importFrom methods is
-    if(!is(x, "rle")) x <- rle(x)
+    x <- as.rle(x)
     o$lengths <- c(o$lengths, x$lengths)
     o$values <- c(o$values, x$values)
   }
@@ -76,7 +76,7 @@ c.rle <- function(...){
 binop.rle <- function(e1, e2, FUN){
   .check_lengths(e1, e2)
   f <- match.fun(FUN)
-  if(!is(e2, "rle")) e2 <- rle(e2)
+  e2 <- as.rle(e2)
   syncinfo <- .Call("sync_RLEs", e1$lengths, e2$lengths)
   structure(list(lengths = syncinfo$lengths[seq_len(syncinfo$nruns)],
                  values = FUN(e1$values[syncinfo$val1i[seq_len(syncinfo$nruns)]],
@@ -139,7 +139,8 @@ compact.rle <- function(x){
 
 #' @rdname rle.utils
 #' 
-#' @param na.rm see documentation for [any()] and [all()].
+#' @param na.rm see documentation for [any()], [all()], and [sum()].
+#'
 #' 
 #' @examples
 #'
@@ -152,7 +153,7 @@ compact.rle <- function(x){
 #' @export
 any.rle <- function(..., na.rm = FALSE){
   inl <- list(...)
-  inl <- lapply(inl, function(x) if(is(x, "rle")) x else rle(x))
+  inl <- lapply(inl, as.rle)
   if(length(inl)==1){
     any(inl[[1]]$values, na.rm = na.rm)
   }else{
@@ -169,7 +170,7 @@ any.rle <- function(..., na.rm = FALSE){
 #' @export
 all.rle <- function(..., na.rm = FALSE){
   inl <- list(...)
-  inl <- lapply(inl, function(x) if(is(x, "rle")) x else rle(x))
+  inl <- lapply(inl, as.rle)
   if(length(inl)==1){
     all(inl[[1]]$values, na.rm = na.rm)
   }else{
@@ -298,6 +299,24 @@ all.rle <- function(..., na.rm = FALSE){
 
 #' @rdname rle.utils
 #'
+#' @examples
+#' 
+#' stopifnot(sum(inverse.rle(x))==sum(x))
+#' stopifnot(sum(inverse.rle(y))==sum(y))
+#' 
+#' @export
+sum.rle <- function(..., na.rm = FALSE){
+  inl <- list(...)
+  inl <- lapply(inl, as.rle)
+  if(length(inl)==1){
+    sum(inl[[1]]$values*as.numeric(inl[[1]]$lengths), na.rm = na.rm)
+  }else{
+    sum(sapply(inl, sum, na.rm = na.rm))
+  }
+}
+
+#' @rdname rle.utils
+#'
 #' @param scale whether to replicate the elements of the
 #'   RLE-compressed vector or the runs.
 #' 
@@ -323,4 +342,24 @@ rep.rle <- function(x, ..., scale = c("element", "run")){
   x$lengths <- rep(x$lengths, ...)
 
   x
+}
+
+#' Coerce to [rle()] if not already an [rle()] object.
+#'
+#' @param x the object to be coerced.
+#' 
+#' @export
+as.rle <- function(x){
+  UseMethod("as.rle")
+}
+
+#' @rdname as.rle
+#' @export
+as.rle.rle <- function(x) x
+
+#' @rdname as.rle
+#' @export
+as.rle.default <- function(x){
+  #' @importFrom methods is
+  if(is(x, "rle")) x else rle(x)
 }

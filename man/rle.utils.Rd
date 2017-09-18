@@ -23,6 +23,7 @@
 \alias{!=.rle}
 \alias{<=.rle}
 \alias{>=.rle}
+\alias{sum.rle}
 \alias{rep.rle}
 \title{RLE utilities}
 \usage{
@@ -68,11 +69,14 @@ compact.rle(x)
 
 \method{>=}{rle}(e1, e2)
 
+\method{sum}{rle}(..., na.rm = FALSE)
+
 \method{rep}{rle}(x, ..., scale = c("element", "run"))
 }
 \arguments{
-\item{...}{For \code{c}, objects to be concatenated. The first object must be of
-class \code{\link[=rle]{rle()}}. For \code{rep}, see documentation for \code{\link[=rep]{rep()}}.}
+\item{...}{For \code{c}, objects to be concatenated. The first object
+must be of class \code{\link[=rle]{rle()}}. For \code{rep}, see documentation for
+\code{\link[=rep]{rep()}}. For \code{sum}, objects to be summed.}
 
 \item{x, e1, e2}{Arguments to unary (\code{x}) and binary (\code{e1} and \code{e2})
 operators.}
@@ -81,7 +85,7 @@ operators.}
 assumed to be vectorized: it expects two vectors of equal lengths
 and outputs a vector of the same length.}
 
-\item{na.rm}{see documentation for \code{\link[=any]{any()}} and \code{\link[=all]{all()}}.}
+\item{na.rm}{see documentation for \code{\link[=any]{any()}}, \code{\link[=all]{all()}}, and \code{\link[=sum]{sum()}}.}
 
 \item{scale}{whether to replicate the elements of the
 RLE-compressed vector or the runs.}
@@ -164,6 +168,10 @@ stopifnot((inverse.rle(x)<inverse.rle(y))==inverse.rle(x<y))
 stopifnot((inverse.rle(x)!=inverse.rle(y))==inverse.rle(x!=y))
 stopifnot((inverse.rle(x)<=inverse.rle(y))==inverse.rle(x<=y))
 stopifnot((inverse.rle(x)>=inverse.rle(y))==inverse.rle(x>=y))
+
+stopifnot(sum(inverse.rle(x))==sum(x))
+stopifnot(sum(inverse.rle(y))==sum(y))
+
 
 x <- rle(sample(c(-1,+1), 10, c(.7,.3), replace=TRUE))
 y <- rpois(length(x$lengths), 2)
