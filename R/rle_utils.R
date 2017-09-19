@@ -29,9 +29,10 @@
 #' 
 #' @name rle.utils
 #'
-#' @return All functions return an [rle()] object. By default, the
-#'   functions and the operators do not merge adjacent runs with
-#'   the same value. This must be done explicitly with [compact.rle()].
+#' @return Unless otherwise stated, all functions return an [rle()]
+#'   object. By default, the functions and the operators do not merge
+#'   adjacent runs with the same value. This must be done explicitly
+#'   with [compact.rle()].
 #' 
 #' @examples
 #'
@@ -141,6 +142,7 @@ compact.rle <- function(x){
 #' 
 #' @param na.rm see documentation for [any()], [all()], and [sum()].
 #'
+#' @return [any()], [all()], [sum()], and [length()] return logical, logical, numeric, and numeric vectors, respectively.
 #' 
 #' @examples
 #'
@@ -313,6 +315,22 @@ sum.rle <- function(..., na.rm = FALSE){
   }else{
     sum(sapply(inl, sum, na.rm = na.rm))
   }
+}
+
+#' @rdname rle.utils
+#'
+#' @note The [length()] method returns the length of the vector
+#'   represented by the object, obtained by summing the lengths of
+#'   individual runs.
+#'
+#' @examples
+#'
+#' stopifnot(length(inverse.rle(x))==length(x))
+#' stopifnot(length(inverse.rle(y))==length(y))
+#'
+#' @export
+length.rle <- function(x){
+  sum(as.numeric(x$lengths))
 }
 
 #' @rdname rle.utils

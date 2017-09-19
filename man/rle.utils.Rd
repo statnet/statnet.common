@@ -24,6 +24,7 @@
 \alias{<=.rle}
 \alias{>=.rle}
 \alias{sum.rle}
+\alias{length.rle}
 \alias{rep.rle}
 \title{RLE utilities}
 \usage{
@@ -71,6 +72,8 @@ compact.rle(x)
 
 \method{sum}{rle}(..., na.rm = FALSE)
 
+\method{length}{rle}(x)
+
 \method{rep}{rle}(x, ..., scale = c("element", "run"))
 }
 \arguments{
@@ -91,9 +94,12 @@ and outputs a vector of the same length.}
 RLE-compressed vector or the runs.}
 }
 \value{
-All functions return an \code{\link[=rle]{rle()}} object. By default, the
-functions and the operators do not merge adjacent runs with
-the same value. This must be done explicitly with \code{\link[=compact.rle]{compact.rle()}}.
+Unless otherwise stated, all functions return an \code{\link[=rle]{rle()}}
+object. By default, the functions and the operators do not merge
+adjacent runs with the same value. This must be done explicitly
+with \code{\link[=compact.rle]{compact.rle()}}.
+
+\code{\link[=any]{any()}}, \code{\link[=all]{all()}}, \code{\link[=sum]{sum()}}, and \code{\link[=length]{length()}} return logical, logical, numeric, and numeric vectors, respectively.
 }
 \description{
 Simple utilities for operations on RLE-encoded vectors.
@@ -111,6 +117,10 @@ Since \code{\link[=rle]{rle()}} stores run lengths as integers, \code{\link[=com
 will not merge runs that add up to lengths greater than what can
 be represented by a 32-bit signed integer
 (\Sexpr{.Machine$integer.max}).
+
+The \code{\link[=length]{length()}} method returns the length of the vector
+represented by the object, obtained by summing the lengths of
+individual runs.
 
 The \code{\link[=rep]{rep()}} method for \code{\link[=rle]{rle()}} objects is very limited at
 this time: . Even though the default setting is to replicate
@@ -171,6 +181,10 @@ stopifnot((inverse.rle(x)>=inverse.rle(y))==inverse.rle(x>=y))
 
 stopifnot(sum(inverse.rle(x))==sum(x))
 stopifnot(sum(inverse.rle(y))==sum(y))
+
+
+stopifnot(length(inverse.rle(x))==length(x))
+stopifnot(length(inverse.rle(y))==length(y))
 
 
 x <- rle(sample(c(-1,+1), 10, c(.7,.3), replace=TRUE))
