@@ -74,7 +74,7 @@ compact.rle(x)
 
 \method{length}{rle}(x)
 
-\method{rep}{rle}(x, ..., scale = c("element", "run"))
+\method{rep}{rle}(x, ..., scale = c("element", "run"), doNotCompact = FALSE)
 }
 \arguments{
 \item{...}{For \code{c}, objects to be concatenated. The first object
@@ -92,6 +92,10 @@ and outputs a vector of the same length.}
 
 \item{scale}{whether to replicate the elements of the
 RLE-compressed vector or the runs.}
+
+\item{doNotCompact}{whether the method should call \code{\link[=compact.rle]{compact.rle()}}
+the results before returning. Methods liable to produce very long
+output vectors, like \code{\link[=rep]{rep()}}, have this set \code{FALSE} by default.}
 }
 \value{
 Unless otherwise stated, all functions return an \code{\link[=rle]{rle()}}

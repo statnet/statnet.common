@@ -8,7 +8,7 @@
 #  Copyright 2007-2017 Statnet Commons
 #######################################################################
 .check_lengths <- function(rle1, rle2){
-  if(sum(rle1$lengths)!=sum(rle2$lengths))
+  if(sum(as.numeric(rle1$lengths))!=sum(as.numeric(rle2$lengths)))
     stop("At this time, binary rle operators require the vectors represented by the encoding to have equal lengths.")
 }
 
@@ -337,6 +337,10 @@ length.rle <- function(x){
 #'
 #' @param scale whether to replicate the elements of the
 #'   RLE-compressed vector or the runs.
+#'
+#' @param doNotCompact whether the method should call [compact.rle()]
+#'   the results before returning. Methods liable to produce very long
+#'   output vectors, like [rep()], have this set `FALSE` by default.
 #' 
 #' @note The [rep()] method for [rle()] objects is very limited at
 #'   this time: . Even though the default setting is to replicate
@@ -351,7 +355,7 @@ length.rle <- function(x){
 #' 
 #' stopifnot(all(rep(inverse.rle(x), rep(y, x$lengths))==inverse.rle(rep(x, y, scale="run"))))
 #' @export
-rep.rle <- function(x, ..., scale = c("element", "run")){
+rep.rle <- function(x, ..., scale = c("element", "run"), doNotCompact = FALSE){
   scale <- match.arg(scale)
 
   if(scale=="element") stop("RLE on element scale is not supported at this time.")
@@ -359,7 +363,7 @@ rep.rle <- function(x, ..., scale = c("element", "run")){
   x$values <- rep(x$values, ...)
   x$lengths <- rep(x$lengths, ...)
 
-  x
+  if(doNotCompact) x else compact.rle(x)
 }
 
 #' Coerce to [rle()] if not already an [rle()] object.
