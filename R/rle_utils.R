@@ -12,8 +12,11 @@
     stop("At this time, binary rle operators require the vectors represented by the encoding to have equal lengths.")
 }
 
+#' Safe multiplication of integer run lengths.
+#'
 #' Return a vector of run lengths each no larger than maximum
-#' representable integer that sum to the product of the arguments.
+#' representable integer that sum to the product of the arguments. If
+#' the product is 0, an empty integer vector is returned.
 #'
 #' @param e1,e2 arguments to multiply, both `<=.Machine$integer.max`.
 #' 
@@ -23,6 +26,8 @@
   if(is.na(o)){ # Integer overflow.
     do <- as.numeric(e1)*as.numeric(e2)
     c(as.integer(rep.int(.Machine$integer.max, do %/% .Machine$integer.max)), as.integer(do %% .Machine$integer.max))
+  }else if(o==0){
+    integer(0)
   }else o
 }
 
@@ -386,7 +391,7 @@ rep.rle <- function(x, ..., scale = c("element", "run"), doNotCompact = FALSE){
     x$values, x$lengths, ddd$times, SIMPLIFY=FALSE)
     
     x$values <- as.vector(unlist(sapply(tmp, `[[`, "v")))
-    x$lengths <- as.vector(unlist(sapply(tmp, `[[`, "l")))
+    x$lengths <- as.integer(unlist(sapply(tmp, `[[`, "l")))
   }else{
     x$values <- rep(x$values, ...)
     x$lengths <- rep(x$lengths, ...)
