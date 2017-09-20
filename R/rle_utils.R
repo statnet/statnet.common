@@ -12,6 +12,20 @@
     stop("At this time, binary rle operators require the vectors represented by the encoding to have equal lengths.")
 }
 
+#' Return a vector of run lengths each no larger than maximum
+#' representable integer that sum to the product of the arguments.
+#'
+#' @param e1,e2 arguments to multiply, both `<=.Machine$integer.max`.
+#' 
+#' @noRd
+.run_mul <- function(e1, e2){
+  o <- suppressWarnings(as.integer(e1)*as.integer(e2))
+  if(is.na(o)){ # Integer overflow.
+    do <- as.numeric(e1)*as.numeric(e2)
+    c(as.integer(rep.int(.Machine$integer.max, do %/% .Machine$integer.max)), as.integer(do %% .Machine$integer.max))
+  }else o
+}
+
 #' RLE utilities
 #'
 #' Simple utilities for operations on RLE-encoded vectors.
@@ -343,7 +357,7 @@ length.rle <- function(x){
 #'   output vectors, like [rep()], have this set `FALSE` by default.
 #' 
 #' @note The [rep()] method for [rle()] objects is very limited at
-#'   this time: . Even though the default setting is to replicate
+#'   this time. Even though the default setting is to replicate
 #'   elements of the vector, only the run-replicating functionality is
 #'   implemented at this time.
 #'
@@ -357,12 +371,27 @@ length.rle <- function(x){
 #' @export
 rep.rle <- function(x, ..., scale = c("element", "run"), doNotCompact = FALSE){
   scale <- match.arg(scale)
+  ddd <- list(...)
 
   if(scale=="element") stop("RLE on element scale is not supported at this time.")
 
-  x$values <- rep(x$values, ...)
-  x$lengths <- rep(x$lengths, ...)
-
+  if(is.null(names(ddd)) && length(ddd)==1) names(ddd) <- "times" 
+  
+  if(length(x$lengths)==length(ddd$times)){
+    tmp <- mapply(function(v, l, times){
+      newl <- .run_mul(l, times)
+      newv <- rep(v, length(newl))
+      list(l = newl, v = newv)
+    },
+    x$values, x$lengths, ddd$times, SIMPLIFY=FALSE)
+    
+    x$values <- as.vector(unlist(sapply(tmp, `[[`, "v")))
+    x$lengths <- as.vector(unlist(sapply(tmp, `[[`, "l")))
+  }else{
+    x$values <- rep(x$values, ...)
+    x$lengths <- rep(x$lengths, ...)
+  }
+  
   if(doNotCompact) x else compact.rle(x)
 }
 

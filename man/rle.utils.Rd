@@ -127,7 +127,7 @@ represented by the object, obtained by summing the lengths of
 individual runs.
 
 The \code{\link[=rep]{rep()}} method for \code{\link[=rle]{rle()}} objects is very limited at
-this time: . Even though the default setting is to replicate
+this time. Even though the default setting is to replicate
 elements of the vector, only the run-replicating functionality is
 implemented at this time.
 }
