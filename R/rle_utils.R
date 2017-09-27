@@ -364,25 +364,28 @@ length.rle <- function(x){
 #' @note The [rep()] method for [rle()] objects is very limited at
 #'   this time. Even though the default setting is to replicate
 #'   elements of the vector, only the run-replicating functionality is
-#'   implemented at this time.
+#'   implemented at this time except for the simplest case (scalar
+#'   `times` argument).
 #'
 #' @examples
 #' 
 #' x <- rle(sample(c(-1,+1), 10, c(.7,.3), replace=TRUE))
 #' y <- rpois(length(x$lengths), 2)
 #' 
-#' 
 #' stopifnot(all(rep(inverse.rle(x), rep(y, x$lengths))==inverse.rle(rep(x, y, scale="run"))))
+#'
+#' stopifnot(all(rep(inverse.rle(x), max(y))==inverse.rle(rep(x, max(y), scale="element"))))
+#' 
 #' @export
 rep.rle <- function(x, ..., scale = c("element", "run"), doNotCompact = FALSE){
   scale <- match.arg(scale)
   ddd <- list(...)
 
-  if(scale=="element") stop("RLE on element scale is not supported at this time.")
-
-  if(is.null(names(ddd)) && length(ddd)==1) names(ddd) <- "times" 
+  if(is.null(names(ddd)) && length(ddd)==1) names(ddd) <- "times"
   
-  if(length(x$lengths)==length(ddd$times)){
+  if(scale=="element" && length(ddd$times)!=1) stop("RLE on element scale is not supported at this time for vector ",sQuote("times")," argument.")
+
+  if(length(x$lengths)==length(ddd$times)){ # This handles the specific scale="run" AND times is vector of appropriate length case.
     tmp <- mapply(function(v, l, times){
       newl <- .run_mul(l, times)
       newv <- rep(v, length(newl))
@@ -392,7 +395,7 @@ rep.rle <- function(x, ..., scale = c("element", "run"), doNotCompact = FALSE){
     
     x$values <- as.vector(unlist(sapply(tmp, `[[`, "v")))
     x$lengths <- as.integer(unlist(sapply(tmp, `[[`, "l")))
-  }else{
+  }else{  # This handles the scale="run" OR times is scalar case.
     x$values <- rep(x$values, ...)
     x$lengths <- rep(x$lengths, ...)
   }

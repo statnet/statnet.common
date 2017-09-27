@@ -129,7 +129,8 @@ individual runs.
 The \code{\link[=rep]{rep()}} method for \code{\link[=rle]{rle()}} objects is very limited at
 this time. Even though the default setting is to replicate
 elements of the vector, only the run-replicating functionality is
-implemented at this time.
+implemented at this time except for the simplest case (scalar
+\code{times} argument).
 }
 \examples{
 
@@ -194,6 +195,8 @@ stopifnot(length(inverse.rle(y))==length(y))
 x <- rle(sample(c(-1,+1), 10, c(.7,.3), replace=TRUE))
 y <- rpois(length(x$lengths), 2)
 
-
 stopifnot(all(rep(inverse.rle(x), rep(y, x$lengths))==inverse.rle(rep(x, y, scale="run"))))
+
+stopifnot(all(rep(inverse.rle(x), max(y))==inverse.rle(rep(x, max(y), scale="element"))))
+
 }
