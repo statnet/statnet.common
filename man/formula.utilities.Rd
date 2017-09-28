@@ -15,11 +15,14 @@ term.list.formula(rhs, sign = +1)
 \arguments{
 \item{object}{formula object to be updated}
 
-\item{newterms}{list of terms (names) to append to the formula, or a formula
-whose RHS terms will be used}
+\item{newterms}{list of terms (names) to append to the formula, or
+a formula whose RHS terms will be used; either may have a "sign"
+attribute vector of the same length as the list, giving the sign
+of each term (\code{+1} or \code{-1}).}
 
-\item{keep.onesided}{if the initial formula is one-sided, keep it whether to
-keep it one-sided or whether to make the initial formula the new LHS}
+\item{keep.onesided}{if the initial formula is one-sided, keep it
+whether to keep it one-sided or whether to make the initial
+formula the new LHS}
 
 \item{new}{new formula to be used in updating}
 
@@ -36,8 +39,8 @@ for a one-sided formula.}
 calling itself recursively.}
 }
 \value{
-\code{append.rhs.formula} each return an
-updated formula object
+\code{append.rhs.formula} each return an updated formula
+object
 
 \code{nonsimp.update.formula} each return an
 updated formula object
@@ -69,16 +72,16 @@ keeping track of whether a term has a plus or a minus sign.
 
 (f1 <- append.rhs.formula(y~x,list(as.name("z1"),as.name("z2"))))
 (f2 <- append.rhs.formula(~y,list(as.name("z"))))
-(f3 <- append.rhs.formula(~y+x,list(as.name("z"))))
+(f3 <- append.rhs.formula(~y+x,structure(list(as.name("z")),sign=-1)))
 (f4 <- append.rhs.formula(~y,list(as.name("z")),TRUE))
-(f5 <- append.rhs.formula(y~x,~z1+z2))
+(f5 <- append.rhs.formula(y~x,~z1-z2))
 
 \dontshow{
 stopifnot(f1 == (y~x+z1+z2))
 stopifnot(f2 == (y~z))
-stopifnot(f3 == (y+x~z))
+stopifnot(f3 == (y+x~-z))
 stopifnot(f4 == (~y+z))
-stopifnot(f5 == (y~x+z1+z2))
+stopifnot(f5 == (y~x+z1-z2))
 }
 
 }

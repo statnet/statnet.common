@@ -19,40 +19,44 @@
 #' \code{keep.onesided==FALSE} (the default).
 #' 
 #' @param object formula object to be updated
-#' @param newterms list of terms (names) to append to the formula, or a formula
-#' whose RHS terms will be used
-#' @param keep.onesided if the initial formula is one-sided, keep it whether to
-#' keep it one-sided or whether to make the initial formula the new LHS
+#' @param newterms list of terms (names) to append to the formula, or
+#'   a formula whose RHS terms will be used; either may have a "sign"
+#'   attribute vector of the same length as the list, giving the sign
+#'   of each term (`+1` or `-1`).
+#' @param keep.onesided if the initial formula is one-sided, keep it
+#'   whether to keep it one-sided or whether to make the initial
+#'   formula the new LHS
 #' @param \dots Additional arguments. Currently unused.
-#' @return 
-#' \code{append.rhs.formula} each return an
-#' updated formula object
+#' @return \code{append.rhs.formula} each return an updated formula
+#'   object
 #' @examples
 #' 
 #' ## append.rhs.formula
 #' 
 #' (f1 <- append.rhs.formula(y~x,list(as.name("z1"),as.name("z2"))))
 #' (f2 <- append.rhs.formula(~y,list(as.name("z"))))
-#' (f3 <- append.rhs.formula(~y+x,list(as.name("z"))))
+#' (f3 <- append.rhs.formula(~y+x,structure(list(as.name("z")),sign=-1)))
 #' (f4 <- append.rhs.formula(~y,list(as.name("z")),TRUE))
-#' (f5 <- append.rhs.formula(y~x,~z1+z2))
+#' (f5 <- append.rhs.formula(y~x,~z1-z2))
 #' 
 #' \dontshow{
 #' stopifnot(f1 == (y~x+z1+z2))
 #' stopifnot(f2 == (y~z))
-#' stopifnot(f3 == (y+x~z))
+#' stopifnot(f3 == (y+x~-z))
 #' stopifnot(f4 == (~y+z))
-#' stopifnot(f5 == (y~x+z1+z2))
+#' stopifnot(f5 == (y~x+z1-z2))
 #' }
 #'
 #' @export
 #' @rdname formula.utilities
 append.rhs.formula<-function(object,newterms,keep.onesided=FALSE){
   if(inherits(newterms,"formula")) newterms <- term.list.formula(newterms[[length(newterms)]])
-  for(newterm in newterms){
-    if(length(object)==3) object[[3]]<-call("+",object[[3]],newterm)
-    else if(keep.onesided) object[[2]]<-call("+",object[[2]],newterm)
-    else object[[3]]<-newterm
+  for(i in seq_along(newterms)){
+    newterm <- newterms[[i]]
+    termsign <- if(NVL(attr(newterms, "sign")[i], +1)>0) "+" else "-"
+    if(length(object)==3) object[[3]]<-call(termsign,object[[3]],newterm)
+    else if(keep.onesided) object[[2]]<-call(termsign,object[[2]],newterm)
+    else object[[3]]<- if(termsign=="+") newterm else call(termsign,newterm)
   }
   object
 }
