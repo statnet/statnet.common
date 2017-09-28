@@ -81,7 +81,7 @@ append.rhs.formula<-function(object,newterms,keep.onesided=FALSE){
 #'
 #' \dontshow{
 #' stopifnot(f1 == (~-b+c)[[2]])
-#' stopifnot(f2 == (~+b-c)[[2]])
+#' stopifnot(f2 == (~b-c)[[2]])
 #' stopifnot(f3 == (~a+c)[[2]])
 #' stopifnot(f4 == (~-a-c)[[2]])
 #' stopifnot(f5 == (~a-b)[[2]])
@@ -104,7 +104,10 @@ delete_term.formula <- function(object, del){
         arg1 <- SnD(x[[2]])
         arg2 <- SnD(x[[3]])
         if(is.null(arg2)) return(arg1)
-        else if(is.null(arg1)) return(call(as.character(op), arg2))
+        else if(is.null(arg1)){
+          if(as.character(op)=="+") return(arg2)
+          else return(call(as.character(op), arg2))
+        }
         else return(call(as.character(op), arg1, arg2))
       }else stop("Unsupported type of formula passed.")
     }else{

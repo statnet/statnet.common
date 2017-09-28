@@ -105,7 +105,7 @@ stopifnot(f5 == (y~x+z1-z2))
 
 \dontshow{
 stopifnot(f1 == (~-b+c)[[2]])
-stopifnot(f2 == (~+b-c)[[2]])
+stopifnot(f2 == (~b-c)[[2]])
 stopifnot(f3 == (~a+c)[[2]])
 stopifnot(f4 == (~-a-c)[[2]])
 stopifnot(f5 == (~a-b)[[2]])
