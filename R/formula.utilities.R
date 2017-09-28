@@ -63,6 +63,61 @@ append.rhs.formula<-function(object,newterms,keep.onesided=FALSE){
 
 #' @describeIn formula.utilities
 #'
+#' \code{delete_term.rhs.formula} returns an RHS of a formula without
+#' the term (including a call) with specified name. Terms inside
+#' another term (e.g., parentheses or an operator other than + or -)
+#' will be unaffected.
+#'
+#'
+#' @examples
+#' ## delete_term.formula
+#'
+#' (f1 <- delete_term.formula((~a-b+c)[[2]], "a"))
+#' (f2 <- delete_term.formula((~-a+b-c)[[2]], "a"))
+#' (f3 <- delete_term.formula((~a-b+c)[[2]], "b"))
+#' (f4 <- delete_term.formula((~-a+b-c)[[2]], "b"))
+#' (f5 <- delete_term.formula((~a-b+c)[[2]], "c"))
+#' (f6 <- delete_term.formula((~-a+b-c)[[2]], "c"))
+#'
+#' \dontshow{
+#' stopifnot(f1 == (~-b+c)[[2]])
+#' stopifnot(f2 == (~+b-c)[[2]])
+#' stopifnot(f3 == (~a+c)[[2]])
+#' stopifnot(f4 == (~-a-c)[[2]])
+#' stopifnot(f5 == (~a-b)[[2]])
+#' stopifnot(f6 == (~-a+b)[[2]])
+#' }
+#'
+#' @param del a character string giving the name of the term to be deleted.
+#' @export
+delete_term.formula <- function(object, del){
+  SnD <- function(x){
+    if(is(x, "call")){
+      op <- x[[1]]
+      if(as.character(op)==del) return(NULL)
+      else if(! as.character(op)%in%c("+","-")) return(x)
+      else if(length(x)==2){
+        arg <- SnD(x[[2]])
+        if(is.null(arg)) return(NULL)
+        else return(call(as.character(op), arg))
+      }else if(length(x)==3){
+        arg1 <- SnD(x[[2]])
+        arg2 <- SnD(x[[3]])
+        if(is.null(arg2)) return(arg1)
+        else if(is.null(arg1)) return(call(as.character(op), arg2))
+        else return(call(as.character(op), arg1, arg2))
+      }else stop("Unsupported type of formula passed.")
+    }else{
+      if(as.character(x)==del) return(NULL)
+      else return(x)
+    }
+  }
+
+  SnD(object)
+}
+
+#' @describeIn formula.utilities
+#'
 #' \code{nonsimp.update.formula} is a reimplementation of
 #' \code{\link{update.formula}} that does not simplify.  Note that the
 #' resulting formula's environment is set as follows. If

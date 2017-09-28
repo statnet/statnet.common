@@ -2,11 +2,14 @@
 % Please edit documentation in R/formula.utilities.R
 \name{append.rhs.formula}
 \alias{append.rhs.formula}
+\alias{delete_term.formula}
 \alias{nonsimp.update.formula}
 \alias{term.list.formula}
 \title{Functions for Querying, Validating and Extracting from ERGM Formulas}
 \usage{
 append.rhs.formula(object, newterms, keep.onesided = FALSE)
+
+delete_term.formula(object, del)
 
 nonsimp.update.formula(object, new, ..., from.new = FALSE)
 
@@ -23,6 +26,8 @@ of each term (\code{+1} or \code{-1}).}
 \item{keep.onesided}{if the initial formula is one-sided, keep it
 whether to keep it one-sided or whether to make the initial
 formula the new LHS}
+
+\item{del}{a character string giving the name of the term to be deleted.}
 
 \item{new}{new formula to be used in updating}
 
@@ -54,6 +59,11 @@ formula. If the formula is one-sided, the RHS becomes the LHS, if
 }
 \section{Functions}{
 \itemize{
+\item \code{delete_term.formula}: \code{delete_term.rhs.formula} returns an RHS of a formula without
+the term (including a call) with specified name. Terms inside
+another term (e.g., parentheses or an operator other than + or -)
+will be unaffected.
+
 \item \code{nonsimp.update.formula}: \code{nonsimp.update.formula} is a reimplementation of
 \code{\link{update.formula}} that does not simplify.  Note that the
 resulting formula's environment is set as follows. If
@@ -82,6 +92,24 @@ stopifnot(f2 == (y~z))
 stopifnot(f3 == (y+x~-z))
 stopifnot(f4 == (~y+z))
 stopifnot(f5 == (y~x+z1-z2))
+}
+
+## delete_term.formula
+
+(f1 <- delete_term.formula((~a-b+c)[[2]], "a"))
+(f2 <- delete_term.formula((~-a+b-c)[[2]], "a"))
+(f3 <- delete_term.formula((~a-b+c)[[2]], "b"))
+(f4 <- delete_term.formula((~-a+b-c)[[2]], "b"))
+(f5 <- delete_term.formula((~a-b+c)[[2]], "c"))
+(f6 <- delete_term.formula((~-a+b-c)[[2]], "c"))
+
+\dontshow{
+stopifnot(f1 == (~-b+c)[[2]])
+stopifnot(f2 == (~+b-c)[[2]])
+stopifnot(f3 == (~a+c)[[2]])
+stopifnot(f4 == (~-a-c)[[2]])
+stopifnot(f5 == (~a-b)[[2]])
+stopifnot(f6 == (~-a+b)[[2]])
 }
 
 }
