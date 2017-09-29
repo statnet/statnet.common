@@ -44,3 +44,24 @@ paste.and <- function(x, oq='', cq=''){
   if(length(x)>=3) return(paste(paste(x[-length(x)], collapse=", "),', and ',x[length(x)],sep=''))
 }
 
+
+#' [print()] objects to the [message()] output.
+#'
+#' A thin wrapper around [print()] that captures its output and prints
+#' it as a [message()], usually to STDERR.
+#'
+#' @param ... arguments to [print()].
+#' @param messageArgs a list of arguments to be passed directly to [message()].
+#'
+#' @examples
+#' cat(1:5)
+#' 
+#' print(1:5)
+#' message_print(1:5) # Looks the same (though may be in a different color on some frontends).
+#' 
+#' suppressMessages(print(1:5)) # Still prints
+#' suppressMessages(message_print(1:5)) # Silenced
+#' @export
+message_print <- function(..., messageArgs=NULL){
+  do.call(message, c(list(paste(capture.output(print(...)),collapse="\n")), messageArgs))
+}
