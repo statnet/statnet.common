@@ -194,7 +194,6 @@ sort.data.frame<-function(x, decreasing=FALSE, ...){
 #' a # 2
 #' NVL(b) <- 2
 #' b # still 1
-#' @docType class
 NULL
 
 #' @describeIn NVL
@@ -205,8 +204,6 @@ NULL
 #'
 #' @param \dots Expressions to be tested.
 #'
-#' @docType class
-#'
 #' @export
 NVL <- function(...){
   for(x in list(...))
@@ -216,14 +213,28 @@ NVL <- function(...){
 
 #' @describeIn NVL
 #'
+#' Inspired by Oracle SQL function `NVL2`, `NVL2()` returns the
+#' second argument if the first argument is not `NULL` and the
+#' third argument if the first argument is `NULL`.
+#'
+#' @param test expression to be tested.
+#' @param notnull expression to be returned if `test` is not `NULL`.
+#' @param null expression to be returned if `test` is `NULL`.
+#'
+#' @export
+NVL2 <- function(test, notnull, null){
+  if(is.null(test)) null else notnull
+}
+
+
+#' @describeIn NVL
+#'
 #' Assigning to `NVL` overwrites its first argument if that argument
 #' is [`NULL`]. Note that it will *always* return the right-hand-side
 #' of the assignment (`value`), regardless of what `x` is.
 #'
 #' @param x an object to be overwritten if [`NULL`].
 #' @param value new value for `x`.
-#'
-#' @docType class
 #'
 #' @export
 `NVL<-` <- function(x, value){
