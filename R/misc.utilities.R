@@ -172,28 +172,7 @@ sort.data.frame<-function(x, decreasing=FALSE, ...){
 #' @name NVL
 #' @seealso [`NULL`], \code{\link[base]{is.null}}, \code{\link[base]{if}}
 #' @keywords utilities
-#' @examples
-#' 
-#' a <- NULL
-#' 
-#' print(a) # NULL
-#' print(NVL(a,0)) # 0
-#' 
-#' b <- 1
-#' 
-#' print(b) # 1
-#' print(NVL(b,0)) # 1
-#' 
-#' # Also,
-#' print(NVL(NULL,1,0)) # 1
-#' print(NVL(NULL,0,1)) # 0
-#' print(NVL(NULL,NULL,0)) # 0
-#' print(NVL(NULL,NULL,NULL)) # NULL
 #'
-#' NVL(a) <- 2
-#' a # 2
-#' NVL(b) <- 2
-#' b # still 1
 NULL
 
 #' @describeIn NVL
@@ -204,6 +183,22 @@ NULL
 #'
 #' @param \dots Expressions to be tested.
 #'
+#' @examples
+#' a <- NULL
+#' 
+#' a # NULL
+#' NVL(a,0) # 0
+#' 
+#' b <- 1
+#' 
+#' b # 1
+#' NVL(b,0) # 1
+#' 
+#' # Also,
+#' NVL(NULL,1,0) # 1
+#' NVL(NULL,0,1) # 0
+#' NVL(NULL,NULL,0) # 0
+#' NVL(NULL,NULL,NULL) # NULL
 #' @export
 NVL <- function(...){
   for(x in list(...))
@@ -221,6 +216,10 @@ NVL <- function(...){
 #' @param notnull expression to be returned if `test` is not `NULL`.
 #' @param null expression to be returned if `test` is `NULL`.
 #'
+#' @examples
+#' 
+#' NVL2(a, "not null!", "null!") # "null!"
+#' NVL2(b, "not null!", "null!") # "not null!"
 #' @export
 NVL2 <- function(test, notnull, null){
   if(is.null(test)) null else notnull
@@ -236,6 +235,12 @@ NVL2 <- function(test, notnull, null){
 #' @param x an object to be overwritten if [`NULL`].
 #' @param value new value for `x`.
 #'
+#' @examples
+#' 
+#' NVL(a) <- 2
+#' a # 2
+#' NVL(b) <- 2
+#' b # still 1
 #' @export
 `NVL<-` <- function(x, value){
   if(is.null(x)) value

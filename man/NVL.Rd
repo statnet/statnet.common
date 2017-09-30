@@ -45,22 +45,24 @@ of the assignment (\code{value}), regardless of what \code{x} is.
 }}
 
 \examples{
-
 a <- NULL
 
-print(a) # NULL
-print(NVL(a,0)) # 0
+a # NULL
+NVL(a,0) # 0
 
 b <- 1
 
-print(b) # 1
-print(NVL(b,0)) # 1
+b # 1
+NVL(b,0) # 1
 
 # Also,
-print(NVL(NULL,1,0)) # 1
-print(NVL(NULL,0,1)) # 0
-print(NVL(NULL,NULL,0)) # 0
-print(NVL(NULL,NULL,NULL)) # NULL
+NVL(NULL,1,0) # 1
+NVL(NULL,0,1) # 0
+NVL(NULL,NULL,0) # 0
+NVL(NULL,NULL,NULL) # NULL
+
+NVL2(a, "not null!", "null!") # "null!"
+NVL2(b, "not null!", "null!") # "not null!"
 
 NVL(a) <- 2
 a # 2
