@@ -168,6 +168,7 @@ sort.data.frame<-function(x, decreasing=FALSE, ...){
 #' Convenience functions for handling [`NULL`] objects.
 #'
 #' 
+#' @param \dots,test expressions to be tested.
 #' 
 #' @name NVL
 #' @seealso [`NULL`], \code{\link[base]{is.null}}, \code{\link[base]{if}}
@@ -177,11 +178,9 @@ NULL
 
 #' @describeIn NVL
 #'
-#' Inspired by SQL function \code{NVL}, `NVL(...)` returns the first
-#' argument that is not \code{NULL}, or \code{NULL} if all arguments
-#' are `NULL`.
-#'
-#' @param \dots Expressions to be tested.
+#' Inspired by SQL function \code{NVL}, returns the first argument
+#' that is not \code{NULL}, or \code{NULL} if all arguments are
+#' `NULL`.
 #'
 #' @examples
 #' a <- NULL
@@ -208,11 +207,10 @@ NVL <- function(...){
 
 #' @describeIn NVL
 #'
-#' Inspired by Oracle SQL function `NVL2`, `NVL2()` returns the
-#' second argument if the first argument is not `NULL` and the
-#' third argument if the first argument is `NULL`.
+#' Inspired by Oracle SQL function `NVL2`, returns the second argument
+#' if the first argument is not `NULL` and the third argument if the
+#' first argument is `NULL`.
 #'
-#' @param test expression to be tested.
 #' @param notnull expression to be returned if `test` is not `NULL`.
 #' @param null expression to be returned if `test` is `NULL`.
 #'
