@@ -4,12 +4,15 @@
 \alias{NVL}
 \alias{NVL}
 \alias{NVL2}
+\alias{NVL3}
 \alias{NVL<-}
 \title{Convenience functions for handling \code{\link{NULL}} objects.}
 \usage{
 NVL(...)
 
 NVL2(test, notnull, null = NULL)
+
+NVL3(test, notnull, null = NULL)
 
 NVL(x) <- value
 }
@@ -38,6 +41,10 @@ if the first argument is not \code{NULL} and the third argument if the
 first argument is \code{NULL}. The third argument defaults to \code{NULL}, so
 \code{NVL2(a, b)} can serve as shorthand for \code{(if(!is.null(a)) b)}.
 
+\item \code{NVL3}: Inspired by Oracle SQL \code{NVL2} function and \code{magittr} \code{\link{\%>\%}}
+operator, behaves as \code{NVL2} but \code{.}s in the second argument are
+substituted with the first argument.
+
 \item \code{NVL<-}: Assigning to \code{NVL} overwrites its first argument if that argument
 is \code{\link{NULL}}. Note that it will \emph{always} return the right-hand-side
 of the assignment (\code{value}), regardless of what \code{x} is.
@@ -45,8 +52,8 @@ of the assignment (\code{value}), regardless of what \code{x} is.
 
 \note{
 Whenever possible, these functions use lazy evaluation, so,
-for example \code{NVL(1, stop("Error!"))} will never "evaluate" the
-\code{\link[=stop]{stop()}} call and will not produce an error, whereas \code{NVL(NULL, stop("Error!"))} would..
+for example \code{NVL(1, stop("Error!"))} will never evaluate the
+\code{\link[=stop]{stop()}} call and will not produce an error, whereas \code{NVL(NULL, stop("Error!"))} would.
 }
 \examples{
 a <- NULL
@@ -71,6 +78,9 @@ NVL(NULL,NULL,NULL) # NULL
 
 NVL2(a, "not null!", "null!") # "null!"
 NVL2(b, "not null!", "null!") # "not null!"
+
+NVL3(a, "not null!", "null!") # "null!"
+NVL3(b, .+1, "null!") # 2
 
 NVL(a) <- 2
 a # 2

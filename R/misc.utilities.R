@@ -238,6 +238,27 @@ NVL2 <- function(test, notnull, null = NULL){
 
 #' @describeIn NVL
 #'
+#' Inspired by Oracle SQL `NVL2` function and `magittr` \code{\link{\%>\%}}
+#' operator, behaves as `NVL2` but `.`s in the second argument are
+#' substituted with the first argument.
+#'
+#' @examples
+#' 
+#' NVL3(a, "not null!", "null!") # "null!"
+#' NVL3(b, .+1, "null!") # 2
+#' @export
+NVL3 <- function(test, notnull, null = NULL){
+  if(is.null(test)) null
+  else{
+    e <- substitute(notnull)
+    eval(do.call(substitute, list(e, list(.=test))),
+         parent.frame())
+  }
+}
+
+
+#' @describeIn NVL
+#'
 #' Assigning to `NVL` overwrites its first argument if that argument
 #' is [`NULL`]. Note that it will *always* return the right-hand-side
 #' of the assignment (`value`), regardless of what `x` is.
