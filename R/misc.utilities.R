@@ -209,7 +209,8 @@ NVL <- function(...){
 #'
 #' Inspired by Oracle SQL function `NVL2`, returns the second argument
 #' if the first argument is not `NULL` and the third argument if the
-#' first argument is `NULL`.
+#' first argument is `NULL`. The third argument defaults to `NULL`, so
+#' `NVL2(a, b)` can serve as shorthand for `(if(!is.null(a)) b)`.
 #'
 #' @param notnull expression to be returned if `test` is not `NULL`.
 #' @param null expression to be returned if `test` is `NULL`.
@@ -219,7 +220,7 @@ NVL <- function(...){
 #' NVL2(a, "not null!", "null!") # "null!"
 #' NVL2(b, "not null!", "null!") # "not null!"
 #' @export
-NVL2 <- function(test, notnull, null){
+NVL2 <- function(test, notnull, null = NULL){
   if(is.null(test)) null else notnull
 }
 

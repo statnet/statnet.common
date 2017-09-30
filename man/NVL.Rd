@@ -9,7 +9,7 @@
 \usage{
 NVL(...)
 
-NVL2(test, notnull, null)
+NVL2(test, notnull, null = NULL)
 
 NVL(x) <- value
 }
@@ -35,7 +35,8 @@ that is not \code{NULL}, or \code{NULL} if all arguments are
 
 \item \code{NVL2}: Inspired by Oracle SQL function \code{NVL2}, returns the second argument
 if the first argument is not \code{NULL} and the third argument if the
-first argument is \code{NULL}.
+first argument is \code{NULL}. The third argument defaults to \code{NULL}, so
+\code{NVL2(a, b)} can serve as shorthand for \code{(if(!is.null(a)) b)}.
 
 \item \code{NVL<-}: Assigning to \code{NVL} overwrites its first argument if that argument
 is \code{\link{NULL}}. Note that it will \emph{always} return the right-hand-side
