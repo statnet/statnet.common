@@ -43,6 +43,11 @@ is \code{\link{NULL}}. Note that it will \emph{always} return the right-hand-sid
 of the assignment (\code{value}), regardless of what \code{x} is.
 }}
 
+\note{
+Whenever possible, these functions use lazy evaluation, so,
+for example \code{NVL(1, stop("Error!"))} will never "evaluate" the
+\code{\link[=stop]{stop()}} call and will not produce an error, whereas \code{NVL(NULL, stop("Error!"))} would..
+}
 \examples{
 a <- NULL
 
@@ -53,6 +58,10 @@ b <- 1
 
 b # 1
 NVL(b,0) # 1
+
+# Here, object x does not exist, but since b is not NULL, x is
+# never evaluated, so the statement finishes.
+NVL(b,x) # 1
 
 # Also,
 NVL(NULL,1,0) # 1

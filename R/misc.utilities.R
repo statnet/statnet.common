@@ -171,6 +171,11 @@ sort.data.frame<-function(x, decreasing=FALSE, ...){
 #' @param \dots,test expressions to be tested.
 #' 
 #' @name NVL
+#'
+#' @note Whenever possible, these functions use lazy evaluation, so,
+#'   for example `NVL(1, stop("Error!"))` will never evaluate the
+#'   [stop()] call and will not produce an error, whereas `NVL(NULL, stop("Error!"))` would.
+#'
 #' @seealso [`NULL`], \code{\link[base]{is.null}}, \code{\link[base]{if}}
 #' @keywords utilities
 #'
@@ -193,6 +198,10 @@ NULL
 #' b # 1
 #' NVL(b,0) # 1
 #' 
+#' # Here, object x does not exist, but since b is not NULL, x is
+#' # never evaluated, so the statement finishes.
+#' NVL(b,x) # 1
+#' 
 #' # Also,
 #' NVL(NULL,1,0) # 1
 #' NVL(NULL,0,1) # 0
@@ -200,8 +209,10 @@ NULL
 #' NVL(NULL,NULL,NULL) # NULL
 #' @export
 NVL <- function(...){
-  for(x in list(...))
+  for(e in eval(substitute(alist(...)))){ # Lazy evaluate. (See http://adv-r.had.co.nz/Computing-on-the-language.html .)
+    x <- eval(e, parent.frame())
     if(!is.null(x)) break
+  }
   x
 }
 
