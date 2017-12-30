@@ -288,19 +288,30 @@ NVL3 <- function(test, notnull, null = NULL){
 #' 
 #' 
 #' @param \dots Expressions to be tested; usually outputs of
-#' \code{\link[base]{try}}.
-#' @return The first argument that is not a \code{try-error}. Stops with an
-#' error if all are.
+#'   \code{\link[base]{try}}.
+#' @return The first argument that is not a \code{try-error}. Stops
+#'   with an error if all are.
+#' @note This function uses lazy evaluation, so, for example `ERRVL(1,
+#'   stop("Error!"))` will never evaluate the [stop()] call and will
+#'   not produce an error, whereas `ERRVL(try(solve(0)),
+#'   stop("Error!"))` would.
+#' 
 #' @seealso \code{\link[base]{try}}, \code{\link[base]{inherits}}
 #' @keywords utilities
 #' @examples
 #' 
 #' print(ERRVL(1,2,3)) # 1
 #' print(ERRVL(try(solve(0)),2,3)) # 2
+#' print(ERRVL(1, stop("Error!"))) # No error
+#' \dontrun{
+#' print(ERRVL(try(solve(0)), stop("Error!"))) # Error
+#' }
 #' @export
 ERRVL <- function(...){
-  for(x in list(...))
+  for(e in eval(substitute(alist(...)))){ # Lazy evaluate. (See http://adv-r.had.co.nz/Computing-on-the-language.html .)
+    x <- eval(e, parent.frame())
     if(!inherits(x, "try-error")) return(x)
+  }
   stop("No non-error expressions passed.")
 }
 

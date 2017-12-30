@@ -12,18 +12,26 @@ ERRVL(...)
 \code{\link[base]{try}}.}
 }
 \value{
-The first argument that is not a \code{try-error}. Stops with an
-error if all are.
+The first argument that is not a \code{try-error}. Stops
+with an error if all are.
 }
 \description{
 This function is inspired by \code{\link{NVL}}, and simply returns the first
 argument that is not a \code{try-error}, raising an error if all arguments
 are \code{try-error}s.
 }
+\note{
+This function uses lazy evaluation, so, for example \code{ERRVL(1, stop("Error!"))} will never evaluate the \code{\link[=stop]{stop()}} call and will
+not produce an error, whereas \code{ERRVL(try(solve(0)), stop("Error!"))} would.
+}
 \examples{
 
 print(ERRVL(1,2,3)) # 1
 print(ERRVL(try(solve(0)),2,3)) # 2
+print(ERRVL(1, stop("Error!"))) # No error
+\dontrun{
+print(ERRVL(try(solve(0)), stop("Error!"))) # Error
+}
 }
 \seealso{
 \code{\link[base]{try}}, \code{\link[base]{inherits}}

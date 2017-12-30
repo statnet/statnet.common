@@ -2,7 +2,6 @@
 % Please edit documentation in R/misc.utilities.R
 \name{NVL}
 \alias{NVL}
-\alias{NVL}
 \alias{NVL2}
 \alias{NVL3}
 \alias{NVL<-}

@@ -6,9 +6,6 @@
 \alias{log_mean_exp}
 \alias{lweighted.mean}
 \alias{lweighted.var}
-\alias{log_mean_exp}
-\alias{lweighted.mean}
-\alias{lweighted.var}
 \title{Utilities for performing calculations on logarithmic scale.}
 \usage{
 log_sum_exp(logx, use_ldouble = FALSE)
