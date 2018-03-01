@@ -18,7 +18,7 @@
 #' formula. If the formula is one-sided, the RHS becomes the LHS, if
 #' \code{keep.onesided==FALSE} (the default).
 #' 
-#' @param object formula object to be updated
+#' @param object formula object to be updated or evaluated
 #' @param newterms list of terms (names) to append to the formula, or
 #'   a formula whose RHS terms will be used; either may have a "sign"
 #'   attribute vector of the same length as the list, giving the sign
@@ -223,3 +223,20 @@ term.list.formula<-function(rhs, sign=+1){
   else {out <- list(rhs); attr(out,"sign")<-sign; out}
 }
 
+#' @describeIn formula.utilities
+#'
+#' \code{eval_LHS.formula} extracts the LHS of a formula, evaluates it in the formula's environment, and returns the result.
+#'
+#' @return
+#' \code{eval_LHS.formula} an object of whatever type the LHS evaluates to.
+#' @examples
+#' stopifnot(identical(eval_LHS((2+2)~1),4))
+#' @export
+eval_LHS.formula <- function(object){
+  if (!is(object, "formula"))
+    stop("Invalid formula of class ",sQuote(class(object)),".")
+  if(length(object)<3)
+    stop("Formula given is one-sided.")
+
+  eval(object[[2]],envir=environment(object))
+}
