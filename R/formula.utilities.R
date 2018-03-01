@@ -189,9 +189,7 @@ nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
 
 #' @describeIn formula.utilities
 #'
-#' \code{term.list.formula} returns a list containing terms in a given
-#' formula, handling \code{+} and \code{-} operators and parentheses, and
-#' keeping track of whether a term has a plus or a minus sign.
+#' \code{term.list.formula} is an older version of \code{term_list.formula} that required the RHS call, rather than the formula itself.
 #' 
 #' @param rhs a formula-style call containing the right hand side of formula,
 #' obtained by \code{fmla[[3]]} for a two-sided formula and \code{fmla[[2]]}
@@ -202,6 +200,7 @@ nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
 #' \code{terms.list.formula} returns a list of formula terms, with an additional numerical vector attribute \code{"sign"} with of the same length, giving the corresponding term's sign as \code{+1} or \code{-1}.
 #' @export
 term.list.formula<-function(rhs, sign=+1){
+  .Deprecated("term_list.formula")
   if(length(rhs)==1) {out <- list(rhs); attr(out,"sign")<-sign; out}
   else if(length(rhs)==2 && rhs[[1]]=="+") term.list.formula(rhs[[2]],sign)
   else if(length(rhs)==2 && rhs[[1]]=="-") term.list.formula(rhs[[2]],-sign)
@@ -222,6 +221,45 @@ term.list.formula<-function(rhs, sign=+1){
   else if(rhs[[1]]=="(") term.list.formula(rhs[[2]], sign)
   else {out <- list(rhs); attr(out,"sign")<-sign; out}
 }
+
+#' @describeIn formula.utilities
+#'
+#' \code{list_terms.formula} returns a list containing terms in a given
+#' formula, handling \code{+} and \code{-} operators and parentheses, and
+#' keeping track of whether a term has a plus or a minus sign.
+#'
+#' @return
+#' \code{terms_list.formula} returns a list of formula terms, with an additional numerical vector attribute \code{"sign"} with of the same length, giving the corresponding term's sign as \code{+1} or \code{-1}.
+#' @export
+list_terms.formula<-function(object){
+  if (!is(object, "formula"))
+    stop("Invalid formula of class ",sQuote(class(object)),".")
+  
+  tlf <- function(rhs, sign){
+    if(length(rhs)==1) {out <- list(rhs); attr(out,"sign")<-sign; out}
+    else if(length(rhs)==2 && rhs[[1]]=="+") tlf(rhs[[2]],sign)
+    else if(length(rhs)==2 && rhs[[1]]=="-") tlf(rhs[[2]],-sign)
+    else if(length(rhs)==3 && rhs[[1]]=="+") {
+      l1 <- tlf(rhs[[2]],sign)
+      l2 <- tlf(rhs[[3]],sign)
+      out <- c(l1, l2)
+      attr(out,"sign") <- c(attr(l1,"sign"), attr(l2,"sign"))
+      out
+    }
+    else if(length(rhs)==3 && rhs[[1]]=="-"){
+      l1 <- tlf(rhs[[2]],sign)
+      l2 <- tlf(rhs[[3]],-sign)
+      out <- c(l1, l2)
+      attr(out,"sign") <- c(attr(l1,"sign"), attr(l2,"sign"))
+      out
+    }
+    else if(rhs[[1]]=="(") tlf(rhs[[2]], sign)
+    else {out <- list(rhs); attr(out,"sign")<-sign; out}
+  }
+
+  tlf(object[[length(object)]], sign=+1)
+}
+
 
 #' @describeIn formula.utilities
 #'
