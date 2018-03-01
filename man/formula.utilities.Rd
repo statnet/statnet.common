@@ -5,7 +5,7 @@
 \alias{delete_term.formula}
 \alias{nonsimp.update.formula}
 \alias{term.list.formula}
-\alias{list_terms.formula}
+\alias{list.rhs.formula}
 \alias{eval_LHS.formula}
 \title{Functions for Querying, Validating and Extracting from ERGM Formulas}
 \usage{
@@ -17,7 +17,7 @@ nonsimp.update.formula(object, new, ..., from.new = FALSE)
 
 term.list.formula(rhs, sign = +1)
 
-list_terms.formula(object)
+list.rhs.formula(object)
 
 eval_LHS.formula(object)
 }
@@ -58,7 +58,7 @@ updated formula object
 
 \code{terms.list.formula} returns a list of formula terms, with an additional numerical vector attribute \code{"sign"} with of the same length, giving the corresponding term's sign as \code{+1} or \code{-1}.
 
-\code{terms_list.formula} returns a list of formula terms, with an additional numerical vector attribute \code{"sign"} with of the same length, giving the corresponding term's sign as \code{+1} or \code{-1}.
+\code{list.rhs.formula} returns a list of formula terms, with an additional numerical vector attribute \code{"sign"} with of the same length, giving the corresponding term's sign as \code{+1} or \code{-1}.
 
 \code{eval_LHS.formula} an object of whatever type the LHS evaluates to.
 }
@@ -81,9 +81,9 @@ resulting formula's environment is set as follows. If
 sub-environment of object, containing, in addition, variables in new listed
 in from.new (if a character vector) or all of new (if TRUE).
 
-\item \code{term.list.formula}: \code{term.list.formula} is an older version of \code{term_list.formula} that required the RHS call, rather than the formula itself.
+\item \code{term.list.formula}: \code{term.list.formula} is an older version of \code{list.rhs.formula} that required the RHS call, rather than the formula itself.
 
-\item \code{list_terms.formula}: \code{list_terms.formula} returns a list containing terms in a given
+\item \code{list.rhs.formula}: \code{list.rhs.formula} returns a list containing terms in a given
 formula, handling \code{+} and \code{-} operators and parentheses, and
 keeping track of whether a term has a plus or a minus sign.
 
