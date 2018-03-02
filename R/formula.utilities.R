@@ -50,7 +50,7 @@
 #' @export
 #' @rdname formula.utilities
 append.rhs.formula<-function(object,newterms,keep.onesided=FALSE){
-  if(inherits(newterms,"formula")) newterms <- list_rhs.formula(newterms[[length(newterms)]])
+  if(inherits(newterms,"formula")) newterms <- list_rhs.formula(newterms)
   for(i in seq_along(newterms)){
     newterm <- newterms[[i]]
     termsign <- if(NVL(attr(newterms, "sign")[i], +1)>0) "+" else "-"
