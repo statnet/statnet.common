@@ -50,7 +50,7 @@
 #' @export
 #' @rdname formula.utilities
 append.rhs.formula<-function(object,newterms,keep.onesided=FALSE){
-  if(inherits(newterms,"formula")) newterms <- term.list.formula(newterms[[length(newterms)]])
+  if(inherits(newterms,"formula")) newterms <- list_rhs.formula(newterms[[length(newterms)]])
   for(i in seq_along(newterms)){
     newterm <- newterms[[i]]
     termsign <- if(NVL(attr(newterms, "sign")[i], +1)>0) "+" else "-"
@@ -189,7 +189,7 @@ nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
 
 #' @describeIn formula.utilities
 #'
-#' \code{term.list.formula} is an older version of \code{list.rhs.formula} that required the RHS call, rather than the formula itself.
+#' \code{term.list.formula} is an older version of \code{list_rhs.formula} that required the RHS call, rather than the formula itself.
 #' 
 #' @param rhs a formula-style call containing the right hand side of formula,
 #' obtained by \code{fmla[[3]]} for a two-sided formula and \code{fmla[[2]]}
@@ -200,7 +200,7 @@ nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
 #' \code{terms.list.formula} returns a list of formula terms, with an additional numerical vector attribute \code{"sign"} with of the same length, giving the corresponding term's sign as \code{+1} or \code{-1}.
 #' @export
 term.list.formula<-function(rhs, sign=+1){
-  .Deprecated("list.rhs.formula")
+  .Deprecated("list_rhs.formula")
   if(length(rhs)==1) {out <- list(rhs); attr(out,"sign")<-sign; out}
   else if(length(rhs)==2 && rhs[[1]]=="+") term.list.formula(rhs[[2]],sign)
   else if(length(rhs)==2 && rhs[[1]]=="-") term.list.formula(rhs[[2]],-sign)
@@ -224,14 +224,14 @@ term.list.formula<-function(rhs, sign=+1){
 
 #' @describeIn formula.utilities
 #'
-#' \code{list.rhs.formula} returns a list containing terms in a given
+#' \code{list_rhs.formula} returns a list containing terms in a given
 #' formula, handling \code{+} and \code{-} operators and parentheses, and
 #' keeping track of whether a term has a plus or a minus sign.
 #'
 #' @return
-#' \code{list.rhs.formula} returns a list of formula terms, with an additional numerical vector attribute \code{"sign"} with of the same length, giving the corresponding term's sign as \code{+1} or \code{-1}.
+#' \code{list_rhs.formula} returns a list of formula terms, with an additional numerical vector attribute \code{"sign"} with of the same length, giving the corresponding term's sign as \code{+1} or \code{-1}.
 #' @export
-list.rhs.formula<-function(object){
+list_rhs.formula<-function(object){
   if (!is(object, "formula"))
     stop("Invalid formula of class ",sQuote(class(object)),".")
   
@@ -263,14 +263,14 @@ list.rhs.formula<-function(object){
 
 #' @describeIn formula.utilities
 #'
-#' \code{eval_LHS.formula} extracts the LHS of a formula, evaluates it in the formula's environment, and returns the result.
+#' \code{eval_lhs.formula} extracts the LHS of a formula, evaluates it in the formula's environment, and returns the result.
 #'
 #' @return
-#' \code{eval_LHS.formula} an object of whatever type the LHS evaluates to.
+#' \code{eval_lhs.formula} an object of whatever type the LHS evaluates to.
 #' @examples
-#' stopifnot(identical(eval_LHS((2+2)~1),4))
+#' stopifnot(identical(eval_lhs.formula((2+2)~1),4))
 #' @export
-eval_LHS.formula <- function(object){
+eval_lhs.formula <- function(object){
   if (!is(object, "formula"))
     stop("Invalid formula of class ",sQuote(class(object)),".")
   if(length(object)<3)

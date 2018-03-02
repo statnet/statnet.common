@@ -5,8 +5,8 @@
 \alias{delete_term.formula}
 \alias{nonsimp.update.formula}
 \alias{term.list.formula}
-\alias{list.rhs.formula}
-\alias{eval_LHS.formula}
+\alias{list_rhs.formula}
+\alias{eval_lhs.formula}
 \title{Functions for Querying, Validating and Extracting from ERGM Formulas}
 \usage{
 append.rhs.formula(object, newterms, keep.onesided = FALSE)
@@ -17,9 +17,9 @@ nonsimp.update.formula(object, new, ..., from.new = FALSE)
 
 term.list.formula(rhs, sign = +1)
 
-list.rhs.formula(object)
+list_rhs.formula(object)
 
-eval_LHS.formula(object)
+eval_lhs.formula(object)
 }
 \arguments{
 \item{object}{formula object to be updated or evaluated}
@@ -58,9 +58,9 @@ updated formula object
 
 \code{terms.list.formula} returns a list of formula terms, with an additional numerical vector attribute \code{"sign"} with of the same length, giving the corresponding term's sign as \code{+1} or \code{-1}.
 
-\code{list.rhs.formula} returns a list of formula terms, with an additional numerical vector attribute \code{"sign"} with of the same length, giving the corresponding term's sign as \code{+1} or \code{-1}.
+\code{list_rhs.formula} returns a list of formula terms, with an additional numerical vector attribute \code{"sign"} with of the same length, giving the corresponding term's sign as \code{+1} or \code{-1}.
 
-\code{eval_LHS.formula} an object of whatever type the LHS evaluates to.
+\code{eval_lhs.formula} an object of whatever type the LHS evaluates to.
 }
 \description{
 \code{append.rhs.formula} appends a list of terms to the RHS of a
@@ -81,13 +81,13 @@ resulting formula's environment is set as follows. If
 sub-environment of object, containing, in addition, variables in new listed
 in from.new (if a character vector) or all of new (if TRUE).
 
-\item \code{term.list.formula}: \code{term.list.formula} is an older version of \code{list.rhs.formula} that required the RHS call, rather than the formula itself.
+\item \code{term.list.formula}: \code{term.list.formula} is an older version of \code{list_rhs.formula} that required the RHS call, rather than the formula itself.
 
-\item \code{list.rhs.formula}: \code{list.rhs.formula} returns a list containing terms in a given
+\item \code{list_rhs.formula}: \code{list_rhs.formula} returns a list containing terms in a given
 formula, handling \code{+} and \code{-} operators and parentheses, and
 keeping track of whether a term has a plus or a minus sign.
 
-\item \code{eval_LHS.formula}: \code{eval_LHS.formula} extracts the LHS of a formula, evaluates it in the formula's environment, and returns the result.
+\item \code{eval_lhs.formula}: \code{eval_lhs.formula} extracts the LHS of a formula, evaluates it in the formula's environment, and returns the result.
 }}
 
 \examples{
@@ -126,5 +126,5 @@ stopifnot(f5 == (~a-b)[[2]])
 stopifnot(f6 == (~-a+b)[[2]])
 }
 
-stopifnot(identical(eval_LHS((2+2)~1),4))
+stopifnot(identical(eval_lhs.formula((2+2)~1),4))
 }
