@@ -63,5 +63,6 @@ paste.and <- function(x, oq='', cq=''){
 #' suppressMessages(message_print(1:5)) # Silenced
 #' @export
 message_print <- function(..., messageArgs=NULL){
+  #' @importFrom utils capture.output
   do.call(message, c(list(paste(capture.output(print(...)),collapse="\n")), messageArgs))
 }

@@ -208,6 +208,9 @@ nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
 #' @describeIn formula.utilities
 #'
 #' \code{term.list.formula} is an older version of \code{list_rhs.formula} that required the RHS call, rather than the formula itself.
+#'
+#' @param rhs,sign Arguments to the deprecated `term.list.formula`.
+#' 
 #' @export
 term.list.formula<-function(rhs, sign=+1){
   .Deprecated("list_rhs.formula")

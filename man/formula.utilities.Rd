@@ -47,6 +47,8 @@ formula the new LHS}
 
 \item{from.new}{logical or character vector of variable names. controls how
 environment of formula gets updated.}
+
+\item{rhs, sign}{Arguments to the deprecated \code{term.list.formula}.}
 }
 \value{
 \code{append_rhs.formula} each return an updated formula
