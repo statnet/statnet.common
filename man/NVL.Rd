@@ -40,7 +40,7 @@ if the first argument is not \code{NULL} and the third argument if the
 first argument is \code{NULL}. The third argument defaults to \code{NULL}, so
 \code{NVL2(a, b)} can serve as shorthand for \code{(if(!is.null(a)) b)}.
 
-\item \code{NVL3}: Inspired by Oracle SQL \code{NVL2} function and \code{magittr} \code{\link{\%>\%}}
+\item \code{NVL3}: Inspired by Oracle SQL \code{NVL2} function and \code{magittr} \code{\%>\%}
 operator, behaves as \code{NVL2} but \code{.}s in the second argument are
 substituted with the first argument.
 

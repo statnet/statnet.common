@@ -238,7 +238,7 @@ NVL2 <- function(test, notnull, null = NULL){
 
 #' @describeIn NVL
 #'
-#' Inspired by Oracle SQL `NVL2` function and `magittr` \code{\link{\%>\%}}
+#' Inspired by Oracle SQL `NVL2` function and `magittr` \code{\%>\%}
 #' operator, behaves as `NVL2` but `.`s in the second argument are
 #' substituted with the first argument.
 #'
