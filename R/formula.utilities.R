@@ -14,7 +14,7 @@
 
 #' Functions for Querying, Validating and Extracting from ERGM Formulas
 #' 
-#' \code{append.rhs.formula} appends a list of terms to the RHS of a
+#' \code{append_rhs.formula} appends a list of terms to the RHS of a
 #' formula. If the formula is one-sided, the RHS becomes the LHS, if
 #' \code{keep.onesided==FALSE} (the default).
 #' 
@@ -27,17 +27,17 @@
 #'   whether to keep it one-sided or whether to make the initial
 #'   formula the new LHS
 #' @param \dots Additional arguments. Currently unused.
-#' @return \code{append.rhs.formula} each return an updated formula
+#' @return \code{append_rhs.formula} each return an updated formula
 #'   object
 #' @examples
 #' 
-#' ## append.rhs.formula
+#' ## append_rhs.formula
 #' 
-#' (f1 <- append.rhs.formula(y~x,list(as.name("z1"),as.name("z2"))))
-#' (f2 <- append.rhs.formula(~y,list(as.name("z"))))
-#' (f3 <- append.rhs.formula(~y+x,structure(list(as.name("z")),sign=-1)))
-#' (f4 <- append.rhs.formula(~y,list(as.name("z")),TRUE))
-#' (f5 <- append.rhs.formula(y~x,~z1-z2))
+#' (f1 <- append_rhs.formula(y~x,list(as.name("z1"),as.name("z2"))))
+#' (f2 <- append_rhs.formula(~y,list(as.name("z"))))
+#' (f3 <- append_rhs.formula(~y+x,structure(list(as.name("z")),sign=-1)))
+#' (f4 <- append_rhs.formula(~y,list(as.name("z")),TRUE))
+#' (f5 <- append_rhs.formula(y~x,~z1-z2))
 #' 
 #' \dontshow{
 #' stopifnot(f1 == (y~x+z1+z2))
@@ -49,7 +49,7 @@
 #'
 #' @export
 #' @rdname formula.utilities
-append.rhs.formula<-function(object,newterms,keep.onesided=FALSE){
+append_rhs.formula<-function(object,newterms,keep.onesided=FALSE){
   if(inherits(newterms,"formula")) newterms <- list_rhs.formula(newterms)
   for(i in seq_along(newterms)){
     newterm <- newterms[[i]]
@@ -59,6 +59,15 @@ append.rhs.formula<-function(object,newterms,keep.onesided=FALSE){
     else object[[3]]<- if(termsign=="+") newterm else call(termsign,newterm)
   }
   object
+}
+
+#' @describeIn formula.utilities
+#' 
+#' \code{append.rhs.formula} has been renamed to \code{append_rhs.formula}.
+#' @export
+append.rhs.formula<-function(object,newterms,keep.onesided=FALSE){
+  .Deprecated("append_rhs.formula")
+  append_rhs.formula(object,newterms,keep.onesided)
 }
 
 #' @describeIn formula.utilities
@@ -121,7 +130,7 @@ delete_term.formula <- function(object, del){
 
 #' @describeIn formula.utilities
 #'
-#' \code{nonsimp.update.formula} is a reimplementation of
+#' \code{nonsimp_update.formula} is a reimplementation of
 #' \code{\link{update.formula}} that does not simplify.  Note that the
 #' resulting formula's environment is set as follows. If
 #' \code{from.new==FALSE}, it is set to that of object. Otherwise, a new
@@ -132,11 +141,11 @@ delete_term.formula <- function(object, del){
 #' @param from.new logical or character vector of variable names. controls how
 #' environment of formula gets updated.
 #' @return 
-#' \code{nonsimp.update.formula} each return an
+#' \code{nonsimp_update.formula} each return an
 #' updated formula object
 #' @importFrom stats as.formula
 #' @export
-nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
+nonsimp_update.formula<-function (object, new, ..., from.new=FALSE){
   old.lhs <- if(length(object)==2) NULL else object[[2]]
   old.rhs <- if(length(object)==2) object[[2]] else object[[3]]
   
@@ -188,16 +197,17 @@ nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
 }
 
 #' @describeIn formula.utilities
+#' 
+#' \code{nonsimp.update.formula} has been renamed to \code{nonsimp_update.formula}.
+#' @export
+nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
+  .Deprecated("nonsimp_update.formula")
+  nonsimp.update.formula(object, new, ..., from.new=from.new)
+}
+
+#' @describeIn formula.utilities
 #'
 #' \code{term.list.formula} is an older version of \code{list_rhs.formula} that required the RHS call, rather than the formula itself.
-#' 
-#' @param rhs a formula-style call containing the right hand side of formula,
-#' obtained by \code{fmla[[3]]} for a two-sided formula and \code{fmla[[2]]}
-#' for a one-sided formula.
-#' @param sign an internal parameter used by \code{term.list.formula} when
-#' calling itself recursively.
-#' @return
-#' \code{terms.list.formula} returns a list of formula terms, with an additional numerical vector attribute \code{"sign"} with of the same length, giving the corresponding term's sign as \code{+1} or \code{-1}.
 #' @export
 term.list.formula<-function(rhs, sign=+1){
   .Deprecated("list_rhs.formula")
