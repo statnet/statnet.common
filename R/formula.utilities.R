@@ -202,7 +202,7 @@ nonsimp_update.formula<-function (object, new, ..., from.new=FALSE){
 #' @export
 nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
   .Deprecated("nonsimp_update.formula")
-  nonsimp.update.formula(object, new, ..., from.new=from.new)
+  nonsimp_update.formula(object, new, ..., from.new=from.new)
 }
 
 #' @describeIn formula.utilities
