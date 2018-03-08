@@ -366,3 +366,24 @@ all_identical <- function(x){
   for(v in x[-1]) if(!identical(v0,v)) return(FALSE)
   return(TRUE)
 }
+
+#' Construct a logical vector with `TRUE` in specified positions.
+#'
+#' This function is basically an inverse of [which()].
+#'
+#' @param which a numeric vector of indices to set to `TRUE`.
+#' @param n total length of the output vector.
+#'
+#' @return A logical vector of length `n` whose elements listed in
+#'   `which` are set to `TRUE`, and all other elements set to `FALSE`.
+#'
+#' @examples
+#'
+#' x <- as.logical(rbinom(10,1,0.5))
+#' stopifnot(all(x == unwhich(which(x), 10)))
+#' @export
+unwhich <- function(which, n){
+  o <- logical(n)
+  if(length(which)) o[which] <- TRUE
+  o
+}
