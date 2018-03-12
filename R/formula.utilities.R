@@ -214,23 +214,23 @@ nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
 
 .recurse_summation <- function(x, sign){
   if(length(x)==1) {out <- list(x); attr(out,"sign")<-sign; out}
-  else if(length(x)==2 && x[[1]]=="+") tlf(x[[2]],sign)
-  else if(length(x)==2 && x[[1]]=="-") tlf(x[[2]],-sign)
+  else if(length(x)==2 && x[[1]]=="+") .recuse_summation(x[[2]],sign)
+  else if(length(x)==2 && x[[1]]=="-") .recuse_summation(x[[2]],-sign)
   else if(length(x)==3 && x[[1]]=="+") {
-    l1 <- tlf(x[[2]],sign)
-    l2 <- tlf(x[[3]],sign)
+    l1 <- .recuse_summation(x[[2]],sign)
+    l2 <- .recuse_summation(x[[3]],sign)
     out <- c(l1, l2)
     attr(out,"sign") <- c(attr(l1,"sign"), attr(l2,"sign"))
     out
   }
   else if(length(x)==3 && x[[1]]=="-"){
-    l1 <- tlf(x[[2]],sign)
-    l2 <- tlf(x[[3]],-sign)
+    l1 <- .recuse_summation(x[[2]],sign)
+    l2 <- .recuse_summation(x[[3]],-sign)
     out <- c(l1, l2)
     attr(out,"sign") <- c(attr(l1,"sign"), attr(l2,"sign"))
     out
   }
-  else if(x[[1]]=="(") tlf(x[[2]], sign)
+  else if(x[[1]]=="(") .recuse_summation(x[[2]], sign)
   else {out <- list(x); attr(out,"sign")<-sign; out}
 }
 
