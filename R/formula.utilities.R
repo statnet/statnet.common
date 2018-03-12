@@ -12,7 +12,14 @@
 ## manipulating ERGM formulas.                                   ##
 ###################################################################
 
-#' Functions for Querying, Validating and Extracting from ERGM Formulas
+#' @title Functions for Querying, Validating and Extracting from Formulas
+#'
+#' A suite of utilities for handling model formulas of the style used in Statnet packages.
+#'
+#' @name formula.utilities
+NULL
+
+#' @describeIn formula.utilities
 #' 
 #' \code{append_rhs.formula} appends a list of terms to the RHS of a
 #' formula. If the formula is one-sided, the RHS becomes the LHS, if
@@ -48,7 +55,6 @@
 #' }
 #'
 #' @export
-#' @rdname formula.utilities
 append_rhs.formula<-function(object,newterms,keep.onesided=FALSE){
   if(inherits(newterms,"formula")) newterms <- list_rhs.formula(newterms)
   for(i in seq_along(newterms)){
@@ -205,6 +211,30 @@ nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
   nonsimp_update.formula(object, new, ..., from.new=from.new)
 }
 
+
+.recurse_summation <- function(x, sign){
+  if(length(x)==1) {out <- list(x); attr(out,"sign")<-sign; out}
+  else if(length(x)==2 && x[[1]]=="+") tlf(x[[2]],sign)
+  else if(length(x)==2 && x[[1]]=="-") tlf(x[[2]],-sign)
+  else if(length(x)==3 && x[[1]]=="+") {
+    l1 <- tlf(x[[2]],sign)
+    l2 <- tlf(x[[3]],sign)
+    out <- c(l1, l2)
+    attr(out,"sign") <- c(attr(l1,"sign"), attr(l2,"sign"))
+    out
+  }
+  else if(length(x)==3 && x[[1]]=="-"){
+    l1 <- tlf(x[[2]],sign)
+    l2 <- tlf(x[[3]],-sign)
+    out <- c(l1, l2)
+    attr(out,"sign") <- c(attr(l1,"sign"), attr(l2,"sign"))
+    out
+  }
+  else if(x[[1]]=="(") tlf(x[[2]], sign)
+  else {out <- list(x); attr(out,"sign")<-sign; out}
+}
+
+
 #' @describeIn formula.utilities
 #'
 #' \code{term.list.formula} is an older version of \code{list_rhs.formula} that required the RHS call, rather than the formula itself.
@@ -214,26 +244,25 @@ nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
 #' @export
 term.list.formula<-function(rhs, sign=+1){
   .Deprecated("list_rhs.formula")
-  if(length(rhs)==1) {out <- list(rhs); attr(out,"sign")<-sign; out}
-  else if(length(rhs)==2 && rhs[[1]]=="+") term.list.formula(rhs[[2]],sign)
-  else if(length(rhs)==2 && rhs[[1]]=="-") term.list.formula(rhs[[2]],-sign)
-  else if(length(rhs)==3 && rhs[[1]]=="+") {
-    l1 <- term.list.formula(rhs[[2]],sign)
-    l2 <- term.list.formula(rhs[[3]],sign)
-    out <- c(l1, l2)
-    attr(out,"sign") <- c(attr(l1,"sign"), attr(l2,"sign"))
-    out
-  }
-  else if(length(rhs)==3 && rhs[[1]]=="-"){
-    l1 <- term.list.formula(rhs[[2]],sign)
-    l2 <- term.list.formula(rhs[[3]],-sign)
-    out <- c(l1, l2)
-    attr(out,"sign") <- c(attr(l1,"sign"), attr(l2,"sign"))
-    out    
-  }
-  else if(rhs[[1]]=="(") term.list.formula(rhs[[2]], sign)
-  else {out <- list(rhs); attr(out,"sign")<-sign; out}
+  .recurse_summation(rhs, sign)
 }
+
+#' @describeIn formula.utilities
+#'
+#' \code{list_summands.call}, given an unevaluated call or expression
+#' containing the sum of one or more terms, returns a list of the
+#' terms being summed, handling \code{+} and \code{-} operators and
+#' parentheses, and keeping track of whether a term has a plus or a
+#' minus sign.
+#'
+#' @return \code{list_summands.call} returns a list of unevaluated calls, with an additional numerical vector attribute \code{"sign"} with of the same length, giving the corresponding term's sign as \code{+1} or \code{-1}.
+#' 
+#' @export
+
+list_summands.call<-function(object){
+  .recurse_summation(object, sign=+1)
+}
+
 
 #' @describeIn formula.utilities
 #'
@@ -248,29 +277,7 @@ list_rhs.formula<-function(object){
   if (!is(object, "formula"))
     stop("Invalid formula of class ",sQuote(class(object)),".")
   
-  tlf <- function(rhs, sign){
-    if(length(rhs)==1) {out <- list(rhs); attr(out,"sign")<-sign; out}
-    else if(length(rhs)==2 && rhs[[1]]=="+") tlf(rhs[[2]],sign)
-    else if(length(rhs)==2 && rhs[[1]]=="-") tlf(rhs[[2]],-sign)
-    else if(length(rhs)==3 && rhs[[1]]=="+") {
-      l1 <- tlf(rhs[[2]],sign)
-      l2 <- tlf(rhs[[3]],sign)
-      out <- c(l1, l2)
-      attr(out,"sign") <- c(attr(l1,"sign"), attr(l2,"sign"))
-      out
-    }
-    else if(length(rhs)==3 && rhs[[1]]=="-"){
-      l1 <- tlf(rhs[[2]],sign)
-      l2 <- tlf(rhs[[3]],-sign)
-      out <- c(l1, l2)
-      attr(out,"sign") <- c(attr(l1,"sign"), attr(l2,"sign"))
-      out
-    }
-    else if(rhs[[1]]=="(") tlf(rhs[[2]], sign)
-    else {out <- list(rhs); attr(out,"sign")<-sign; out}
-  }
-
-  tlf(object[[length(object)]], sign=+1)
+  .recurse_summation(object[[length(object)]], sign=+1)
 }
 
 
@@ -281,7 +288,11 @@ list_rhs.formula<-function(object){
 #' @return
 #' \code{eval_lhs.formula} an object of whatever type the LHS evaluates to.
 #' @examples
-#' stopifnot(identical(eval_lhs.formula((2+2)~1),4))
+#' ## eval_lhs.formula
+#' 
+#' (result <- eval_lhs.formula((2+2)~1))
+#'
+#' stopifnot(identical(result,4))
 #' @export
 eval_lhs.formula <- function(object){
   if (!is(object, "formula"))
