@@ -93,9 +93,8 @@ append.rhs.formula<-function(object,newterms,keep.onesided=FALSE){
 #' (f5 <- filter_rhs.formula(~a-b+c, `!=`, "c"))
 #' (f6 <- filter_rhs.formula(~-a+b-c, `!=`, "c"))
 #' (f7 <- filter_rhs.formula(~c-a+b-c(a),
-#'                           function(x)
-#'                             if(is.call(x)) x[[1]]!="c"
-#'                             else x!="c"))
+#'                           function(x) (if(is.call(x)) x[[1]] else x)!="c"))
+#' 
 #'
 #' \dontshow{
 #' stopifnot(f1 == ~-b+c)
