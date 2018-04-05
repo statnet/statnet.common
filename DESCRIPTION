@@ -1,6 +1,6 @@
 Package: statnet.common
-Version: 4.1.0-161
-Date: 2018-03-12
+Version: 4.1.0-162
+Date: 2018-04-05
 Title: Common R Scripts and Utilities Used by the Statnet Project Software
 Authors@R: c(
 	person("Pavel N.", "Krivitsky", role=c("aut","cre"), email="pavel@uow.edu.au"),

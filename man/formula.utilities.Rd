@@ -4,7 +4,7 @@
 \alias{formula.utilities}
 \alias{append_rhs.formula}
 \alias{append.rhs.formula}
-\alias{delete_term.formula}
+\alias{filter_rhs.formula}
 \alias{nonsimp_update.formula}
 \alias{nonsimp.update.formula}
 \alias{term.list.formula}
@@ -19,7 +19,7 @@ append_rhs.formula(object, newterms, keep.onesided = FALSE)
 
 append.rhs.formula(object, newterms, keep.onesided = FALSE)
 
-delete_term.formula(object, del)
+filter_rhs.formula(object, f, ...)
 
 nonsimp_update.formula(object, new, ..., from.new = FALSE)
 
@@ -45,11 +45,13 @@ of each term (\code{+1} or \code{-1}).}
 whether to keep it one-sided or whether to make the initial
 formula the new LHS}
 
-\item{del}{a character string giving the name of the term to be deleted.}
-
-\item{new}{new formula to be used in updating}
+\item{f}{a function whose first argument is the term and whose
+additional arguments are forwarded from \code{...} that returns either
+\code{TRUE} or \code{FALSE}, for whether that term should be kept.}
 
 \item{\dots}{Additional arguments. Currently unused.}
+
+\item{new}{new formula to be used in updating}
 
 \item{from.new}{logical or character vector of variable names. controls how
 environment of formula gets updated.}
@@ -82,10 +84,10 @@ formula. If the formula is one-sided, the RHS becomes the LHS, if
 
 \item \code{append.rhs.formula}: \code{append.rhs.formula} has been renamed to \code{append_rhs.formula}.
 
-\item \code{delete_term.formula}: \code{delete_term.rhs.formula} returns an RHS of a formula without
-the term (including a call) with specified name. Terms inside
-another term (e.g., parentheses or an operator other than + or -)
-will be unaffected.
+\item \code{filter_rhs.formula}: \code{filter_rhs.formula} filters through the terms in the RHS of a
+formula, returning a formula without the terms for which function
+\code{f(term, ...)} is \code{FALSE}. Terms inside another term (e.g.,
+parentheses or an operator other than + or -) will be unaffected.
 
 \item \code{nonsimp_update.formula}: \code{nonsimp_update.formula} is a reimplementation of
 \code{\link{update.formula}} that does not simplify.  Note that the
@@ -129,22 +131,26 @@ stopifnot(f4 == (~y+z))
 stopifnot(f5 == (y~x+z1-z2))
 }
 
-## delete_term.formula
-
-(f1 <- delete_term.formula((~a-b+c)[[2]], "a"))
-(f2 <- delete_term.formula((~-a+b-c)[[2]], "a"))
-(f3 <- delete_term.formula((~a-b+c)[[2]], "b"))
-(f4 <- delete_term.formula((~-a+b-c)[[2]], "b"))
-(f5 <- delete_term.formula((~a-b+c)[[2]], "c"))
-(f6 <- delete_term.formula((~-a+b-c)[[2]], "c"))
+## filter_rhs.formula
+(f1 <- filter_rhs.formula(~a-b+c, `!=`, "a"))
+(f2 <- filter_rhs.formula(~-a+b-c, `!=`, "a"))
+(f3 <- filter_rhs.formula(~a-b+c, `!=`, "b"))
+(f4 <- filter_rhs.formula(~-a+b-c, `!=`, "b"))
+(f5 <- filter_rhs.formula(~a-b+c, `!=`, "c"))
+(f6 <- filter_rhs.formula(~-a+b-c, `!=`, "c"))
+(f7 <- filter_rhs.formula(~c-a+b-c(a),
+                          function(x)
+                            if(is.call(x)) x[[1]]!="c"
+                            else x!="c"))
 
 \dontshow{
-stopifnot(f1 == (~-b+c)[[2]])
-stopifnot(f2 == (~b-c)[[2]])
-stopifnot(f3 == (~a+c)[[2]])
-stopifnot(f4 == (~-a-c)[[2]])
-stopifnot(f5 == (~a-b)[[2]])
-stopifnot(f6 == (~-a+b)[[2]])
+stopifnot(f1 == ~-b+c)
+stopifnot(f2 == ~b-c)
+stopifnot(f3 == ~a+c)
+stopifnot(f4 == ~-a-c)
+stopifnot(f5 == ~a-b)
+stopifnot(f6 == ~-a+b)
+stopifnot(f7 == ~-a+b)
 }
 
 ## eval_lhs.formula

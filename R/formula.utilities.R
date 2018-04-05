@@ -78,39 +78,46 @@ append.rhs.formula<-function(object,newterms,keep.onesided=FALSE){
 
 #' @describeIn formula.utilities
 #'
-#' \code{delete_term.rhs.formula} returns an RHS of a formula without
-#' the term (including a call) with specified name. Terms inside
-#' another term (e.g., parentheses or an operator other than + or -)
-#' will be unaffected.
+#' \code{filter_rhs.formula} filters through the terms in the RHS of a
+#' formula, returning a formula without the terms for which function
+#' `f(term, ...)` is `FALSE`. Terms inside another term (e.g.,
+#' parentheses or an operator other than + or -) will be unaffected.
 #'
 #'
 #' @examples
-#' ## delete_term.formula
-#'
-#' (f1 <- delete_term.formula((~a-b+c)[[2]], "a"))
-#' (f2 <- delete_term.formula((~-a+b-c)[[2]], "a"))
-#' (f3 <- delete_term.formula((~a-b+c)[[2]], "b"))
-#' (f4 <- delete_term.formula((~-a+b-c)[[2]], "b"))
-#' (f5 <- delete_term.formula((~a-b+c)[[2]], "c"))
-#' (f6 <- delete_term.formula((~-a+b-c)[[2]], "c"))
+#' ## filter_rhs.formula
+#' (f1 <- filter_rhs.formula(~a-b+c, `!=`, "a"))
+#' (f2 <- filter_rhs.formula(~-a+b-c, `!=`, "a"))
+#' (f3 <- filter_rhs.formula(~a-b+c, `!=`, "b"))
+#' (f4 <- filter_rhs.formula(~-a+b-c, `!=`, "b"))
+#' (f5 <- filter_rhs.formula(~a-b+c, `!=`, "c"))
+#' (f6 <- filter_rhs.formula(~-a+b-c, `!=`, "c"))
+#' (f7 <- filter_rhs.formula(~c-a+b-c(a),
+#'                           function(x)
+#'                             if(is.call(x)) x[[1]]!="c"
+#'                             else x!="c"))
 #'
 #' \dontshow{
-#' stopifnot(f1 == (~-b+c)[[2]])
-#' stopifnot(f2 == (~b-c)[[2]])
-#' stopifnot(f3 == (~a+c)[[2]])
-#' stopifnot(f4 == (~-a-c)[[2]])
-#' stopifnot(f5 == (~a-b)[[2]])
-#' stopifnot(f6 == (~-a+b)[[2]])
+#' stopifnot(f1 == ~-b+c)
+#' stopifnot(f2 == ~b-c)
+#' stopifnot(f3 == ~a+c)
+#' stopifnot(f4 == ~-a-c)
+#' stopifnot(f5 == ~a-b)
+#' stopifnot(f6 == ~-a+b)
+#' stopifnot(f7 == ~-a+b)
 #' }
 #'
-#' @param del a character string giving the name of the term to be deleted.
+#' @param f a function whose first argument is the term and whose
+#'   additional arguments are forwarded from `...` that returns either
+#'   `TRUE` or `FALSE`, for whether that term should be kept.
 #' @export
-delete_term.formula <- function(object, del){
+filter_rhs.formula <- function(object, f, ...){
+  rhs <- object[[length(object)]]
   SnD <- function(x){
+    if(!f(x, ...)) return(NULL)
     if(is(x, "call")){
       op <- x[[1]]
-      if(as.character(op)==del) return(NULL)
-      else if(! as.character(op)%in%c("+","-")) return(x)
+      if(! as.character(op)%in%c("+","-")) return(x)
       else if(length(x)==2){
         arg <- SnD(x[[2]])
         if(is.null(arg)) return(NULL)
@@ -125,14 +132,14 @@ delete_term.formula <- function(object, del){
         }
         else return(call(as.character(op), arg1, arg2))
       }else stop("Unsupported type of formula passed.")
-    }else{
-      if(as.character(x)==del) return(NULL)
-      else return(x)
-    }
+    }else return(x)
   }
 
-  SnD(object)
+  rhs <- SnD(rhs)
+  object[[length(object)]] <- rhs
+  object
 }
+
 
 #' @describeIn formula.utilities
 #'
