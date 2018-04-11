@@ -1,12 +1,13 @@
 Package: statnet.common
-Version: 4.1.0-163
-Date: 2018-04-05
+Version: 4.1.0-164
+Date: 2018-04-11
 Title: Common R Scripts and Utilities Used by the Statnet Project Software
 Authors@R: c(
 	person("Pavel N.", "Krivitsky", role=c("aut","cre"), email="pavel@uow.edu.au"),
 	person("Skye", "Bender-deMoll", role=c("ctb"), email="skyebend@uw.edu"))
 Description: Non-statistical utilities used by the software developed by the Statnet Project. They may also be of use to others.
-Imports: utils, methods
+Imports: utils, methods, coda
+Ehnances: coda
 BugReports: https://github.com/statnet/statnet.common/issues
 License: GPL-3 + file LICENSE
 URL: http://www.statnet.org
