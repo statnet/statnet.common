@@ -24,7 +24,9 @@
 \alias{<=.rle}
 \alias{>=.rle}
 \alias{sum.rle}
+\alias{mean.rle}
 \alias{length.rle}
+\alias{is.na.rle}
 \alias{rep.rle}
 \title{RLE utilities}
 \usage{
@@ -72,7 +74,11 @@ compact.rle(x)
 
 \method{sum}{rle}(..., na.rm = FALSE)
 
+\method{mean}{rle}(x, na.rm = FALSE, ...)
+
 \method{length}{rle}(x)
+
+\method{is.na}{rle}(x)
 
 \method{rep}{rle}(x, ..., scale = c("element", "run"), doNotCompact = FALSE)
 }
@@ -188,8 +194,17 @@ stopifnot(sum(inverse.rle(x))==sum(x))
 stopifnot(sum(inverse.rle(y))==sum(y))
 
 
+stopifnot(mean(inverse.rle(x))==mean(x))
+stopifnot(mean(inverse.rle(y))==mean(y))
+
+
 stopifnot(length(inverse.rle(x))==length(x))
 stopifnot(length(inverse.rle(y))==length(y))
+
+x$values[1] <- NA
+y$values[1] <- NA
+stopifnot(is.na(inverse.rle(x))==inverse.rle(is.na(x)))
+stopifnot(is.na(inverse.rle(y))==inverse.rle(is.na(y)))
 
 
 x <- rle(sample(c(-1,+1), 10, c(.7,.3), replace=TRUE))

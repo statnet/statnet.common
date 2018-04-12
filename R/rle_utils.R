@@ -336,6 +336,21 @@ sum.rle <- function(..., na.rm = FALSE){
   }
 }
 
+
+
+#' @rdname rle.utils
+#'
+#' @examples
+#' 
+#' stopifnot(mean(inverse.rle(x))==mean(x))
+#' stopifnot(mean(inverse.rle(y))==mean(y))
+#' 
+#' @export
+mean.rle <- function(x, na.rm = FALSE, ...){
+  if(na.rm) sum(x$values*as.numeric(x$lengths), na.rm = TRUE, ...)/sum(!is.na(x))
+  else sum(x$values*as.numeric(x$lengths), na.rm = FALSE, ...)/length(x)
+}
+
 #' @rdname rle.utils
 #'
 #' @note The [length()] method returns the length of the vector
@@ -350,6 +365,20 @@ sum.rle <- function(..., na.rm = FALSE){
 #' @export
 length.rle <- function(x){
   sum(as.numeric(x$lengths))
+}
+
+#' @rdname rle.utils
+#'
+#' @examples
+#' x$values[1] <- NA
+#' y$values[1] <- NA
+#' stopifnot(is.na(inverse.rle(x))==inverse.rle(is.na(x)))
+#' stopifnot(is.na(inverse.rle(y))==inverse.rle(is.na(y)))
+#' 
+#' @export
+is.na.rle <- function(x){
+  x$values <- is.na(x$values)
+  x
 }
 
 #' @rdname rle.utils
