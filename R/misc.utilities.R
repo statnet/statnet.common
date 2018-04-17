@@ -295,6 +295,10 @@ NVL3 <- function(test, notnull, null = NULL){
 #'   stop("Error!"))` will never evaluate the [stop()] call and will
 #'   not produce an error, whereas `ERRVL(try(solve(0)),
 #'   stop("Error!"))` would.
+#'
+#' In addition, all expressions after the first may contain a `.`,
+#' which is substituted with the `try-error` object returned by the
+#' previous expression.
 #' 
 #' @seealso \code{\link[base]{try}}, \code{\link[base]{inherits}}
 #' @keywords utilities
@@ -304,12 +308,14 @@ NVL3 <- function(test, notnull, null = NULL){
 #' print(ERRVL(try(solve(0)),2,3)) # 2
 #' print(ERRVL(1, stop("Error!"))) # No error
 #' \dontrun{
-#' print(ERRVL(try(solve(0)), stop("Error!"))) # Error
+#' print(ERRVL(try(solve(0), silent=TRUE), stop("Error!"))) # Error
+#' print(ERRVL(try(solve(0), silent=TRUE), stop("Stopped with an error: ", .))) # Error with an elaborate message.
 #' }
 #' @export
 ERRVL <- function(...){
+  x <- NULL
   for(e in eval(substitute(alist(...)))){ # Lazy evaluate. (See http://adv-r.had.co.nz/Computing-on-the-language.html .)
-    x <- eval(e, parent.frame())
+    x <- eval(if(inherits(x, "try-error")) do.call(substitute, list(e, list(.=x))) else e, parent.frame())
     if(!inherits(x, "try-error")) return(x)
   }
   stop("No non-error expressions passed.")

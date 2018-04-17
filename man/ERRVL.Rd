@@ -23,6 +23,10 @@ are \code{try-error}s.
 \note{
 This function uses lazy evaluation, so, for example \code{ERRVL(1, stop("Error!"))} will never evaluate the \code{\link[=stop]{stop()}} call and will
 not produce an error, whereas \code{ERRVL(try(solve(0)), stop("Error!"))} would.
+
+In addition, all expressions after the first may contain a \code{.},
+which is substituted with the \code{try-error} object returned by the
+previous expression.
 }
 \examples{
 
@@ -30,7 +34,8 @@ print(ERRVL(1,2,3)) # 1
 print(ERRVL(try(solve(0)),2,3)) # 2
 print(ERRVL(1, stop("Error!"))) # No error
 \dontrun{
-print(ERRVL(try(solve(0)), stop("Error!"))) # Error
+print(ERRVL(try(solve(0), silent=TRUE), stop("Error!"))) # Error
+print(ERRVL(try(solve(0), silent=TRUE), stop("Stopped with an error: ", .))) # Error with an elaborate message.
 }
 }
 \seealso{
