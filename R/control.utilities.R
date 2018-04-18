@@ -88,7 +88,7 @@ print.control.list <- function(x, ...){
   for(name in names(x)){
     if(!is.null(x[[name]])){
       cat(name,": ",sep="")
-      if(is.list(x[[name]])) print(x[[name]]) else cat(x[[name]],"\n")
+      if(is.list(x[[name]])) print(x[[name]]) else cat(paste(deparse(x[[name]]), collapse=" "),"\n")
     }
   }
 }
