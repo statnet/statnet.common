@@ -66,3 +66,10 @@ message_print <- function(..., messageArgs=NULL){
   #' @importFrom utils capture.output
   do.call(message, c(list(paste(capture.output(print(...)),collapse="\n")), messageArgs))
 }
+
+#' A one-line function to strip whitespace from its argument.
+#' @param s a character vector.
+#' @examples
+#' stopifnot(despace("\n \t  ")=="")
+#' @export
+despace <- function(s) gsub("[[:space:]]", "", s)
