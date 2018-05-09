@@ -3,9 +3,9 @@
 \name{paste.and}
 \alias{paste.and}
 \title{Concatenates the elements of a vector (optionaly enclosing them in quotation
-marks or parentheses) adding appropriate punctuation and unions.}
+marks or parentheses) adding appropriate punctuation and conjunctions.}
 \usage{
-paste.and(x, oq = "", cq = "")
+paste.and(x, oq = "", cq = "", con = "and")
 }
 \arguments{
 \item{x}{A vector.}
@@ -13,6 +13,8 @@ paste.and(x, oq = "", cq = "")
 \item{oq}{Opening quotation symbol. (Defaults to none.)}
 
 \item{cq}{Closing quotation symbol. (Defaults to none.)}
+
+\item{con}{Conjunction to be used if \code{length(x)>1}. (Defaults to "and".)}
 }
 \value{
 A string with the output.
@@ -32,7 +34,7 @@ print(paste.and(1:2))
 
 print(paste.and(1:3))
 
-print(paste.and(1:4))
+print(paste.and(1:4,con='or'))
 }
 \seealso{
 paste, cat
