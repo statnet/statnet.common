@@ -6,3 +6,4 @@ appveyor.yml
 .RData
 .Rhistory
 ^revdep/
+^codecov\.yml$
