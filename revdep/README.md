@@ -2,7 +2,7 @@
 
 |field    |value                                              |
 |:--------|:--------------------------------------------------|
-|version  |R Under development (unstable) (2018-05-28 r74790) |
+|version  |R Under development (unstable) (2018-05-29 r74800) |
 |os       |Debian GNU/Linux buster/sid                        |
 |system   |x86_64, linux-gnu                                  |
 |ui       |X11                                                |
@@ -19,19 +19,13 @@
 
 # Revdeps
 
-## Couldn't check (1)
-
-|package |version |error |warning |note |
-|:-------|:-------|:-----|:-------|:----|
-|broom   |?       |      |        |     |
-
 ## All (19)
 
 |package        |version  |error |warning |note |
 |:--------------|:--------|:-----|:-------|:----|
 |Blaunet        |2.0.7    |      |        |     |
 |blkergm        |1.1      |      |        |     |
-|broom          |?        |      |        |     |
+|broom          |0.4.4    |      |        |     |
 |btergm         |1.9.1    |      |        |     |
 |ergm           |3.8.0    |      |        |     |
 |ergm.count     |3.2.2    |      |        |     |
