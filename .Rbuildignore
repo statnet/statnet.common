@@ -5,3 +5,4 @@ appveyor.yml
 .RSession
 .RData
 .Rhistory
+^revdep/
