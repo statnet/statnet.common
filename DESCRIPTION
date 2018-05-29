@@ -7,7 +7,7 @@ Authors@R: c(
 	person("Skye", "Bender-deMoll", role=c("ctb"), email="skyebend@uw.edu"))
 Description: Non-statistical utilities used by the software developed by the Statnet Project. They may also be of use to others.
 Imports: utils, methods, coda
-Ehnances: coda
+Enhances: coda
 BugReports: https://github.com/statnet/statnet.common/issues
 License: GPL-3 + file LICENSE
 URL: http://www.statnet.org

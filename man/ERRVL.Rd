@@ -33,9 +33,15 @@ previous expression.
 print(ERRVL(1,2,3)) # 1
 print(ERRVL(try(solve(0)),2,3)) # 2
 print(ERRVL(1, stop("Error!"))) # No error
+
 \dontrun{
-print(ERRVL(try(solve(0), silent=TRUE), stop("Error!"))) # Error
-print(ERRVL(try(solve(0), silent=TRUE), stop("Stopped with an error: ", .))) # Error with an elaborate message.
+# Error:
+print(ERRVL(try(solve(0), silent=TRUE),
+            stop("Error!")))
+
+# Error with an elaborate message:
+print(ERRVL(try(solve(0), silent=TRUE),
+            stop("Stopped with an error: ", .)))
 }
 }
 \seealso{
