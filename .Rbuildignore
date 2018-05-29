@@ -7,3 +7,4 @@ appveyor.yml
 .Rhistory
 ^revdep/
 ^codecov\.yml$
+^revdep$
