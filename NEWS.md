@@ -1,3 +1,39 @@
+# statnet.common 4.1.0
+
+## New utilities
+
+* `despace()` removes whitespace from a string.
+
+* Pseudo-methods `colMeans.mcmc.list()`, `sweep.mcmc.list()`, and `lapply.mcmc.list()` (migrated from the `ergm` package).
+
+* `filter_rhs.formula()` selectively deletes terms in on the RHS of a formula.
+
+* `eval_lhs.formula()` extracts the LHS of the formula and evaluates it in the specified environment.
+
+* `NVL2()` and `NVL3()` for flexible substitution of null values.
+
+* `message_print()` formats the arguments as if for `print()` or `show()` method, but then removes the 
+
+## Enhancements to existing utilities
+
+* `paste.and()` now takes an additional `con=` argument, allowing a conjunction other than "and" to be used.
+
+* `ERRVL()` now uses lazy evaluation and lets the user dot-substitute the previous argument's try-error into the next argument.
+
+
+## Bug fixes
+
+* Printing for control lists now works for function arguments.
+
+* A number of improvements to `rle` methods.
+
+## Miscellaneous
+
+* A number of functions have been renamed for consistency:
+    * `term.list.formula()` →  `list_rhs.formula()`
+    * `append.rhs.formula()` →  `append_rhs.formula()`
+    * `nonsimp.update.formula()` →  `nonsimp_update.formula()`
+
 # statnet.common 4.0.0
 * The package now uses `Roxygen` for documentation.
 
