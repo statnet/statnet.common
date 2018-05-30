@@ -19,7 +19,11 @@ statnet.cite.foot <- function(pkg){
 }
 
 # generates a consistent bibentry citation for the software manual of the package
-statnet.cite.pkg <- function(pkg){
+statnet.cite.pkg <- function(pkg=NULL){
+  if(!is.null(pkg)){
+    meta <- try(utils::packageDescription(pkg))
+    if(inherits(meta,"try-error") || is.na(meta)) return()
+  }
   # the 'meta' variable is provided by R's CITATION processing script
   projhomepage <- "http://www.statnet.org"
   # compute the list of authors  
