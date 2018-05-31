@@ -16,7 +16,7 @@ A logical vector of length \code{n} whose elements listed in
 \code{which} are set to \code{TRUE}, and all other elements set to \code{FALSE}.
 }
 \description{
-This function is basically an inverse of \code{\link[=which]{which()}}.
+This function is basically an inverse of \code{\link{which}}.
 }
 \examples{
 

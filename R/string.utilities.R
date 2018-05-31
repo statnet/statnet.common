@@ -46,13 +46,13 @@ paste.and <- function(x, oq='', cq='', con='and'){
 }
 
 
-#' [print()] objects to the [message()] output.
+#' [`print`] objects to the [`message`] output.
 #'
-#' A thin wrapper around [print()] that captures its output and prints
-#' it as a [message()], usually to STDERR.
+#' A thin wrapper around [`print`] that captures its output and prints
+#' it as a [`message`], usually to STDERR.
 #'
-#' @param ... arguments to [print()].
-#' @param messageArgs a list of arguments to be passed directly to [message()].
+#' @param ... arguments to [`print`].
+#' @param messageArgs a list of arguments to be passed directly to [`message`].
 #'
 #' @examples
 #' cat(1:5)

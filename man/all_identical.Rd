@@ -22,5 +22,5 @@ stopifnot(!all_identical(1:3))
 stopifnot(all_identical(list("a", "a", "a")))
 }
 \seealso{
-\code{\link[base:identical]{base::identical()}}
+\code{\link{identical}}
 }

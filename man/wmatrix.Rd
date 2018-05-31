@@ -70,7 +70,7 @@ as.logwmatrix(x, ...)
 \method{[}{wmatrix}(x, i, j, ...) <- value
 }
 \arguments{
-\item{data, nrow, ncol, byrow, dimnames}{passed to \code{\link[=matrix]{matrix()}}.}
+\item{data, nrow, ncol, byrow, dimnames}{passed to \code{\link{matrix}}.}
 
 \item{w}{row weights on the appropriate scale.}
 
@@ -78,17 +78,17 @@ as.logwmatrix(x, ...)
 
 \item{...}{extra arguments, currently unused.}
 
-\item{target.nrows}{see \code{\link[=decompress_rows]{decompress_rows()}}.}
+\item{target.nrows}{see \code{\link{decompress_rows}}.}
 
 \item{i, j, value}{rows and columns and values for extraction or
-replacement; as \code{\link[=matrix]{matrix()}}.}
+replacement; as \code{\link{matrix}}.}
 
 \item{drop}{Used for consistency with the generic. Ignored, and
 always treated as \code{FALSE}.}
 }
 \value{
 An object of class \code{linwmatrix}/\code{logwmatrix} and \code{wmatrix},
-which is a \code{\link[=matrix]{matrix()}} but also has an attribute \code{w} containing
+which is a \code{\link{matrix}} but also has an attribute \code{w} containing
 row weights on the linear or the natural-log-transformed scale.
 }
 \description{
@@ -127,5 +127,5 @@ stopifnot(all.equal(rowweights(compress_rows(as.logwmatrix(m))),
                     rowweights(as.logwmatrix(m3)),check.attributes=FALSE))
 }
 \seealso{
-\code{\link[=rowweights]{rowweights()}}, \code{\link[=lrowweights]{lrowweights()}}, \code{\link[=compress_rows]{compress_rows()}}
+\code{\link{rowweights}}, \code{\link{lrowweights}}, \code{\link{compress_rows}}
 }

@@ -174,7 +174,7 @@ sort.data.frame<-function(x, decreasing=FALSE, ...){
 #'
 #' @note Whenever possible, these functions use lazy evaluation, so,
 #'   for example `NVL(1, stop("Error!"))` will never evaluate the
-#'   [stop()] call and will not produce an error, whereas `NVL(NULL, stop("Error!"))` would.
+#'   [`stop`] call and will not produce an error, whereas `NVL(NULL, stop("Error!"))` would.
 #'
 #' @seealso [`NULL`], \code{\link[base]{is.null}}, \code{\link[base]{if}}
 #' @keywords utilities
@@ -292,7 +292,7 @@ NVL3 <- function(test, notnull, null = NULL){
 #' @return The first argument that is not a \code{try-error}. Stops
 #'   with an error if all are.
 #' @note This function uses lazy evaluation, so, for example `ERRVL(1,
-#'   stop("Error!"))` will never evaluate the [stop()] call and will
+#'   stop("Error!"))` will never evaluate the [`stop`] call and will
 #'   not produce an error, whereas `ERRVL(try(solve(0)),
 #'   stop("Error!"))` would.
 #'
@@ -364,7 +364,7 @@ opttest <- function(expr, testname=NULL, testvar="ENABLE_statnet_TESTS", yesvals
 #'
 #' @return `TRUE` if all elements of `x` are identical to each other.
 #'
-#' @seealso [base::identical()]
+#' @seealso [`identical`]
 #'
 #' @examples
 #'
@@ -381,7 +381,7 @@ all_identical <- function(x){
 
 #' Construct a logical vector with `TRUE` in specified positions.
 #'
-#' This function is basically an inverse of [which()].
+#' This function is basically an inverse of [`which`].
 #'
 #' @param which a numeric vector of indices to set to `TRUE`.
 #' @param n total length of the output vector.

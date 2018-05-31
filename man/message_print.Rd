@@ -2,18 +2,18 @@
 % Please edit documentation in R/string.utilities.R
 \name{message_print}
 \alias{message_print}
-\title{\code{\link[=print]{print()}} objects to the \code{\link[=message]{message()}} output.}
+\title{\code{\link{print}} objects to the \code{\link{message}} output.}
 \usage{
 message_print(..., messageArgs = NULL)
 }
 \arguments{
-\item{...}{arguments to \code{\link[=print]{print()}}.}
+\item{...}{arguments to \code{\link{print}}.}
 
-\item{messageArgs}{a list of arguments to be passed directly to \code{\link[=message]{message()}}.}
+\item{messageArgs}{a list of arguments to be passed directly to \code{\link{message}}.}
 }
 \description{
-A thin wrapper around \code{\link[=print]{print()}} that captures its output and prints
-it as a \code{\link[=message]{message()}}, usually to STDERR.
+A thin wrapper around \code{\link{print}} that captures its output and prints
+it as a \code{\link{message}}, usually to STDERR.
 }
 \examples{
 cat(1:5)
