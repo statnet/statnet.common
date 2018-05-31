@@ -43,15 +43,15 @@
 #'   and outputs a vector of the same length.
 #' 
 #' @param ... For `c`, objects to be concatenated. The first object
-#'   must be of class [rle()]. For `rep`, see documentation for
-#'   [rep()]. For `sum`, objects to be summed.
+#'   must be of class [`rle`]. For `rep`, see documentation for
+#'   [`rep`]. For `sum`, objects to be summed.
 #' 
 #' @name rle.utils
 #'
-#' @return Unless otherwise stated, all functions return an [rle()]
+#' @return Unless otherwise stated, all functions return an [`rle`]
 #'   object. By default, the functions and the operators do not merge
 #'   adjacent runs with the same value. This must be done explicitly
-#'   with [compact.rle()].
+#'   with [`compact.rle`].
 #' 
 #' @examples
 #'
@@ -90,7 +90,7 @@ c.rle <- function(...){
 #' @describeIn rle.utils
 #'
 #' Perform an arbitrary binary operation on the pair of vectors
-#' represented by the [rle()] objects.
+#' represented by the [`rle`] objects.
 #' 
 #' @export
 binop.rle <- function(e1, e2, FUN){
@@ -122,9 +122,9 @@ binop.rle <- function(e1, e2, FUN){
 
 #' @describeIn rle.utils
 #'
-#' Compact the [rle()] object by merging adjacent runs.
+#' Compact the [`rle`] object by merging adjacent runs.
 #'
-#' @note Since [rle()] stores run lengths as integers, [compact.rle()]
+#' @note Since [`rle`] stores run lengths as integers, [`compact.rle`]
 #'   will not merge runs that add up to lengths greater than what can
 #'   be represented by a 32-bit signed integer
 #'   (\Sexpr{.Machine$integer.max}).
@@ -159,9 +159,9 @@ compact.rle <- function(x){
 
 #' @rdname rle.utils
 #' 
-#' @param na.rm see documentation for [any()], [all()], and [sum()].
+#' @param na.rm see documentation for [`any`], [`all`], and [`sum`].
 #'
-#' @return [any()], [all()], [sum()], and [length()] return logical, logical, numeric, and numeric vectors, respectively.
+#' @return [`any`], [`all`], [`sum`], and [`length`] return logical, logical, numeric, and numeric vectors, respectively.
 #' 
 #' @examples
 #'
@@ -353,7 +353,7 @@ mean.rle <- function(x, na.rm = FALSE, ...){
 
 #' @rdname rle.utils
 #'
-#' @note The [length()] method returns the length of the vector
+#' @note The [`length`] method returns the length of the vector
 #'   represented by the object, obtained by summing the lengths of
 #'   individual runs.
 #'
@@ -386,11 +386,11 @@ is.na.rle <- function(x){
 #' @param scale whether to replicate the elements of the
 #'   RLE-compressed vector or the runs.
 #'
-#' @param doNotCompact whether the method should call [compact.rle()]
+#' @param doNotCompact whether the method should call [`compact.rle`]
 #'   the results before returning. Methods liable to produce very long
-#'   output vectors, like [rep()], have this set `FALSE` by default.
+#'   output vectors, like [`rep`], have this set `FALSE` by default.
 #' 
-#' @note The [rep()] method for [rle()] objects is very limited at
+#' @note The [`rep`] method for [`rle`] objects is very limited at
 #'   this time. Even though the default setting is to replicate
 #'   elements of the vector, only the run-replicating functionality is
 #'   implemented at this time except for the simplest case (scalar
@@ -432,7 +432,7 @@ rep.rle <- function(x, ..., scale = c("element", "run"), doNotCompact = FALSE){
   if(doNotCompact) x else compact.rle(x)
 }
 
-#' Coerce to [rle()] if not already an [rle()] object.
+#' Coerce to [`rle`] if not already an [`rle`] object.
 #'
 #' @param x the object to be coerced.
 #' 

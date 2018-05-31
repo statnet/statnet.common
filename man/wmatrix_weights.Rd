@@ -47,8 +47,8 @@ lrowweights(x, ...) <- value
 \method{lrowweights}{matrix}(x, ...) <- value
 }
 \arguments{
-\item{x}{a \code{\link[=linwmatrix]{linwmatrix()}}, a \code{\link[=logwmatrix]{logwmatrix()}}, or a \code{\link[=matrix]{matrix()}}; a
-\code{\link[=matrix]{matrix()}} is coerced to a weighted matrix of an appropriate
+\item{x}{a \code{\link{linwmatrix}}, a \code{\link{logwmatrix}}, or a \code{\link{matrix}}; a
+\code{\link{matrix}} is coerced to a weighted matrix of an appropriate
 type.}
 
 \item{...}{extra arguments for methods.}

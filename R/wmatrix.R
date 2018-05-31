@@ -14,11 +14,11 @@
 #' scale.
 #'
 #' @param x an object to be coerced or tested.
-#' @param data,nrow,ncol,byrow,dimnames passed to [matrix()].
+#' @param data,nrow,ncol,byrow,dimnames passed to [`matrix`].
 #' @param w row weights on the appropriate scale.
-#' @param target.nrows see [decompress_rows()].
+#' @param target.nrows see [`decompress_rows`].
 #' @param i,j,value rows and columns and values for extraction or
-#'   replacement; as [matrix()].
+#'   replacement; as [`matrix`].
 #' @param drop Used for consistency with the generic. Ignored, and
 #'   always treated as `FALSE`.
 #' @param ... extra arguments, currently unused.
@@ -32,10 +32,10 @@
 #'   correctly and may even cause them to be lost.
 #' 
 #' @return An object of class `linwmatrix`/`logwmatrix` and `wmatrix`,
-#'   which is a [matrix()] but also has an attribute `w` containing
+#'   which is a [`matrix`] but also has an attribute `w` containing
 #'   row weights on the linear or the natural-log-transformed scale.
 #'
-#' @seealso [rowweights()], [lrowweights()], [compress_rows()]
+#' @seealso [`rowweights`], [`lrowweights`], [`compress_rows`]
 #' 
 #' @name wmatrix
 #'
@@ -152,8 +152,8 @@ print.linwmatrix <- function(x, ...){
 
 #' Set or extract weighted matrix row weights
 #'
-#' @param x a [linwmatrix()], a [logwmatrix()], or a [matrix()]; a
-#'   [matrix()] is coerced to a weighted matrix of an appropriate
+#' @param x a [`linwmatrix`], a [`logwmatrix`], or a [`matrix`]; a
+#'   [`matrix`] is coerced to a weighted matrix of an appropriate
 #'   type.
 #' @param value weights to set, on the appropriate scale.
 #' @param update if `TRUE` (the default), the old weights are updated

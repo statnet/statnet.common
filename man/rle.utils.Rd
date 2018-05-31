@@ -84,8 +84,8 @@ compact.rle(x)
 }
 \arguments{
 \item{...}{For \code{c}, objects to be concatenated. The first object
-must be of class \code{\link[=rle]{rle()}}. For \code{rep}, see documentation for
-\code{\link[=rep]{rep()}}. For \code{sum}, objects to be summed.}
+must be of class \code{\link{rle}}. For \code{rep}, see documentation for
+\code{\link{rep}}. For \code{sum}, objects to be summed.}
 
 \item{x, e1, e2}{Arguments to unary (\code{x}) and binary (\code{e1} and \code{e2})
 operators.}
@@ -94,22 +94,22 @@ operators.}
 assumed to be vectorized: it expects two vectors of equal lengths
 and outputs a vector of the same length.}
 
-\item{na.rm}{see documentation for \code{\link[=any]{any()}}, \code{\link[=all]{all()}}, and \code{\link[=sum]{sum()}}.}
+\item{na.rm}{see documentation for \code{\link{any}}, \code{\link{all}}, and \code{\link{sum}}.}
 
 \item{scale}{whether to replicate the elements of the
 RLE-compressed vector or the runs.}
 
-\item{doNotCompact}{whether the method should call \code{\link[=compact.rle]{compact.rle()}}
+\item{doNotCompact}{whether the method should call \code{\link{compact.rle}}
 the results before returning. Methods liable to produce very long
-output vectors, like \code{\link[=rep]{rep()}}, have this set \code{FALSE} by default.}
+output vectors, like \code{\link{rep}}, have this set \code{FALSE} by default.}
 }
 \value{
-Unless otherwise stated, all functions return an \code{\link[=rle]{rle()}}
+Unless otherwise stated, all functions return an \code{\link{rle}}
 object. By default, the functions and the operators do not merge
 adjacent runs with the same value. This must be done explicitly
-with \code{\link[=compact.rle]{compact.rle()}}.
+with \code{\link{compact.rle}}.
 
-\code{\link[=any]{any()}}, \code{\link[=all]{all()}}, \code{\link[=sum]{sum()}}, and \code{\link[=length]{length()}} return logical, logical, numeric, and numeric vectors, respectively.
+\code{\link{any}}, \code{\link{all}}, \code{\link{sum}}, and \code{\link{length}} return logical, logical, numeric, and numeric vectors, respectively.
 }
 \description{
 Simple utilities for operations on RLE-encoded vectors.
@@ -117,22 +117,22 @@ Simple utilities for operations on RLE-encoded vectors.
 \section{Functions}{
 \itemize{
 \item \code{binop.rle}: Perform an arbitrary binary operation on the pair of vectors
-represented by the \code{\link[=rle]{rle()}} objects.
+represented by the \code{\link{rle}} objects.
 
-\item \code{compact.rle}: Compact the \code{\link[=rle]{rle()}} object by merging adjacent runs.
+\item \code{compact.rle}: Compact the \code{\link{rle}} object by merging adjacent runs.
 }}
 
 \note{
-Since \code{\link[=rle]{rle()}} stores run lengths as integers, \code{\link[=compact.rle]{compact.rle()}}
+Since \code{\link{rle}} stores run lengths as integers, \code{\link{compact.rle}}
 will not merge runs that add up to lengths greater than what can
 be represented by a 32-bit signed integer
 (\Sexpr{.Machine$integer.max}).
 
-The \code{\link[=length]{length()}} method returns the length of the vector
+The \code{\link{length}} method returns the length of the vector
 represented by the object, obtained by summing the lengths of
 individual runs.
 
-The \code{\link[=rep]{rep()}} method for \code{\link[=rle]{rle()}} objects is very limited at
+The \code{\link{rep}} method for \code{\link{rle}} objects is very limited at
 this time. Even though the default setting is to replicate
 elements of the vector, only the run-replicating functionality is
 implemented at this time except for the simplest case (scalar

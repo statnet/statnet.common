@@ -52,7 +52,7 @@ of the assignment (\code{value}), regardless of what \code{x} is.
 \note{
 Whenever possible, these functions use lazy evaluation, so,
 for example \code{NVL(1, stop("Error!"))} will never evaluate the
-\code{\link[=stop]{stop()}} call and will not produce an error, whereas \code{NVL(NULL, stop("Error!"))} would.
+\code{\link{stop}} call and will not produce an error, whereas \code{NVL(NULL, stop("Error!"))} would.
 }
 \examples{
 a <- NULL

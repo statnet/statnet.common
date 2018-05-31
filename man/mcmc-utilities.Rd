@@ -19,7 +19,7 @@ lapply.mcmc.list(X, FUN, ...)
 \item{\dots}{additional arguments to \code{\link{colMeans}} or
 \code{\link{sweep}}.}
 
-\item{STATS, FUN, check.margin}{See help for \code{\link[=sweep]{sweep()}}.}
+\item{STATS, FUN, check.margin}{See help for \code{\link{sweep}}.}
 
 \item{X}{An \code{\link{mcmc.list}} object.}
 }
@@ -35,13 +35,13 @@ version of \code{x}
 whose chains had been passed through \code{FUN}.
 }
 \description{
-\code{colMeans.mcmc.list} is a "method" for (non-generic) \code{\link[=colMeans]{colMeans()}} applicable to \code{\link{mcmc.list}} objects.
+\code{colMeans.mcmc.list} is a "method" for (non-generic) \code{\link{colMeans}} applicable to \code{\link{mcmc.list}} objects.
 
 \code{sweep.mcmc.list} is a "method" for (non-generic)
-\code{\link[=sweep]{sweep()}} applicable to \code{\link{mcmc.list}} objects.
+\code{\link{sweep}} applicable to \code{\link{mcmc.list}} objects.
 
 \code{lapply.mcmc.list} is a "method" for (non-generic)
-\code{\link[=lapply]{lapply()}} applicable to \code{\link{mcmc.list}} objects.
+\code{\link{lapply}} applicable to \code{\link{mcmc.list}} objects.
 }
 \examples{
 data(line, package="coda")
@@ -64,9 +64,9 @@ stopifnot(isTRUE(all.equal(colMeans.mcmc.list(line)[c(2,3,1)],colMeans.mcmc.list
 }
 }
 \seealso{
-\code{\link[=colMeans]{colMeans()}}, \code{\link[coda:mcmc.list]{coda::mcmc.list()}}
+\code{\link{colMeans}}, \code{\link{mcmc.list}}
 
-\code{\link[=sweep]{sweep()}}
+\code{\link{sweep}}
 
-\code{\link[=lapply]{lapply()}}
+\code{\link{lapply}}
 }

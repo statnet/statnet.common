@@ -4,7 +4,7 @@
 \alias{as.rle}
 \alias{as.rle.rle}
 \alias{as.rle.default}
-\title{Coerce to \code{\link[=rle]{rle()}} if not already an \code{\link[=rle]{rle()}} object.}
+\title{Coerce to \code{\link{rle}} if not already an \code{\link{rle}} object.}
 \usage{
 as.rle(x)
 
@@ -16,5 +16,5 @@ as.rle(x)
 \item{x}{the object to be coerced.}
 }
 \description{
-Coerce to \code{\link[=rle]{rle()}} if not already an \code{\link[=rle]{rle()}} object.
+Coerce to \code{\link{rle}} if not already an \code{\link{rle}} object.
 }
