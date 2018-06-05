@@ -48,7 +48,7 @@ data(line, package="coda")
 summary(line) # coda
 colMeans.mcmc.list(line) # "Method"
 \dontshow{
-stopifnot(all(summary(line)$statistics[,"Mean"]==colMeans.mcmc.list(line)))
+stopifnot(isTRUE(all.equal(summary(line)$statistics[,"Mean"],colMeans.mcmc.list(line))))
 }
 data(line, package="coda")
 colMeans.mcmc.list(line)-1:3

@@ -15,7 +15,7 @@
 #' summary(line) # coda
 #' colMeans.mcmc.list(line) # "Method"
 #' \dontshow{
-#' stopifnot(all(summary(line)$statistics[,"Mean"]==colMeans.mcmc.list(line)))
+#' stopifnot(isTRUE(all.equal(summary(line)$statistics[,"Mean"],colMeans.mcmc.list(line))))
 #' }
 #' @export colMeans.mcmc.list
 colMeans.mcmc.list<-function(x,...) colMeans(as.matrix(x),...)
