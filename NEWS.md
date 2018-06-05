@@ -12,14 +12,13 @@
 
 * `NVL2()` and `NVL3()` for flexible substitution of null values.
 
-* `message_print()` formats the arguments as if for `print()` or `show()` method, but then removes the 
+* `message_print()` formats its arguments as if for `print()` or `show()` methods, but then prints to stderr like `message()`.
 
 ## Enhancements to existing utilities
 
 * `paste.and()` now takes an additional `con=` argument, allowing a conjunction other than "and" to be used.
 
 * `ERRVL()` now uses lazy evaluation and lets the user dot-substitute the previous argument's try-error into the next argument.
-
 
 ## Bug fixes
 
@@ -35,6 +34,7 @@
     * `nonsimp.update.formula()` →  `nonsimp_update.formula()`
 
 # statnet.common 4.0.0
+
 * The package now uses `Roxygen` for documentation.
 
 * `term.list.formula()` output format has been changed, since support of attributes on symbols is being deprecated.
