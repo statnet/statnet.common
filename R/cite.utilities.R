@@ -9,9 +9,11 @@
 #######################################################################
 # ---- BEGIN STATNET CITATION FUNCTIONS ----
 
-#' \code{CITATION} file utilities for Statnet packages
+#' \code{CITATION} file utilities for Statnet packages (DEPRECATED)
 #' 
-#' These functions automate citation generation for Statnet Project packages.
+#' These functions automate citation generation for Statnet Project
+#' packages. They no longer appear to work with CRAN and are thus
+#' deprecated.
 #' 
 #' 
 #' @param pkg Name of the package whose citation is being generated.
@@ -28,18 +30,21 @@
 #' @keywords utilities
 #' @name statnet.cite
 #' @examples
-#' 
+#'
+#' \dontrun{
 #' statnet.cite.head("statnet.common")
 #' 
 #' statnet.cite.pkg("statnet.common")
 #' 
 #' statnet.cite.foot("statnet.common")
+#' }
 NULL
 
 # A header function for ensuring that all the statnet packages provide consistent messaging
 #' @rdname statnet.cite
 #' @export
 statnet.cite.head <- function(pkg){
+  .Deprecated("No longer usable.")
   utils::citHeader(
     paste("`",pkg,"` is part of the Statnet suite of packages.  ",
           "If you are using the `",pkg,"` package for research that will be published, ",
@@ -53,6 +58,7 @@ statnet.cite.head <- function(pkg){
 #' @rdname statnet.cite
 #' @export
 statnet.cite.foot <- function(pkg){
+  .Deprecated("No longer usable.")
   # the 'meta' variable should be provided by R's CITATION processing script
   # instead of using packageDescription().  But if this code is called in another context
   # use packageDescription() to assign meta
@@ -68,7 +74,7 @@ statnet.cite.foot <- function(pkg){
 #' @rdname statnet.cite
 #' @export
 statnet.cite.pkg <- function(pkg){
-  
+  .Deprecated("No longer usable.")  
   # the 'meta' variable should be provided by R's CITATION processing script
   # instead of using packageDescription().  But if this code is called in another context
   # use packageDescription() to assign meta
