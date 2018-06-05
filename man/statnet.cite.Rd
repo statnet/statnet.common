@@ -5,7 +5,7 @@
 \alias{statnet.cite.head}
 \alias{statnet.cite.foot}
 \alias{statnet.cite.pkg}
-\title{\code{CITATION} file utilities for Statnet packages}
+\title{\code{CITATION} file utilities for Statnet packages (DEPRECATED)}
 \usage{
 statnet.cite.head(pkg)
 
@@ -28,15 +28,19 @@ current version and author information in the \code{DESCRIPTION} and a
 template.
 }
 \description{
-These functions automate citation generation for Statnet Project packages.
+These functions automate citation generation for Statnet Project
+packages. They no longer appear to work with CRAN and are thus
+deprecated.
 }
 \examples{
 
+\dontrun{
 statnet.cite.head("statnet.common")
 
 statnet.cite.pkg("statnet.common")
 
 statnet.cite.foot("statnet.common")
+}
 }
 \seealso{
 citation, citHeader, citFooter, bibentry
