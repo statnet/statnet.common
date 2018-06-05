@@ -63,7 +63,7 @@ NULL
 #' @rdname rle.utils
 #'
 #' @examples
-#' stopifnot(c(inverse.rle(x),inverse.rle(y))==inverse.rle(c(x,y)))
+#' stopifnot(isTRUE(all.equal(c(inverse.rle(x),inverse.rle(y)),inverse.rle(c(x,y)))))
 #' 
 #' @export
 c.rle <- function(...){
@@ -80,7 +80,7 @@ c.rle <- function(...){
 
 #' @rdname rle.utils
 #' @examples
-#' stopifnot((!inverse.rle(x))==inverse.rle(!x))
+#' stopifnot(isTRUE(all.equal((!inverse.rle(x)),inverse.rle(!x))))
 #' @export
 `!.rle` <- function(x){
   x$values <- !x$values
@@ -106,7 +106,7 @@ binop.rle <- function(e1, e2, FUN){
 
 #' @rdname rle.utils
 #' @examples
-#' stopifnot((inverse.rle(x)|inverse.rle(y))==inverse.rle(x|y))
+#' stopifnot(isTRUE(all.equal((inverse.rle(x)|inverse.rle(y)),inverse.rle(x|y))))
 #' @export
 `|.rle` <- function(e1, e2){
   binop.rle(e1, e2, `|`)
@@ -114,7 +114,7 @@ binop.rle <- function(e1, e2, FUN){
 
 #' @rdname rle.utils
 #' @examples
-#' stopifnot((inverse.rle(x)&inverse.rle(y))==inverse.rle(x&y))
+#' stopifnot(isTRUE(all.equal((inverse.rle(x)&inverse.rle(y)),inverse.rle(x&y))))
 #' @export
 `&.rle` <- function(e1, e2){
   binop.rle(e1, e2, `&`)
@@ -168,8 +168,8 @@ compact.rle <- function(x){
 #' x <- rle(as.logical(rbinom(10,1,.9)))
 #' y <- rle(as.logical(rbinom(10,1,.1)))
 #' 
-#' stopifnot(any(x)==any(inverse.rle(x)))
-#' stopifnot(any(y)==any(inverse.rle(y)))
+#' stopifnot(isTRUE(all.equal(any(x),any(inverse.rle(x)))))
+#' stopifnot(isTRUE(all.equal(any(y),any(inverse.rle(y)))))
 #' 
 #' @export
 any.rle <- function(..., na.rm = FALSE){
@@ -185,8 +185,8 @@ any.rle <- function(..., na.rm = FALSE){
 #' @rdname rle.utils
 #' @examples
 #' 
-#' stopifnot(all(x)==all(inverse.rle(x)))
-#' stopifnot(all(y)==all(inverse.rle(y)))
+#' stopifnot(isTRUE(all.equal(all(x),all(inverse.rle(x)))))
+#' stopifnot(isTRUE(all.equal(all(y),all(inverse.rle(y)))))
 #' 
 #' @export
 all.rle <- function(..., na.rm = FALSE){
@@ -205,7 +205,7 @@ all.rle <- function(..., na.rm = FALSE){
 #' x <- rle(sample(c(-1,+1), 10, c(.7,.3), replace=TRUE))
 #' y <- rle(sample(c(-1,+1), 10, c(.3,.7), replace=TRUE))
 #' 
-#' stopifnot((inverse.rle(x)*inverse.rle(y))==inverse.rle(x*y))
+#' stopifnot(isTRUE(all.equal((inverse.rle(x)*inverse.rle(y)),inverse.rle(x*y))))
 #' @export
 `*.rle` <- function(e1, e2){
   binop.rle(e1, e2, `*`)
@@ -213,7 +213,7 @@ all.rle <- function(..., na.rm = FALSE){
 
 #' @rdname rle.utils
 #' @examples
-#' stopifnot((inverse.rle(x)/inverse.rle(y))==inverse.rle(x/y))
+#' stopifnot(isTRUE(all.equal((inverse.rle(x)/inverse.rle(y)),inverse.rle(x/y))))
 #' @export
 `/.rle` <- function(e1, e2){
   binop.rle(e1, e2, `/`)
@@ -221,8 +221,8 @@ all.rle <- function(..., na.rm = FALSE){
 
 #' @rdname rle.utils
 #' @examples
-#' stopifnot((-inverse.rle(y))==inverse.rle(-y))
-#' stopifnot((inverse.rle(x)-inverse.rle(y))==inverse.rle(x-y))
+#' stopifnot(isTRUE(all.equal((-inverse.rle(y)),inverse.rle(-y))))
+#' stopifnot(isTRUE(all.equal((inverse.rle(x)-inverse.rle(y)),inverse.rle(x-y))))
 #' @export
 `-.rle` <- function(e1, e2){
   if(missing(e2)){
@@ -234,8 +234,8 @@ all.rle <- function(..., na.rm = FALSE){
 
 #' @rdname rle.utils
 #' @examples
-#' stopifnot((+inverse.rle(y))==inverse.rle(+y))
-#' stopifnot((inverse.rle(x)+inverse.rle(y))==inverse.rle(x+y))
+#' stopifnot(isTRUE(all.equal((+inverse.rle(y)),inverse.rle(+y))))
+#' stopifnot(isTRUE(all.equal((inverse.rle(x)+inverse.rle(y)),inverse.rle(x+y))))
 #' @export
 `+.rle` <- function(e1, e2){
   if(missing(e2)){
@@ -247,7 +247,7 @@ all.rle <- function(..., na.rm = FALSE){
 
 #' @rdname rle.utils
 #' @examples
-#' stopifnot((inverse.rle(x)^inverse.rle(y))==inverse.rle(x^y))
+#' stopifnot(isTRUE(all.equal((inverse.rle(x)^inverse.rle(y)),inverse.rle(x^y))))
 #' @export
 `^.rle` <- function(e1, e2){
   binop.rle(e1, e2, `^`)
@@ -255,7 +255,7 @@ all.rle <- function(..., na.rm = FALSE){
 
 #' @rdname rle.utils
 #' @examples
-#' stopifnot((inverse.rle(x)%%inverse.rle(y))==inverse.rle(x%%y))
+#' stopifnot(isTRUE(all.equal((inverse.rle(x)%%inverse.rle(y)),inverse.rle(x%%y))))
 #' @export
 `%%.rle` <- function(e1, e2){
   binop.rle(e1, e2, `%%`)
@@ -263,7 +263,7 @@ all.rle <- function(..., na.rm = FALSE){
 
 #' @rdname rle.utils
 #' @examples
-#' stopifnot((inverse.rle(x)%/%inverse.rle(y))==inverse.rle(x%/%y))
+#' stopifnot(isTRUE(all.equal((inverse.rle(x)%/%inverse.rle(y)),inverse.rle(x%/%y))))
 #' @export
 `%/%.rle` <- function(e1, e2){
   binop.rle(e1, e2, `%/%`)
@@ -271,7 +271,7 @@ all.rle <- function(..., na.rm = FALSE){
 
 #' @rdname rle.utils
 #' @examples
-#' stopifnot((inverse.rle(x)==inverse.rle(y))==inverse.rle(x==y))
+#' stopifnot(isTRUE(all.equal(inverse.rle(x)==inverse.rle(y),inverse.rle(x==y))))
 #' @export
 `==.rle` <- function(e1, e2){
   binop.rle(e1, e2, `==`)
@@ -279,7 +279,7 @@ all.rle <- function(..., na.rm = FALSE){
 
 #' @rdname rle.utils
 #' @examples
-#' stopifnot((inverse.rle(x)>inverse.rle(y))==inverse.rle(x>y))
+#' stopifnot(isTRUE(all.equal((inverse.rle(x)>inverse.rle(y)),inverse.rle(x>y))))
 #' @export
 `>.rle` <- function(e1, e2){
   binop.rle(e1, e2, `>`)
@@ -287,7 +287,7 @@ all.rle <- function(..., na.rm = FALSE){
 
 #' @rdname rle.utils
 #' @examples
-#' stopifnot((inverse.rle(x)<inverse.rle(y))==inverse.rle(x<y))
+#' stopifnot(isTRUE(all.equal((inverse.rle(x)<inverse.rle(y)),inverse.rle(x<y))))
 #' @export
 `<.rle` <- function(e1, e2){
   binop.rle(e1, e2, `<`)
@@ -295,7 +295,7 @@ all.rle <- function(..., na.rm = FALSE){
 
 #' @rdname rle.utils
 #' @examples
-#' stopifnot((inverse.rle(x)!=inverse.rle(y))==inverse.rle(x!=y))
+#' stopifnot(isTRUE(all.equal((inverse.rle(x)!=inverse.rle(y)),inverse.rle(x!=y))))
 #' @export
 `!=.rle` <- function(e1, e2){
   binop.rle(e1, e2, `!=`)
@@ -303,7 +303,7 @@ all.rle <- function(..., na.rm = FALSE){
 
 #' @rdname rle.utils
 #' @examples
-#' stopifnot((inverse.rle(x)<=inverse.rle(y))==inverse.rle(x<=y))
+#' stopifnot(isTRUE(all.equal((inverse.rle(x)<=inverse.rle(y)),inverse.rle(x<=y))))
 #' @export
 `<=.rle` <- function(e1, e2){
   binop.rle(e1, e2, `<=`)
@@ -311,7 +311,7 @@ all.rle <- function(..., na.rm = FALSE){
 
 #' @rdname rle.utils
 #' @examples
-#' stopifnot((inverse.rle(x)>=inverse.rle(y))==inverse.rle(x>=y))
+#' stopifnot(isTRUE(all.equal((inverse.rle(x)>=inverse.rle(y)),inverse.rle(x>=y))))
 #' @export
 `>=.rle` <- function(e1, e2){
   binop.rle(e1, e2, `>=`)
@@ -322,8 +322,8 @@ all.rle <- function(..., na.rm = FALSE){
 #'
 #' @examples
 #' 
-#' stopifnot(sum(inverse.rle(x))==sum(x))
-#' stopifnot(sum(inverse.rle(y))==sum(y))
+#' stopifnot(isTRUE(all.equal(sum(inverse.rle(x)),sum(x))))
+#' stopifnot(isTRUE(all.equal(sum(inverse.rle(y)),sum(y))))
 #' 
 #' @export
 sum.rle <- function(..., na.rm = FALSE){
@@ -342,8 +342,8 @@ sum.rle <- function(..., na.rm = FALSE){
 #'
 #' @examples
 #' 
-#' stopifnot(mean(inverse.rle(x))==mean(x))
-#' stopifnot(mean(inverse.rle(y))==mean(y))
+#' stopifnot(isTRUE(all.equal(mean(inverse.rle(x)),mean(x))))
+#' stopifnot(isTRUE(all.equal(mean(inverse.rle(y)),mean(y))))
 #' 
 #' @export
 mean.rle <- function(x, na.rm = FALSE, ...){
@@ -359,8 +359,8 @@ mean.rle <- function(x, na.rm = FALSE, ...){
 #'
 #' @examples
 #'
-#' stopifnot(length(inverse.rle(x))==length(x))
-#' stopifnot(length(inverse.rle(y))==length(y))
+#' stopifnot(isTRUE(all.equal(length(inverse.rle(x)),length(x))))
+#' stopifnot(isTRUE(all.equal(length(inverse.rle(y)),length(y))))
 #'
 #' @export
 length.rle <- function(x){
@@ -372,8 +372,8 @@ length.rle <- function(x){
 #' @examples
 #' x$values[1] <- NA
 #' y$values[1] <- NA
-#' stopifnot(is.na(inverse.rle(x))==inverse.rle(is.na(x)))
-#' stopifnot(is.na(inverse.rle(y))==inverse.rle(is.na(y)))
+#' stopifnot(isTRUE(all.equal(is.na(inverse.rle(x)),inverse.rle(is.na(x)))))
+#' stopifnot(isTRUE(all.equal(is.na(inverse.rle(y)),inverse.rle(is.na(y)))))
 #' 
 #' @export
 is.na.rle <- function(x){
@@ -401,9 +401,11 @@ is.na.rle <- function(x){
 #' x <- rle(sample(c(-1,+1), 10, c(.7,.3), replace=TRUE))
 #' y <- rpois(length(x$lengths), 2)
 #' 
-#' stopifnot(all(rep(inverse.rle(x), rep(y, x$lengths))==inverse.rle(rep(x, y, scale="run"))))
+#' stopifnot(isTRUE(all.equal(rep(inverse.rle(x), rep(y, x$lengths)),
+#'                                inverse.rle(rep(x, y, scale="run")))))
 #'
-#' stopifnot(all(rep(inverse.rle(x), max(y))==inverse.rle(rep(x, max(y), scale="element"))))
+#' stopifnot(isTRUE(all.equal(rep(inverse.rle(x), max(y)),
+#'                                inverse.rle(rep(x, max(y), scale="element")))))
 #' 
 #' @export
 rep.rle <- function(x, ..., scale = c("element", "run"), doNotCompact = FALSE){
