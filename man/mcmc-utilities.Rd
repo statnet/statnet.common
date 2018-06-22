@@ -61,8 +61,8 @@ message("Windows versions of R prior to 3.5.0 appear ",
         "to have a bug that causes this example to fail.")
 }else{
 data(line, package="coda")
-colMeans.mcmc.list(line)[c(2,3,1)]
-colMeans.mcmc.list(lapply.mcmc.list(line, `[`,,c(2,3,1)))
+print(colMeans.mcmc.list(line)[c(2,3,1)])
+print(colMeans.mcmc.list(lapply.mcmc.list(line, `[`,,c(2,3,1))))
 \dontshow{
 stopifnot(isTRUE(all.equal(colMeans.mcmc.list(line)[c(2,3,1)],colMeans.mcmc.list(lapply.mcmc.list(line, `[`,,c(2,3,1))))))
 }
