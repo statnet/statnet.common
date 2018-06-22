@@ -57,7 +57,8 @@ colMeans.mcmc.list(sweep.mcmc.list(line, 1:3))
 stopifnot(isTRUE(all.equal(colMeans.mcmc.list(sweep.mcmc.list(line, 1:3)), colMeans.mcmc.list(line)-1:3)))
 }
 if(getRversion()<'3.5' && .Platform$OS.type=="windows"){
-message("Windows versions of R prior to 3.5.0 appear to have a bug that causes this example to fail.")
+message("Windows versions of R prior to 3.5.0 appear ",
+        "to have a bug that causes this example to fail.")
 }else{
 data(line, package="coda")
 colMeans.mcmc.list(line)[c(2,3,1)]
