@@ -5,8 +5,8 @@
 \title{Set the class of the control list}
 \usage{
 set.control.class(myname = {     sc <- sys.calls()    
-  as.character(sc[[length(sc) - 1]][[1]]) }, control = get("control", pos =
-  parent.frame()))
+  as.character(sc[[length(sc) - 1]][[1]]) }, control = get("control", pos
+  = parent.frame()))
 }
 \arguments{
 \item{myname}{Name of the class to set.}
