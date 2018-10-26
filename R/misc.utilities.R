@@ -399,3 +399,78 @@ unwhich <- function(which, n){
   if(length(which)) o[which] <- TRUE
   o
 }
+
+#' Evaluate an \R expression with a hard time limit by forking a process
+#'
+#' This function uses [parallel::mcparallel()], so the time limit is not
+#' enforced on Windows. However, unlike functions using [setTimeLimit()], the time
+#' limit is enforced even on native code.
+#'
+#' @param expr expression to be evaluated.
+#' @param timeout number of seconds to wait for the expression to
+#'   evaluate.
+#' @param unsupported a character vector of length 1 specifying how to
+#'   handle a platform that does not support [parallel::mcparallel()]:
+#'   \describe{
+#'
+#'   \item{`"warning"` or `"message"`}{Issue a warning or a message,
+#'   respectively, then evaluate the expression without the time limit
+#'   enforced.}
+#'
+#'   \item{`"error"`}{Stop with an error.}
+#'
+#'   \item{`"silent"`}{Evaluate the expression without the time limit
+#'   enforced, without any notice.}
+#'
+#'   } Partial matching is used.
+#' @param onTimeout Value to be returned on time-out.
+#'
+#' @return Result of evaluating `expr` if completed, `onTimeout`
+#'   otherwise.
+#'
+#' @note `onTimeout` can itself be an expression, so it is, for
+#'   example, possible to stop with an error by passing
+#'   `onTimeout=stop()`.
+#'
+#' @note Note that this function is not completely transparent:
+#'   side-effects may behave in unexpected ways. In particular, RNG
+#'   state will not be updated.
+#'
+#' @examples
+#'
+#' forkTimeout({Sys.sleep(1); TRUE}, 2) # TRUE
+#' forkTimeout({Sys.sleep(1); TRUE}, 0.5) # NULL (except on Windows)
+#' @export
+forkTimeout <- function(expr, timeout, unsupported = c("warning","error","message","silent"), onTimeout = NULL){
+  loadNamespace("parallel")
+  loadNamespace("tools")
+  env <- parent.frame()
+  if(!exists("mcparallel", where=asNamespace("parallel"), mode="function")){ # fork() is not available on the system.
+    unsupported <- match.arg(unsupported)
+    warnmsg <- "Your platform (probably Windows) does not have fork() capabilities. Time limit will not be enforced."
+    errmsg <- "Your platform (probably Windows) does not have fork() capabilities."
+    switch(unsupported,
+           message = message(warnmsg),
+           warning = warning(warnmsg),
+           error = stop(errmsg))
+
+    out <- eval(expr, env)
+  }else{ # fork() is available on the system.
+
+    ## TODO: The suppressWarnings() are working around a bug in
+    ## current parallel package. They should not be necessary after
+    ## the next R release.
+    child <- parallel::mcparallel(eval(expr, env), mc.interactive=NA)
+    out <- suppressWarnings(parallel::mccollect(child, wait=FALSE, timeout=timeout))
+
+    if(is.null(out)){ # Timed out with no result: kill.
+      tools::pskill(child$pid)
+      out <- onTimeout
+    }else{
+      out <- out[[1]]
+    }
+
+    suppressWarnings(parallel::mccollect(child)) # Clean up.
+  }
+  out
+}
