@@ -22,13 +22,12 @@
 #' 
 #' @noRd
 .run_mul <- function(e1, e2){
-  o <- suppressWarnings(as.integer(e1)*as.integer(e2))
-  if(is.na(o)){ # Integer overflow.
-    do <- as.numeric(e1)*as.numeric(e2)
-    c(as.integer(rep.int(.Machine$integer.max, do %/% .Machine$integer.max)), as.integer(do %% .Machine$integer.max))
+  o <- as.numeric(e1)*as.numeric(e2)
+  if(o > .Machine$integer.max){ # Integer overflow.
+    c(as.integer(rep.int(.Machine$integer.max, o %/% .Machine$integer.max)), as.integer(o %% .Machine$integer.max))
   }else if(o==0){
     integer(0)
-  }else o
+  }else as.integer(o)
 }
 
 #' RLE utilities
