@@ -387,7 +387,8 @@ all_identical <- function(x){
 #' @param n total length of the output vector.
 #'
 #' @return A logical vector of length `n` whose elements listed in
-#'   `which` are set to `TRUE`, and all other elements set to `FALSE`.
+#'   `which` are set to `TRUE`, and whose other elements are set to
+#'   `FALSE`.
 #'
 #' @examples
 #'
