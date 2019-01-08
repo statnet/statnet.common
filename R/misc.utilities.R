@@ -476,10 +476,10 @@ forkTimeout <- function(expr, timeout, unsupported = c("warning","error","messag
   out
 }
 
-#' Extract the *ult*imate (last) element of a vector or a list, or an element counting from the end.
+#' Extract or replace the *ult*imate (last) element of a vector or a list, or an element counting from the end.
 #'
 #' @param x a vector or a list.
-#' @param i index from the end of the list to extract (where 1 is the last element, 2 is the penultimate element, etc.).
+#' @param i index from the end of the list to extract or replace (where 1 is the last element, 2 is the penultimate element, etc.).
 #'
 #' @return An element of `x`.
 #'
@@ -492,7 +492,31 @@ forkTimeout <- function(expr, timeout, unsupported = c("warning","error","messag
 #' stopifnot(last==5)
 #' stopifnot(penultimate==4)
 #' }
+#'
 #' @export
 ult <- function(x, i=1){
   x[[length(x)-i+1]]
+}
+
+#' @rdname ult
+#'
+#' @param value Replacement value for the `i`th element from the end.
+#'
+#' @note Due to the way in which assigning to a function is
+#'   implemented in R, `ult(x) <- e` may be less efficient than
+#'   `x[[length(x)]] <- e`.
+#' 
+#' @examples
+#' (ult(x) <- 6)
+#' (ult(x, 2) <- 7) # 2nd last.
+#' x
+#'
+#' \dontshow{
+#' stopifnot(all(x == c(1:3, 7L, 6L)))
+#' }
+#'
+#' @export
+`ult<-` <- function(x, i=1, value){
+  x[[length(x)-i+1]] <- value
+  x
 }

@@ -2,20 +2,30 @@
 % Please edit documentation in R/misc.utilities.R
 \name{ult}
 \alias{ult}
-\title{Extract the \emph{ult}imate (last) element of a vector or a list, or an element counting from the end.}
+\alias{ult<-}
+\title{Extract or replace the \emph{ult}imate (last) element of a vector or a list, or an element counting from the end.}
 \usage{
 ult(x, i = 1)
+
+ult(x, i = 1) <- value
 }
 \arguments{
 \item{x}{a vector or a list.}
 
-\item{i}{index from the end of the list to extract (where 1 is the last element, 2 is the penultimate element, etc.).}
+\item{i}{index from the end of the list to extract or replace (where 1 is the last element, 2 is the penultimate element, etc.).}
+
+\item{value}{Replacement value for the \code{i}th element from the end.}
 }
 \value{
 An element of \code{x}.
 }
 \description{
-Extract the \emph{ult}imate (last) element of a vector or a list, or an element counting from the end.
+Extract or replace the \emph{ult}imate (last) element of a vector or a list, or an element counting from the end.
+}
+\note{
+Due to the way in which assigning to a function is
+implemented in R, \code{ult(x) <- e} may be less efficient than
+\code{x[[length(x)]] <- e}.
 }
 \examples{
 x <- 1:5
@@ -26,4 +36,13 @@ x <- 1:5
 stopifnot(last==5)
 stopifnot(penultimate==4)
 }
+
+(ult(x) <- 6)
+(ult(x, 2) <- 7) # 2nd last.
+x
+
+\dontshow{
+stopifnot(all(x == c(1:3, 7L, 6L)))
+}
+
 }
