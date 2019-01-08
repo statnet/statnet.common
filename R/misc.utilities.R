@@ -475,3 +475,24 @@ forkTimeout <- function(expr, timeout, unsupported = c("warning","error","messag
   }
   out
 }
+
+#' Extract the *ult*imate (last) element of a vector or a list, or an element counting from the end.
+#'
+#' @param x a vector or a list.
+#' @param i index from the end of the list to extract (where 1 is the last element, 2 is the penultimate element, etc.).
+#'
+#' @return An element of `x`.
+#'
+#' @examples
+#' x <- 1:5
+#' (last <- ult(x))
+#' (penultimate <- ult(x, 2)) # 2nd last.
+#'
+#' \dontshow{
+#' stopifnot(last==5)
+#' stopifnot(penultimate==4)
+#' }
+#' @export
+ult <- function(x, i=1){
+  x[[length(x)-i+1]]
+}
