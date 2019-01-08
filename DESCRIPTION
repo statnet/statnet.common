@@ -8,7 +8,6 @@ Authors@R: c(
 Description: Non-statistical utilities used by the software developed by the Statnet Project. They may also be of use to others.
 Depends: R (>= 3.5)
 Imports: utils, methods, coda, parallel, tools
-Enhances: coda
 BugReports: https://github.com/statnet/statnet.common/issues
 License: GPL-3 + file LICENSE
 URL: http://www.statnet.org
