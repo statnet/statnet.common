@@ -5,7 +5,7 @@
 #  open source, and has the attribution requirements (GPL Section 7) at
 #  http://statnet.org/attribution
 #
-#  Copyright 2007-2017 Statnet Commons
+#  Copyright 2007-2019 Statnet Commons
 #######################################################################
 .check_lengths <- function(rle1, rle2){
   if(sum(as.numeric(rle1$lengths))!=sum(as.numeric(rle2$lengths)))
