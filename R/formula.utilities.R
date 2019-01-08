@@ -111,7 +111,7 @@ append.rhs.formula<-function(object,newterms,keep.onesided=FALSE){
 #'   `TRUE` or `FALSE`, for whether that term should be kept.
 #' @export
 filter_rhs.formula <- function(object, f, ...){
-  rhs <- object[[length(object)]]
+  rhs <- ult(object)
   SnD <- function(x){
     if(!f(x, ...)) return(NULL)
     if(is(x, "call")){
@@ -135,7 +135,7 @@ filter_rhs.formula <- function(object, f, ...){
   }
 
   rhs <- SnD(rhs)
-  object[[length(object)]] <- rhs
+  ult(object) <- rhs
   object
 }
 
@@ -283,7 +283,7 @@ list_rhs.formula<-function(object){
   if (!is(object, "formula"))
     stop("Invalid formula of class ",sQuote(class(object)),".")
   
-  .recurse_summation(object[[length(object)]], sign=+1)
+  .recurse_summation(ult(object), sign=+1)
 }
 
 

@@ -42,7 +42,7 @@ paste.and <- function(x, oq='', cq='', con='and'){
   if(length(x)==0) return('')
   if(length(x)==1) return(x)
   if(length(x)==2) return(paste(x[1],con,x[2]))
-  if(length(x)>=3) return(paste0(paste(x[-length(x)], collapse=", "),', ',con,' ',x[length(x)]))
+  if(length(x)>=3) return(paste0(paste(x[-length(x)], collapse=", "),', ',con,' ',ult(x)))
 }
 
 

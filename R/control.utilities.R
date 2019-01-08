@@ -9,7 +9,7 @@
 #######################################################################
 .autodetect_dep_warn <- local({
   warned <- c()
-  function(caller = {sc <- sys.calls(); as.character(sc[[length(sc)-2]][[1]])}){
+  function(caller = as.character(ult(sys.calls(),3)[[1]])){
     if(!caller %in% warned)
       warning("In ",sQuote(caller),": Autodetection of acceptable control parameter generators and of the calling function name has been deprecated and will be removed in a future version. They must be set explicitly.", call.=FALSE)
     warned <<- c(warned, caller)
@@ -33,7 +33,7 @@
 #' @seealso set.control.class, print.control.list
 #' @keywords utilities
 #' @export
-check.control.class <- function(OKnames={sc <- sys.calls(); as.character(sc[[length(sc)-1]][[1]])}, myname={sc <- sys.calls(); as.character(sc[[length(sc)-1]][[1]])}, control=get("control",pos=parent.frame())){
+check.control.class <- function(OKnames=as.character(ult(sys.calls(),2)[[1]]), myname=as.character(ult(sys.calls(),2)[[1]]), control=get("control",pos=parent.frame())){
   if(missing(OKnames) || missing(myname)) .autodetect_dep_warn() 
   funs <- paste("control", OKnames, sep=".")
   
@@ -64,7 +64,7 @@ check.control.class <- function(OKnames={sc <- sys.calls(); as.character(sc[[len
 #' @seealso check.control.class, print.control.list
 #' @keywords utilities
 #' @export
-set.control.class <- function(myname={sc <- sys.calls(); as.character(sc[[length(sc)-1]][[1]])}, control=get("control",pos=parent.frame())){
+set.control.class <- function(myname=as.character(ult(sys.calls(),2)[[1]]), control=get("control",pos=parent.frame())){
   if(missing(myname)) .autodetect_dep_warn()
   class(control) <- c(myname, "control.list", "list")
   control
