@@ -10,6 +10,8 @@ NULL
 #' @description `.Deprecate_once` calls [.Deprecated()], passing all its arguments
 #' through, but only the first time it's called.
 #'
+#' @param ... arguments passed to [.Deprecated()].
+#'
 #' @examples
 #' \donttest{
 #' options(warn=1) # Print warning immediately after the call.
@@ -39,6 +41,9 @@ NULL
 #'   [.Deprecated()], but only if a method has been called by name,
 #'   i.e., \code{\var{METHOD}.\var{CLASS}}. Like `.Deprecate_once` it
 #'   only issues a warning the first time.
+#'
+#' @param generic,class strings giving the generic function name and
+#'   class name of the function to be deprecated.
 #'
 #' @examples
 #' \donttest{

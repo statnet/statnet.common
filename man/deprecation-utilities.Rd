@@ -10,6 +10,12 @@
 
 .Deprecate_method(generic, class)
 }
+\arguments{
+\item{...}{arguments passed to \code{\link[=.Deprecated]{.Deprecated()}}.}
+
+\item{generic, class}{strings giving the generic function name and
+class name of the function to be deprecated.}
+}
 \description{
 \code{.Deprecate_once} calls \code{\link[=.Deprecated]{.Deprecated()}}, passing all its arguments
 through, but only the first time it's called.
