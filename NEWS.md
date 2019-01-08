@@ -8,9 +8,13 @@
 
 * `forkTimeout()` evaluates an \R expression with a hard time limit (except on Windows) by forking a process. Unlike `setTimeLimit()`, it enforces the limit even on native code.
 
+* `ult()` is a convenience function that extracts or replaces elements of a list indexed from the end.
+
 ## Miscellaneous
 
 * `statnet.common` now depends on \R >= 3.5 due to what appears to be a method dispatching bug in earlier versions.
+
+* The package no longer Enhances `coda`.
 
 # statnet.common 4.1.4
 
