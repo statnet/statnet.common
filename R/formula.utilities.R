@@ -72,7 +72,7 @@ append_rhs.formula<-function(object,newterms,keep.onesided=FALSE){
 #' \code{append.rhs.formula} has been renamed to \code{append_rhs.formula}.
 #' @export
 append.rhs.formula<-function(object,newterms,keep.onesided=FALSE){
-  .Deprecated("append_rhs.formula")
+  .Deprecate_once("append_rhs.formula")
   append_rhs.formula(object,newterms,keep.onesided)
 }
 
@@ -213,7 +213,7 @@ nonsimp_update.formula<-function (object, new, ..., from.new=FALSE){
 #' \code{nonsimp.update.formula} has been renamed to \code{nonsimp_update.formula}.
 #' @export
 nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
-  .Deprecated("nonsimp_update.formula")
+  .Deprecate_once("nonsimp_update.formula")
   nonsimp_update.formula(object, new, ..., from.new=from.new)
 }
 
@@ -249,7 +249,7 @@ nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
 #' 
 #' @export
 term.list.formula<-function(rhs, sign=+1){
-  .Deprecated("list_rhs.formula")
+  .Deprecate_once("list_rhs.formula")
   .recurse_summation(rhs, sign)
 }
 
