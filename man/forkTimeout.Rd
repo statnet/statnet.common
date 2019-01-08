@@ -14,7 +14,13 @@ forkTimeout(expr, timeout, unsupported = c("warning", "error", "message",
 evaluate.}
 
 \item{unsupported}{a character vector of length 1 specifying how to
-handle a platform that does not support \code{\link[parallel:mcparallel]{parallel::mcparallel()}}:
+handle a platform that does not support
+#ifndef windows
+\code{\link[parallel:mcparallel]{parallel::mcparallel()}},
+#endif
+#ifdef windows
+\code{parallel::mcparallel()},
+#endif
 \describe{
 
 \item{\code{"warning"} or \code{"message"}}{Issue a warning or a message,
@@ -35,7 +41,14 @@ Result of evaluating \code{expr} if completed, \code{onTimeout}
 otherwise.
 }
 \description{
-This function uses \code{\link[parallel:mcparallel]{parallel::mcparallel()}}, so the time limit is not
+This function uses
+#ifndef windows
+\code{\link[parallel:mcparallel]{parallel::mcparallel()}},
+#endif
+#ifdef windows
+\code{parallel::mcparallel()},
+#endif
+so the time limit is not
 enforced on Windows. However, unlike functions using \code{\link[=setTimeLimit]{setTimeLimit()}}, the time
 limit is enforced even on native code.
 }

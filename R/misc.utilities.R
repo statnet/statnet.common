@@ -403,7 +403,14 @@ unwhich <- function(which, n){
 
 #' Evaluate an \R expression with a hard time limit by forking a process
 #'
-#' This function uses [parallel::mcparallel()], so the time limit is not
+#' This function uses
+#' #ifndef windows
+#' [parallel::mcparallel()],
+#' #endif
+#' #ifdef windows
+#' `parallel::mcparallel()`,
+#' #endif
+#' so the time limit is not
 #' enforced on Windows. However, unlike functions using [setTimeLimit()], the time
 #' limit is enforced even on native code.
 #'
@@ -411,7 +418,13 @@ unwhich <- function(which, n){
 #' @param timeout number of seconds to wait for the expression to
 #'   evaluate.
 #' @param unsupported a character vector of length 1 specifying how to
-#'   handle a platform that does not support [parallel::mcparallel()]:
+#'   handle a platform that does not support
+#' #ifndef windows
+#' [parallel::mcparallel()],
+#' #endif
+#' #ifdef windows
+#' `parallel::mcparallel()`,
+#' #endif
 #'   \describe{
 #'
 #'   \item{`"warning"` or `"message"`}{Issue a warning or a message,
