@@ -8,3 +8,4 @@ appveyor.yml
 ^revdep/
 ^codecov\.yml$
 ^revdep$
+^README.md$
