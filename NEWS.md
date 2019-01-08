@@ -1,4 +1,18 @@
-# statnet.common 4.1.0
+# statnet.common 4.2.0
+
+## New utilities
+
+* `.Deprecate_once()` calls `.Deprecated()`, passing all its arguments through, but only the first time it's called.
+
+* `.Deprecate_method()` calls `.Deprecated()`, but only if a method has been called by name, i.e., \code{\var{METHOD}.\var{CLASS}}.
+
+* `forkTimeout()` evaluates an \R expression with a hard time limit (except on Windows) by forking a process. Unlike `setTimeLimit()`, it enforces the limit even on native code.
+
+## Miscellaneous
+
+* `statnet.common` now depends on \R >= 3.5 due to what appears to be a method dispatching bug in earlier versions.
+
+# statnet.common 4.1.4
 
 ## New utilities
 
@@ -32,6 +46,8 @@
     * `term.list.formula()` →  `list_rhs.formula()`
     * `append.rhs.formula()` →  `append_rhs.formula()`
     * `nonsimp.update.formula()` →  `nonsimp_update.formula()`
+
+* Citation utilities have been deprecated, since CRAN's structure makes them unusable.
 
 # statnet.common 4.0.0
 
