@@ -256,6 +256,47 @@ NVL3 <- function(test, notnull, null = NULL){
   }
 }
 
+#' @describeIn NVL
+#'
+#' As `NVL`, but for any objects of length 0 (*E*mpty) rather than just `NULL`. Note that if no non-zero-length arguments are given, `NULL` is returned.
+#'
+#' @examples
+#'
+#' NVL(NULL*2, 1) # numeric(0) is not NULL
+#' EVL(NULL*2, 1) # 1
+#'
+#' @export
+EVL <- function(...){
+  o <- NULL
+  for(e in eval(substitute(alist(...)))){ # Lazy evaluate. (See http://adv-r.had.co.nz/Computing-on-the-language.html .)
+    x <- eval(e, parent.frame())
+    if(length(x)){ o <- x;  break }
+  }
+  x
+}
+
+#' @describeIn NVL
+#'
+#' As `NVL2`, but for any objects of length 0 (*E*mpty) rather than just `NULL`.
+#'
+#' @export
+EVL2 <- function(test, notnull, null = NULL){
+  if(length(test)) notnull else null
+}
+
+#' @describeIn NVL
+#'
+#' As `NVL3`, but for any objects of length 0 (*E*mpty) rather than just `NULL`.
+#'
+#' @export
+EVL3 <- function(test, notnull, null = NULL){
+  if(length(test)==0) null
+  else{
+    e <- substitute(notnull)
+    eval(do.call(substitute, list(e, list(.=test))),
+         parent.frame())
+  }
+}
 
 #' @describeIn NVL
 #'
@@ -267,7 +308,7 @@ NVL3 <- function(test, notnull, null = NULL){
 #' @param value new value for `x`.
 #'
 #' @examples
-#' 
+#'
 #' NVL(a) <- 2
 #' a # 2
 #' NVL(b) <- 2
@@ -276,6 +317,16 @@ NVL3 <- function(test, notnull, null = NULL){
 `NVL<-` <- function(x, value){
   if(is.null(x)) value
   else x
+}
+
+#' @describeIn NVL
+#'
+#' As assignment to `NVL`, but for any objects of length 0 (*E*mpty) rather than just `NULL`.
+#'
+#' @export
+`EVL<-` <- function(x, value){
+  if(length(x)) x
+  else value
 }
 
 

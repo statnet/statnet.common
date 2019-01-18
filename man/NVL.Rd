@@ -4,7 +4,11 @@
 \alias{NVL}
 \alias{NVL2}
 \alias{NVL3}
+\alias{EVL}
+\alias{EVL2}
+\alias{EVL3}
 \alias{NVL<-}
+\alias{EVL<-}
 \title{Convenience functions for handling \code{\link{NULL}} objects.}
 \usage{
 NVL(...)
@@ -13,7 +17,15 @@ NVL2(test, notnull, null = NULL)
 
 NVL3(test, notnull, null = NULL)
 
+EVL(...)
+
+EVL2(test, notnull, null = NULL)
+
+EVL3(test, notnull, null = NULL)
+
 NVL(x) <- value
+
+EVL(x) <- value
 }
 \arguments{
 \item{\dots, test}{expressions to be tested.}
@@ -44,9 +56,17 @@ first argument is \code{NULL}. The third argument defaults to \code{NULL}, so
 operator, behaves as \code{NVL2} but \code{.}s in the second argument are
 substituted with the first argument.
 
+\item \code{EVL}: As \code{NVL}, but for any objects of length 0 (\emph{E}mpty) rather than just \code{NULL}. Note that if no non-zero-length arguments are given, \code{NULL} is returned.
+
+\item \code{EVL2}: As \code{NVL2}, but for any objects of length 0 (\emph{E}mpty) rather than just \code{NULL}.
+
+\item \code{EVL3}: As \code{NVL3}, but for any objects of length 0 (\emph{E}mpty) rather than just \code{NULL}.
+
 \item \code{NVL<-}: Assigning to \code{NVL} overwrites its first argument if that argument
 is \code{\link{NULL}}. Note that it will \emph{always} return the right-hand-side
 of the assignment (\code{value}), regardless of what \code{x} is.
+
+\item \code{EVL<-}: As assignment to \code{NVL}, but for any objects of length 0 (\emph{E}mpty) rather than just \code{NULL}.
 }}
 
 \note{
@@ -80,6 +100,10 @@ NVL2(b, "not null!", "null!") # "not null!"
 
 NVL3(a, "not null!", "null!") # "null!"
 NVL3(b, .+1, "null!") # 2
+
+NVL(NULL*2, 1) # numeric(0) is not NULL
+EVL(NULL*2, 1) # 1
+
 
 NVL(a) <- 2
 a # 2
