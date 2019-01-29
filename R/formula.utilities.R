@@ -60,9 +60,9 @@ append_rhs.formula<-function(object,newterms,keep.onesided=FALSE){
   for(i in seq_along(newterms)){
     newterm <- newterms[[i]]
     termsign <- if(NVL(attr(newterms, "sign")[i], +1)>0) "+" else "-"
-    if(length(object)==3) object[[3]]<-call(termsign,object[[3]],newterm)
-    else if(keep.onesided) object[[2]]<-call(termsign,object[[2]],newterm)
-    else object[[3]]<- if(termsign=="+") newterm else call(termsign,newterm)
+    if(length(object)==3) object[[3L]]<-call(termsign,object[[3L]],newterm)
+    else if(keep.onesided) object[[2L]]<-call(termsign,object[[2L]],newterm)
+    else object[[3L]]<- if(termsign=="+") newterm else call(termsign,newterm)
   }
   object
 }
@@ -115,15 +115,15 @@ filter_rhs.formula <- function(object, f, ...){
   SnD <- function(x){
     if(!f(x, ...)) return(NULL)
     if(is(x, "call")){
-      op <- x[[1]]
+      op <- x[[1L]]
       if(! as.character(op)%in%c("+","-")) return(x)
       else if(length(x)==2){
-        arg <- SnD(x[[2]])
+        arg <- SnD(x[[2L]])
         if(is.null(arg)) return(NULL)
         else return(call(as.character(op), arg))
       }else if(length(x)==3){
-        arg1 <- SnD(x[[2]])
-        arg2 <- SnD(x[[3]])
+        arg1 <- SnD(x[[2L]])
+        arg2 <- SnD(x[[3L]])
         if(is.null(arg2)) return(arg1)
         else if(is.null(arg1)){
           if(as.character(op)=="+") return(arg2)
@@ -158,33 +158,33 @@ filter_rhs.formula <- function(object, f, ...){
 #' @importFrom stats as.formula
 #' @export
 nonsimp_update.formula<-function (object, new, ..., from.new=FALSE){
-  old.lhs <- if(length(object)==2) NULL else object[[2]]
-  old.rhs <- if(length(object)==2) object[[2]] else object[[3]]
+  old.lhs <- if(length(object)==2) NULL else object[[2L]]
+  old.rhs <- if(length(object)==2) object[[2L]] else object[[3L]]
   
-  new.lhs <- if(length(new)==2) NULL else new[[2]]
-  new.rhs <- if(length(new)==2) new[[2]] else new[[3]]
+  new.lhs <- if(length(new)==2) NULL else new[[2L]]
+  new.rhs <- if(length(new)==2) new[[2L]] else new[[3L]]
   
   sub.dot <- function(c, dot){
     if(is.null(dot)) c # If nothing to substitute with, just return it.
-    else if(is.call(c)) as.call(c(list(c[[1]]), lapply(c[-1], sub.dot, dot))) # If it's a call, construct a call consisting of the call and each of the arguments with the substitution performed, recursively.
+    else if(is.call(c)) as.call(c(list(c[[1L]]), lapply(c[-1], sub.dot, dot))) # If it's a call, construct a call consisting of the call and each of the arguments with the substitution performed, recursively.
     else if(is.name(c) && c==".")  dot # If it's a dot, return substitute.
     else c # If it's anything else, just return it.
   }
   
   deparen<- function(c, ops = c("+","*")){
     if(is.call(c)){
-      if(as.character(c[[1]]) %in% ops){
-        op <- as.character(c[[1]])
-        if(length(c)==2 && is.call(c[[2]]) && c[[2]][[1]]==op)
-          return(deparen(c[[2]], ops))
-        else if(length(c)==3 && is.call(c[[3]]) && c[[3]][[1]]==op){
-          if(length(c[[3]])==3)
-            return(call(op, call(op, deparen(c[[2]],ops), deparen(c[[3]][[2]],ops)), deparen(c[[3]][[3]],ops)))
+      if(as.character(c[[1L]]) %in% ops){
+        op <- as.character(c[[1L]])
+        if(length(c)==2 && is.call(c[[2L]]) && c[[2L]][[1L]]==op)
+          return(deparen(c[[2L]], ops))
+        else if(length(c)==3 && is.call(c[[3L]]) && c[[3L]][[1L]]==op){
+          if(length(c[[3L]])==3)
+            return(call(op, call(op, deparen(c[[2L]],ops), deparen(c[[3L]][[2L]],ops)), deparen(c[[3L]][[3L]],ops)))
           else
-            return(call(op, deparen(c[[2]],ops), deparen(c[[3]][[2]],ops)))
+            return(call(op, deparen(c[[2L]],ops), deparen(c[[3L]][[2L]],ops)))
         }
       }
-      return(as.call(c(list(c[[1]]), lapply(c[-1], deparen, ops)))) # If it's a non-reducible call, construct a call consisting of the call and each of the arguments with the substitution performed, recursively.
+      return(as.call(c(list(c[[1L]]), lapply(c[-1], deparen, ops)))) # If it's a non-reducible call, construct a call consisting of the call and each of the arguments with the substitution performed, recursively.
     }else return(c)
   }
   
@@ -220,23 +220,23 @@ nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
 
 .recurse_summation <- function(x, sign){
   if(length(x)==1) {out <- list(x); attr(out,"sign")<-sign; out}
-  else if(length(x)==2 && x[[1]]=="+") .recurse_summation(x[[2]],sign)
-  else if(length(x)==2 && x[[1]]=="-") .recurse_summation(x[[2]],-sign)
-  else if(length(x)==3 && x[[1]]=="+") {
-    l1 <- .recurse_summation(x[[2]],sign)
-    l2 <- .recurse_summation(x[[3]],sign)
+  else if(length(x)==2 && x[[1L]]=="+") .recurse_summation(x[[2L]],sign)
+  else if(length(x)==2 && x[[1L]]=="-") .recurse_summation(x[[2L]],-sign)
+  else if(length(x)==3 && x[[1L]]=="+") {
+    l1 <- .recurse_summation(x[[2L]],sign)
+    l2 <- .recurse_summation(x[[3L]],sign)
     out <- c(l1, l2)
     attr(out,"sign") <- c(attr(l1,"sign"), attr(l2,"sign"))
     out
   }
-  else if(length(x)==3 && x[[1]]=="-"){
-    l1 <- .recurse_summation(x[[2]],sign)
-    l2 <- .recurse_summation(x[[3]],-sign)
+  else if(length(x)==3 && x[[1L]]=="-"){
+    l1 <- .recurse_summation(x[[2L]],sign)
+    l2 <- .recurse_summation(x[[3L]],-sign)
     out <- c(l1, l2)
     attr(out,"sign") <- c(attr(l1,"sign"), attr(l2,"sign"))
     out
   }
-  else if(x[[1]]=="(") .recurse_summation(x[[2]], sign)
+  else if(x[[1L]]=="(") .recurse_summation(x[[2L]], sign)
   else {out <- list(x); attr(out,"sign")<-sign; out}
 }
 
@@ -306,5 +306,5 @@ eval_lhs.formula <- function(object){
   if(length(object)<3)
     stop("Formula given is one-sided.")
 
-  eval(object[[2]],envir=environment(object))
+  eval(object[[2L]],envir=environment(object))
 }

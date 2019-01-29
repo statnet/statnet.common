@@ -8,12 +8,12 @@
 #  Copyright 2007-2019 Statnet Commons
 #######################################################################
 ## .who.loaded.me <- function(){
-##   top.call <- sys.calls()[[1]] # Grab the top-level call.
-##   top.fn <- as.character(top.call[[1]])
+##   top.call <- sys.calls()[[1L]] # Grab the top-level call.
+##   top.fn <- as.character(top.call[[1L]])
   
 ##   if(length(top.fn)!=1 || !(top.fn %in% c("library","require"))) return(NULL)
 
-##   top.call <- match.call(get(as.character(top.call[[1]]),baseenv(),mode="function"),top.call) # Expand the arguments.
+##   top.call <- match.call(get(as.character(top.call[[1L]]),baseenv(),mode="function"),top.call) # Expand the arguments.
 ##   top.call <- as.list(top.call) # Turn the call into a list.
   
 ##   top.pkg <- top.call$package
@@ -114,7 +114,7 @@ statnetStartupMessage <- function(pkgname, friends, nofriends){
   pnlines <- ifelse(pninsts=="", pnnames, paste(pnnames,pninsts, sep=", "))
   
   copylist <- paste("Copyright (c) ",substr(desc$Date,1,4),", ",sep="")
-  copylist <- paste(copylist, pnlines[authors][1],"\n",
+  copylist <- paste(copylist, pnlines[authors][1L],"\n",
                     paste(
                       paste(rep(" ",nchar(copylist)),collapse=""),
                       c(pnlines[authors][-1],if(sum(!authors)) "with contributions from",pnlines[!authors]),sep="",collapse="\n"),

@@ -67,7 +67,7 @@ NULL
 #' @export
 c.rle <- function(...){
   l <- list(...)
-  o <- l[[1]]
+  o <- l[[1L]]
   # This might be suboptimal.
   for(x in l[-1]){
     x <- as.rle(x)
@@ -175,7 +175,7 @@ any.rle <- function(..., na.rm = FALSE){
   inl <- list(...)
   inl <- lapply(inl, as.rle)
   if(length(inl)==1){
-    any(inl[[1]]$values, na.rm = na.rm)
+    any(inl[[1L]]$values, na.rm = na.rm)
   }else{
     any(sapply(inl, any, na.rm = na.rm))
   }
@@ -192,7 +192,7 @@ all.rle <- function(..., na.rm = FALSE){
   inl <- list(...)
   inl <- lapply(inl, as.rle)
   if(length(inl)==1){
-    all(inl[[1]]$values, na.rm = na.rm)
+    all(inl[[1L]]$values, na.rm = na.rm)
   }else{
     all(sapply(inl, all, na.rm = na.rm))
   }
@@ -329,7 +329,7 @@ sum.rle <- function(..., na.rm = FALSE){
   inl <- list(...)
   inl <- lapply(inl, as.rle)
   if(length(inl)==1){
-    sum(inl[[1]]$values*as.numeric(inl[[1]]$lengths), na.rm = na.rm)
+    sum(inl[[1L]]$values*as.numeric(inl[[1L]]$lengths), na.rm = na.rm)
   }else{
     sum(sapply(inl, sum, na.rm = na.rm))
   }

@@ -5,9 +5,9 @@
 \alias{ult<-}
 \title{Extract or replace the \emph{ult}imate (last) element of a vector or a list, or an element counting from the end.}
 \usage{
-ult(x, i = 1)
+ult(x, i = 1L)
 
-ult(x, i = 1) <- value
+ult(x, i = 1L) <- value
 }
 \arguments{
 \item{x}{a vector or a list.}

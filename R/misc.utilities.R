@@ -114,14 +114,14 @@ order.default <- function(..., na.last = TRUE, decreasing = FALSE) base::order(.
 #' @rdname sort.data.frame
 #' @export
 order.data.frame<-function(..., na.last = TRUE, decreasing=FALSE){
-  x <- list(...)[[1]]
+  x <- list(...)[[1L]]
   do.call(base::order,c(unname(x), na.last=na.last, decreasing=decreasing))
 }
 
 #' @rdname sort.data.frame
 #' @export
 order.matrix<-function(..., na.last = TRUE, decreasing=FALSE){
-  x <- list(...)[[1]]
+  x <- list(...)[[1L]]
   do.call(base::order,c(lapply(seq_len(ncol(x)), function(i) x[,i]), na.last=na.last, decreasing=decreasing))
 }
 
@@ -425,7 +425,7 @@ opttest <- function(expr, testname=NULL, testvar="ENABLE_statnet_TESTS", yesvals
 #' @export
 all_identical <- function(x){
   if(length(x)==0) return(TRUE)
-  v0 <- x[[1]]
+  v0 <- x[[1L]]
   for(v in x[-1]) if(!identical(v0,v)) return(FALSE)
   return(TRUE)
 }
@@ -532,7 +532,7 @@ forkTimeout <- function(expr, timeout, unsupported = c("warning","error","messag
       tools::pskill(child$pid)
       out <- onTimeout
     }else{
-      out <- out[[1]]
+      out <- out[[1L]]
     }
 
     suppressWarnings(parallel::mccollect(child)) # Clean up.
@@ -558,8 +558,8 @@ forkTimeout <- function(expr, timeout, unsupported = c("warning","error","messag
 #' }
 #'
 #' @export
-ult <- function(x, i=1){
-  x[[length(x)-i+1]]
+ult <- function(x, i=1L){
+  x[[length(x)-i+1L]]
 }
 
 #' @rdname ult
@@ -580,7 +580,7 @@ ult <- function(x, i=1){
 #' }
 #'
 #' @export
-`ult<-` <- function(x, i=1, value){
-  x[[length(x)-i+1]] <- value
+`ult<-` <- function(x, i=1L, value){
+  x[[length(x)-i+1L]] <- value
   x
 }

@@ -78,8 +78,8 @@ lweighted.mean <- function(x, logw){
   }else if(length(d)>2){
     stop("Arrays of 3 or more dimensions are not supported at this time.")
   }else{ # Matrix
-    if(d[1]==0) rep(NaN, d[2])
-    else if(d[1]!=length(logw)) stop("logw must have the same length as the number of rows in x")
+    if(d[1L]==0) rep(NaN, d[2L])
+    else if(d[1L]!=length(logw)) stop("logw must have the same length as the number of rows in x")
     else .Call("logspace_wmeans_wrapper", x, logw, PACKAGE="statnet.common")
   }
 }
