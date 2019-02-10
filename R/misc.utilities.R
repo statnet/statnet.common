@@ -272,7 +272,7 @@ EVL <- function(...){
     x <- eval(e, parent.frame())
     if(length(x)){ o <- x;  break }
   }
-  x
+  o
 }
 
 #' @describeIn NVL
