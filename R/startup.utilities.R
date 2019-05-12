@@ -83,7 +83,10 @@ statnetStartupMessage <- function(pkgname, friends, nofriends){
                    ucla.edu="University of California -- Los Angeles",
                    nyu.edu="New York University",
                    murdoch.edu.au="Murdoch University",
-                   uow.edu.au="University of Wollongong"
+                   uow.edu.au="University of Wollongong",
+                   unsw.edu.au="University of New South Wales",
+                   kozminski.edu.pl="Kozminski University",
+                   uw.edu.pl="University of Warsaw"
                    ) 
 
   # Note that all options are ignored at this time, and the "wall of
