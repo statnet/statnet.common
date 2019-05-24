@@ -731,6 +731,7 @@ persistEval <- function(expr, retries=NVL(getOption("eval.retries"), 5), beforeR
 }
 
 #' @rdname persistEval
+#' @export
 persistEvalQ <- function(expr, retries=NVL(getOption("eval.retries"), 5), beforeRetry,
                          envir = parent.frame(),
                          enclos = if (is.list(envir) ||
