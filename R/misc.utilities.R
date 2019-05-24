@@ -584,3 +584,77 @@ ult <- function(x, i=1L){
   x[[length(x)-i+1L]] <- value
   x
 }
+
+#' Evaluate a function once for a given input.
+#'
+#' This is a `purrr`-style adverb that checks if a given function has
+#' already been called with a given configuration of arguments and
+#' skips it if it has.
+#'
+#' @param f A function to modify.
+#' @param remember The number of distinct configurations to
+#'   remember. If not `Inf`, *earliest-inserted* configurations will be
+#'   removed from the database. (This exact behavior may change in the
+#'   future.)
+#'
+#' @details Each modified function instance returned by `once()`
+#'   maintains a database of previous argument configurations. They
+#'   are not in any way compressed, so this database may grow over
+#'   time. Thus, this wrapper should be used with caution if arguments
+#'   are large objects. This may be replaced with hashing in the
+#'   future. In the meantime, you may want to set the `remember`
+#'   argument to be safe.
+#'
+#'   Different instances of a modified function do not share
+#'   databases, even if the function is the same. This means that if
+#'   you, say, modify a function within another function, the modified
+#'   function will call once per call to the outer function. Modified
+#'   functions defined at package level count as the same "instance",
+#'   however. See example.
+#'
+#' @note Because the function needs to test whether a particular
+#'   configuration of arguments have already been used, do not rely on
+#'   lazy evaluation behaviour.
+#'
+#' @examples
+#' msg <- once(message)
+#' msg("abc") # Prints.
+#' msg("abc") # Silent.
+#'
+#' msg <- once(message) # Starts over.
+#' msg("abc") # Prints.
+#'
+#' f <- function(){
+#'   innermsg  <- once(message)
+#'   innermsg("efg") # Prints once per call to f().
+#'   innermsg("efg") # Silent.
+#'   msg("abcd") # Prints only the first time f() is called.
+#'   msg("abcd") # Silent.
+#' }
+#' f() # Prints "efg" and "abcd".
+#' f() # Prints only "efg".
+#'
+#' msg3 <- once(message, 3)
+#' msg3("a") # 1 remembered.
+#' msg3("a") # Silent.
+#' msg3("b") # 2 remembered.
+#' msg3("a") # Silent.
+#' msg3("c") # 3 remembered.
+#' msg3("a") # Silent.
+#' msg3("d") # "a" forgotten.
+#' msg3("a") # Printed.
+#'
+#' @export
+once <- function(f, remember=Inf){
+  local({
+    prev <- list()
+    function(...){
+      sig <- list(...)
+      if(! list(sig)%in%prev){
+        prev <<- c(prev, list(sig))
+        if(length(prev) > remember) prev <<- prev[-1]
+        f(...)
+      }
+    }
+  })
+}
