@@ -592,17 +592,21 @@ ult <- function(x, i=1L){
 #' skips it if it has.
 #'
 #' @param f A function to modify.
-#' @param remember The number of distinct configurations to
-#'   remember. If not `Inf`, *earliest-inserted* configurations will be
-#'   removed from the database. (This exact behavior may change in the
-#'   future.)
+#' @param expire_after The number of seconds since it was added to the
+#'   database before a particular configuration is "forgotten". This
+#'   can be used to periodically remind the user without overwhelming
+#'   them.
+#' @param max_entries The number of distinct configurations to
+#'   remember. If not `Inf`, *earliest-inserted* configurations will
+#'   be removed from the database when capacity is exceeded. (This
+#'   exact behavior may change in the future.)
 #'
 #' @details Each modified function instance returned by `once()`
 #'   maintains a database of previous argument configurations. They
 #'   are not in any way compressed, so this database may grow over
 #'   time. Thus, this wrapper should be used with caution if arguments
 #'   are large objects. This may be replaced with hashing in the
-#'   future. In the meantime, you may want to set the `remember`
+#'   future. In the meantime, you may want to set the `max_entries`
 #'   argument to be safe.
 #'
 #'   Different instances of a modified function do not share
@@ -634,7 +638,7 @@ ult <- function(x, i=1L){
 #' f() # Prints "efg" and "abcd".
 #' f() # Prints only "efg".
 #'
-#' msg3 <- once(message, 3)
+#' msg3 <- once(message, max_entries=3)
 #' msg3("a") # 1 remembered.
 #' msg3("a") # Silent.
 #' msg3("b") # 2 remembered.
@@ -644,15 +648,34 @@ ult <- function(x, i=1L){
 #' msg3("d") # "a" forgotten.
 #' msg3("a") # Printed.
 #'
+#' msg2s <- once(message, expire_after=2)
+#' msg2s("abc") # Prints.
+#' msg2s("abc") # Silent.
+#' Sys.sleep(1)
+#' msg2s("abc") # Silent after 1 sec.
+#' Sys.sleep(1.1)
+#' msg2s("abc") # Prints after 2.1 sec.
+#'
 #' @export
-once <- function(f, remember=Inf){
+once <- function(f, expire_after=Inf, max_entries=Inf){
   local({
     prev <- list()
+    prev.time <- c()
     function(...){
+      # If using expire_after, expire old entries.
+      if(is.finite(expire_after)){
+        expired <- Sys.time() - prev.time > expire_after
+        prev <<- prev[!expired]
+        prev.time <<- prev.time[!expired]
+      }
       sig <- list(...)
       if(! list(sig)%in%prev){
         prev <<- c(prev, list(sig))
-        if(length(prev) > remember) prev <<- prev[-1]
+        prev.time <<- c(prev.time, Sys.time())
+        if(length(prev) > max_entries){
+          prev <<- prev[-1]
+          prev.time <<- prev.time[-1]
+        }
         f(...)
       }
     }
