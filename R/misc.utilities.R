@@ -658,3 +658,64 @@ once <- function(f, remember=Inf){
     }
   })
 }
+
+#' Evaluate an expression, restarting on error
+#'
+#' A pair of functions paralleling [eval()] and [evalq()] that make
+#' multiple attempts at evaluating an expression, retrying on error up
+#' to a specified number of attempts, and optionally evaluating
+#' another expression before restarting.
+#'
+#' @param expr an expression to be retried; note the difference
+#'   between [eval()] and [evalq()].
+#' @param retries number of retries to make; defaults to
+#'   `"eval.retries"` option, or 5.
+#' @param beforeRetry if given, an expression that will be evaluated
+#'   before each retry if the initial attempt fails; it is evaluated
+#'   in the same environment and with the same quoting semantics as
+#'   `expr`, but its errors are not handled.
+#' @param envir,enclos see [eval()].
+#' @param verbose Whether to output retries.
+#'
+#' @note If `expr` returns a `"try-error"` object (returned by
+#'   [try()]), it will be treated as an error. This behavior may
+#'   change in the future.
+#'
+#' @return Results of evaluating `expr`, including side-effects such
+#'   as variable assignments, if successful in `retries` retries.
+#'
+#' @examples
+#' x <- 0
+#' persistEvalQ({if((x<-x+1)<3) stop("x < 3") else x}, beforeRetry = {cat("Will try incrementing...\n")})
+#'
+#' x <- 0
+#' e <- quote(if((x<-x+1)<3) stop("x < 3") else x)
+#' persistEval(e, beforeRetry = quote(cat("Will try incrementing...\n")))
+#' @export
+persistEval <- function(expr, retries=NVL(getOption("eval.retries"), 5), beforeRetry,
+                        envir = parent.frame(),
+                        enclos = if (is.list(envir) ||
+                                     is.pairlist(envir)) parent.frame() else baseenv(), verbose=FALSE){
+  for(attempt in seq_len(retries)){
+    out <- try(eval(expr, envir=envir, enclos=enclos), silent=TRUE)
+    if(!is(out, "try-error")) return(out)
+    else{
+      if(!missing(beforeRetry)) eval(beforeRetry, envir=envir, enclos=enclos)
+      if(verbose) inform(paste0("Retrying: retry ", attempt,"."))
+    }
+  }
+  out <- eval(expr, envir=envir, enclos=enclos)
+}
+
+#' @rdname persistEval
+persistEvalQ <- function(expr, retries=NVL(getOption("eval.retries"), 5), beforeRetry,
+                         envir = parent.frame(),
+                         enclos = if (is.list(envir) ||
+                                      is.pairlist(envir)) parent.frame() else baseenv(), verbose=FALSE){
+  expr <- substitute(expr)
+  beforeRetry <- substitute(beforeRetry)
+  envir <- force(envir)
+  enclos <- force(enclos)
+
+  .persistEval(expr=expr, retries=retries, beforeRetry=beforeRetry, envir=envir, enclos=enclos, verbose=verbose)
+}
