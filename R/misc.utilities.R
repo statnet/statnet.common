@@ -709,7 +709,8 @@ once <- function(f, expire_after=Inf, max_entries=Inf){
 #'
 #' @examples
 #' x <- 0
-#' persistEvalQ({if((x<-x+1)<3) stop("x < 3") else x}, beforeRetry = {cat("Will try incrementing...\n")})
+#' persistEvalQ({if((x<-x+1)<3) stop("x < 3") else x}
+#'              beforeRetry = {cat("Will try incrementing...\n")})
 #'
 #' x <- 0
 #' e <- quote(if((x<-x+1)<3) stop("x < 3") else x)
