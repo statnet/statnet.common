@@ -725,8 +725,7 @@ persistEval <- function(expr, retries=NVL(getOption("eval.retries"), 5), beforeR
     if(!is(out, "try-error")) return(out)
     else{
       if(!missing(beforeRetry)) eval(beforeRetry, envir=envir, enclos=enclos)
-      #' @importFrom rlang inform
-      if(verbose) inform(paste0("Retrying: retry ", attempt,"."))
+      if(verbose) message("Retrying: retry ", attempt, ".")
     }
   }
   out <- eval(expr, envir=envir, enclos=enclos)
