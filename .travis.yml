@@ -11,6 +11,6 @@ matrix:
     os: osx
 sudo: false
 cache: packages
-warnings_are_errors: false
+warnings_are_errors: true
 after_success:
     - Rscript -e 'covr::codecov(type="all")'
