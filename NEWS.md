@@ -8,6 +8,10 @@
 
 * `persistEval()` and `persistEvalQ()` to retry evaluating a given expression a specified number of times.
 
+## Bug fixes
+
+* In `forkTimeout()`, don't collect a process twice. Thanks to Tomas Kalibera for suggesting the fix.
+
 # statnet.common 4.2.0
 
 ## New utilities
