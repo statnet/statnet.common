@@ -10,7 +10,7 @@ Depends: R (>= 3.5)
 Imports: utils, methods, coda, parallel, tools
 BugReports: https://github.com/statnet/statnet.common/issues
 License: GPL-3 + file LICENSE
-URL: http://www.statnet.org
+URL: https://www.statnet.org
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 Encoding: UTF-8
