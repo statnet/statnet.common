@@ -531,11 +531,11 @@ forkTimeout <- function(expr, timeout, unsupported = c("warning","error","messag
     if(is.null(out)){ # Timed out with no result: kill.
       tools::pskill(child$pid)
       out <- onTimeout
-      suppressWarnings(parallel::mccollect(child)) # Clean up.
     }else{
       out <- out[[1L]]
     }
-
+    # Clean up unconditionally. (Even if the process was successfully completed and collected, it appears to leave zombie processes with wait=FALSE.)
+    suppressWarnings(parallel::mccollect(child))
   }
   out
 }
