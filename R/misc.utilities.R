@@ -758,7 +758,7 @@ persistEvalQ <- function(expr, retries=NVL(getOption("eval.retries"), 5), before
 #' `NA` and `NAN` values are preserved.
 #'
 #' @export
-deinf <- function(x, replace=1/.Machine$double.eps){
+deInf <- function(x, replace=1/.Machine$double.eps){
   if(tolower(replace) %in% c("maxint","intmax")) replace <- .Machine$integer.max
   ifelse(is.nan(x) | abs(x)<replace, x, sign(x)*replace)
 }
