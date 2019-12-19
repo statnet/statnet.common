@@ -4,8 +4,13 @@
 \alias{opttest}
 \title{Optionally test code depending on environment variable.}
 \usage{
-opttest(expr, testname = NULL, testvar = "ENABLE_statnet_TESTS",
-  yesvals = c("y", "yes", "t", "true", "1"), lowercase = TRUE)
+opttest(
+  expr,
+  testname = NULL,
+  testvar = "ENABLE_statnet_TESTS",
+  yesvals = c("y", "yes", "t", "true", "1"),
+  lowercase = TRUE
+)
 }
 \arguments{
 \item{expr}{An expression to be evaluated only if \code{testvar} is set to a

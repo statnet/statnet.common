@@ -80,8 +80,7 @@ compact.rle(x)
 
 \method{is.na}{rle}(x)
 
-\method{rep}{rle}(x, ..., scale = c("element", "run"),
-  doNotCompact = FALSE)
+\method{rep}{rle}(x, ..., scale = c("element", "run"), doNotCompact = FALSE)
 }
 \arguments{
 \item{...}{For \code{c}, objects to be concatenated. The first object

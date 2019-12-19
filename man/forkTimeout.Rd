@@ -4,8 +4,12 @@
 \alias{forkTimeout}
 \title{Evaluate an \R expression with a hard time limit by forking a process}
 \usage{
-forkTimeout(expr, timeout, unsupported = c("warning", "error", "message",
-  "silent"), onTimeout = NULL)
+forkTimeout(
+  expr,
+  timeout,
+  unsupported = c("warning", "error", "message", "silent"),
+  onTimeout = NULL
+)
 }
 \arguments{
 \item{expr}{expression to be evaluated.}

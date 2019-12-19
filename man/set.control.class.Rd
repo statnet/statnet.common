@@ -4,8 +4,10 @@
 \alias{set.control.class}
 \title{Set the class of the control list}
 \usage{
-set.control.class(myname = as.character(ult(sys.calls(), 2)[[1L]]),
-  control = get("control", pos = parent.frame()))
+set.control.class(
+  myname = as.character(ult(sys.calls(), 2)[[1L]]),
+  control = get("control", pos = parent.frame())
+)
 }
 \arguments{
 \item{myname}{Name of the class to set.}

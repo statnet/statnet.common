@@ -25,11 +25,23 @@
 \alias{[<-.wmatrix}
 \title{A data matrix with row weights}
 \usage{
-logwmatrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
-  dimnames = NULL, w = NULL)
+logwmatrix(
+  data = NA,
+  nrow = 1,
+  ncol = 1,
+  byrow = FALSE,
+  dimnames = NULL,
+  w = NULL
+)
 
-linwmatrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
-  dimnames = NULL, w = NULL)
+linwmatrix(
+  data = NA,
+  nrow = 1,
+  ncol = 1,
+  byrow = FALSE,
+  dimnames = NULL,
+  w = NULL
+)
 
 is.wmatrix(x)
 

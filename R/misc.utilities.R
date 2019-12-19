@@ -745,3 +745,20 @@ persistEvalQ <- function(expr, retries=NVL(getOption("eval.retries"), 5), before
 
   persistEval(expr=expr, retries=retries, beforeRetry=beforeRetry, envir=envir, enclos=enclos, verbose=verbose)
 }
+
+#' Truncate values of high magnitude in a vector.
+#'
+#' @param x a numeric or integer vector.
+#' @param replace a number or a string `"maxint"` or `"intmax"`.
+#'
+#' @return Returns `x` with elements whose magnitudes exceed `replace`
+#'   replaced replaced by `replace` (or its negation). If `replace` is
+#'   `"maxint"` or `"intmax"`, `.Machine$integer.max` is used instead.
+#'
+#' `NA` and `NAN` values are preserved.
+#'
+#' @export
+deinf <- function(x, replace=1/.Machine$double.eps){
+  if(tolower(replace) %in% c("maxint","intmax")) replace <- .Machine$integer.max
+  ifelse(is.nan(x) | abs(x)<replace, x, sign(x)*replace)
+}

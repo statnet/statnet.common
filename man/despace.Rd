@@ -13,5 +13,5 @@ despace(s)
 A one-line function to strip whitespace from its argument.
 }
 \examples{
-stopifnot(despace("\\n \\t  ")=="")
+stopifnot(despace("\n \t  ")=="")
 }

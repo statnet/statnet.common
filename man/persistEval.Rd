@@ -5,13 +5,23 @@
 \alias{persistEvalQ}
 \title{Evaluate an expression, restarting on error}
 \usage{
-persistEval(expr, retries = NVL(getOption("eval.retries"), 5),
-  beforeRetry, envir = parent.frame(), enclos = if (is.list(envir) ||
-  is.pairlist(envir)) parent.frame() else baseenv(), verbose = FALSE)
+persistEval(
+  expr,
+  retries = NVL(getOption("eval.retries"), 5),
+  beforeRetry,
+  envir = parent.frame(),
+  enclos = if (is.list(envir) || is.pairlist(envir)) parent.frame() else baseenv(),
+  verbose = FALSE
+)
 
-persistEvalQ(expr, retries = NVL(getOption("eval.retries"), 5),
-  beforeRetry, envir = parent.frame(), enclos = if (is.list(envir) ||
-  is.pairlist(envir)) parent.frame() else baseenv(), verbose = FALSE)
+persistEvalQ(
+  expr,
+  retries = NVL(getOption("eval.retries"), 5),
+  beforeRetry,
+  envir = parent.frame(),
+  enclos = if (is.list(envir) || is.pairlist(envir)) parent.frame() else baseenv(),
+  verbose = FALSE
+)
 }
 \arguments{
 \item{expr}{an expression to be retried; note the difference
@@ -47,10 +57,10 @@ change in the future.
 \examples{
 x <- 0
 persistEvalQ({if((x<-x+1)<3) stop("x < 3") else x},
-             beforeRetry = {cat("Will try incrementing...\\n")})
+             beforeRetry = {cat("Will try incrementing...\n")})
 
 x <- 0
 e <- quote(if((x<-x+1)<3) stop("x < 3") else x)
 persistEval(e,
-            beforeRetry = quote(cat("Will try incrementing...\\n")))
+            beforeRetry = quote(cat("Will try incrementing...\n")))
 }
