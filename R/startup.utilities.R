@@ -84,10 +84,12 @@ statnetStartupMessage <- function(pkgname, friends, nofriends){
                    nyu.edu="New York University",
                    murdoch.edu.au="Murdoch University",
                    uow.edu.au="University of Wollongong",
-                   unsw.edu.au="University of New South Wales",
+                   unsw.edu.au="UNSW Sydney",
                    kozminski.edu.pl="Kozminski University",
                    uw.edu.pl="University of Warsaw"
-                   ) 
+                   )
+
+  STATNET.ORG_MAP <- list(pavel = "unsw.edu.au")
 
   # Note that all options are ignored at this time, and the "wall of
   # text" is displayed unconditionally.
@@ -100,6 +102,7 @@ statnetStartupMessage <- function(pkgname, friends, nofriends){
   # Find the institution associated with the domain of the specific e-mail message.
   find.inst <- function(email, map){
     if(is.null(email)) return(NULL)
+    if(endsWith(email, "@statnet.org")) email <- paste0("@",STATNET.ORG_MAP[[gsub("@.*","",email)]])
     insts <- which(sapply(names(map),
                           function(inst){
                             instre <- paste('[@.]',gsub('.','\\.',inst,fixed=TRUE),sep='')
