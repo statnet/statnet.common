@@ -85,7 +85,7 @@ SEXP sync_RLEs(SEXP lens1, SEXP lens2){
 }
 
 
-SEXP compact_RLE(SEXP l, SEXP v){
+SEXP compress_RLE(SEXP l, SEXP v){
   const char *names[] = {"lengths", "vali", "nruns", ""};
   SEXP out = PROTECT(mkNamed(VECSXP, names));
   SEXP lengths = PROTECT(allocVector(INTSXP, length(l)));

@@ -313,6 +313,7 @@ eval_lhs.formula <- function(object){
 #'
 #' @param object An [`environment`] or an object with
 #'   [`environment()`] and `environment()<-` methods.
+#' @param ... Additional arguments, passed on to lower-level methods.
 #'
 #' @param keep A character vector giving names of variables in the
 #'   environment (including its ancestors) to copy over, defaulting to

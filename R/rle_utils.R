@@ -50,7 +50,7 @@
 #' @return Unless otherwise stated, all functions return an [`rle`]
 #'   object. By default, the functions and the operators do not merge
 #'   adjacent runs with the same value. This must be done explicitly
-#'   with [`compact.rle`].
+#'   with [`compress.rle`].
 #' 
 #' @examples
 #'
@@ -121,15 +121,24 @@ binop.rle <- function(e1, e2, FUN){
 
 #' @describeIn rle.utils
 #'
+#' A generic function for compressing a data structure.
+#'
+#' @export
+compress <- function(x, ...){
+  UseMethod("compress")
+}
+
+#' @describeIn rle.utils
+#'
 #' Compact the [`rle`] object by merging adjacent runs.
 #'
-#' @note Since [`rle`] stores run lengths as integers, [`compact.rle`]
+#' @note Since [`rle`] stores run lengths as integers, [`compress.rle`]
 #'   will not merge runs that add up to lengths greater than what can
 #'   be represented by a 32-bit signed integer
 #'   (\Sexpr{.Machine$integer.max}).
 #' 
 #' @examples
-#' stopifnot(identical(rle(inverse.rle(x)&inverse.rle(y)),compact.rle(x&y)))
+#' stopifnot(identical(rle(inverse.rle(x)&inverse.rle(y)),compress(x&y)))
 #'
 #' big <- structure(list(lengths=as.integer(rep(.Machine$integer.max/4,6)),
 #'                       values=rep(TRUE,6)), class="rle")
@@ -138,18 +147,18 @@ binop.rle <- function(e1, e2, FUN){
 #'                         data=as.data.frame(unclass(big)),FUN=sum)
 #'               ==
 #'               aggregate(as.numeric(lengths)~values,
-#'                         data=as.data.frame(unclass(compact.rle(big))),
+#'                         data=as.data.frame(unclass(compress(big))),
 #'                         FUN=sum)))
 #' @export
-compact.rle <- function(x){
+compress.rle <- function(x, ...){
   # First, strip the 0-length runs.
   x$values <- x$values[x$lengths!=0]
   x$lengths <- x$lengths[x$lengths!=0]
   # Second, code distinct values as integers.
   vf <- as.integer(as.factor(x$values))
   vf[is.na(vf)] <- 0L # NA runs get coded 0.
-  # Third, call the C code to produce the mapping onto the compacted vector.
-  compinfo <- .Call("compact_RLE", x$lengths, vf)
+  # Third, call the C code to produce the mapping onto the compressed vector.
+  compinfo <- .Call("compress_RLE", x$lengths, vf)
   # Lastly, rebuild the rle with the combined lengths and remapped values.
   structure(list(lengths = compinfo$lengths[seq_len(compinfo$nruns)],
                  values = x$values[compinfo$vali[seq_len(compinfo$nruns)]]),
@@ -385,7 +394,7 @@ is.na.rle <- function(x){
 #' @param scale whether to replicate the elements of the
 #'   RLE-compressed vector or the runs.
 #'
-#' @param doNotCompact whether the method should call [`compact.rle`]
+#' @param doNotCompact whether the method should call [`compress.rle`]
 #'   the results before returning. Methods liable to produce very long
 #'   output vectors, like [`rep`], have this set `FALSE` by default.
 #' 
@@ -430,7 +439,7 @@ rep.rle <- function(x, ..., scale = c("element", "run"), doNotCompact = FALSE){
     x$lengths <- rep(x$lengths, ...)
   }
   
-  if(doNotCompact) x else compact.rle(x)
+  if(doNotCompact) x else compress(x)
 }
 
 #' Coerce to [`rle`] if not already an [`rle`] object.

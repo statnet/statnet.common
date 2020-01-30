@@ -7,7 +7,8 @@
 \alias{binop.rle}
 \alias{|.rle}
 \alias{&.rle}
-\alias{compact.rle}
+\alias{compress}
+\alias{compress.rle}
 \alias{any.rle}
 \alias{all.rle}
 \alias{*.rle}
@@ -40,7 +41,9 @@ binop.rle(e1, e2, FUN)
 
 \method{&}{rle}(e1, e2)
 
-compact.rle(x)
+compress(x, ...)
+
+\method{compress}{rle}(x, ...)
 
 \method{any}{rle}(..., na.rm = FALSE)
 
@@ -99,7 +102,7 @@ and outputs a vector of the same length.}
 \item{scale}{whether to replicate the elements of the
 RLE-compressed vector or the runs.}
 
-\item{doNotCompact}{whether the method should call \code{\link{compact.rle}}
+\item{doNotCompact}{whether the method should call \code{\link{compress.rle}}
 the results before returning. Methods liable to produce very long
 output vectors, like \code{\link{rep}}, have this set \code{FALSE} by default.}
 }
@@ -107,7 +110,7 @@ output vectors, like \code{\link{rep}}, have this set \code{FALSE} by default.}
 Unless otherwise stated, all functions return an \code{\link{rle}}
 object. By default, the functions and the operators do not merge
 adjacent runs with the same value. This must be done explicitly
-with \code{\link{compact.rle}}.
+with \code{\link{compress.rle}}.
 
 \code{\link{any}}, \code{\link{all}}, \code{\link{sum}}, and \code{\link{length}} return logical, logical, numeric, and numeric vectors, respectively.
 }
@@ -119,11 +122,13 @@ Simple utilities for operations on RLE-encoded vectors.
 \item \code{binop.rle}: Perform an arbitrary binary operation on the pair of vectors
 represented by the \code{\link{rle}} objects.
 
-\item \code{compact.rle}: Compact the \code{\link{rle}} object by merging adjacent runs.
+\item \code{compress}: A generic function for compressing a data structure.
+
+\item \code{compress.rle}: Compact the \code{\link{rle}} object by merging adjacent runs.
 }}
 
 \note{
-Since \code{\link{rle}} stores run lengths as integers, \code{\link{compact.rle}}
+Since \code{\link{rle}} stores run lengths as integers, \code{\link{compress.rle}}
 will not merge runs that add up to lengths greater than what can
 be represented by a 32-bit signed integer
 (\Sexpr{.Machine$integer.max}).
@@ -148,7 +153,7 @@ stopifnot(isTRUE(all.equal(c(inverse.rle(x),inverse.rle(y)),inverse.rle(c(x,y)))
 stopifnot(isTRUE(all.equal((!inverse.rle(x)),inverse.rle(!x))))
 stopifnot(isTRUE(all.equal((inverse.rle(x)|inverse.rle(y)),inverse.rle(x|y))))
 stopifnot(isTRUE(all.equal((inverse.rle(x)&inverse.rle(y)),inverse.rle(x&y))))
-stopifnot(identical(rle(inverse.rle(x)&inverse.rle(y)),compact.rle(x&y)))
+stopifnot(identical(rle(inverse.rle(x)&inverse.rle(y)),compress(x&y)))
 
 big <- structure(list(lengths=as.integer(rep(.Machine$integer.max/4,6)),
                       values=rep(TRUE,6)), class="rle")
@@ -157,7 +162,7 @@ stopifnot(all(aggregate(as.numeric(lengths)~values,
                         data=as.data.frame(unclass(big)),FUN=sum)
               ==
               aggregate(as.numeric(lengths)~values,
-                        data=as.data.frame(unclass(compact.rle(big))),
+                        data=as.data.frame(unclass(compress(big))),
                         FUN=sum)))
 
 x <- rle(as.logical(rbinom(10,1,.9)))

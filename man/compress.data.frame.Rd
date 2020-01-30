@@ -5,7 +5,7 @@
 \alias{decompress.data.frame}
 \title{"Compress" a data frame.}
 \usage{
-compress.data.frame(x)
+\method{compress}{data.frame}(x, ...)
 
 decompress.data.frame(x)
 }
@@ -13,6 +13,8 @@ decompress.data.frame(x)
 \item{x}{For \code{compress.data.frame} a \code{\link{data.frame}} to be
 compressed. For \code{decompress.data.frame} a \code{\link{list}} as
 returned by \code{compress.data.frame}.}
+
+\item{...}{Additional arguments, currently unused.}
 }
 \value{
 For \code{compress.data.frame}, a \code{\link{list}} with three
@@ -40,6 +42,7 @@ permutation vector that can reconstruct the original data frame.
 (c <- compress.data.frame(x))
 
 stopifnot(all(decompress.data.frame(c)==x))
+
 }
 \seealso{
 \code{\link{data.frame}}

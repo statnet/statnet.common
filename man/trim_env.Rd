@@ -20,6 +20,8 @@ trim_env(object, keep = NULL, ...)
 environment (including its ancestors) to copy over, defaulting to
 dropping all. Variables that cannot be resolved are silently
 ignored.}
+
+\item{...}{Additional arguments, passed on to lower-level methods.}
 }
 \value{
 An object of the same type as \code{object}, with updated environment.

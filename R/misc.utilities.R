@@ -59,6 +59,7 @@ vector.namesmatch<-function(v,names,errname=NULL){
 #' @param x For \code{compress.data.frame} a \code{\link{data.frame}} to be
 #' compressed. For \code{decompress.data.frame} a \code{\link{list}} as
 #' returned by \code{compress.data.frame}.
+#' @param ... Additional arguments, currently unused.
 #' @return For \code{compress.data.frame}, a \code{\link{list}} with three
 #' elements: \item{rows }{Unique rows of \code{x}} \item{frequencies }{A vector
 #' of the same length as the number or rows, giving the number of times the
@@ -79,8 +80,10 @@ vector.namesmatch<-function(v,names,errname=NULL){
 #' (c <- compress.data.frame(x))
 #' 
 #' stopifnot(all(decompress.data.frame(c)==x))
-#' @export
-compress.data.frame<-function(x){
+#'
+#' @rawNamespace S3method(compress, data.frame)
+#' @export compress.data.frame
+compress.data.frame<-function(x, ...){
   r <- rownames(x)
   o <- order.data.frame(x)
   x <- x[o, , drop=FALSE]
