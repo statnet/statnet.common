@@ -308,3 +308,36 @@ eval_lhs.formula <- function(object){
 
   eval(object[[2L]],envir=environment(object))
 }
+
+#' Make a copy of an environment with just the selected objects.
+#'
+#' @param object An [`environment`] or an object with
+#'   [`environment()`] and `environment()<-` methods.
+#'
+#' @param keep A character vector giving names of variables in the
+#'   environment (including its ancestors) to copy over, defaulting to
+#'   dropping all. Variables that cannot be resolved are silently
+#'   ignored.
+#'
+#' @return An object of the same type as `object`, with updated environment.
+#' @export
+trim_env <- function(object, keep=NULL, ...){
+  UseMethod("trim_env")
+}
+
+#' @describeIn trim_env A method for environment objects.
+#' @export
+trim_env.environment <- function(object, keep=NULL, ...){
+  e <- new.env(parent=baseenv())
+  for(vn in keep){
+    try(assign(vn, get(vn, envir=object), envir=e), silent=TRUE)
+  }
+  e
+}
+
+#' @describeIn trim_env Default method, for objects such as [`formula`] and [`function`] that have [`environment()`] and `environment()<-` methods.
+#' @export
+trim_env.default <- function(object, keep=NULL, ...){
+  environment(object) <- trim_env(environment(object), keep, ...)
+  object
+}

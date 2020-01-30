@@ -1,6 +1,6 @@
 Package: statnet.common
-Version: 4.4.0-254
-Date: 2020-01-17
+Version: 4.4.0-255
+Date: 2020-01-30
 Title: Common R Scripts and Utilities Used by the Statnet Project Software
 Authors@R: c(
 	person("Pavel N.", "Krivitsky", role=c("aut","cre"), email="pavel@statnet.org", comment=c(ORCID="0000-0002-9101-3362")),
