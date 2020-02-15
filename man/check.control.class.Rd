@@ -30,6 +30,6 @@ acceptable classes.
 In earlier versions, \code{OKnames} and \code{myname} were autodetected. This capability has been deprecated and results in a warning issued once per session. They now need to be set explicitly.
 }
 \seealso{
-set.control.class, print.control.list
+\code{\link[=set.control.class]{set.control.class()}}, \code{\link[=print.control.list]{print.control.list()}}
 }
 \keyword{utilities}

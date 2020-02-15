@@ -26,6 +26,6 @@ name of the calling function.
 In earlier versions, \code{OKnames} and \code{myname} were autodetected. This capability has been deprecated and results in a warning issued once per session. They now need to be set explicitly.
 }
 \seealso{
-check.control.class, print.control.list
+\code{\link[=check.control.class]{check.control.class()}}, \code{\link[=print.control.list]{print.control.list()}}
 }
 \keyword{utilities}
