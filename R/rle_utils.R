@@ -67,14 +67,11 @@ NULL
 #' @export
 c.rle <- function(...){
   l <- list(...)
-  o <- l[[1L]]
-  # This might be suboptimal.
-  for(x in l[-1]){
-    x <- as.rle(x)
-    o$lengths <- c(o$lengths, x$lengths)
-    o$values <- c(o$values, x$values)
-  }
-  o
+  l <- lapply(l, as.rle)
+  structure(list(
+    lengths = do.call(c, lapply(l, `[[`, "lengths")),
+    values = do.call(c, lapply(l, `[[`, "values"))
+  ), class = "rle")
 }
 
 #' @rdname rle.utils
