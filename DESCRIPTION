@@ -1,6 +1,6 @@
 Package: statnet.common
-Version: 4.4.0-258
-Date: 2020-02-16
+Version: 4.4.0-261
+Date: 2020-03-27
 Title: Common R Scripts and Utilities Used by the Statnet Project Software
 Authors@R: c(
 	person("Pavel N.", "Krivitsky", role=c("aut","cre"), email="pavel@statnet.org", comment=c(ORCID="0000-0002-9101-3362")),
@@ -12,7 +12,7 @@ BugReports: https://github.com/statnet/statnet.common/issues
 License: GPL-3 + file LICENSE
 URL: https://statnet.org
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Encoding: UTF-8
 Suggests: 
     covr

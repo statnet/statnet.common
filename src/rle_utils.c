@@ -85,36 +85,41 @@ SEXP sync_RLEs(SEXP lens1, SEXP lens2){
 }
 
 
-SEXP compress_RLE(SEXP l, SEXP v){
-  const char *names[] = {"lengths", "vali", "nruns", ""};
-  SEXP out = PROTECT(mkNamed(VECSXP, names));
-  SEXP lengths = PROTECT(allocVector(INTSXP, length(l)));
-  SEXP vi = PROTECT(allocVector(INTSXP, length(l)));
-  SEXP nruns = PROTECT(allocVector(INTSXP, 1));
+SEXP compress_RLE(SEXP lR, SEXP vR, SEXP remapR){
+  Rboolean remap = asLogical(remapR);
+  unsigned int *l = (unsigned int *) INTEGER(lR), *v = (unsigned int *) INTEGER(vR);
 
-  INTEGER(lengths)[0] = INTEGER(l)[0];
-  INTEGER(vi)[0] = 1;
+  const char *names[] = {"lengths", "vali", "nruns", ""};
+  SEXP outR = PROTECT(mkNamed(VECSXP, names));
+  SEXP lengthsR = PROTECT(allocVector(INTSXP, length(lR)));
+  SEXP voR = PROTECT(allocVector(TYPEOF(vR), length(lR)));
+  SEXP nrunsR = PROTECT(allocVector(INTSXP, 1));
+
+  unsigned int *lengths = (unsigned int *) INTEGER(lengthsR), *vo = (unsigned int *) INTEGER(voR), *nruns = (unsigned int *) INTEGER(nrunsR);
+
+  lengths[0] = l[0];
+  vo[0] = remap? 1 : v[0];
   unsigned int o = 0;
-  for(unsigned int i = 1; i < length(l); i++){
-    unsigned int nextl = INTEGER(l)[i];
-    if(INTEGER(lengths)[o] > INT_MAX-nextl || // If cumulative run is too long or
-       INTEGER(v)[INTEGER(vi)[o]-1] != INTEGER(v)[i]){ // the value is not the same as the previous one...
+  for(unsigned int i = 1; i < length(lR); i++){
+    unsigned int nextl = l[i];
+    if(lengths[o] > INT_MAX-nextl || // If cumulative run is too long or
+       (remap? v[vo[o]-1] : vo[o]) != v[i]){ // the value is not the same as the current one...
       // advance the output vector;
       o++;
-      INTEGER(lengths)[o] = nextl;
-      INTEGER(vi)[o] = i+1;
+      lengths[o] = nextl;
+      vo[o] = remap ? i+1 : v[i];
     }else{ // otherwise...
       // stay put and add to the run length.
-      INTEGER(lengths)[o] += nextl;
+      lengths[o] += nextl;
     }
   }
   
-  *INTEGER(nruns) = o+1;
+  *nruns = o+1;
   
-  SET_VECTOR_ELT(out, 0, lengths);
-  SET_VECTOR_ELT(out, 1, vi);
-  SET_VECTOR_ELT(out, 2, nruns);
+  SET_VECTOR_ELT(outR, 0, lengthsR);
+  SET_VECTOR_ELT(outR, 1, voR);
+  SET_VECTOR_ELT(outR, 2, nrunsR);
 
   UNPROTECT(4);
-  return(out);
+  return(outR);
 }
