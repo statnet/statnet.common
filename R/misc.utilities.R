@@ -775,7 +775,8 @@ deInf <- function(x, replace=1/.Machine$double.eps){
 #' @param x A [`matrix`] or an [`array`].
 #' @param f,drop See help for [split()]. Note that `drop` here is
 #'   *not* for array dimensions: these are always preserved.
-#' @param margin Which margin of the array to split along.
+#' @param margin Which margin of the array to split along. `NULL`
+#'   splits as [`split.default`], dropping dimensions.
 #' @param ... Additional arguments to [split()].
 #'
 #' @examples
@@ -786,12 +787,16 @@ deInf <- function(x, replace=1/.Machine$double.eps){
 #' split(x, f, margin=2) # Split columns.
 #'
 #' # This is similar to how data frames are split:
-#' stopifnot(identical(split(x, f),
+#' stopifnot(identical(split(x, f, margin=1),
 #'           lapply(lapply(split(as.data.frame(x), f), as.matrix), unname)))
 #'
 #' @export
-split.array <- function(x, f, drop = FALSE, margin = 1L, ...){
+split.array <- function(x, f, drop = FALSE, margin = NULL, ...){
+  if(is.null(margin)) return(NextMethod("split"))
   d <- dim(x)
+  margin <- as.integer(margin)
+  if(margin < 1L || margin > length(d)) stop(sQuote("margin"), " must be between 1 and the dimensionality of ", sQuote("x"), ".")
+
   args <- c(list(x), rep(TRUE, length(d)), list(drop=FALSE))
   ind_call <- function(ind){
     args[[margin+1L]] <- ind

@@ -5,9 +5,9 @@
 \alias{split.matrix}
 \title{A \code{\link[=split]{split()}} method for \code{\link{array}} and \code{\link{matrix}} types on a margin.}
 \usage{
-\method{split}{array}(x, f, drop = FALSE, margin = 1L, ...)
+\method{split}{array}(x, f, drop = FALSE, margin = NULL, ...)
 
-\method{split}{matrix}(x, f, drop = FALSE, margin = 1L, ...)
+\method{split}{matrix}(x, f, drop = FALSE, margin = NULL, ...)
 }
 \arguments{
 \item{x}{A \code{\link{matrix}} or an \code{\link{array}}.}
@@ -15,7 +15,8 @@
 \item{f, drop}{See help for \code{\link[=split]{split()}}. Note that \code{drop} here is
 \emph{not} for array dimensions: these are always preserved.}
 
-\item{margin}{Which margin of the array to split along.}
+\item{margin}{Which margin of the array to split along. \code{NULL}
+splits as \code{\link{split.default}}, dropping dimensions.}
 
 \item{...}{Additional arguments to \code{\link[=split]{split()}}.}
 }
@@ -32,7 +33,7 @@ split(x, f, margin=1) # Split rows.
 split(x, f, margin=2) # Split columns.
 
 # This is similar to how data frames are split:
-stopifnot(identical(split(x, f),
+stopifnot(identical(split(x, f, margin=1),
           lapply(lapply(split(as.data.frame(x), f), as.matrix), unname)))
 
 }
