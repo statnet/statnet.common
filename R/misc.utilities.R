@@ -765,3 +765,41 @@ deInf <- function(x, replace=1/.Machine$double.eps){
   if(tolower(replace) %in% c("maxint","intmax")) replace <- .Machine$integer.max
   ifelse(is.nan(x) | abs(x)<replace, x, sign(x)*replace)
 }
+
+#' A [split()] method for [`array`] and [`matrix`] types on a margin.
+#'
+#' These methods split an [`array`] and [`matrix`] into a list of
+#' arrays or matrices with the same number of dimensions
+#' according to the specified margin.
+#'
+#' @param x A [`matrix`] or an [`array`].
+#' @param f,drop See help for [split()]. Note that `drop` here is
+#'   *not* for array dimensions: these are always preserved.
+#' @param margin Which margin of the array to split along.
+#' @param ... Additional arguments to [split()].
+#'
+#' @examples
+#'
+#' x <- diag(5)
+#' f <- rep(1:2, c(2,3))
+#' split(x, f, margin=1) # Split rows.
+#' split(x, f, margin=2) # Split columns.
+#'
+#' # This is similar to how data frames are split:
+#' stopifnot(identical(split(x, f),
+#'           lapply(lapply(split(as.data.frame(x), f), as.matrix), unname)))
+#'
+#' @export
+split.array <- function(x, f, drop = FALSE, margin = 1L, ...){
+  d <- dim(x)
+  args <- c(list(x), rep(TRUE, length(d)), list(drop=FALSE))
+  ind_call <- function(ind){
+    args[[margin+1L]] <- ind
+    do.call(`[`, args)
+  }
+  lapply(split(x = seq_len(dim(x)[margin]), f = f, drop = drop, ...), ind_call)
+}
+
+#' @rdname split.array
+#' @export
+split.matrix <- split.array
