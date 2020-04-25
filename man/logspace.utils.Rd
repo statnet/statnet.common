@@ -26,9 +26,12 @@ calculation. If \code{TRUE}, 's C built-in \code{logspace_sum()} is used. If
 \code{double} precision, which is (on most systems) several times faster, at
 the cost of precision.}
 
-\item{x}{Numeric vector of \eqn{x}, the (raw) values to be summed or
-averaged. For \code{lweighted.mean}, \code{x} may also be a matrix, in which
-case the weighted mean will be computed for each column of \code{x}.}
+\item{x}{Numeric vector of \eqn{x}, the (raw) values to be summed
+or averaged. For \code{lweighted.mean} and \code{lweighted.var},
+\code{x} may also be a matrix, in which case the weighted mean
+will be computed for each column of \code{x} and the weighted
+variance-covariance matrix of the columns of \code{x} will be
+returned, respectively.}
 
 \item{logw}{Numeric vector of \eqn{\log(w)}, the natural logarithms of the
 weights.}

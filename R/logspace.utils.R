@@ -16,9 +16,14 @@
 #' @aliases log_mean_exp log_sum_exp lweighted.mean lweighted.var
 #' @param logx Numeric vector of \eqn{\log(x)}, the natural logarithms of the
 #' values to be summed or averaged.
-#' @param x Numeric vector of \eqn{x}, the (raw) values to be summed or
-#' averaged. For \code{lweighted.mean}, \code{x} may also be a matrix, in which
-#' case the weighted mean will be computed for each column of \code{x}.
+#'
+#' @param x Numeric vector of \eqn{x}, the (raw) values to be summed
+#'   or averaged. For \code{lweighted.mean} and \code{lweighted.var},
+#'   \code{x} may also be a matrix, in which case the weighted mean
+#'   will be computed for each column of \code{x} and the weighted
+#'   variance-covariance matrix of the columns of \code{x} will be
+#'   returned, respectively.
+#'
 #' @param logw Numeric vector of \eqn{\log(w)}, the natural logarithms of the
 #' weights.
 #' @param use_ldouble Whether to use \code{long double} precision in the
