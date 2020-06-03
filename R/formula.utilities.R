@@ -165,9 +165,8 @@ nonsimp_update.formula<-function (object, new, ..., from.new=FALSE){
   new.rhs <- if(length(new)==2) new[[2L]] else new[[3L]]
   
   sub.dot <- function(c, dot){
-    if(is.null(dot)) c # If nothing to substitute with, just return it.
+    if(is.name(c) && c==".")  dot # If it's a dot, return substitute.
     else if(is.call(c)) as.call(c(list(c[[1L]]), lapply(c[-1], sub.dot, dot))) # If it's a call, construct a call consisting of the call and each of the arguments with the substitution performed, recursively.
-    else if(is.name(c) && c==".")  dot # If it's a dot, return substitute.
     else c # If it's anything else, just return it.
   }
   
@@ -188,7 +187,17 @@ nonsimp_update.formula<-function (object, new, ..., from.new=FALSE){
     }else return(c)
   }
   
-  out <- if(length(new)==2) call("~", deparen(sub.dot(new.rhs, old.rhs))) else call("~", deparen(sub.dot(new.lhs, old.lhs)), deparen(sub.dot(new.rhs, old.rhs)))
+
+  # This is using some argument alchemy to handle the situation in
+  # which object is one-sided but new is two sided with a dot in the
+  # LHS. quote(expr=) creates a missing argument object that gets
+  # substituted in place of a dot. The next statement then checks if
+  # the resulting LHS *is* a missing object (as it is when the
+  # arguments are ~a and .~.) removes the LHS if it is.
+  out <- if(length(new)==2) call("~", deparen(sub.dot(new.rhs, old.rhs)))
+         else if(length(object)==2) call("~", deparen(sub.dot(new.lhs, quote(expr=))), deparen(sub.dot(new.rhs, old.rhs)))
+         else call("~", deparen(sub.dot(new.lhs, old.lhs)), deparen(sub.dot(new.rhs, old.rhs)))
+  if(identical(out[[2]], quote(expr=))) out <- out[-2]
 
   #  a new sub-environment for the formula, containing both
   # the variables from the old formula and the new.
