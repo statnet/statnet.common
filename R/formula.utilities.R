@@ -208,7 +208,7 @@ nonsimp_update.formula<-function (object, new, ..., from.new=FALSE){
     # Create a sub-environment also containing variables from environment of new.
     e <- new.env(parent=environment(object))
 
-    if(identical(from.new,TRUE)) from.new <- ls(pos=environment(new), all.names=TRUE) # If TRUE, copy all of them (dangerous!).
+    if(identical(from.new,TRUE)) from.new <- setdiff(ls(pos=environment(new), all.names=TRUE), "...") # If TRUE, copy all of them but the dots (dangerous!).
 
     for(name in from.new)
       assign(name, get(name, pos=environment(new)), pos=e)
