@@ -83,7 +83,13 @@ compress(x, ...)
 
 \method{is.na}{rle}(x)
 
-\method{rep}{rle}(x, ..., scale = c("element", "run"), doNotCompact = FALSE)
+\method{rep}{rle}(
+  x,
+  ...,
+  scale = c("element", "run"),
+  doNotCompact = FALSE,
+  doNotCompress = doNotCompact
+)
 }
 \arguments{
 \item{...}{For \code{c}, objects to be concatenated. The first object
@@ -102,9 +108,10 @@ and outputs a vector of the same length.}
 \item{scale}{whether to replicate the elements of the
 RLE-compressed vector or the runs.}
 
-\item{doNotCompact}{whether the method should call \code{\link{compress.rle}}
-the results before returning. Methods liable to produce very long
-output vectors, like \code{\link{rep}}, have this set \code{FALSE} by default.}
+\item{doNotCompress, doNotCompact}{whether the method should call
+\code{\link{compress.rle}} the results before returning. Methods liable to
+produce very long output vectors, like \code{\link{rep}}, have this set
+\code{FALSE} by default. \code{doNotCompact} is an old name for this argument.}
 }
 \value{
 Unless otherwise stated, all functions return an \code{\link{rle}}

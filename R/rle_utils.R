@@ -395,9 +395,10 @@ is.na.rle <- function(x){
 #' @param scale whether to replicate the elements of the
 #'   RLE-compressed vector or the runs.
 #'
-#' @param doNotCompact whether the method should call [`compress.rle`]
-#'   the results before returning. Methods liable to produce very long
-#'   output vectors, like [`rep`], have this set `FALSE` by default.
+#' @param doNotCompress,doNotCompact whether the method should call
+#'   [`compress.rle`] the results before returning. Methods liable to
+#'   produce very long output vectors, like [`rep`], have this set
+#'   `FALSE` by default. `doNotCompact` is an old name for this argument.
 #' 
 #' @note The [`rep`] method for [`rle`] objects is very limited at
 #'   this time. Even though the default setting is to replicate
@@ -417,7 +418,9 @@ is.na.rle <- function(x){
 #'                                inverse.rle(rep(x, max(y), scale="element")))))
 #' 
 #' @export
-rep.rle <- function(x, ..., scale = c("element", "run"), doNotCompact = FALSE){
+rep.rle <- function(x, ..., scale = c("element", "run"), doNotCompact = FALSE, doNotCompress = doNotCompact){
+  if(!missing(doNotCompact)) .Deprecated(msg=paste("Argument", sQuote("doNotCompact="), "to", sQuote("rep.rle()"), "is deprecated and has been renamed to", sQuote("doNotCompress="), "."))
+
   scale <- match.arg(scale)
   ddd <- list(...)
 
@@ -440,7 +443,7 @@ rep.rle <- function(x, ..., scale = c("element", "run"), doNotCompact = FALSE){
     x$lengths <- rep(x$lengths, ...)
   }
   
-  if(doNotCompact) x else compress(x)
+  if(doNotCompress) x else compress(x)
 }
 
 #' Coerce to [`rle`] if not already an [`rle`] object.
