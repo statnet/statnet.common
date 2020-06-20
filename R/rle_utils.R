@@ -364,7 +364,9 @@ mean.rle <- function(x, na.rm = FALSE, ...){
 #'
 #' @note The [`length`] method returns the length of the vector
 #'   represented by the object, obtained by summing the lengths of
-#'   individual runs.
+#'   individual runs. This can be overridden by setting
+#'   `options(rle.length_represented = FALSE)`, which causes it to
+#'   return the length of the underlying list (usually 2) instead.
 #'
 #' @examples
 #'
@@ -373,7 +375,9 @@ mean.rle <- function(x, na.rm = FALSE, ...){
 #'
 #' @export
 length.rle <- function(x){
-  sum(as.numeric(x$lengths))
+  length_rep <- getOption("rle.length_represented")
+  if(is.null(length_rep) || length_rep) sum(as.numeric(x$lengths))
+  else length(unclass(x))
 }
 
 #' @rdname rle.utils
@@ -464,4 +468,19 @@ as.rle.rle <- function(x) x
 as.rle.default <- function(x){
   #' @importFrom methods is
   if(is(x, "rle")) x else rle(x)
+}
+
+#' @rdname rle.utils
+#'
+#' @examples
+#'
+#' str(x)
+#'
+#' @export
+str.rle <- function(object, ...){
+  # This is needed because `str` needs the length of the underlying
+  # list rather than that represented by the RLE.
+  op <- options(rle.length_represented = FALSE)
+  on.exit(options(op))
+  NextMethod("str")
 }

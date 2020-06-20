@@ -29,6 +29,7 @@
 \alias{length.rle}
 \alias{is.na.rle}
 \alias{rep.rle}
+\alias{str.rle}
 \title{RLE utilities}
 \usage{
 \method{c}{rle}(...)
@@ -90,6 +91,8 @@ compress(x, ...)
   doNotCompact = FALSE,
   doNotCompress = doNotCompact
 )
+
+\method{str}{rle}(object, ...)
 }
 \arguments{
 \item{...}{For \code{c}, objects to be concatenated. The first object
@@ -142,7 +145,9 @@ be represented by a 32-bit signed integer
 
 The \code{\link{length}} method returns the length of the vector
 represented by the object, obtained by summing the lengths of
-individual runs.
+individual runs. This can be overridden by setting
+\code{options(rle.length_represented = FALSE)}, which causes it to
+return the length of the underlying list (usually 2) instead.
 
 The \code{\link{rep}} method for \code{\link{rle}} objects is very limited at
 this time. Even though the default setting is to replicate
@@ -228,4 +233,5 @@ stopifnot(isTRUE(all.equal(rep(inverse.rle(x), rep(y, x$lengths)),
 stopifnot(isTRUE(all.equal(rep(inverse.rle(x), max(y)),
                                inverse.rle(rep(x, max(y), scale="element")))))
 
+str(x)
 }
