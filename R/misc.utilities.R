@@ -47,6 +47,12 @@ vector.namesmatch<-function(v,names,errname=NULL){
   v
 }
 
+#' A generic function for compressing a data structure.
+#'
+#' @export
+compress <- function(x, ...){
+  UseMethod("compress")
+}
 
 #' "Compress" a data frame.
 #' 
