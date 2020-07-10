@@ -7,16 +7,12 @@
 \usage{
 compress_rows(x, ...)
 
-decompress_rows(x, target.nrows = NULL, ...)
+decompress_rows(x, ...)
 }
 \arguments{
 \item{x}{a weighted matrix or data frame.}
 
 \item{...}{extra arguments for methods.}
-
-\item{target.nrows}{the approximate number of rows the uncompressed matrix
-should have; if not achievable exactly while respecting proportionality, a
-matrix with a slightly different number of rows will be constructed.}
 }
 \value{
 For \code{compress_rows} A weighted matrix or data frame of the same

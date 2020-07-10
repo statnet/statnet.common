@@ -90,7 +90,9 @@ as.logwmatrix(x, ...)
 
 \item{...}{extra arguments, currently unused.}
 
-\item{target.nrows}{see \code{\link{decompress_rows}}.}
+\item{target.nrows}{the approximate number of rows the uncompressed matrix
+should have; if not achievable exactly while respecting proportionality, a
+matrix with a slightly different number of rows will be constructed.}
 
 \item{i, j, value}{rows and columns and values for extraction or
 replacement; as \code{\link{matrix}}.}
