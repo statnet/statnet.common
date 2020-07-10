@@ -1,3 +1,27 @@
+# statnet.common 4.4.0
+
+## New utilities
+
+* `split()` methods for matrices and arrays, to split them along a margin.
+
+* `trim_env()`, a generic that will replace an environment (possibly attached to another object) with a sub-environment containing only objects whose names are specified.
+
+* A `diff()` method for control lists and a `print()` method for the resulting differences.
+
+* `deInf()`, to replace `.deinf()` in package `ergm`.
+
+* A `compress()` generic, a `compress()` method for RLEs, and a `doNotCompress` argument to `rep.rle()`.  Both `compact.rle()` and the `doNotCompact` argument to `rep.rle()` are now deprecated.
+
+## Enhancements to existing utilities
+
+* Various optimizations have been made to RLEs (which may be split out as a separate package in the future).
+
+* `nonsimp_update.formula()` now handles both one and two sided formulas; it also now copies all names except `...` when `from.new = TRUE`.
+
+## Bug fixes
+
+* `str.rle()` now works despite the overridden `length()` method.
+
 # statnet.common 4.3.0
 
 ## New utilities
