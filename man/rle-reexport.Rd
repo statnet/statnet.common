@@ -2,15 +2,12 @@
 % Please edit documentation in R/rle_reexport.R
 \name{rle-reexport}
 \alias{rle-reexport}
-\alias{binop.rle}
 \alias{compress}
 \alias{compact.rle}
 \title{Functions reexported from \code{rle}
 
 They will no longer be reexported after the next release.}
 \usage{
-binop.rle(e1, e2, FUN)
-
 compress(x, ...)
 
 compact.rle(...)

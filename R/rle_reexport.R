@@ -14,9 +14,9 @@ NULL
 ## #' @export
 ## `!.rle` <- rle::`!.rle`
 
-#' @rdname rle-reexport
-#' @export
-binop.rle <- rle::binop.rle
+## #' @rdname rle-reexport
+## #' @export
+## binop.rle <- rle::binop.rle
 
 ## #' @rdname rle-reexport
 ## #' @export
