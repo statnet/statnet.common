@@ -1,5 +1,9 @@
 # statnet.common 4.4.0
 
+## `rle` utilities have been moved to a separate package, `rle`
+
+* Major methods are reexported, for now.
+
 ## New utilities
 
 * `split()` methods for matrices and arrays, to split them along a margin.
@@ -14,7 +18,7 @@
 
 ## Enhancements to existing utilities
 
-* Various optimizations have been made to RLEs (which may be split out as a separate package in the future).
+* Various optimizations have been made to RLEs.
 
 * `nonsimp_update.formula()` now handles both one and two sided formulas; it also now copies all names except `...` when `from.new = TRUE`.
 
