@@ -250,9 +250,6 @@ lrowweights.linwmatrix <- function(x, ...) log(attr(x, "w"))
 #' 
 #' @param x a weighted matrix or data frame.
 #' @param ... extra arguments for methods.
-#' @param target.nrows the approximate number of rows the uncompressed matrix
-#' should have; if not achievable exactly while respecting proportionality, a
-#' matrix with a slightly different number of rows will be constructed.
 #' @return For \code{compress_rows} A weighted matrix or data frame of the same
 #' type with duplicated rows removed and weights updated appropriately.
 #' @export
@@ -286,9 +283,12 @@ compress_rows.linwmatrix <- function(x, ...){
 
 #' @rdname compress_rows
 #' @export
-decompress_rows <- function(x, target.nrows=NULL, ...) UseMethod("decompress_rows")
+decompress_rows <- function(x, ...) UseMethod("decompress_rows")
 
 #' @rdname wmatrix
+#' @param target.nrows the approximate number of rows the uncompressed matrix
+#' should have; if not achievable exactly while respecting proportionality, a
+#' matrix with a slightly different number of rows will be constructed.
 #' @export
 decompress_rows.wmatrix <- function(x, target.nrows=NULL, ...){
   w <- rowweights(x)

@@ -47,20 +47,19 @@ vector.namesmatch<-function(v,names,errname=NULL){
   v
 }
 
-
 #' "Compress" a data frame.
 #' 
-#' \code{compress.data.frame} "compresses" a data frame, returning unique rows
+#' \code{compress_rows.data.frame} "compresses" a data frame, returning unique rows
 #' and a tally of the number of times each row is repeated, as well as a
 #' permutation vector that can reconstruct the original data frame.
-#' \code{decompress.data.frame} reconstructs the original data frame.
+#' \code{decompress_rows.compressed_rows_df} reconstructs the original data frame.
 #' 
 #' 
-#' @param x For \code{compress.data.frame} a \code{\link{data.frame}} to be
-#' compressed. For \code{decompress.data.frame} a \code{\link{list}} as
-#' returned by \code{compress.data.frame}.
+#' @param x For \code{compress_rows.data.frame} a \code{\link{data.frame}} to be
+#' compressed. For \code{decompress_rows.compress_rows_df} a \code{\link{list}} as
+#' returned by \code{compress_rows.data.frame}.
 #' @param ... Additional arguments, currently unused.
-#' @return For \code{compress.data.frame}, a \code{\link{list}} with three
+#' @return For \code{compress_rows.data.frame}, a \code{\link{list}} with three
 #' elements: \item{rows }{Unique rows of \code{x}} \item{frequencies }{A vector
 #' of the same length as the number or rows, giving the number of times the
 #' corresponding row is repeated } \item{ordering}{A vector such that if
@@ -68,7 +67,7 @@ vector.namesmatch<-function(v,names,errname=NULL){
 #' equals the original data frame, except for row names} \item{rownames}{Row
 #' names of \code{x}}
 #' 
-#' For \code{decompress.data.frame}, the original data frame.
+#' For \code{decompress_rows.compressed_rows_df}, the original data frame.
 #' @seealso \code{\link{data.frame}}
 #' @keywords manip
 #' @examples
@@ -77,29 +76,28 @@ vector.namesmatch<-function(v,names,errname=NULL){
 #'                  V2=sample.int(2,30,replace=TRUE),
 #'                  V3=sample.int(4,30,replace=TRUE)))
 #' 
-#' (c <- compress.data.frame(x))
+#' (c <- compress_rows(x))
 #' 
-#' stopifnot(all(decompress.data.frame(c)==x))
+#' stopifnot(all(decompress_rows(c)==x))
 #'
-#' @rawNamespace S3method(compress, data.frame)
-#' @export compress.data.frame
-compress.data.frame<-function(x, ...){
+#' @export
+compress_rows.data.frame<-function(x, ...){
   r <- rownames(x)
   o <- order.data.frame(x)
   x <- x[o, , drop=FALSE]
   firsts<-which(!duplicated(x))
   freqs<-diff(c(firsts,nrow(x)+1))
   x<-x[firsts, , drop=FALSE]
-  list(rows=x, frequencies=freqs, ordering=order(o), rownames=r) # Note that x[order(x)][order(order(x))]==x.
+  structure(x, frequencies=freqs, ordering=order(o), rownames=r, class=c("compressed_rows_df", class(x))) # Note that x[order(x)][order(order(x))]==x.
 }
 
-#' @rdname compress.data.frame
+#' @rdname compress_rows.data.frame
 #' @export
-decompress.data.frame<-function(x){
-  r <- x$rows
-  rn <- x$rownames
-  f <- x$frequencies
-  o <- x$ordering
+decompress_rows.compressed_rows_df<-function(x, ...){
+  r <- x
+  rn <- attr(x, "rownames")
+  f <- attr(x, "frequencies")
+  o <- attr(x, "ordering")
 
   out <- r[rep.int(seq_along(f), f),, drop=FALSE][o,, drop=FALSE]
   rownames(out) <- rn
@@ -726,6 +724,7 @@ persistEval <- function(expr, retries=NVL(getOption("eval.retries"), 5), beforeR
                                      is.pairlist(envir)) parent.frame() else baseenv(), verbose=FALSE){
   for(attempt in seq_len(retries)){
     out <- try(eval(expr, envir=envir, enclos=enclos), silent=TRUE)
+    #' @importFrom methods is
     if(!is(out, "try-error")) return(out)
     else{
       if(!missing(beforeRetry)) eval(beforeRetry, envir=envir, enclos=enclos)

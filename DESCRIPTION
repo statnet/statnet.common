@@ -1,18 +1,20 @@
 Package: statnet.common
-Version: 4.4.0-271
-Date: 2020-06-21
+Version: 4.4.0-273
+Date: 2020-07-18
 Title: Common R Scripts and Utilities Used by the Statnet Project Software
 Authors@R: c(
 	person("Pavel N.", "Krivitsky", role=c("aut","cre"), email="pavel@statnet.org", comment=c(ORCID="0000-0002-9101-3362")),
 	person("Skye", "Bender-deMoll", role=c("ctb"), email="skyebend@uw.edu"))
 Description: Non-statistical utilities used by the software developed by the Statnet Project. They may also be of use to others.
 Depends: R (>= 3.5)
-Imports: utils, methods, coda, parallel, tools
+Imports: utils, methods, coda, parallel, tools, rle
 BugReports: https://github.com/statnet/statnet.common/issues
 License: GPL-3 + file LICENSE
 URL: https://statnet.org
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Encoding: UTF-8
 Suggests: 
     covr
+Remotes:
+    github::statnet/rle@master
