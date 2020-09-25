@@ -5,7 +5,7 @@
 #  open source, and has the attribution requirements (GPL Section 7) at
 #  https://statnet.org/attribution
 #
-#  Copyright 2007-2019 Statnet Commons
+#  Copyright 2007-2020 Statnet Commons
 #######################################################################
 #' reorder vector v into order determined by matching the names of its elements
 #' to a vector of names
