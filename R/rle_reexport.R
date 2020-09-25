@@ -125,9 +125,9 @@ compress <- rle::compress
 ## #' @export
 ## rep.rle <- rle::rep.rle
 
-## #' @rdname rle-reexport
-## #' @export
-## as.rle <- rle::as.rle
+#' @rdname rle-reexport
+#' @export
+as.rle <- rle::as.rle
 
 ## #' @rdname rle-reexport
 ## #' @export

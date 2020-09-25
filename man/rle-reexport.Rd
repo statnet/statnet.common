@@ -3,12 +3,15 @@
 \name{rle-reexport}
 \alias{rle-reexport}
 \alias{compress}
+\alias{as.rle}
 \alias{compact.rle}
 \title{Functions reexported from \code{rle}
 
 They will no longer be reexported after the next release.}
 \usage{
 compress(x, ...)
+
+as.rle(x)
 
 compact.rle(...)
 }
