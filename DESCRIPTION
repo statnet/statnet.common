@@ -1,5 +1,5 @@
 Package: statnet.common
-Version: 4.4.0-294
+Version: 4.4.0
 Date: 2020-09-25
 Title: Common R Scripts and Utilities Used by the Statnet Project Software
 Authors@R: c(
@@ -16,5 +16,3 @@ RoxygenNote: 7.1.1
 Encoding: UTF-8
 Suggests: 
     covr
-Remotes:
-    github::statnet/rle@master
