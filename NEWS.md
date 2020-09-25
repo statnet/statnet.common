@@ -46,15 +46,15 @@
 
 * `.Deprecate_once()` calls `.Deprecated()`, passing all its arguments through, but only the first time it's called.
 
-* `.Deprecate_method()` calls `.Deprecated()`, but only if a method has been called by name, i.e., \code{\var{METHOD}.\var{CLASS}}.
+* `.Deprecate_method()` calls `.Deprecated()`, but only if a method has been called by name, i.e., `METHOD.CLASS`.
 
-* `forkTimeout()` evaluates an \R expression with a hard time limit (except on Windows) by forking a process. Unlike `setTimeLimit()`, it enforces the limit even on native code.
+* `forkTimeout()` evaluates an R expression with a hard time limit (except on Windows) by forking a process. Unlike `setTimeLimit()`, it enforces the limit even on native code.
 
 * `ult()` is a convenience function that extracts or replaces elements of a list indexed from the end.
 
 ## Miscellaneous
 
-* `statnet.common` now depends on \R >= 3.5 due to what appears to be a method dispatching bug in earlier versions.
+* `statnet.common` now depends on R >= 3.5 due to what appears to be a method dispatching bug in earlier versions.
 
 * The package no longer Enhances `coda`.
 

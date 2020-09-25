@@ -71,9 +71,9 @@ New utilities
     through, but only the first time it's called.
 
 -   `.Deprecate_method()` calls `.Deprecated()`, but only if a method
-    has been called by name, i.e., \code{\var{METHOD}.\var{CLASS}}.
+    has been called by name, i.e., `METHOD.CLASS`.
 
--   `forkTimeout()` evaluates an \R expression with a hard time limit
+-   `forkTimeout()` evaluates an R expression with a hard time limit
     (except on Windows) by forking a process. Unlike `setTimeLimit()`,
     it enforces the limit even on native code.
 
@@ -83,7 +83,7 @@ New utilities
 Miscellaneous
 -------------
 
--   `statnet.common` now depends on \R \>= 3.5 due to what appears to be
+-   `statnet.common` now depends on R \>= 3.5 due to what appears to be
     a method dispatching bug in earlier versions.
 
 -   The package no longer Enhances `coda`.
