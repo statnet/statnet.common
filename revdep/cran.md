@@ -1,8 +1,8 @@
 ## revdepcheck results
 
-We checked 20 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+We checked 20 reverse dependencies (19 from CRAN + 1 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 10 new problems
+ * We saw 5 new problems
  * We failed to check 0 packages
 
 Issues with CRAN packages are summarised below.
@@ -10,39 +10,18 @@ Issues with CRAN packages are summarised below.
 ### New problems
 (This reports the first line of each new failure)
 
-* broom
-  checking examples ... ERROR
-
 * btergm
-  checking examples ... ERROR
-  checking tests ...
+  checking examples ... WARNING
 
 * ergm
-  checking examples ... ERROR
-  checking tests ...
-  checking R code for possible problems ... NOTE
-
-* ergm.count
-  checking tests ...
+  checking examples ... WARNING
 
 * ergm.ego
-  checking examples ... ERROR
-  checking tests ...
-
-* ergm.rank
-  checking tests ...
+  checking examples ... WARNING
 
 * ergm.userterms
-  checking examples ... ERROR
-  checking tests ...
-
-* latentnet
-  checking tests ...
+  checking examples ... WARNING
 
 * tergm
-  checking examples ... ERROR
-  checking tests ...
-
-* tergmLite
-  checking tests ...
+  checking examples ... WARNING
 
