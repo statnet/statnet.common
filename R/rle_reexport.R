@@ -13,6 +13,10 @@
 #'
 #' They will no longer be reexported after the next release.
 #'
+#' Some [Ops] group methods are exported as well, since as of version
+#' 4.0.2, R's [NextMethod()] does not appear to be able to dispatch
+#' from a group member method to a group method.
+#'
 #' @param x,e1,e2,na.rm,scale,doNotCompact,doNotCompress,object,... Arguments to the corresponding functions in `rle`.
 #'
 #' @import rle
@@ -24,6 +28,33 @@ c.rle <- getS3method("c","rle",envir=getNamespace("rle"))
 #' @rdname rle-reexport
 #' @export
 Ops.rle <- getS3method("Ops","rle",envir=getNamespace("rle"))
+#' @rdname rle-reexport
+#' @export
+`!.rle` <- Ops.rle
+#' @rdname rle-reexport
+#' @export
+`|.rle` <- Ops.rle
+#' @rdname rle-reexport
+#' @export
+`&.rle` <- Ops.rle
+#' @rdname rle-reexport
+#' @export
+`<.rle` <- Ops.rle
+#' @rdname rle-reexport
+#' @export
+`>.rle` <- Ops.rle
+#' @rdname rle-reexport
+#' @export
+`<=.rle` <- Ops.rle
+#' @rdname rle-reexport
+#' @export
+`>=.rle` <- Ops.rle
+#' @rdname rle-reexport
+#' @export
+`==.rle` <- Ops.rle
+#' @rdname rle-reexport
+#' @export
+`!=.rle` <- Ops.rle
 #' @rdname rle-reexport
 #' @export
 Math.rle <- getS3method("Math","rle",envir=getNamespace("rle"))

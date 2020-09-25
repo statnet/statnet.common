@@ -4,6 +4,15 @@
 \alias{rle-reexport}
 \alias{c.rle}
 \alias{Ops.rle}
+\alias{!.rle}
+\alias{|.rle}
+\alias{&.rle}
+\alias{<.rle}
+\alias{>.rle}
+\alias{<=.rle}
+\alias{>=.rle}
+\alias{==.rle}
+\alias{!=.rle}
 \alias{Math.rle}
 \alias{Summary.rle}
 \alias{compress}
@@ -19,11 +28,33 @@
 \alias{compact.rle}
 \title{Functions reexported from \code{rle}
 
-They will no longer be reexported after the next release.}
+They will no longer be reexported after the next release.
+
+Some \link{Ops} group methods are exported as well, since as of version
+4.0.2, R's \code{\link[=NextMethod]{NextMethod()}} does not appear to be able to dispatch
+from a group member method to a group method.}
 \usage{
 \method{c}{rle}(...)
 
 \method{Ops}{rle}(e1, e2)
+
+\method{!}{rle}(e1, e2)
+
+\method{|}{rle}(e1, e2)
+
+\method{&}{rle}(e1, e2)
+
+\method{<}{rle}(e1, e2)
+
+\method{>}{rle}(e1, e2)
+
+\method{<=}{rle}(e1, e2)
+
+\method{>=}{rle}(e1, e2)
+
+\method{==}{rle}(e1, e2)
+
+\method{!=}{rle}(e1, e2)
 
 \method{Math}{rle}(x, ...)
 
@@ -64,4 +95,8 @@ compact.rle(...)
 Functions reexported from \code{rle}
 
 They will no longer be reexported after the next release.
+
+Some \link{Ops} group methods are exported as well, since as of version
+4.0.2, R's \code{\link[=NextMethod]{NextMethod()}} does not appear to be able to dispatch
+from a group member method to a group method.
 }
