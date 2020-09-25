@@ -2,21 +2,63 @@
 % Please edit documentation in R/rle_reexport.R
 \name{rle-reexport}
 \alias{rle-reexport}
+\alias{c.rle}
+\alias{Ops.rle}
+\alias{Math.rle}
+\alias{Summary.rle}
 \alias{compress}
+\alias{compress.rle}
+\alias{mean.rle}
+\alias{length.rle}
+\alias{is.na.rle}
+\alias{rep.rle}
 \alias{as.rle}
+\alias{as.rle.rle}
+\alias{as.rle.default}
+\alias{str.rle}
 \alias{compact.rle}
 \title{Functions reexported from \code{rle}
 
 They will no longer be reexported after the next release.}
 \usage{
+\method{c}{rle}(...)
+
+\method{Ops}{rle}(e1, e2)
+
+\method{Math}{rle}(x, ...)
+
+\method{Summary}{rle}(..., na.rm)
+
 compress(x, ...)
 
+\method{compress}{rle}(x, ...)
+
+\method{mean}{rle}(x, na.rm = FALSE, ...)
+
+\method{length}{rle}(x)
+
+\method{is.na}{rle}(x)
+
+\method{rep}{rle}(
+  x,
+  ...,
+  scale = c("element", "run"),
+  doNotCompact = FALSE,
+  doNotCompress = doNotCompact
+)
+
 as.rle(x)
+
+\method{as.rle}{rle}(x)
+
+\method{as.rle}{default}(x)
+
+\method{str}{rle}(object, ...)
 
 compact.rle(...)
 }
 \arguments{
-\item{x, ...}{Arguments to the corresponding functions in \code{rle}.}
+\item{x, e1, e2, na.rm, scale, doNotCompact, doNotCompress, object, ...}{Arguments to the corresponding functions in \code{rle}.}
 }
 \description{
 Functions reexported from \code{rle}

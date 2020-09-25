@@ -13,134 +13,53 @@
 #'
 #' They will no longer be reexported after the next release.
 #'
-#' @param x,... Arguments to the corresponding functions in `rle`.
+#' @param x,e1,e2,na.rm,scale,doNotCompact,doNotCompress,object,... Arguments to the corresponding functions in `rle`.
 #'
 #' @import rle
 NULL
 
-## #' @export
-## c.rle <- rle::c.rle
-
-## #' @rdname rle-reexport
-## #' @export
-## `!.rle` <- rle::`!.rle`
-
-## #' @rdname rle-reexport
-## #' @export
-## binop.rle <- rle::binop.rle
-
-## #' @rdname rle-reexport
-## #' @export
-## `|.rle` <- rle::`|.rle`
-
-## #' @rdname rle-reexport
-## #' @export
-## `&.rle` <- rle::`&.rle`
-
+#' @rdname rle-reexport
+#' @export
+c.rle <- getS3method("c","rle",envir=getNamespace("rle"))
+#' @rdname rle-reexport
+#' @export
+Ops.rle <- getS3method("Ops","rle",envir=getNamespace("rle"))
+#' @rdname rle-reexport
+#' @export
+Math.rle <- getS3method("Math","rle",envir=getNamespace("rle"))
+#' @rdname rle-reexport
+#' @export
+Summary.rle <- getS3method("Summary","rle",envir=getNamespace("rle"))
 #' @rdname rle-reexport
 #' @export
 compress <- rle::compress
-
-## #' @rdname rle-reexport
-## #' @export
-## compress.rle <- rle::compress.rle
-
-## #' @rdname rle-reexport
-## #' @export
-## any.rle <- rle::any.rle
-
-## #' @rdname rle-reexport
-## #' @export
-## all.rle <- rle::all.rle
-
-## #' @rdname rle-reexport
-## #' @export
-## `*.rle` <- rle::`*.rle`
-
-## #' @rdname rle-reexport
-## #' @export
-## `/.rle` <- rle::`/.rle`
-
-## #' @rdname rle-reexport
-## #' @export
-## `-.rle` <- rle::`-.rle`
-
-## #' @rdname rle-reexport
-## #' @export
-## `+.rle` <- rle::`+.rle`
-
-## #' @rdname rle-reexport
-## #' @export
-## `^.rle` <- rle::`^.rle`
-
-## #' @rdname rle-reexport
-## #' @export
-## `%%.rle` <- rle::`%%.rle`
-
-## #' @rdname rle-reexport
-## #' @export
-## `%/%.rle` <- rle::`%/%.rle`
-
-## #' @rdname rle-reexport
-## #' @export
-## `==.rle` <- rle::`==.rle`
-
-## #' @rdname rle-reexport
-## #' @export
-## `>.rle` <- rle::`>.rle`
-
-## #' @rdname rle-reexport
-## #' @export
-## `<.rle` <- rle::`<.rle`
-
-## #' @rdname rle-reexport
-## #' @export
-## `!=.rle` <- rle::`!=.rle`
-
-## #' @rdname rle-reexport
-## #' @export
-## `<=.rle` <- rle::`<=.rle`
-
-## #' @rdname rle-reexport
-## #' @export
-## `>=.rle` <- rle::`>=.rle`
-
-## #' @rdname rle-reexport
-## #' @export
-## sum.rle <- rle::sum.rle
-
-## #' @rdname rle-reexport
-## #' @export
-## mean.rle <- rle::mean.rle
-
-## #' @rdname rle-reexport
-## #' @export
-## length.rle <- rle::length.rle
-
-## #' @rdname rle-reexport
-## #' @export
-## is.na.rle <- rle::is.na.rle
-
-## #' @rdname rle-reexport
-## #' @export
-## rep.rle <- rle::rep.rle
-
+#' @rdname rle-reexport
+#' @export
+compress.rle <- getS3method("compress","rle",envir=getNamespace("rle"))
+#' @rdname rle-reexport
+#' @export
+mean.rle <- getS3method("mean","rle",envir=getNamespace("rle"))
+#' @rdname rle-reexport
+#' @export
+length.rle <- getS3method("length","rle",envir=getNamespace("rle"))
+#' @rdname rle-reexport
+#' @export
+is.na.rle <- getS3method("is.na","rle",envir=getNamespace("rle"))
+#' @rdname rle-reexport
+#' @export
+rep.rle <- getS3method("rep","rle",envir=getNamespace("rle"))
 #' @rdname rle-reexport
 #' @export
 as.rle <- rle::as.rle
-
-## #' @rdname rle-reexport
-## #' @export
-## as.rle.rle <- rle::as.rle.rle
-
-## #' @rdname rle-reexport
-## #' @export
-## as.rle.default <- rle::as.rle.default
-
-## #' @rdname rle-reexport
-## #' @export
-## str.rle <- rle::str.rle
-
+#' @rdname rle-reexport
+#' @export
+as.rle.rle <- getS3method("as.rle","rle",envir=getNamespace("rle"))
+#' @rdname rle-reexport
+#' @export
+as.rle.default <- getS3method("as.rle","default",envir=getNamespace("rle"))
+#' @rdname rle-reexport
+#' @export
+str.rle <- getS3method("str","rle",envir=getNamespace("rle"))
 #' @rdname rle-reexport
 #' @export
 compact.rle <- rle::compact.rle
