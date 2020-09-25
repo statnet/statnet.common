@@ -13,6 +13,8 @@
 #'
 #' They will no longer be reexported after the next release.
 #'
+#' @param x,... Arguments to the corresponding functions in `rle`.
+#'
 #' @import rle
 NULL
 

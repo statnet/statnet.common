@@ -12,6 +12,9 @@ compress(x, ...)
 
 compact.rle(...)
 }
+\arguments{
+\item{x, ...}{Arguments to the corresponding functions in \code{rle}.}
+}
 \description{
 Functions reexported from \code{rle}
 
