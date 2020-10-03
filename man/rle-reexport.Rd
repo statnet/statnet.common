@@ -38,7 +38,7 @@ from a group member method to a group method.}
 
 \method{Ops}{rle}(e1, e2)
 
-\method{!}{rle}(e1, e2)
+\method{!}{rle}(e1)
 
 \method{|}{rle}(e1, e2)
 
