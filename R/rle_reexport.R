@@ -30,7 +30,9 @@ c.rle <- getS3method("c","rle",envir=getNamespace("rle"))
 Ops.rle <- getS3method("Ops","rle",envir=getNamespace("rle"))
 #' @rdname rle-reexport
 #' @export
-`!.rle` <- Ops.rle
+`!.rle` <- function(e1) structure(list(lengths = e1$lengths,
+                                       values = !e1$values),
+                                  class = "rle")
 #' @rdname rle-reexport
 #' @export
 `|.rle` <- Ops.rle
