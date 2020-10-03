@@ -10,14 +10,14 @@
 |collate  |en_AU.UTF-8                   |
 |ctype    |en_AU.UTF-8                   |
 |tz       |Australia/Sydney              |
-|date     |2020-09-25                    |
+|date     |2020-10-03                    |
 
 # Dependencies
 
 |package        |old     |new     |Δ  |
 |:--------------|:-------|:-------|:--|
-|statnet.common |4.3.0   |4.4.0   |*  |
-|coda           |0.19-3  |0.19-3  |   |
+|statnet.common |4.3.0   |4.4.1   |*  |
+|coda           |0.19-4  |0.19-4  |   |
 |lattice        |0.20-41 |0.20-41 |   |
 |rle            |NA      |0.9.2   |*  |
 
@@ -25,9 +25,9 @@
 
 ## Failed to check (1)
 
-|package |version |error |warning |note |
-|:-------|:-------|:-----|:-------|:----|
-|broom   |?       |      |        |     |
+|package   |version |error |warning |note |
+|:---------|:-------|:-----|:-------|:----|
+|latentnet |?       |      |        |     |
 
 ## New problems (5)
 
