@@ -120,15 +120,22 @@ locate_function <- function(name, env = globalenv(), ...){
 #'   function of the form `prefix.name` and produces an informative
 #'   error message if not found.
 #'
-#' @param prefix a character string giving the prefix, so the searched-for function is `prefix.name`.
-#' @param errname a character string; if given, if the function is not found an error is raised, with `errname` prepended to the error message.
+#' @param prefix a character string giving the prefix, so the
+#'   searched-for function is `prefix.name`.
+#' @param errname a character string; if given, if the function is not
+#'   found an error is raised, with `errname` prepended to the error
+#'   message.
+#' @param call. a logical, whether the call
+#'   (`locate_prefixed_function`) should be a part of the error
+#'   message; defaults to `FALSE` (which is different from [stop()]'s
+#'   default).
 #'
 #' @export
-locate_prefixed_function <- function(name, prefix, errname, env = globalenv(), ...){
+locate_prefixed_function <- function(name, prefix, errname, env = globalenv(), ..., call.=FALSE){
   if(is.call(name)) name <- name[[1]]
   name <- as.character(name)
   fname <- paste(prefix,name,sep=".")
   f <- locate_function(fname, env, ...)
-  if(is.null(f) && !is.null(errname)) stop(errname,' ', sQuote(name), " function ", sQuote(fname), " not found.", ...)
+  if(is.null(f) && !is.null(errname)) stop(errname,' ', sQuote(name), " function ", sQuote(fname), " not found.", ..., call.=call.)
   else f
 }

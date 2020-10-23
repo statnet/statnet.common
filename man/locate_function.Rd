@@ -7,7 +7,14 @@
 \usage{
 locate_function(name, env = globalenv(), ...)
 
-locate_prefixed_function(name, prefix, errname, env = globalenv(), ...)
+locate_prefixed_function(
+  name,
+  prefix,
+  errname,
+  env = globalenv(),
+  ...,
+  call. = FALSE
+)
 }
 \arguments{
 \item{name}{a character string giving the function's name.}
@@ -16,9 +23,17 @@ locate_prefixed_function(name, prefix, errname, env = globalenv(), ...)
 
 \item{...}{additional arguments to the warning and error warning messages. See Details.}
 
-\item{prefix}{a character string giving the prefix, so the searched-for function is \code{prefix.name}.}
+\item{prefix}{a character string giving the prefix, so the
+searched-for function is \code{prefix.name}.}
 
-\item{errname}{a character string; if given, if the function is not found an error is raised, with \code{errname} prepended to the error message.}
+\item{errname}{a character string; if given, if the function is not
+found an error is raised, with \code{errname} prepended to the error
+message.}
+
+\item{call.}{a logical, whether the call
+(\code{locate_prefixed_function}) should be a part of the error
+message; defaults to \code{FALSE} (which is different from \code{\link[=stop]{stop()}}'s
+default).}
 }
 \value{
 If the function is found, an unevaluated call of the form
