@@ -164,3 +164,40 @@ statnetStartupMessage <- function(pkgname, friends, nofriends){
 ##   paste('', m,mystrwrap(paste('Part of the Statnet suite (statnet.org).  For citation information, type citation("',desc$Package,'").',sep="")),collapse="\n",sep="\n")
 
 ## }
+
+#' Set [options()] according to a named list, skipping those already
+#' set.
+#'
+#' This function can be useful for setting default options, which do
+#' not override options set elsewhere.
+#'
+#' @param ... see [options()]: either a list of `name=value` pairs or
+#'   a single unnamed argument giving a named list of options to set.
+#'
+#' @return The return value is same as that of [options()] (omitting
+#'   options already set).
+#'
+#' @examples
+#' options(onesetting=1)
+#'
+#' default_options(onesetting=2, anothersetting=3)
+#' stopifnot(getOption("onesetting")==1) # Still 1.
+#' stopifnot(getOption("anothersetting")==3)
+#'
+#' default_options(list(yetanothersetting=5, anothersetting=4))
+#' stopifnot(getOption("anothersetting")==3) # Still 3.
+#' stopifnot(getOption("yetanothersetting")==5)
+#' @export
+default_options <- function(...){
+  x <- list(...)
+
+  if(is.null(names(x))){
+    if(length(x)==1) x <- x[[1]]
+    else stop("invalid argument")
+  }
+  if(all(names(x)=="")) stop("list argument has no valid names")
+  if(any(names(x)=="")) stop("invalid argument")
+
+  toset <- setdiff(names(x), names(options()))
+  do.call(options, x[toset])
+}
