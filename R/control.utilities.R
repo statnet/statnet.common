@@ -27,13 +27,15 @@
 #' 
 #' @param OKnames List of control function names which are acceptable.
 #' @param myname Name of the calling function (used in the error message).
-#' @param control The control list. Defaults to the \code{control} variable in
+#' @param control The control list or a list to be converted to a control list using `control.myname()`. Defaults to the \code{control} variable in
 #' the calling function.
 #' @note In earlier versions, `OKnames` and `myname` were autodetected. This capability has been deprecated and results in a warning issued once per session. They now need to be set explicitly.
 #' @seealso [set.control.class()], [print.control.list()]
 #' @keywords utilities
 #' @export
 check.control.class <- function(OKnames=as.character(ult(sys.calls(),2)[[1L]]), myname=as.character(ult(sys.calls(),2)[[1L]]), control=get("control",pos=parent.frame())){
+  control <- as.control.list(control, OKnames[1])
+
   if(missing(OKnames) || missing(myname)) .autodetect_dep_warn() 
   funs <- paste("control", OKnames, sep=".")
   
@@ -220,11 +222,12 @@ as.control.list.control.list <- function(x, ...) x
 
 #' @describeIn as.control.list The method for plain lists, which runs
 #'   them through `FUN`.
-#' @param FUN Either a `control.*()` function or its name; defaults to
-#'   taking the nearest (in the call traceback) function that does not
-#'   begin with `"as.control.list"`, and prepending `"control."` to
-#'   it. (This is typically the function that called
-#'   `as.control.list()` in the first place.)
+#' @param FUN Either a `control.*()` function or its name or suffix
+#'   (to which `"control."` will be prepended); defaults to taking the
+#'   nearest (in the call traceback) function that does not begin with
+#'   `"as.control.list"`, and prepending `"control."` to it. (This is
+#'   typically the function that called `as.control.list()` in the
+#'   first place.)
 #' @import purrr
 #' @export
 as.control.list.list <- function(x, FUN=NULL, ...){
@@ -233,9 +236,10 @@ as.control.list.list <- function(x, FUN=NULL, ...){
       map(`[[`, 1L) %>% # Extract the function names as names.
       map_chr(as.character) %>% # Convert to character vectors.
       discard(startsWith, "as.control.list") %>% # Drop those that begin with "as.control.list".
-      ult %>% # Take the last one.
-      paste0("control.", .) # Prepend "control.".
+      ult # Take the last one.
   }
+  if(is.character(FUN) && !startsWith(FUN, "control.")) FUN <- paste0("control.", FUN)
+
   FUN <- match.fun(FUN)
   do.call(FUN, x, envir=parent.frame())
 }

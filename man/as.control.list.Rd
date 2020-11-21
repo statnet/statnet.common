@@ -16,11 +16,12 @@ as.control.list(x, ...)
 \item{x}{An object, usually a \code{\link{list}}, to be converted to a
 control list.}
 
-\item{FUN}{Either a \verb{control.*()} function or its name; defaults to
-taking the nearest (in the call traceback) function that does not
-begin with \code{"as.control.list"}, and prepending \code{"control."} to
-it. (This is typically the function that called
-\code{as.control.list()} in the first place.)}
+\item{FUN}{Either a \verb{control.*()} function or its name or suffix
+(to which \code{"control."} will be prepended); defaults to taking the
+nearest (in the call traceback) function that does not begin with
+\code{"as.control.list"}, and prepending \code{"control."} to it. (This is
+typically the function that called \code{as.control.list()} in the
+first place.)}
 }
 \value{
 a \code{control.list} object.

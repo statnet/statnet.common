@@ -16,7 +16,7 @@ check.control.class(
 
 \item{myname}{Name of the calling function (used in the error message).}
 
-\item{control}{The control list. Defaults to the \code{control} variable in
+\item{control}{The control list or a list to be converted to a control list using \code{control.myname()}. Defaults to the \code{control} variable in
 the calling function.}
 }
 \description{
