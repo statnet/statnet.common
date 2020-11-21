@@ -194,3 +194,48 @@ print.diff.control.list <- function(x, ..., indent = ""){
     }
   }
 }
+
+#' Convert to a control list.
+#'
+#' @param x An object, usually a [`list`], to be converted to a
+#'   control list.
+#' @return a `control.list` object.
+#'
+#' @examples
+#' myfun <- function(..., control=control.myfun()){
+#'   as.control.list(control)
+#' }
+#' control.myfun <- function(a=1, b=a+1){
+#'   list(a=a,b=b)
+#' }
+#'
+#' myfun()
+#' myfun(control = list(a=2))
+#' @export
+as.control.list <- function(x, ...) UseMethod("as.control.list")
+
+#' @describeIn as.control.list Idempotent method for control lists.
+#' @export
+as.control.list.control.list <- function(x, ...) x
+
+#' @describeIn as.control.list The method for plain lists, which runs
+#'   them through `FUN`.
+#' @param FUN Either a `control.*()` function or its name; defaults to
+#'   taking the nearest (in the call traceback) function that does not
+#'   begin with `"as.control.list"`, and prepending `"control."` to
+#'   it. (This is typically the function that called
+#'   `as.control.list()` in the first place.)
+#' @import purrr
+#' @export
+as.control.list.list <- function(x, FUN=NULL, ...){
+  if(is.null(FUN)){
+    FUN <- sys.calls() %>% # Obtain the traceback.
+      map(`[[`, 1L) %>% # Extract the function names as names.
+      map_chr(as.character) %>% # Convert to character vectors.
+      discard(startsWith, "as.control.list") %>% # Drop those that begin with "as.control.list".
+      ult %>% # Take the last one.
+      paste0("control.", .) # Prepend "control.".
+  }
+  FUN <- match.fun(FUN)
+  do.call(FUN, x, envir=parent.frame())
+}
