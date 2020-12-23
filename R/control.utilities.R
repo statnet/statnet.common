@@ -16,35 +16,63 @@
   }
 })
 
-#' Check if the class of the control list is one of those that can be used by
-#' the calling function
+#' Ensure that the class of the control list is one of those that can
+#' be used by the calling function
 #' 
-#' This function can be called to check that the control list passed is
-#' appropriate for the function to be controlled. It does so by looking up the
-#' class of the \code{control} argument (defaulting to the \code{control}
-#' variable in the calling function) and checking if it matches a list of
-#' acceptable classes.
+#' This function converts an ordinary `list` into a control list (if
+#' needed) and checks that the control list passed is appropriate for
+#' the function to be controlled.
 #' 
 #' @param OKnames List of control function names which are acceptable.
-#' @param myname Name of the calling function (used in the error message).
-#' @param control The control list or a list to be converted to a control list using `control.myname()`. Defaults to the \code{control} variable in
-#' the calling function.
-#' @note In earlier versions, `OKnames` and `myname` were autodetected. This capability has been deprecated and results in a warning issued once per session. They now need to be set explicitly.
-#' @seealso [set.control.class()], [print.control.list()]
+#' @param myname Name of the calling function (used in the error
+#'   message).
+#' @param control The control list or a list to be converted to a
+#'   control list using `control.myname()`. Defaults to the
+#'   \code{control} variable in the calling function. See Details for
+#'   detailed behavior.
+#'
+#' @note In earlier versions, `OKnames` and `myname` were
+#'   autodetected. This capability has been deprecated and results in
+#'   a warning issued once per session. They now need to be set
+#'   explicitly.
+#'
+#' @details `check.control.class()` performs the check by looking up
+#'   the class of the `control` argument (defaulting to the `control`
+#'   variable in the calling function) and checking if it matches a
+#'   list of acceptable given by `OKnames`.
+#'
+#'   Before performing any checks, the `control` argument (including
+#'   the default) will be converted to a control list by calling
+#'   [as.control.list()] on it with the first element of `OKnames` to
+#'   construct the control function.
+#'
+#'   If `control` is missing, it will be assumed that the user wants
+#'   to modify it in place, and a variable with that name in the
+#'   parent environment will be overwritten.
+#'
+#' @return A valid control list for the function in which it is to be
+#'   used. If `control` argument is missing, it will also overwrite
+#'   the variable `control` in the calling environment with it.
+#'
+#' @seealso [set.control.class()], [print.control.list()], [as.control.list()]
 #' @keywords utilities
 #' @export
 check.control.class <- function(OKnames=as.character(ult(sys.calls(),2)[[1L]]), myname=as.character(ult(sys.calls(),2)[[1L]]), control=get("control",pos=parent.frame())){
+  overwrite_control <- missing(control)
   control <- as.control.list(control, OKnames[1])
 
   if(missing(OKnames) || missing(myname)) .autodetect_dep_warn() 
   funs <- paste("control", OKnames, sep=".")
+
+  # Control missing: overwrite default name in parent.
+  if(overwrite_control) assign("control", control, pos=parent.frame())
   
-  if(inherits(control, funs[1L])) return(TRUE)
+  if(inherits(control, funs[1L])) return(control)
   
   for(fun in funs[-1]) # If there is only one, that's a null vector, so it just terminates.
     if(inherits(control, fun)){
       warning("Using ", fun,"(...) as the control parameter of ",myname,"(...) is suboptimal and may overwrite some settings that should be preserved. Use ",funs[1L],"(...) instead.")
-      return(FALSE)
+      return(control)
     }
   
   stop("Invalid control parameters for ",myname,"(...): ",class(control)[1L],"(...). Use ",funs[1L],"(...) to construct them instead.", call.=FALSE)

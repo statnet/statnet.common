@@ -2,8 +2,8 @@
 % Please edit documentation in R/control.utilities.R
 \name{check.control.class}
 \alias{check.control.class}
-\title{Check if the class of the control list is one of those that can be used by
-the calling function}
+\title{Ensure that the class of the control list is one of those that can
+be used by the calling function}
 \usage{
 check.control.class(
   OKnames = as.character(ult(sys.calls(), 2)[[1L]]),
@@ -14,22 +14,46 @@ check.control.class(
 \arguments{
 \item{OKnames}{List of control function names which are acceptable.}
 
-\item{myname}{Name of the calling function (used in the error message).}
+\item{myname}{Name of the calling function (used in the error
+message).}
 
-\item{control}{The control list or a list to be converted to a control list using \code{control.myname()}. Defaults to the \code{control} variable in
-the calling function.}
+\item{control}{The control list or a list to be converted to a
+control list using \code{control.myname()}. Defaults to the
+\code{control} variable in the calling function. See Details for
+detailed behavior.}
+}
+\value{
+A valid control list for the function in which it is to be
+used. If \code{control} argument is missing, it will also overwrite
+the variable \code{control} in the calling environment with it.
 }
 \description{
-This function can be called to check that the control list passed is
-appropriate for the function to be controlled. It does so by looking up the
-class of the \code{control} argument (defaulting to the \code{control}
-variable in the calling function) and checking if it matches a list of
-acceptable classes.
+This function converts an ordinary \code{list} into a control list (if
+needed) and checks that the control list passed is appropriate for
+the function to be controlled.
+}
+\details{
+\code{check.control.class()} performs the check by looking up
+the class of the \code{control} argument (defaulting to the \code{control}
+variable in the calling function) and checking if it matches a
+list of acceptable given by \code{OKnames}.
+
+Before performing any checks, the \code{control} argument (including
+the default) will be converted to a control list by calling
+\code{\link[=as.control.list]{as.control.list()}} on it with the first element of \code{OKnames} to
+construct the control function.
+
+If \code{control} is missing, it will be assumed that the user wants
+to modify it in place, and a variable with that name in the
+parent environment will be overwritten.
 }
 \note{
-In earlier versions, \code{OKnames} and \code{myname} were autodetected. This capability has been deprecated and results in a warning issued once per session. They now need to be set explicitly.
+In earlier versions, \code{OKnames} and \code{myname} were
+autodetected. This capability has been deprecated and results in
+a warning issued once per session. They now need to be set
+explicitly.
 }
 \seealso{
-\code{\link[=set.control.class]{set.control.class()}}, \code{\link[=print.control.list]{print.control.list()}}
+\code{\link[=set.control.class]{set.control.class()}}, \code{\link[=print.control.list]{print.control.list()}}, \code{\link[=as.control.list]{as.control.list()}}
 }
 \keyword{utilities}
