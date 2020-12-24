@@ -18,4 +18,4 @@ A set of binaries is built after every commit to the public repository. We stron
 
 You will need to extract the MacOS `.tgz` or the Windows `.zip` file from the outer `.zip` file before installing. These binaries are usually built under the latest version of R and their operating system and may not work under other versions.
 
-You may also want to install the corresponding latest binaries for packages on which `statnet.common` depends, in particular `rle`.
+You may also want to install the corresponding latest binaries for packages on which `statnet.common` depends, in particular [`rle`](https://github.com/statnet/rle).
