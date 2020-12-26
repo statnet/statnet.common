@@ -338,7 +338,7 @@ trim_env <- function(object, keep=NULL, ...){
 #' @describeIn trim_env A method for environment objects.
 #' @export
 trim_env.environment <- function(object, keep=NULL, ...){
-  e <- new.env(parent=baseenv())
+  e <- new.env(parent=emptyenv())
   for(vn in keep){
     try(assign(vn, get(vn, envir=object), envir=e), silent=TRUE)
   }
