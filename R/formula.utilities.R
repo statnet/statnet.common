@@ -338,7 +338,9 @@ trim_env <- function(object, keep=NULL, ...){
 #' @describeIn trim_env A method for environment objects.
 #' @export
 trim_env.environment <- function(object, keep=NULL, ...){
-  e <- new.env(parent=emptyenv())
+  # NB: The parent should be baseenv(), not emptyenv(), because :: and
+  # ::: are defined in baseenv(), so PKG:::NAME calls won't work.
+  e <- new.env(parent=baseenv())
   for(vn in keep){
     try(assign(vn, get(vn, envir=object), envir=e), silent=TRUE)
   }
