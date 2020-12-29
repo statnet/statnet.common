@@ -807,3 +807,54 @@ split.array <- function(x, f, drop = FALSE, margin = NULL, ...){
 #' @rdname split.array
 #' @export
 split.matrix <- split.array
+
+#' Convert a list to an atomic vector if it consists solely of atomic elements of length 1.
+#'
+#' This behaviour is not dissimilar to that of [simplify2array()], but
+#' it offers more robust handling of empty or NULL elements and never
+#' promotes to a matrix or an array, making it suitable to be a column
+#' of a [`data.frame`].
+#'
+#' @param x an R [`list`] to be simplified.
+#' @param toNA a character string indicating whether `NULL` entries
+#'   (if `"null"`) or 0-length entries including `NULL` (if `"empty"`)
+#'   should be replaced with `NA`s before attempting conversion;
+#'   specifying `keep` or `FALSE` leaves them alone (typically
+#'   preventing conversion).
+#' @param ... additional arguments passed to [unlist()].
+#'
+#' @return an atomic vector or a list of the same length as `x`.
+#' @examples
+#'
+#' (x <- as.list(1:5))
+#' stopifnot(identical(simplify_simple(x), 1:5))
+#'
+#' x[3] <- list(NULL) # Put a NULL in place of 3.
+#' x
+#' stopifnot(identical(simplify_simple(x, FALSE), x)) # Can't be simplified without replacing the NULL.
+#'
+#' stopifnot(identical(simplify_simple(x), c(1L,2L,NA,4L,5L))) # NULL replaced by NA and simplified.
+#'
+#' x[[3]] <- integer(0)
+#' x
+#' stopifnot(identical(simplify_simple(x), x)) # A 0-length vector is not replaced by default,
+#' stopifnot(identical(simplify_simple(x, "empty"), c(1L,2L,NA,4L,5L))) # but can be.
+#'
+#' (x <- lapply(1:5, function(i) c(i,i+1L))) # Elements are vectors of equal length.
+#' simplify2array(x) # simplify2array() creates a matrix,
+#' stopifnot(identical(simplify_simple(x), x)) # but simplify_simple() returns a list.
+#'
+#' @export
+simplify_simple <- function(x, toNA = c("null","empty","keep"), ...){
+  if(isFALSE(toNA)) toNA <- "keep"
+  toNA <- match.arg(toNA)
+  if(is.atomic(x)) return(x)
+
+  x <- switch(toNA,
+              keep = x,
+              null = lapply(x, NVL, NA),
+              empty = lapply(x, EVL, NA))
+
+  if(all(lengths(x)==1L) && all(vapply(x, is.atomic, logical(1)))) unlist(x, recursive=FALSE, ...)
+  else x
+}
