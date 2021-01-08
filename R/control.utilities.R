@@ -229,6 +229,7 @@ print.diff.control.list <- function(x, ..., indent = ""){
 #'
 #' @param x An object, usually a [`list`], to be converted to a
 #'   control list.
+#' @param ... Additional arguments to methods.
 #' @return a `control.list` object.
 #'
 #' @examples
@@ -256,9 +257,24 @@ as.control.list.control.list <- function(x, ...) x
 #'   `"as.control.list"`, and prepending `"control."` to it. (This is
 #'   typically the function that called `as.control.list()` in the
 #'   first place.)
+#' @param unflat Logical, indicating whether an attempt should be made
+#'   to detect whether some of the arguments are appropriate for a
+#'   lower-level control function and pass them down.
 #' @import purrr
+#' @examples
+#' myfun2 <- function(..., control=control.myfun2()){
+#'   as.control.list(control)
+#' }
+#' control.myfun2 <- function(c=3, d=c+2, myfun=control.myfun()){
+#'   list(c=c,d=d,myfun=myfun)
+#' }
+#'
+#' myfun2()
+#' # Argument to control.myfun() (i.e., a) gets passed to it, and a
+#' # warning is issued for unused argument e.
+#' myfun2(control = list(c=3, a=2, e=3))
 #' @export
-as.control.list.list <- function(x, FUN=NULL, ...){
+as.control.list.list <- function(x, FUN=NULL, unflat=TRUE, ...){
   if(is.null(FUN)){
     FUN <- sys.calls() %>% # Obtain the traceback.
       map(`[[`, 1L) %>% # Extract the function names as names.
@@ -269,5 +285,28 @@ as.control.list.list <- function(x, FUN=NULL, ...){
   if(is.character(FUN) && !startsWith(FUN, "control.")) FUN <- paste0("control.", FUN)
 
   FUN <- match.fun(FUN)
+
+  if(unflat){
+    xnames_unused <- names(x)
+    unflat <- function(f){
+      args <- formals(f)
+      anames <- setdiff(names(args), "...")
+
+      l <- list()
+      for(aname in names(args))
+        if(aname %in% names(x)){ # Present in the input list: copy.
+          l[[aname]] <- x[[aname]]
+          xnames_unused <<- setdiff(xnames_unused, aname)
+        }else if(is.call(aval <- args[[aname]]) && startsWith(as.character(aval[[1]]), "control.")){ # A control list not supplied directly: process recursively.
+          l[[aname]] <- unflat(get(as.character(aval[[1]]), pos=environment(f), mode="function"))
+        }
+      # Otherwise, leave blank.
+
+      l
+    }
+    x <- unflat(FUN)
+    if(length(xnames_unused)) warning("Control arguments ", paste.and(sQuote(xnames_unused)), " not used in any of the control functions.", call.=FALSE, immediate.=TRUE)
+  }
+
   do.call(FUN, x, envir=parent.frame())
 }

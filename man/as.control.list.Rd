@@ -10,11 +10,13 @@ as.control.list(x, ...)
 
 \method{as.control.list}{control.list}(x, ...)
 
-\method{as.control.list}{list}(x, FUN = NULL, ...)
+\method{as.control.list}{list}(x, FUN = NULL, unflat = TRUE, ...)
 }
 \arguments{
 \item{x}{An object, usually a \code{\link{list}}, to be converted to a
 control list.}
+
+\item{...}{Additional arguments to methods.}
 
 \item{FUN}{Either a \verb{control.*()} function or its name or suffix
 (to which \code{"control."} will be prepended); defaults to taking the
@@ -22,6 +24,10 @@ nearest (in the call traceback) function that does not begin with
 \code{"as.control.list"}, and prepending \code{"control."} to it. (This is
 typically the function that called \code{as.control.list()} in the
 first place.)}
+
+\item{unflat}{Logical, indicating whether an attempt should be made
+to detect whether some of the arguments are appropriate for a
+lower-level control function and pass them down.}
 }
 \value{
 a \code{control.list} object.
@@ -47,4 +53,15 @@ control.myfun <- function(a=1, b=a+1){
 
 myfun()
 myfun(control = list(a=2))
+myfun2 <- function(..., control=control.myfun2()){
+  as.control.list(control)
+}
+control.myfun2 <- function(c=3, d=c+2, myfun=control.myfun()){
+  list(c=c,d=d,myfun=myfun)
+}
+
+myfun2()
+# Argument to control.myfun() (i.e., a) gets passed to it, and a
+# warning is issued for unused argument e.
+myfun2(control = list(c=3, a=2, e=3))
 }
