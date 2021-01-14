@@ -390,7 +390,7 @@ NULL
 #' @param callback A function with no arguments that updates the
 #'   packages own copy of [sctrl()].
 #'
-#' @return Nothing. Used for its side-effects.
+#' @return `update_sctrl()` has no return value and is used for its side-effects.
 #' @export
 update_sctrl <- function(myname, arglist=alist(), callback=NULL){
   if(length(arglist) && all(names(arglist)=="")) arglist <- do.call(collate_controls, arglist)
@@ -428,6 +428,7 @@ update_sctrl <- function(myname, arglist=alist(), callback=NULL){
 #'   with dQuote(`control.`) are obtained.
 #' @param ... Additional functions or lists of functions.
 #'
+#' @return `collate_controls()` returns the combined list of name-default pairs of each function.
 #' @export
 collate_controls <- function(x=NULL, ...){
   l <- if(is.environment(x)) lapply(grep("control\\.*", ls(pos=x), value=TRUE), mget, x, mode="function", ifnotfound=NULL) else list(x)
@@ -444,9 +445,12 @@ collate_controls <- function(x=NULL, ...){
 #' @describeIn sctrl-API A stored expression that, if evaluated, will
 #'   create a callback function `update_my_sctrl()` that will update
 #'   the client package's copy of [sctrl()].
-#' @usage
+#' @format `UPDATE_MY_SCTRL_EXPR` is a quoted expression meant to be passed directly to [eval()].
+#' @examples
+#' \dontrun{
 #' # In the client package (outside any function):
 #' eval(UPDATE_MY_SCTRL_EXPR)
+#' }
 #' @export
 UPDATE_MY_SCTRL_EXPR <- quote(
   update_my_sctrl <- function(){
@@ -459,12 +463,15 @@ UPDATE_MY_SCTRL_EXPR <- quote(
 #' @describeIn sctrl-API A stored expression that, if evaluated on
 #'   loading, will add arguments of the package's `control.*()`
 #'   functions to [sctrl()] and set the callback.
-#' @usage
+#' @format `COLLATE_ALL_MY_CONTROLS_EXPR` is a quoted expression meant to be passed directly to [eval()].
+#' @examples
+#' \dontrun{
 #' # In the client package:
 #' .onLoad <- function(libame, pkgname){
 #'   # ... other code ...
 #'   eval(statnet.common::COLLATE_ALL_MY_CONTROLS_EXPR)
 #'   # ... other code ...
+#' }
 #' }
 #' @export
 COLLATE_ALL_MY_CONTROLS_EXPR <- quote(
