@@ -310,3 +310,165 @@ as.control.list.list <- function(x, FUN=NULL, unflat=TRUE, ...){
 
   do.call(FUN, x, envir=parent.frame())
 }
+
+#' Statnet Control: a utility to facilitate argument completion of control lists.
+#'
+#' In and of itself, `sctrl` copies its named arguments into a
+#' list. However, its argument list is updated dynamically as packages
+#' are loaded, as are those of its reexports from other packages. This
+#' is done using an API provided by helper functions. (See `API?sctrl`.)
+#'
+#' @param ... Arguments to be put into the list. They *must* be named.
+#'
+#'
+#' @note You may see messages along the lines of
+#' ```The following object is masked from 'package:PKG':
+#' sctrl
+#' ```
+#' when loading packages. They are benign.
+#' 
+#' @export
+sctrl <- function(...){
+  control <- list(...)
+  formal.args<-formals(sys.function())
+  formal.args[["..."]] <- NULL
+  for(arg in names(formal.args))
+    if(arg=="") stop("All arguments must be named.")
+    if(!do.call(missing, list(arg)))
+      control[arg] <- list(get(arg))
+  control
+}
+
+argnames <- local({
+  cache <- list()
+
+  delpkg <- function(pkgname,pkgpath){
+    cache[[pkgname]] <<- NULL
+    update_sctrl()
+  }
+
+  function(pkg, arglist){
+    if(missing(pkg)) cache
+    else{
+      cache[[pkg]] <<- arglist
+      setHook(packageEvent(pkg, "onUnload"), delpkg)
+    }
+  }
+})
+
+
+callbacks <- local({
+  cache <- list()
+
+  delpkg <- function(pkgname,pkgpath){
+    cache[[pkgname]] <<- NULL
+  }
+
+  function(pkg, callback){
+    if(missing(pkg)) cache
+    else{
+      cache[[pkg]] <<- callback
+      setHook(packageEvent(pkg, "onUnload"), delpkg)
+    }
+  }
+})
+
+#' @name sctrl-API
+#' @title Helper functions used by packages to facilitate [`sctrl`] updating.
+#'
+NULL
+
+#' @describeIn sctrl-API Typically called from [.onLoad()], Update the
+#'   argument list of [sctrl()] to include additional argument names
+#'   associated with the package, and set a callback for the package
+#'   to update its own copy.
+#'
+#' @param myname Name of the package defining the arguments.
+#' @param arglist A named list of argument name-default pairs. If the
+#'   list is not named, it is first passed through
+#'   [collate_controls()].
+#' @param callback A function with no arguments that updates the
+#'   packages own copy of [sctrl()].
+#'
+#' @return Nothing. Used for its side-effects.
+#' @export
+update_sctrl <- function(myname, arglist=alist(), callback=NULL){
+  if(length(arglist) && all(names(arglist)=="")) arglist <- do.call(collate_controls, arglist)
+  
+  # Make a copy and replace the arglist.
+  tmp <- sctrl
+
+  if(!missing(myname)){
+    argnames(myname, arglist)
+    if(!is.null(callback)) callbacks(myname, callback)
+  }
+
+  arglist <- c(list(formals(tmp)[1]), argnames())
+  argnames <- unlist(lapply(arglist, names))
+  arglist <- do.call(c, arglist)
+  names(arglist) <- argnames
+  formals(tmp) <- arglist
+
+  # Replace the original function with the copy.
+  unlockBinding("sctrl", environment(sctrl))
+  sctrl <<- tmp
+  lockBinding("sctrl", environment(sctrl))
+
+  for(callback in callbacks()) callback()
+
+  invisible()
+}
+
+#' @describeIn sctrl-API Obtain and concatenate the argument lists of
+#'   specified functions or all functions starting with dQuote(`control.`) in
+#'   the environment.
+#'
+#' @param x Either a function, a list of functions, or an
+#'   environment. If `x` is an environment, all functions starting
+#'   with dQuote(`control.`) are obtained.
+#' @param ... Additional functions or lists of functions.
+#'
+#' @export
+collate_controls <- function(x=NULL, ...){
+  l <- if(is.environment(x)) lapply(grep("control\\.*", ls(pos=x), value=TRUE), mget, x, mode="function", ifnotfound=NULL) else list(x)
+  l <- unlist(c(list(...), l))
+
+  arglist <- lapply(l, formals)
+  argnames <- unlist(lapply(arglist, names))
+  arglist <- do.call(c, arglist)
+  names(arglist) <- argnames
+  arglist <- arglist[names(arglist)!="..."]
+  arglist
+}
+
+#' @describeIn sctrl-API A stored expression that, if evaluated, will
+#'   create a callback function `update_my_sctrl()` that will update
+#'   the client package's copy of [sctrl()].
+#' @usage
+#' # In the client package (outside any function):
+#' eval(UPDATE_MY_SCTRL_EXPR)
+#' @export
+UPDATE_MY_SCTRL_EXPR <- quote(
+  update_my_sctrl <- function(){
+    unlockBinding("sctrl", environment(update_my_sctrl))
+    sctrl <<- statnet.common::sctrl
+    lockBinding("sctrl", environment(update_my_sctrl))
+  }
+)
+
+#' @describeIn sctrl-API A stored expression that, if evaluated on
+#'   loading, will add arguments of the package's `control.*()`
+#'   functions to [sctrl()] and set the callback.
+#' @usage
+#' # In the client package:
+#' .onLoad <- function(libame, pkgname){
+#'   # ... other code ...
+#'   eval(statnet.common::COLLATE_ALL_MY_CONTROLS_EXPR)
+#'   # ... other code ...
+#' }
+#' @export
+COLLATE_ALL_MY_CONTROLS_EXPR <- quote(
+  statnet.common::update_sctrl(pkgname,
+                     list(environment(.onLoad)),
+                     update_my_sctrl)
+)
