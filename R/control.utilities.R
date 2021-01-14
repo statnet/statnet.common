@@ -431,7 +431,7 @@ update_sctrl <- function(myname, arglist=alist(), callback=NULL){
 #' @return `collate_controls()` returns the combined list of name-default pairs of each function.
 #' @export
 collate_controls <- function(x=NULL, ...){
-  l <- if(is.environment(x)) lapply(grep("control\\.*", ls(pos=x), value=TRUE), mget, x, mode="function", ifnotfound=list(NULL)) else list(x)
+  l <- if(is.environment(x)) lapply(grep("^control\\.*", ls(pos=x), value=TRUE), mget, x, mode="function", ifnotfound=list(NULL)) else list(x)
   l <- unlist(c(list(...), l))
 
   arglist <- lapply(l, formals)
