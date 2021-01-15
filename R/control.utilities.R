@@ -406,6 +406,7 @@ update_sctrl <- function(myname, arglist=alist(), callback=NULL){
   arglist <- c(list(formals(tmp)[1]), argnames())
   argnames <- unlist(lapply(arglist, names))
   arglist <- do.call(c, arglist)
+  arglist <- rep(list(substitute()), length(arglist)) # For now, leave all default arguments blank.
   names(arglist) <- argnames
   formals(tmp) <- arglist
 
