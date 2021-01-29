@@ -821,6 +821,10 @@ split.matrix <- split.array
 #'   should be replaced with `NA`s before attempting conversion;
 #'   specifying `keep` or `FALSE` leaves them alone (typically
 #'   preventing conversion).
+#' @param empty a character string indicating how empty lists should
+#'   be handled: either `"keep"`, in which case they are unchanged or
+#'   `"unlist"`, in which cases they are unlisted (typically to
+#'   `NULL`).
 #' @param ... additional arguments passed to [unlist()].
 #'
 #' @return an atomic vector or a list of the same length as `x`.
@@ -845,9 +849,11 @@ split.matrix <- split.array
 #' stopifnot(identical(simplify_simple(x), x)) # but simplify_simple() returns a list.
 #'
 #' @export
-simplify_simple <- function(x, toNA = c("null","empty","keep"), ...){
+simplify_simple <- function(x, toNA = c("null","empty","keep"), empty = c("keep", "unlist"), ...){
   if(isFALSE(toNA)) toNA <- "keep"
   toNA <- match.arg(toNA)
+  empty <- match.arg(empty)
+
   if(is.atomic(x)) return(x)
 
   x <- switch(toNA,
@@ -855,6 +861,7 @@ simplify_simple <- function(x, toNA = c("null","empty","keep"), ...){
               null = lapply(x, NVL, NA),
               empty = lapply(x, EVL, NA))
 
-  if(all(lengths(x)==1L) && all(vapply(x, is.atomic, logical(1)))) unlist(x, recursive=FALSE, ...)
+  if(length(x)==0) switch(empty, keep=x, unlist=unlist(x, recursive=FALSE, ...))
+  else if(all(lengths(x)==1L) && all(vapply(x, is.atomic, logical(1)))) unlist(x, recursive=FALSE, ...)
   else x
 }

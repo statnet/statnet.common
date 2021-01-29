@@ -4,7 +4,12 @@
 \alias{simplify_simple}
 \title{Convert a list to an atomic vector if it consists solely of atomic elements of length 1.}
 \usage{
-simplify_simple(x, toNA = c("null", "empty", "keep"), ...)
+simplify_simple(
+  x,
+  toNA = c("null", "empty", "keep"),
+  empty = c("keep", "unlist"),
+  ...
+)
 }
 \arguments{
 \item{x}{an R \code{\link{list}} to be simplified.}
@@ -14,6 +19,11 @@ simplify_simple(x, toNA = c("null", "empty", "keep"), ...)
 should be replaced with \code{NA}s before attempting conversion;
 specifying \code{keep} or \code{FALSE} leaves them alone (typically
 preventing conversion).}
+
+\item{empty}{a character string indicating how empty lists should
+be handled: either \code{"keep"}, in which case they are unchanged or
+\code{"unlist"}, in which cases they are unlisted (typically to
+\code{NULL}).}
 
 \item{...}{additional arguments passed to \code{\link[=unlist]{unlist()}}.}
 }
