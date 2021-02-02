@@ -295,10 +295,10 @@ as.control.list.list <- function(x, FUN=NULL, unflat=TRUE, ...){
       l <- list()
       for(aname in names(args))
         if(aname %in% names(x)){ # Present in the input list: copy.
-          l[[aname]] <- x[[aname]]
+          l[aname] <- list(x[[aname]])
           xnames_unused <<- setdiff(xnames_unused, aname)
         }else if(is.call(aval <- args[[aname]]) && startsWith(as.character(aval[[1]]), "control.")){ # A control list not supplied directly: process recursively.
-          l[[aname]] <- unflat(get(as.character(aval[[1]]), pos=environment(f), mode="function"))
+          l[aname] <- list(unflat(get(as.character(aval[[1]]), pos=environment(f), mode="function")))
         }
       # Otherwise, leave blank.
 
