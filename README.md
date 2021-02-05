@@ -1,6 +1,5 @@
 # `statnet.common`: Common R Scripts and Utilities Used by the Statnet Project Software
 
-[![Build Status](https://travis-ci.org/statnet/statnet.common.svg?branch=master)](https://travis-ci.org/statnet/statnet.common)
 [![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/statnet.common?color=2ED968)](https://cranlogs.r-pkg.org/)
 [![cran version](https://www.r-pkg.org/badges/version/statnet.common)](https://cran.r-project.org/package=statnet.common)
 [![Coverage status](https://codecov.io/gh/statnet/statnet.common/branch/master/graph/badge.svg)](https://codecov.io/github/statnet/statnet.common?branch=master)
