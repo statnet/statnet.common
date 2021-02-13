@@ -403,7 +403,7 @@ NULL
 #'   to update its own copy.
 #'
 #' @param myname Name of the package defining the arguments.
-#' @param arglist A named list of argument name-default pairs. If the
+#' @param arglists A named list of argument name-default pairs. If the
 #'   list is not named, it is first passed through
 #'   [collate_controls()].
 #' @param callback A function with no arguments that updates the

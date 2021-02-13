@@ -25,6 +25,10 @@ COLLATE_ALL_MY_CONTROLS_EXPR
 \arguments{
 \item{myname}{Name of the package defining the arguments.}
 
+\item{arglists}{A named list of argument name-default pairs. If the
+list is not named, it is first passed through
+\code{\link[=collate_controls]{collate_controls()}}.}
+
 \item{callback}{A function with no arguments that updates the
 packages own copy of \code{\link[=sctrl]{sctrl()}}.}
 
@@ -33,10 +37,6 @@ environment. If \code{x} is an environment, all functions starting
 with dQuote(\code{control.}) are obtained.}
 
 \item{...}{Additional functions or lists of functions.}
-
-\item{arglist}{A named list of argument name-default pairs. If the
-list is not named, it is first passed through
-\code{\link[=collate_controls]{collate_controls()}}.}
 }
 \value{
 \code{update_sctrl()} has no return value and is used for its side-effects.
