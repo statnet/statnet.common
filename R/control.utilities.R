@@ -336,10 +336,15 @@ as.control.list.list <- function(x, FUN=NULL, unflat=TRUE, ...){
 #' @export
 sctrl <- function(...){
   control <- list(...)
+  if(length(control)){
+    if(any(names(control)=="")) stop("All arguments to ",sQuote("sctrl")," must be named.", call.=FALSE)
+    warning("The following arguments to ",sQuote("sctrl")," are not recognised: ", paste.and(sQuote(names(control))), call.=FALSE, immediate.=TRUE)
+  }
+
   formal.args<-formals(sys.function())
   formal.args[["..."]] <- NULL
   for(arg in names(formal.args)){
-    if(arg=="") stop("All arguments must be named.")
+    if(arg=="") stop("All arguments to ",sQuote("sctrl")," must be named.", call.=FALSE)
     if(!do.call(missing, list(arg)))
       control[arg] <- list(get(arg))
   }
