@@ -318,11 +318,17 @@ as.control.list.list <- function(x, FUN=NULL, unflat=TRUE, ...){
 #' are loaded, as are those of its reexports from other packages. This
 #' is done using an API provided by helper functions. (See `API?sctrl`.)
 #'
-#' @param ... Arguments to be put into the list. They *must* be named.
+#' @param ... The parameter list is updated dynamically as packages
+#'   are loaded and unloaded. Their current list is given below.
 #'
+#' @section Currently loaded:
+#' This is a dynamically updated list.
+#'
+#' \Sexpr[results=rd,stage=render]{statnet.common:::.sctrl_names()}
 #'
 #' @note You may see messages along the lines of
-#' ```The following object is masked from 'package:PKG':
+#' ```
+#' The following object is masked from 'package:PKG':
 #' sctrl
 #' ```
 #' when loading packages. They are benign.
@@ -339,6 +345,19 @@ sctrl <- function(...){
   control
 }
 
+.sctrl_names <- function(){
+  a <- argnames()
+  pkgs <- sapply(names(a), function(pkg){
+    funs <- lapply(names(a[[pkg]]), function(ctrl){
+      ctrll <- nchar(ctrl)
+      args <- names(a[[pkg]][[ctrl]])
+      paste0("\\item{\\code{\\link[",pkg,":",ctrl,"]{",ctrl,"}}}{\\code{", paste0(strwrap(paste0(args,collapse=", "),simplify=TRUE,exdent=ctrll+1),collapse="\n"), "}}")
+    })
+    paste0("\\subsection{Package \\pkg{",pkg,"}}{\\describe{", paste0(funs,collapse="\n"),"}}")
+  })
+  paste0(pkgs,collapse="\n")
+}
+
 argnames <- local({
   cache <- list()
 
@@ -347,10 +366,10 @@ argnames <- local({
     update_sctrl()
   }
 
-  function(pkg, arglist){
+  function(pkg, arglists){
     if(missing(pkg)) cache
     else{
-      cache[[pkg]] <<- arglist
+      cache[[pkg]] <<- arglists
       setHook(packageEvent(pkg, "onUnload"), delpkg)
     }
   }
@@ -392,24 +411,23 @@ NULL
 #'
 #' @return `update_sctrl()` has no return value and is used for its side-effects.
 #' @export
-update_sctrl <- function(myname, arglist=alist(), callback=NULL){
-  if(length(arglist) && all(names(arglist)=="")) arglist <- do.call(collate_controls, arglist)
+update_sctrl <- function(myname, arglists=NULL, callback=NULL){
+  if(length(arglists) && all(names(arglists)=="")) arglists <- do.call(collate_controls, arglists)
   
   # Make a copy and replace the arglist.
   tmp <- sctrl
 
   if(!missing(myname)){
-    argnames(myname, arglist)
+    argnames(myname, arglists)
     if(!is.null(callback)) callbacks(myname, callback)
   }
 
-  arglist <- c(list(formals(tmp)[1]), argnames())
-  argnames <- unlist(lapply(arglist, names))
-  arglist <- do.call(c, arglist)
-  arglist <- rep(list(substitute()), length(arglist)) # For now, leave all default arguments blank.
-  names(arglist) <- argnames
+  arglists <- c(argnames(),list(list(formals(tmp)[1])))
+  arglist <- unlist(unlist(lapply(unname(arglists), unname), recursive=FALSE), recursive=FALSE)
+  argnames <- sort(unique(names(arglist)))
+  arglist <- structure(rep(list(substitute()), length(argnames)), # For now, leave all default arguments blank.
+                       names = argnames)
   formals(tmp) <- arglist
-
   # Replace the original function with the copy.
   unlockBinding("sctrl", environment(sctrl))
   sctrl <<- tmp
@@ -435,12 +453,7 @@ collate_controls <- function(x=NULL, ...){
   l <- if(is.environment(x)) lapply(grep("^control\\.*", ls(pos=x), value=TRUE), mget, x, mode="function", ifnotfound=list(NULL)) else list(x)
   l <- unlist(c(list(...), l))
 
-  arglist <- lapply(l, formals)
-  argnames <- unlist(lapply(arglist, names))
-  arglist <- do.call(c, arglist)
-  names(arglist) <- argnames
-  arglist <- arglist[names(arglist)!="..."]
-  arglist
+  arglists <- lapply(l, formals)
 }
 
 #' @describeIn sctrl-API A stored expression that, if evaluated, will

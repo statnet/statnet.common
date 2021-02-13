@@ -7,7 +7,8 @@
 sctrl(...)
 }
 \arguments{
-\item{...}{Arguments to be put into the list. They \emph{must} be named.}
+\item{...}{The parameter list is updated dynamically as packages
+are loaded and unloaded. Their current list is given below.}
 }
 \description{
 In and of itself, \code{sctrl} copies its named arguments into a
@@ -16,8 +17,16 @@ are loaded, as are those of its reexports from other packages. This
 is done using an API provided by helper functions. (See \code{API?sctrl}.)
 }
 \note{
-You may see messages along the lines of\if{html}{\out{<div class="The following object is masked from 'package:PKG':">}}\preformatted{sctrl
-}\if{html}{\out{</div>}}
+You may see messages along the lines of\preformatted{The following object is masked from 'package:PKG':
+sctrl
+}
 
 when loading packages. They are benign.
 }
+\section{Currently loaded}{
+
+This is a dynamically updated list.
+
+\Sexpr[results=rd,stage=render]{statnet.common:::.sctrl_names()}
+}
+
