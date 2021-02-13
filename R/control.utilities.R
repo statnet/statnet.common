@@ -338,10 +338,11 @@ sctrl <- function(...){
   control <- list(...)
   formal.args<-formals(sys.function())
   formal.args[["..."]] <- NULL
-  for(arg in names(formal.args))
+  for(arg in names(formal.args)){
     if(arg=="") stop("All arguments must be named.")
     if(!do.call(missing, list(arg)))
       control[arg] <- list(get(arg))
+  }
   control
 }
 
