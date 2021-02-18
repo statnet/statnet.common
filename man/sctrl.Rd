@@ -2,7 +2,7 @@
 % Please edit documentation in R/control.utilities.R
 \name{sctrl}
 \alias{sctrl}
-\title{Statnet Control: a utility to facilitate argument completion of control lists.}
+\title{Statnet Control}
 \usage{
 sctrl(...)
 }
@@ -11,6 +11,9 @@ sctrl(...)
 are loaded and unloaded. Their current list is given below.}
 }
 \description{
+A utility to facilitate argument completion of control lists.
+}
+\details{
 In and of itself, \code{sctrl} copies its named arguments into a
 list. However, its argument list is updated dynamically as packages
 are loaded, as are those of its reexports from other packages. This
@@ -23,10 +26,10 @@ sctrl
 
 when loading packages. They are benign.
 }
-\section{Currently loaded}{
+\section{Currently recognised control parameters}{
 
-This is a dynamically updated list.
+This list is updated as packages are loaded and unloaded.
 
-\Sexpr[results=rd,stage=render]{statnet.common:::.sctrl_names()}
+\Sexpr[results=rd,stage=render]{statnet.common::sctrl_names()}
 }
 

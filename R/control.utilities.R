@@ -311,7 +311,9 @@ as.control.list.list <- function(x, FUN=NULL, unflat=TRUE, ...){
   do.call(FUN, x, envir=parent.frame())
 }
 
-#' Statnet Control: a utility to facilitate argument completion of control lists.
+#' Statnet Control
+#'
+#' A utility to facilitate argument completion of control lists.
 #'
 #' In and of itself, `sctrl` copies its named arguments into a
 #' list. However, its argument list is updated dynamically as packages
@@ -321,10 +323,10 @@ as.control.list.list <- function(x, FUN=NULL, unflat=TRUE, ...){
 #' @param ... The parameter list is updated dynamically as packages
 #'   are loaded and unloaded. Their current list is given below.
 #'
-#' @section Currently loaded:
-#' This is a dynamically updated list.
+#' @section Currently recognised control parameters:
+#' This list is updated as packages are loaded and unloaded.
 #'
-#' \Sexpr[results=rd,stage=render]{statnet.common:::.sctrl_names()}
+#' \Sexpr[results=rd,stage=render]{statnet.common::sctrl_names()}
 #'
 #' @note You may see messages along the lines of
 #' ```
@@ -351,7 +353,11 @@ sctrl <- function(...){
   control
 }
 
-.sctrl_names <- function(){
+#' @describeIn sctrl-API Typeset the currently defined list of
+#'   argument names by package and control function.
+#'
+#' @export
+sctrl_names <- function(){
   a <- argnames()
   pkgs <- sapply(names(a), function(pkg){
     funs <- lapply(names(a[[pkg]]), function(ctrl){
