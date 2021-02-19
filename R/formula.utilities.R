@@ -353,3 +353,38 @@ trim_env.default <- function(object, keep=NULL, ...){
   environment(object) <- trim_env(environment(object), keep, ...)
   object
 }
+
+#' Replace an object's environment with a simple, static environment.
+#'
+#' @param object An object with the `environment()<-` method.
+#'
+#' @return An object of the same type as `object`, with updated environment.
+#'
+#' @examples
+#' f <- y~x
+#' environment(f) # GlobalEnv
+#'
+#' environment(empty_env(f)) # EmptyEnv
+#'
+#' \dontshow{
+#' stopifnot(identical(environment(empty_env(f)), emptyenv()))
+#' }
+#' @export
+empty_env <- function(object){
+  environment(object) <- emptyenv()
+  object
+}
+
+#' @rdname empty_env
+#' @examples
+#'
+#' environment(base_env(f)) # base package environment
+#'
+#' \dontshow{
+#' stopifnot(identical(environment(base_env(f)), baseenv()))
+#' }
+#' @export
+base_env <- function(object){
+  environment(object) <- baseenv()
+  object
+}
