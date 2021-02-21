@@ -28,23 +28,38 @@
 #' Construct a "standard" startup message to be printed when the package is
 #' loaded.
 #' 
-#' This function uses information returned by \code{\link{packageDescription}}
-#' to construct a standard package startup message according to the policy of
-#' the Statnet Project. To determine institutional affiliation, it uses a
-#' lookup table that maps domain names to institutions. (E.g., *.uw.edu or
-#' *.washington.edu maps to University of Washington.)
-#' 
+#' This function uses information returned by [packageDescription()]
+#' to construct a standard package startup message according to the
+#' policy of the Statnet Project, including printing the contributors'
+#' institutional affiliations. See below for details on how it is
+#' detected.
+#'
+#' To determine the institutional affiliation,
+#' `statnetStartupMessage()` first looks for an `affil` element in the
+#' `comment` list. For example,
+#' ```
+#' person("Albus Percival Wulfric Brian", "Dumbledore", role=c("hdm"),
+#'        email="apwb.dumbledore@hogwarts.ac.uk",
+#'        comment=c(ORCID="0123-4567-8910-1112",
+#'                  affil="Hogwarts School of Witchcraft and Wizardry"))
+#' ```
+#' will copy the `affil` value. If it were not there, it would extract
+#' the domain `hogwarts.ac.uk` and attempt to find it on the list of
+#' institutions.
+#'
+#' Note that the e-mail mechanism is deprecated and may be removed in
+#' a future version.
 #' 
 #' @param pkgname Name of the package whose information is used.
 #' @param friends This argument is required, but will only be interpreted if
 #' the Statnet Project policy makes use of "friendly" package information.
 #' 
 #' A character vector of names of packages whose attribution information
-#' incorporates the attribution information of this package, or \code{TRUE}.
+#' incorporates the attribution information of this package, or `TRUE`.
 #' (This may, in the future, lead the package to suppress its own startup
 #' message when loaded by a "friendly" package.)
 #' 
-#' If \code{TRUE}, the package considers all other packages "friendly". (This
+#' If `TRUE`, the package considers all other packages "friendly". (This
 #' may, in the future, lead the package to suppress its own startup message
 #' when loaded by another package, but print it when loaded directly by the
 #' user.)
@@ -53,18 +68,18 @@
 #' make use of whether or not the package is being loaded directly or as a
 #' dependency.
 #' 
-#' If \code{TRUE}, the package is willing to suppress its startup message if
-#' loaded as a dependency. If \code{FALSE}, it is not.
+#' If `TRUE`, the package is willing to suppress its startup message if
+#' loaded as a dependency. If `FALSE`, it is not.
 #' @return A string containing the startup message, to be passed to the
-#' \code{\link{packageStartupMessage}} call or \code{NULL}, if policy
-#' prescribes printing 's default startup message. (Thus, if
-#' \code{statnetStartupMessage} returns \code{NULL}, the calling package should
-#' not call \code{\link{packageStartupMessage}} at all.)
+#' [packageStartupMessage()] call or `NULL`, if policy
+#' prescribes printing default startup message. (Thus, if
+#' [statnetStartupMessage()] returns `NULL`, the calling package should
+#' not call [packageStartupMessage()] at all.)
 #' 
-#' Note that arguments to \code{friends} and \code{nofriends} are merely
-#' requests, to be interpreted (or ignored) by the \code{statnetStartupMessage}
+#' Note that arguments to `friends` and `nofriends` are merely
+#' requests, to be interpreted (or ignored) by the `statnetStartupMessage()`
 #' according to the Statnet Project policy.
-#' @seealso packageDescription
+#' @seealso [packageDescription()], [packageStartupMessage()]
 #' @keywords utilities
 #' @examples
 #' 
@@ -113,7 +128,7 @@ statnetStartupMessage <- function(pkgname, friends, nofriends){
     else NULL
   }
   
-  pninsts <- sapply(pns, function(pn) NVL(find.inst(pn$email, INST_MAP),""))
+  pninsts <- sapply(pns, function(pn) NVL(as.list(pn$comment)$affil, find.inst(pn$email, INST_MAP),""))
 
   authors <- sapply(pns, function(pn) "aut" %in% pn$role)
 

@@ -33,21 +33,37 @@ loaded as a dependency. If \code{FALSE}, it is not.}
 }
 \value{
 A string containing the startup message, to be passed to the
-\code{\link{packageStartupMessage}} call or \code{NULL}, if policy
-prescribes printing 's default startup message. (Thus, if
-\code{statnetStartupMessage} returns \code{NULL}, the calling package should
-not call \code{\link{packageStartupMessage}} at all.)
+\code{\link[=packageStartupMessage]{packageStartupMessage()}} call or \code{NULL}, if policy
+prescribes printing default startup message. (Thus, if
+\code{\link[=statnetStartupMessage]{statnetStartupMessage()}} returns \code{NULL}, the calling package should
+not call \code{\link[=packageStartupMessage]{packageStartupMessage()}} at all.)
 
 Note that arguments to \code{friends} and \code{nofriends} are merely
-requests, to be interpreted (or ignored) by the \code{statnetStartupMessage}
+requests, to be interpreted (or ignored) by the \code{statnetStartupMessage()}
 according to the Statnet Project policy.
 }
 \description{
-This function uses information returned by \code{\link{packageDescription}}
-to construct a standard package startup message according to the policy of
-the Statnet Project. To determine institutional affiliation, it uses a
-lookup table that maps domain names to institutions. (E.g., *.uw.edu or
-*.washington.edu maps to University of Washington.)
+This function uses information returned by \code{\link[=packageDescription]{packageDescription()}}
+to construct a standard package startup message according to the
+policy of the Statnet Project, including printing the contributors'
+institutional affiliations. See below for details on how it is
+detected.
+}
+\details{
+To determine the institutional affiliation,
+\code{statnetStartupMessage()} first looks for an \code{affil} element in the
+\code{comment} list. For example,\preformatted{person("Albus Percival Wulfric Brian", "Dumbledore", role=c("hdm"),
+       email="apwb.dumbledore@hogwarts.ac.uk",
+       comment=c(ORCID="0123-4567-8910-1112",
+                 affil="Hogwarts School of Witchcraft and Wizardry"))
+}
+
+will copy the \code{affil} value. If it were not there, it would extract
+the domain \code{hogwarts.ac.uk} and attempt to find it on the list of
+institutions.
+
+Note that the e-mail mechanism is deprecated and may be removed in
+a future version.
 }
 \examples{
 
@@ -59,6 +75,6 @@ lookup table that maps domain names to institutions. (E.g., *.uw.edu or
 }
 }
 \seealso{
-packageDescription
+\code{\link[=packageDescription]{packageDescription()}}, \code{\link[=packageStartupMessage]{packageStartupMessage()}}
 }
 \keyword{utilities}
