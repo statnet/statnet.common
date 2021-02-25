@@ -1,5 +1,5 @@
 # This document provides a template for exporting a package's
-# control.* functions to be visible to sctrl() and providing a
+# control.* functions to be visible to snctrl() and providing a
 # sensible help document. Currently, the packages have to be updated
 # manually when the template changes.
 
@@ -19,22 +19,22 @@
 
 ## BEGIN text block
 
-#' @name sctrl
+#' @name snctrl
 #'
 #' @title Statnet Control
 #'
-#' @description A utility `sctrl(...)`, to facilitate argument completion of control lists, reexported from `statnet.common`.
+#' @description A utility `snctrl(...)`, to facilitate argument completion of control lists, reexported from `statnet.common`.
 #'
 #' @section Currently recognised control parameters:
 #' This list is updated as packages are loaded and unloaded.
 #'
-#' \Sexpr[results=rd,stage=render]{statnet.common::sctrl_names()}
+#' \Sexpr[results=rd,stage=render]{statnet.common::snctrl_names()}
 #'
-#' @seealso [statnet.common::sctrl()]
+#' @seealso [statnet.common::snctrl()]
 #' @docType import
 NULL
 #' @export
-sctrl <- statnet.common::sctrl
+snctrl <- statnet.common::snctrl
 
 eval(UPDATE_MY_SCTRL_EXPR)
 

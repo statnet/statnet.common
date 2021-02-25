@@ -315,10 +315,10 @@ as.control.list.list <- function(x, FUN=NULL, unflat=TRUE, ...){
 #'
 #' A utility to facilitate argument completion of control lists.
 #'
-#' In and of itself, `sctrl` copies its named arguments into a
+#' In and of itself, `snctrl` copies its named arguments into a
 #' list. However, its argument list is updated dynamically as packages
 #' are loaded, as are those of its reexports from other packages. This
-#' is done using an API provided by helper functions. (See `API?sctrl`.)
+#' is done using an API provided by helper functions. (See `API?snctrl`.)
 #'
 #' @param ... The parameter list is updated dynamically as packages
 #'   are loaded and unloaded. Their current list is given below.
@@ -326,38 +326,38 @@ as.control.list.list <- function(x, FUN=NULL, unflat=TRUE, ...){
 #' @section Currently recognised control parameters:
 #' This list is updated as packages are loaded and unloaded.
 #'
-#' \Sexpr[results=rd,stage=render]{statnet.common::sctrl_names()}
+#' \Sexpr[results=rd,stage=render]{statnet.common::snctrl_names()}
 #'
 #' @note You may see messages along the lines of
 #' ```
 #' The following object is masked from 'package:PKG':
-#' sctrl
+#' snctrl
 #' ```
 #' when loading packages. They are benign.
 #' 
 #' @export
-sctrl <- function(...){
+snctrl <- function(...){
   control <- list(...)
   if(length(control)){
-    if(any(names(control)=="")) stop("All arguments to ",sQuote("sctrl")," must be named.", call.=FALSE)
-    warning("The following arguments to ",sQuote("sctrl")," are not recognised: ", paste.and(sQuote(names(control))), call.=FALSE, immediate.=TRUE)
+    if(any(names(control)=="")) stop("All arguments to ",sQuote("snctrl")," must be named.", call.=FALSE)
+    warning("The following arguments to ",sQuote("snctrl")," are not recognised: ", paste.and(sQuote(names(control))), call.=FALSE, immediate.=TRUE)
   }
 
   formal.args<-formals(sys.function())
   formal.args[["..."]] <- NULL
   for(arg in names(formal.args)){
-    if(arg=="") stop("All arguments to ",sQuote("sctrl")," must be named.", call.=FALSE)
+    if(arg=="") stop("All arguments to ",sQuote("snctrl")," must be named.", call.=FALSE)
     if(!do.call(missing, list(arg)))
       control[arg] <- list(get(arg))
   }
   control
 }
 
-#' @describeIn sctrl-API Typeset the currently defined list of
+#' @describeIn snctrl-API Typeset the currently defined list of
 #'   argument names by package and control function.
 #'
 #' @export
-sctrl_names <- function(){
+snctrl_names <- function(){
   a <- argnames()
   pkgs <- sapply(names(a), function(pkg){
     funs <- lapply(names(a[[pkg]]), function(ctrl){
@@ -375,7 +375,7 @@ argnames <- local({
 
   delpkg <- function(pkgname,pkgpath){
     cache[[pkgname]] <<- NULL
-    update_sctrl()
+    update_snctrl()
   }
 
   function(pkg, arglists){
@@ -404,13 +404,13 @@ callbacks <- local({
   }
 })
 
-#' @name sctrl-API
-#' @title Helper functions used by packages to facilitate [`sctrl`] updating.
+#' @name snctrl-API
+#' @title Helper functions used by packages to facilitate [`snctrl`] updating.
 #'
 NULL
 
-#' @describeIn sctrl-API Typically called from [.onLoad()], Update the
-#'   argument list of [sctrl()] to include additional argument names
+#' @describeIn snctrl-API Typically called from [.onLoad()], Update the
+#'   argument list of [snctrl()] to include additional argument names
 #'   associated with the package, and set a callback for the package
 #'   to update its own copy.
 #'
@@ -419,15 +419,15 @@ NULL
 #'   list is not named, it is first passed through
 #'   [collate_controls()].
 #' @param callback A function with no arguments that updates the
-#'   packages own copy of [sctrl()].
+#'   packages own copy of [snctrl()].
 #'
-#' @return `update_sctrl()` has no return value and is used for its side-effects.
+#' @return `update_snctrl()` has no return value and is used for its side-effects.
 #' @export
-update_sctrl <- function(myname, arglists=NULL, callback=NULL){
+update_snctrl <- function(myname, arglists=NULL, callback=NULL){
   if(length(arglists) && all(names(arglists)=="")) arglists <- do.call(collate_controls, arglists)
   
   # Make a copy and replace the arglist.
-  tmp <- sctrl
+  tmp <- snctrl
 
   if(!missing(myname)){
     argnames(myname, arglists)
@@ -441,16 +441,16 @@ update_sctrl <- function(myname, arglists=NULL, callback=NULL){
                        names = argnames)
   formals(tmp) <- arglist
   # Replace the original function with the copy.
-  unlockBinding("sctrl", environment(sctrl))
-  sctrl <<- tmp
-  lockBinding("sctrl", environment(sctrl))
+  unlockBinding("snctrl", environment(snctrl))
+  snctrl <<- tmp
+  lockBinding("snctrl", environment(snctrl))
 
   for(callback in callbacks()) callback()
 
   invisible()
 }
 
-#' @describeIn sctrl-API Obtain and concatenate the argument lists of
+#' @describeIn snctrl-API Obtain and concatenate the argument lists of
 #'   specified functions or all functions starting with dQuote(`control.`) in
 #'   the environment.
 #'
@@ -468,9 +468,9 @@ collate_controls <- function(x=NULL, ...){
   arglists <- lapply(l, formals)
 }
 
-#' @describeIn sctrl-API A stored expression that, if evaluated, will
-#'   create a callback function `update_my_sctrl()` that will update
-#'   the client package's copy of [sctrl()].
+#' @describeIn snctrl-API A stored expression that, if evaluated, will
+#'   create a callback function `update_my_snctrl()` that will update
+#'   the client package's copy of [snctrl()].
 #' @format `UPDATE_MY_SCTRL_EXPR` is a quoted expression meant to be passed directly to [eval()].
 #' @examples
 #' \dontrun{
@@ -479,16 +479,16 @@ collate_controls <- function(x=NULL, ...){
 #' }
 #' @export
 UPDATE_MY_SCTRL_EXPR <- quote(
-  update_my_sctrl <- function(){
-    unlockBinding("sctrl", environment(update_my_sctrl))
-    sctrl <<- statnet.common::sctrl
-    lockBinding("sctrl", environment(update_my_sctrl))
+  update_my_snctrl <- function(){
+    unlockBinding("snctrl", environment(update_my_snctrl))
+    snctrl <<- statnet.common::snctrl
+    lockBinding("snctrl", environment(update_my_snctrl))
   }
 )
 
-#' @describeIn sctrl-API A stored expression that, if evaluated on
+#' @describeIn snctrl-API A stored expression that, if evaluated on
 #'   loading, will add arguments of the package's `control.*()`
-#'   functions to [sctrl()] and set the callback.
+#'   functions to [snctrl()] and set the callback.
 #' @format `COLLATE_ALL_MY_CONTROLS_EXPR` is a quoted expression meant to be passed directly to [eval()].
 #' @examples
 #' \dontrun{
@@ -501,7 +501,7 @@ UPDATE_MY_SCTRL_EXPR <- quote(
 #' }
 #' @export
 COLLATE_ALL_MY_CONTROLS_EXPR <- quote(
-  statnet.common::update_sctrl(pkgname,
+  statnet.common::update_snctrl(pkgname,
                      list(environment(.onLoad)),
-                     update_my_sctrl)
+                     update_my_snctrl)
 )
