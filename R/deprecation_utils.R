@@ -36,8 +36,7 @@ NULL
   warned <- c()
   function(...){
     me <- sys.call(-1)
-    myname <- as.character(me[[1L]])
-    if(length(myname)>1 && myname[[1L]]=="::") myname <- myname[[3L]]
+    myname <- format(me[[1L]])
     if(! myname%in%warned){
       do.call(".Deprecated", modifyList(list(old=myname),list(...)))
       warned <<- c(warned, myname)
