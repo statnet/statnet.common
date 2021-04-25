@@ -18,7 +18,7 @@
 
 #' Ensure that the class of the control list is one of those that can
 #' be used by the calling function
-#' 
+#'
 #' This function converts an ordinary `list` into a control list (if
 #' needed) and checks that the control list passed is appropriate for
 #' the function to be controlled.
@@ -100,6 +100,61 @@ set.control.class <- function(myname=as.character(ult(sys.calls(),2)[[1L]]), con
   control
 }
 
+#' Handle standard `control.*()` function semantics.
+#'
+#' This function takes the arguments of its caller (whose name should
+#' be passed explicitly), plus any `...` arguments and produces a
+#' control list based on the standard semantics of `control.*()`
+#' functions, including handling deprecated arguments, identifying
+#' undefined arguments, and handling arguments that should be passed
+#' through [match.arg()].
+#'
+#' @param myname the name of the calling function.
+#' @param ... the `...` argument of the control function, if present.
+#'
+#' @details The function behaves based on the information it acquires from the calling function. Specifically,
+#'
+#' * The values of formal arguments (except `...`, if present) are
+#'   taken from the environment of the calling function and stored in
+#'   the list.
+#'
+#' * If the calling function has a `...` argument *and* defines an
+#'   `old.controls` variable in its environment, then it remaps the
+#'   names in `...` to their new names based on `old.controls`.
+#'
+#' * If the calling function has a `match.arg.pars` in its
+#'   environment, the arguments in that list are processed through
+#'   [match.arg()].
+#'
+#' @return a list with formal arguments of the calling function.
+#' @export
+handle.controls <- function(myname, ...){
+  formal.args <- formals(sys.function(-1))
+  if(has.dots <- "..." %in% names(formal.args)) formal.args[["..."]] <- NULL
+
+  control <- list()
+  for(arg in names(formal.args))
+    control[arg] <- list(get(arg, parent.frame()))
+
+  if(has.dots){
+    old.controls <- if(exists("old.controls", parent.frame())) get("old.controls", parent.frame()) else list()
+
+    for(arg in names(list(...))){
+      if(!is.null(old.controls[[arg]])){
+        warning("Passing ",sQuote(paste0(arg,"=..."))," to ", sQuote(paste0(myname, "()")), " is deprecated and may be removed in a future version. Specify it as ", sQuote(paste0(myname, "(", old.controls[[arg]], "=...)")), " instead.")
+        control[old.controls[[arg]]]<-list(list(...)[[arg]])
+      }else{
+        stop("Unrecognized control parameter for ", sQuote(paste0(myname, "()")), ": ", sQuote(arg), ".", call.=FALSE)
+      }
+    }
+  }
+
+  if(exists("match.arg.pars", parent.frame()))
+    for(arg in get("match.arg.pars", parent.frame()))
+      control[arg] <- list(match.arg(control[[arg]][1], eval(formal.args[[arg]])))
+
+  control
+}
 
 
 #' Pretty print the control list
