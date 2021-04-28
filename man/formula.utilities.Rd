@@ -15,7 +15,12 @@
 
 A suite of utilities for handling model formulas of the style used in Statnet packages.}
 \usage{
-append_rhs.formula(object, newterms, keep.onesided = FALSE)
+append_rhs.formula(
+  object = NULL,
+  newterms,
+  keep.onesided = FALSE,
+  env = environment(object)
+)
 
 append.rhs.formula(object, newterms, keep.onesided = FALSE)
 
@@ -45,6 +50,8 @@ of each term (\code{+1} or \code{-1}).}
 whether to keep it one-sided or whether to make the initial
 formula the new LHS}
 
+\item{env}{an environment for the new formula, if \code{object} is \code{NULL}}
+
 \item{f}{a function whose first argument is the term and whose
 additional arguments are forwarded from \code{...} that returns either
 \code{TRUE} or \code{FALSE}, for whether that term should be kept.}
@@ -60,7 +67,8 @@ environment of formula gets updated.}
 }
 \value{
 \code{append_rhs.formula} each return an updated formula
-object
+object; if \code{object} is \code{NULL} (the default), a one-sided formula
+containing only the terms in \code{newterms} will be returned.
 
 \code{nonsimp_update.formula} each return an
 updated formula object
@@ -122,6 +130,8 @@ keeping track of whether a term has a plus or a minus sign.
 (f3 <- append_rhs.formula(~y+x,structure(list(as.name("z")),sign=-1)))
 (f4 <- append_rhs.formula(~y,list(as.name("z")),TRUE))
 (f5 <- append_rhs.formula(y~x,~z1-z2))
+(f6 <- append_rhs.formula(NULL,list(as.name("z"))))
+(f7 <- append_rhs.formula(NULL,structure(list(as.name("z")),sign=-1)))
 
 \dontshow{
 stopifnot(f1 == (y~x+z1+z2))
@@ -129,6 +139,8 @@ stopifnot(f2 == (y~z))
 stopifnot(f3 == (y+x~-z))
 stopifnot(f4 == (~y+z))
 stopifnot(f5 == (y~x+z1-z2))
+stopifnot(f6 == (~z))
+stopifnot(f7 == (~-z))
 }
 
 ## filter_rhs.formula

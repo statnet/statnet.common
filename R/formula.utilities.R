@@ -33,9 +33,11 @@ NULL
 #' @param keep.onesided if the initial formula is one-sided, keep it
 #'   whether to keep it one-sided or whether to make the initial
 #'   formula the new LHS
+#' @param env an environment for the new formula, if `object` is `NULL`
 #' @param \dots Additional arguments. Currently unused.
 #' @return \code{append_rhs.formula} each return an updated formula
-#'   object
+#'   object; if `object` is `NULL` (the default), a one-sided formula
+#'   containing only the terms in `newterms` will be returned.
 #' @examples
 #' 
 #' ## append_rhs.formula
@@ -45,22 +47,32 @@ NULL
 #' (f3 <- append_rhs.formula(~y+x,structure(list(as.name("z")),sign=-1)))
 #' (f4 <- append_rhs.formula(~y,list(as.name("z")),TRUE))
 #' (f5 <- append_rhs.formula(y~x,~z1-z2))
-#' 
+#' (f6 <- append_rhs.formula(NULL,list(as.name("z"))))
+#' (f7 <- append_rhs.formula(NULL,structure(list(as.name("z")),sign=-1)))
+#'
 #' \dontshow{
 #' stopifnot(f1 == (y~x+z1+z2))
 #' stopifnot(f2 == (y~z))
 #' stopifnot(f3 == (y+x~-z))
 #' stopifnot(f4 == (~y+z))
 #' stopifnot(f5 == (y~x+z1-z2))
+#' stopifnot(f6 == (~z))
+#' stopifnot(f7 == (~-z))
 #' }
 #'
 #' @export
-append_rhs.formula<-function(object,newterms,keep.onesided=FALSE){
+append_rhs.formula <- function(object = NULL, newterms, keep.onesided = FALSE, env = environment(object)){
+  if(is.null(object)) keep.onesided <- TRUE
+
   if(inherits(newterms,"formula")) newterms <- list_rhs.formula(newterms)
+
   for(i in seq_along(newterms)){
     newterm <- newterms[[i]]
     termsign <- if(NVL(attr(newterms, "sign")[i], +1)>0) "+" else "-"
-    if(length(object)==3) object[[3L]]<-call(termsign,object[[3L]],newterm)
+    if(length(object)==0){
+      if(termsign == "-") newterm <- call(termsign, newterm)
+      object <- as.formula(call("~", newterm), env = env)
+    }else if(length(object)==3) object[[3L]]<-call(termsign,object[[3L]],newterm)
     else if(keep.onesided) object[[2L]]<-call(termsign,object[[2L]],newterm)
     else object[[3L]]<- if(termsign=="+") newterm else call(termsign,newterm)
   }
