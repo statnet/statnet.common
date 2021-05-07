@@ -7,8 +7,6 @@
 #
 #  Copyright 2007-2020 Statnet Commons
 #######################################################################
-## Concatenate a character list with commas and ands in the right places.
-
 
 #' Concatenates the elements of a vector (optionaly enclosing them in quotation
 #' marks or parentheses) adding appropriate punctuation and conjunctions.
@@ -68,9 +66,56 @@ message_print <- function(..., messageArgs=NULL){
   do.call(message, c(list(paste(capture.output(print(...)),collapse="\n")), messageArgs))
 }
 
+
 #' A one-line function to strip whitespace from its argument.
 #' @param s a character vector.
 #' @examples
 #' stopifnot(despace("\n \t  ")=="")
 #' @export
 despace <- function(s) gsub("[[:space:]]", "", s)
+
+#' Format a p-value in fixed notation.
+#'
+#' This is a thin wrapper around [format.pval()] that guarantees fixed
+#' (not scientific) notation, links (by default) the `eps` argument to
+#' the `digits` argument and vice versa, and sets `nsmall` to equal
+#' `digits`.
+#'
+#' @param pv,digits,eps,na.form,... see [format.pval()].
+#'
+#' @return A character vector.
+#'
+#' @examples
+#' pvs <- 10^((0:-12)/2)
+#'
+#' # Jointly:
+#' fpf <- fixed.pval(pvs, digits = 3)
+#' fpf
+#' format.pval(pvs, digits = 3) # compare
+#' \dontshow{
+#' stopifnot(all(fpf == c("1.000", "0.316", "0.100", "0.032", "0.010", "0.003", "0.001", "<0.001", "<0.001", "<0.001", "<0.001", "<0.001", "<0.001")))
+#' }
+#' # Individually:
+#' fpf <- sapply(pvs, fixed.pval, digits = 3)
+#' fpf
+#' sapply(pvs, format.pval, digits = 3) # compare
+#' \dontshow{
+#' stopifnot(all(fpf == c("1.000", "0.316", "0.100", "0.032", "0.010", "0.003", "0.001", "<0.001", "<0.001", "<0.001", "<0.001", "<0.001", "<0.001")))
+#' }
+#' # Control eps:
+#' fpf <- sapply(pvs, fixed.pval, eps = 1e-3)
+#' fpf
+#' \dontshow{
+#' stopifnot(all(fpf == c("1.000", "0.316", "0.100", "0.032", "0.010", "0.003", "0.001", "<0.001", "<0.001", "<0.001", "<0.001", "<0.001", "<0.001")))
+#' }
+#' @export
+fixed.pval <- function(pv, digits = max(1, getOption("digits") - 2),
+                       eps = 10^-digits, na.form = "NA", ...) {
+  if (missing(digits) && !missing(eps)) {
+    digits <- ceiling(-log10(eps))
+  }
+  o <- options(scipen = 200)
+  on.exit(options(o))
+  format.pval(round(pv, digits), digits, eps = eps,
+              na.form = na.form, nsmall = digits, ...)
+}
