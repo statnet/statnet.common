@@ -315,7 +315,6 @@ as.control.list.control.list <- function(x, ...) x
 #' @param unflat Logical, indicating whether an attempt should be made
 #'   to detect whether some of the arguments are appropriate for a
 #'   lower-level control function and pass them down.
-#' @import purrr
 #' @examples
 #' myfun2 <- function(..., control=control.myfun2()){
 #'   as.control.list(control)
@@ -331,11 +330,15 @@ as.control.list.control.list <- function(x, ...) x
 #' @export
 as.control.list.list <- function(x, FUN=NULL, unflat=TRUE, ...){
   if(is.null(FUN)){
-    FUN <- sys.calls() %>% # Obtain the traceback.
-      map(`[[`, 1L) %>% # Extract the function names as names.
-      map_chr(as.character) %>% # Convert to character vectors.
-      discard(startsWith, "as.control.list") %>% # Drop those that begin with "as.control.list".
-      ult # Take the last one.
+    FUN <-
+      ult(
+        Filter(function(x) !startsWith(x, "as.control.list"),
+             vapply(
+               lapply(sys.calls(), # Obtain the traceback.
+                      `[[`, 1L), # Extract the function names as names.
+               as.character, character(1)) # Convert to character vectors.
+             ) # Drop those that begin with "as.control.list".
+      ) # Take the last one.
   }
   if(is.character(FUN) && !startsWith(FUN, "control.")) FUN <- paste0("control.", FUN)
 
