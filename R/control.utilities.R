@@ -120,7 +120,10 @@ set.control.class <- function(myname=as.character(ult(sys.calls(),2)[[1L]]), con
 #'
 #' * If the calling function has a `...` argument *and* defines an
 #'   `old.controls` variable in its environment, then it remaps the
-#'   names in `...` to their new names based on `old.controls`.
+#'   names in `...` to their new names based on `old.controls`. In
+#'   addition, if the value is a list with two elements, `action` and
+#'   `message`, the standard deprecation message will have `message`
+#'   appended to it and then be called with `action()`.
 #'
 #' * If the calling function has a `match.arg.pars` in its
 #'   environment, the arguments in that list are processed through
@@ -140,11 +143,13 @@ handle.controls <- function(myname, ...){
     old.controls <- if(exists("old.controls", parent.frame())) get("old.controls", parent.frame()) else list()
 
     for(arg in names(list(...))){
-      if(!is.null(old.controls[[arg]])){
-        warning("Passing ",sQuote(paste0(arg,"=..."))," to ", sQuote(paste0(myname, "()")), " is deprecated and may be removed in a future version. Specify it as ", sQuote(paste0(myname, "(", old.controls[[arg]], "=...)")), " instead.")
-        control[old.controls[[arg]]]<-list(list(...)[[arg]])
-      }else{
+      if(is.null(newarg <- old.controls[[arg]])){
         stop("Unrecognized control parameter for ", sQuote(paste0(myname, "()")), ": ", sQuote(arg), ".", call.=FALSE)
+      }else if(is.list(newarg)){
+        newarg$action("Control parameter ",sQuote(paste0(arg,"=..."))," to ", sQuote(paste0(myname, "()")), " is no longer used.", newarg$message, call.=FALSE)
+      }else{
+        warning("Passing ",sQuote(paste0(arg,"=..."))," to ", sQuote(paste0(myname, "()")), " is deprecated and may be removed in a future version. Specify it as ", sQuote(paste0(myname, "(", old.controls[[arg]], "=...)")), " instead.", call.=FALSE)
+        control[old.controls[[arg]]]<-list(list(...)[[arg]])
       }
     }
   }

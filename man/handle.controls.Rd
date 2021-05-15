@@ -30,7 +30,10 @@ taken from the environment of the calling function and stored in
 the list.
 \item If the calling function has a \code{...} argument \emph{and} defines an
 \code{old.controls} variable in its environment, then it remaps the
-names in \code{...} to their new names based on \code{old.controls}.
+names in \code{...} to their new names based on \code{old.controls}. In
+addition, if the value is a list with two elements, \code{action} and
+\code{message}, the standard deprecation message will have \code{message}
+appended to it and then be called with \code{action()}.
 \item If the calling function has a \code{match.arg.pars} in its
 environment, the arguments in that list are processed through
 \code{\link[=match.arg]{match.arg()}}.
