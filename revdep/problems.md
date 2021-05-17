@@ -1,65 +1,106 @@
-# networkDynamic
+# BasketballAnalyzeR
 
 <details>
 
-* Version: 0.10.1
-* GitHub: NA
-* Source code: https://github.com/cran/networkDynamic
-* Date/Publication: 2020-01-21 09:50:02 UTC
-* Number of recursive dependencies: 36
+* Version: 0.5.0
+* GitHub: https://github.com/sndmrc/BasketballAnalyzeR
+* Source code: https://github.com/cran/BasketballAnalyzeR
+* Date/Publication: 2020-06-26 09:00:11 UTC
+* Number of recursive dependencies: 75
 
-Run `revdep_details(, "networkDynamic")` for more info
+Run `revdep_details(, "BasketballAnalyzeR")` for more info
 
 </details>
 
-## Newly broken
+## In both
 
-*   checking loading without being on the library search path ... WARNING
+*   checking dependencies in R code ... NOTE
     ```
-    Loading required package: network
-    network: Classes for Relational Data
-    Version 1.16.1 created on 2020-10-06.
-    copyright (c) 2005, Carter T. Butts, University of California-Irvine
-                        Mark S. Handcock, University of California -- Los Angeles
-                        David R. Hunter, Penn State University
-                        Martina Morris, University of Washington
-                        Skye Bender-deMoll, University of Washington
-     For citation information, type citation("network").
-     Type help("network-package") to get started.
-    
-    Error: package or namespace load failed for ‘networkDynamic’ in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]):
-     there is no package called ‘purrr’
-    Execution halted
-    
-    It looks like this package has a loading problem when not on .libPaths:
-    see the messages for details.
+    Namespaces in Imports field not imported from:
+      ‘circlize’ ‘hexbin’ ‘scales’ ‘sna’
+      All declared Imports should be used.
     ```
 
-# sna
+# Blaunet
 
 <details>
 
-* Version: 2.6
+* Version: 2.1.0
 * GitHub: NA
-* Source code: https://github.com/cran/sna
-* Date/Publication: 2020-10-06 08:50:03 UTC
-* Number of recursive dependencies: 61
+* Source code: https://github.com/cran/Blaunet
+* Date/Publication: 2020-05-22 08:10:11 UTC
+* Number of recursive dependencies: 84
 
-Run `revdep_details(, "sna")` for more info
+Run `revdep_details(, "Blaunet")` for more info
 
 </details>
 
-## Newly broken
+## In both
 
-*   checking loading without being on the library search path ... WARNING
+*   checking package dependencies ... NOTE
     ```
-    Loading required package: statnet.common
-    Error: package or namespace load failed for ‘statnet.common’ in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]):
-     there is no package called ‘purrr’
-    Error: package ‘statnet.common’ could not be loaded
-    Execution halted
-    
-    It looks like this package has a loading problem when not on .libPaths:
-    see the messages for details.
+    Packages suggested but not available for checking:
+      'gWidgets', 'gWidgetsRGtk2'
+    ```
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘RGtk2’ ‘cairoDevice’ ‘ergm’ ‘foreign’ ‘haven’ ‘plot3D’ ‘plot3Drgl’
+      ‘rgl’ ‘sna’ ‘statnet.common’
+      All declared Imports should be used.
+    ```
+
+# ergm
+
+<details>
+
+* Version: 3.11.0
+* GitHub: https://github.com/statnet/ergm
+* Source code: https://github.com/cran/ergm
+* Date/Publication: 2020-10-14 09:30:02 UTC
+* Number of recursive dependencies: 69
+
+Run `revdep_details(, "ergm")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘Rmpi’
+    ```
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is 10.5Mb
+      sub-directories of 1Mb or more:
+        doc    3.6Mb
+        help   1.5Mb
+        libs   3.9Mb
+    ```
+
+# pkggraph
+
+<details>
+
+* Version: 0.2.3
+* GitHub: https://github.com/talegari/pkggraph
+* Source code: https://github.com/cran/pkggraph
+* Date/Publication: 2018-11-15 09:50:03 UTC
+* Number of recursive dependencies: 65
+
+Run `revdep_details(, "pkggraph")` for more info
+
+</details>
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  8.5Mb
+      sub-directories of 1Mb or more:
+        doc   8.0Mb
     ```
 
