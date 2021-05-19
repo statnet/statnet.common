@@ -10,14 +10,13 @@
 |collate  |en_US.UTF-8                  |
 |ctype    |en_US.UTF-8                  |
 |tz       |Australia/Sydney             |
-|date     |2021-05-17                   |
+|date     |2021-05-19                   |
 
 # Dependencies
 
 |package        |old   |new       |Δ  |
 |:--------------|:-----|:---------|:--|
 |statnet.common |4.4.1 |4.5.0-348 |*  |
-|rle            |NA    |0.9.2-234 |*  |
 
 # Revdeps
 
@@ -30,7 +29,7 @@
 |[Blaunet](problems.md#blaunet)                       |2.1.0   |      |        |2    |
 |btergm                                               |1.9.13  |      |        |     |
 |EpiModel                                             |2.0.5   |      |        |     |
-|[ergm](problems.md#ergm)                             |3.11.0  |      |        |2    |
+|[ergm](problems.md#ergm)                             |3.11.0  |      |        |1    |
 |ergm.count                                           |3.4.0   |      |        |     |
 |ergm.ego                                             |0.6.1   |      |        |     |
 |ergm.rank                                            |1.2.0   |      |        |     |

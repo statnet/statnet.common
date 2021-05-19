@@ -67,15 +67,11 @@ Run `revdep_details(, "ergm")` for more info
 
 ## In both
 
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘Rmpi’
-    ```
-
 *   checking installed package size ... NOTE
     ```
-      installed size is 10.5Mb
+      installed size is 11.5Mb
       sub-directories of 1Mb or more:
+        R      1.9Mb
         doc    3.6Mb
         help   1.5Mb
         libs   3.9Mb
