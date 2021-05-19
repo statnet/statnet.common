@@ -1,3 +1,41 @@
+# statnet.common 4.5.0
+
+## New utilities
+
+* `ergm`'s term locator functions (`locate_function()` and `locate_prefixed_function()`) have been moved from `ergm`.
+
+* A new function, `default_options()`, a wrapper around `options()` that drops options already set.
+
+* A new function, `as.control.list()` generic and methods which take an R list and call an appropriate `control.*()` function on it.
+
+* `check.control.class()` now first runs the control argument through `as.control.list()` and overwrites, so `control=` arguments to many functions can be plain lists.
+
+* A new function, `simplify_simple()`, which takes a list and returns an atomic vector if the elements of the list are atomic and of length 1, with particular handling for `NULL` and empty (0-length) elements.
+
+* A new function, `snctrl()` (StatNet ConTRoL), designed so that argument completion will complete all available control functions. Looking up its help (`?snctrl`) produces a dynamic list of all control parameters and their packages and control functions that is updated as packages are loaded and unloaded.
+
+* A new function, `handle.controls()`, that performs the most normal functions in a `control.*()` function.
+
+* Two trivial helper functions, `base_env()` and `empty_env()`, to replace an object's environment with `baseenv()` and `emptyenv()`,
+respectively.
+
+* A new function, `fixed.pval()` that wraps `base::format.pval()` with better default arguments.
+
+
+# Enhancements to existing utilities
+
+* `statnetStartupMessage()` now first looks for a `comment=(affil=...)` for the contributor's affiliation, before using e-mail.
+
+* Improved output formatting for `.Deprecate_once()`.
+
+* `append_rhs.formula()` now accepts NULL as the first argument, in which case it creates a new formula, and takes an additonal argument `env=`, which is used as this new formula's environment.
+
+# Miscellaneous changes
+
+* `rle` utilities are no longer reexported.
+
+* `statnet.common` no longer depends on `purrr`.
+
 # statnet.common 4.4.0
 
 ## `rle` utilities have been moved to a separate package, `rle`
