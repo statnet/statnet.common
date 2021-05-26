@@ -865,3 +865,24 @@ simplify_simple <- function(x, toNA = c("null","empty","keep"), empty = c("keep"
   else if(all(lengths(x)==1L) && all(vapply(x, is.atomic, logical(1)))) unlist(x, recursive=FALSE, ...)
   else x
 }
+
+#' A wrapper for base::attr which defaults to exact matching.
+#'
+#' @param x,which,exact as in \code{base::attr}, but with \code{exact}
+#'   defaulting to \code{TRUE} in this implementation
+#'
+#' @return as in \code{base::attr}
+#' @examples
+#'
+#' x <- list()
+#' attr(x, "name") <- 10
+#'
+#' base::attr(x, "n")
+#'
+#' attr(x, "n")
+#'
+#' base::attr(x, "n", exact = TRUE)
+#' @export
+attr <- function(x, which, exact = TRUE) {
+  base::attr(x, which, exact)
+}
