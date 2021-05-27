@@ -69,34 +69,10 @@ Run `revdep_details(, "ergm")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 11.5Mb
+      installed size is  8.4Mb
       sub-directories of 1Mb or more:
-        R      1.9Mb
         doc    3.6Mb
-        help   1.5Mb
-        libs   3.9Mb
-    ```
-
-# pkggraph
-
-<details>
-
-* Version: 0.2.3
-* GitHub: https://github.com/talegari/pkggraph
-* Source code: https://github.com/cran/pkggraph
-* Date/Publication: 2018-11-15 09:50:03 UTC
-* Number of recursive dependencies: 65
-
-Run `revdep_details(, "pkggraph")` for more info
-
-</details>
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  8.5Mb
-      sub-directories of 1Mb or more:
-        doc   8.0Mb
+        help   1.0Mb
+        libs   2.3Mb
     ```
 
