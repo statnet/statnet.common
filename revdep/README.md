@@ -10,13 +10,13 @@
 |collate  |en_US.UTF-8                  |
 |ctype    |en_US.UTF-8                  |
 |tz       |Australia/Sydney             |
-|date     |2021-05-19                   |
+|date     |2021-05-27                   |
 
 # Dependencies
 
 |package        |old   |new       |Δ  |
 |:--------------|:-----|:---------|:--|
-|statnet.common |4.4.1 |4.5.0-348 |*  |
+|statnet.common |4.4.1 |4.5.0-355 |*  |
 
 # Revdeps
 
@@ -38,7 +38,7 @@
 |ndtv                                                 |0.13.0  |      |        |     |
 |network                                              |1.16.1  |      |        |     |
 |networkDynamic                                       |0.10.1  |      |        |     |
-|[pkggraph](problems.md#pkggraph)                     |0.2.3   |      |        |1    |
+|pkggraph                                             |0.2.3   |      |        |-1   |
 |RDS                                                  |0.9-3   |      |        |     |
 |sna                                                  |2.6     |      |        |     |
 |statnet                                              |2019.6  |      |        |     |
