@@ -64,7 +64,7 @@ jobs:
         run: |
           if [[ "${{ env.IAM }}" == 'public' ]] # Public: full set.
           then
-            echo "::set-output name=matrix::{\"config\":[{\"os\":\"windows-latest\", \"r\":\"release\", \"timeout\":360, \"full\":\"no\", \"covr\":\"no\"}, {\"os\":\"macOS-latest\", \"r\":\"release\", \"timeout\":360, \"full\":\"no\", \"covr\":\"no\"}, {\"os\":\"ubuntu-20.04\", \"r\":\"release\", \"rspm\":\"https://packagemanager.rstudio.com/cran/__linux__/focal/latest\", \"timeout\":360, \"full\":\"yes\", \"covr\":\"no\"}, {\"os\":\"ubuntu-20.04\", \"r\":\"devel\", \"rspm\":\"https://packagemanager.rstudio.com/cran/__linux__/focal/latest\", \"timeout\":360, \"full\":\"no\", \"covr\":\"no\"}}]}"
+            echo "::set-output name=matrix::{\"config\":[{\"os\":\"windows-latest\", \"r\":\"release\", \"timeout\":360, \"full\":\"no\", \"covr\":\"no\"}, {\"os\":\"macOS-latest\", \"r\":\"release\", \"timeout\":360, \"full\":\"no\", \"covr\":\"no\"}, {\"os\":\"ubuntu-20.04\", \"r\":\"release\", \"rspm\":\"https://packagemanager.rstudio.com/cran/__linux__/focal/latest\", \"timeout\":360, \"full\":\"yes\", \"covr\":\"no\"}, {\"os\":\"ubuntu-20.04\", \"r\":\"devel\", \"rspm\":\"https://packagemanager.rstudio.com/cran/__linux__/focal/latest\", \"timeout\":360, \"full\":\"no\", \"covr\":\"no\"}]}"
           elif [[ "${{ env.FOUND_PUBLIC }}" != '0' ]] # Private with no public analogue: reduced set.
           then
             echo "::set-output name=matrix::{\"config\":[{\"os\":\"ubuntu-20.04\", \"r\":\"release\", \"rspm\":\"https://packagemanager.rstudio.com/cran/__linux__/focal/latest\", \"timeout\":10, \"full\":\"no\", \"covr\":\"no\"}]}"
