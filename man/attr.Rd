@@ -23,7 +23,7 @@ attr(x, "name") <- 10
 
 base::attr(x, "n")
 
-attr(x, "n")
+stopifnot(is.null(attr(x, "n")))
 
 base::attr(x, "n", exact = TRUE)
 }

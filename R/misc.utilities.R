@@ -879,7 +879,7 @@ simplify_simple <- function(x, toNA = c("null","empty","keep"), empty = c("keep"
 #'
 #' base::attr(x, "n")
 #'
-#' attr(x, "n")
+#' stopifnot(is.null(attr(x, "n")))
 #'
 #' base::attr(x, "n", exact = TRUE)
 #' @export
