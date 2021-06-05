@@ -5,7 +5,7 @@
 #  open source, and has the attribution requirements (GPL Section 7) at
 #  https://statnet.org/attribution
 #
-#  Copyright 2007-2020 Statnet Commons
+#  Copyright 2007-2021 Statnet Commons
 #######################################################################
 #' Utilities for performing calculations on logarithmic scale.
 #' 
