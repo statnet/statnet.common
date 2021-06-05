@@ -5,31 +5,12 @@
 \title{Construct a "standard" startup message to be printed when the package is
 loaded.}
 \usage{
-statnetStartupMessage(pkgname, friends, nofriends)
+statnetStartupMessage(pkgname, friends = c(), nofriends = c())
 }
 \arguments{
 \item{pkgname}{Name of the package whose information is used.}
 
-\item{friends}{This argument is required, but will only be interpreted if
-the Statnet Project policy makes use of "friendly" package information.
-
-A character vector of names of packages whose attribution information
-incorporates the attribution information of this package, or \code{TRUE}.
-(This may, in the future, lead the package to suppress its own startup
-message when loaded by a "friendly" package.)
-
-If \code{TRUE}, the package considers all other packages "friendly". (This
-may, in the future, lead the package to suppress its own startup message
-when loaded by another package, but print it when loaded directly by the
-user.)}
-
-\item{nofriends}{This argument controls the startup message if the Statnet
-Project policy does not make use of "friendly" package information but does
-make use of whether or not the package is being loaded directly or as a
-dependency.
-
-If \code{TRUE}, the package is willing to suppress its startup message if
-loaded as a dependency. If \code{FALSE}, it is not.}
+\item{friends, nofriends}{No longer used.}
 }
 \value{
 A string containing the startup message, to be passed to the
@@ -37,39 +18,22 @@ A string containing the startup message, to be passed to the
 prescribes printing default startup message. (Thus, if
 \code{\link[=statnetStartupMessage]{statnetStartupMessage()}} returns \code{NULL}, the calling package should
 not call \code{\link[=packageStartupMessage]{packageStartupMessage()}} at all.)
-
-Note that arguments to \code{friends} and \code{nofriends} are merely
-requests, to be interpreted (or ignored) by the \code{statnetStartupMessage()}
-according to the Statnet Project policy.
 }
 \description{
 This function uses information returned by \code{\link[=packageDescription]{packageDescription()}}
 to construct a standard package startup message according to the
-policy of the Statnet Project, including printing the contributors'
-institutional affiliations. See below for details on how it is
-detected.
+policy of the Statnet Project.
 }
-\details{
-To determine the institutional affiliation,
-\code{statnetStartupMessage()} first looks for an \code{affil} element in the
-\code{comment} list. For example,\preformatted{person("Albus Percival Wulfric Brian", "Dumbledore", role=c("hdm"),
-       email="apwb.dumbledore@hogwarts.ac.uk",
-       comment=c(ORCID="0123-4567-8910-1112",
-                 affil="Hogwarts School of Witchcraft and Wizardry"))
-}
-
-will copy the \code{affil} value. If it were not there, it would extract
-the domain \code{hogwarts.ac.uk} and attempt to find it on the list of
-institutions.
-
-Note that the e-mail mechanism is deprecated and may be removed in
-a future version.
+\note{
+Earlier versions of this function printed a more expansive
+message. This may change again as the Statnet Project policy
+evolves.
 }
 \examples{
 
 \dontrun{
 .onAttach <- function(lib, pkg){
-  sm <- statnetStartupMessage("ergm", friends=c("statnet","ergm.count","tergm"), nofriends=FALSE)
+  sm <- statnetStartupMessage("ergm")
   if(!is.null(sm)) packageStartupMessage(sm)
 }
 }

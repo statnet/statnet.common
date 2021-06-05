@@ -30,155 +30,40 @@
 #' 
 #' This function uses information returned by [packageDescription()]
 #' to construct a standard package startup message according to the
-#' policy of the Statnet Project, including printing the contributors'
-#' institutional affiliations. See below for details on how it is
-#' detected.
+#' policy of the Statnet Project.
 #'
-#' To determine the institutional affiliation,
-#' `statnetStartupMessage()` first looks for an `affil` element in the
-#' `comment` list. For example,
-#' ```
-#' person("Albus Percival Wulfric Brian", "Dumbledore", role=c("hdm"),
-#'        email="apwb.dumbledore@hogwarts.ac.uk",
-#'        comment=c(ORCID="0123-4567-8910-1112",
-#'                  affil="Hogwarts School of Witchcraft and Wizardry"))
-#' ```
-#' will copy the `affil` value. If it were not there, it would extract
-#' the domain `hogwarts.ac.uk` and attempt to find it on the list of
-#' institutions.
-#'
-#' Note that the e-mail mechanism is deprecated and may be removed in
-#' a future version.
-#' 
 #' @param pkgname Name of the package whose information is used.
-#' @param friends This argument is required, but will only be interpreted if
-#' the Statnet Project policy makes use of "friendly" package information.
+#' @param friends,nofriends No longer used.
 #' 
-#' A character vector of names of packages whose attribution information
-#' incorporates the attribution information of this package, or `TRUE`.
-#' (This may, in the future, lead the package to suppress its own startup
-#' message when loaded by a "friendly" package.)
-#' 
-#' If `TRUE`, the package considers all other packages "friendly". (This
-#' may, in the future, lead the package to suppress its own startup message
-#' when loaded by another package, but print it when loaded directly by the
-#' user.)
-#' @param nofriends This argument controls the startup message if the Statnet
-#' Project policy does not make use of "friendly" package information but does
-#' make use of whether or not the package is being loaded directly or as a
-#' dependency.
-#' 
-#' If `TRUE`, the package is willing to suppress its startup message if
-#' loaded as a dependency. If `FALSE`, it is not.
+#'
 #' @return A string containing the startup message, to be passed to the
 #' [packageStartupMessage()] call or `NULL`, if policy
 #' prescribes printing default startup message. (Thus, if
 #' [statnetStartupMessage()] returns `NULL`, the calling package should
 #' not call [packageStartupMessage()] at all.)
 #' 
-#' Note that arguments to `friends` and `nofriends` are merely
-#' requests, to be interpreted (or ignored) by the `statnetStartupMessage()`
-#' according to the Statnet Project policy.
+#' @note Earlier versions of this function printed a more expansive
+#'   message. This may change again as the Statnet Project policy
+#'   evolves.
 #' @seealso [packageDescription()], [packageStartupMessage()]
 #' @keywords utilities
 #' @examples
 #' 
 #' \dontrun{
 #' .onAttach <- function(lib, pkg){
-#'   sm <- statnetStartupMessage("ergm", friends=c("statnet","ergm.count","tergm"), nofriends=FALSE)
+#'   sm <- statnetStartupMessage("ergm")
 #'   if(!is.null(sm)) packageStartupMessage(sm)
 #' }
 #' }
 #' @export
-statnetStartupMessage <- function(pkgname, friends, nofriends){
-  INST_MAP <- list(washington.edu="University of Washington",
-                   uw.edu="University of Washington",
-                   psu.edu="Penn State University",
-                   uci.edu="University of California -- Irvine",
-                   ucla.edu="University of California -- Los Angeles",
-                   nyu.edu="New York University",
-                   murdoch.edu.au="Murdoch University",
-                   uow.edu.au="University of Wollongong",
-                   unsw.edu.au="UNSW Sydney",
-                   kozminski.edu.pl="Kozminski University",
-                   uw.edu.pl="University of Warsaw"
-                   )
-
-  STATNET.ORG_MAP <- list(pavel = "unsw.edu.au")
-
-  # Note that all options are ignored at this time, and the "wall of
-  # text" is displayed unconditionally.
-  
+statnetStartupMessage <- function(pkgname, friends = c(), nofriends = c()) {
   desc <- utils::packageDescription(pkgname)
-  pns <- eval(parse(text=desc$`Authors@R`))
-  # The gsub is necessary because R CMD build can put line breaks in all sorts of fun places.
-  pnnames <- gsub("[\n ]+", " ", format(pns, include=c("given","family")))
 
-  # Find the institution associated with the domain of the specific e-mail message.
-  find.inst <- function(email, map){
-    if(is.null(email)) return(NULL)
-    if(endsWith(email, "@statnet.org")) email <- paste0("@",STATNET.ORG_MAP[[gsub("@.*","",email)]])
-    insts <- which(sapply(names(map),
-                          function(inst){
-                            instre <- paste('[@.]',gsub('.','\\.',inst,fixed=TRUE),sep='')
-                            grepl(instre, email)
-                          }
-                          ))
-    if(length(insts)) map[[insts]]
-    else NULL
-  }
-  
-  pninsts <- sapply(pns, function(pn) NVL(as.list(pn$comment)$affil, find.inst(pn$email, INST_MAP),""))
-
-  authors <- sapply(pns, function(pn) "aut" %in% pn$role)
-
-  pnlines <- ifelse(pninsts=="", pnnames, paste(pnnames,pninsts, sep=", "))
-  
-  copylist <- paste("Copyright (c) ",substr(desc$Date,1,4),", ",sep="")
-  copylist <- paste(copylist, pnlines[authors][1L],"\n",
-                    paste(
-                      paste(rep(" ",nchar(copylist)),collapse=""),
-                      c(pnlines[authors][-1],if(sum(!authors)) "with contributions from",pnlines[!authors]),sep="",collapse="\n"),
-                    sep="") 
-     paste("\n",desc$Package,": version ", desc$Version, ', created on ', desc$Date, '\n',copylist,"\n",
-          'Based on "statnet" project software (statnet.org).\n',
-          'For license and citation information see statnet.org/attribution\n',
-          'or type citation("',desc$Package,'").\n', sep="")
+  paste0(sQuote(desc$Package), " ", desc$Version, " (", desc$Date, ") part of the Statnet Project\n",
+         "* ", sQuote(paste0("news(package=\"", desc$Package, "\")")), " for changes since last version\n",
+         "* ", sQuote(paste0("citation(\"", desc$Package, "\")"))," for citation information\n",
+         "* ", sQuote("https://statnet.org"), " for help, support, and other information\n")
 }
-
-
-## statnetStartupMessage <- function(pkgname, quiet.if.dep=FALSE){
-##   library(utils)
-##   INST_MAP <- list(washington.edu="UW",
-##                    uw.edu="UW",
-##                    psu.edu="PSU",
-##                    uci.edu="UCI",
-##                    ucla.edu="UCLA",
-##                    nyu.edu="NYU") 
-
-##   if(quiet.if.dep){
-##     top.pkg <- .who.loaded.me()
-##     if(is.null(top.pkg) || top.pkg!=pkgname) return(NULL)
-##   }
-  
-  
-##   desc <- packageDescription(pkgname)
-##   pns <- eval(parse(text=desc$`Authors@R`))
-##   pnnames <- format(pns, include=c("given","family"))
-##   pninsts <- sapply(pns, function(pn) NVL(INST_MAP[[gsub(".*?([^.@]+\\.[^.]{2,4})$","\\1",NVL(pn$email,""))]],""))
-
-##   authors <- sapply(pns, function(pn) "aut" %in% pn$role)
-##   autlines <- ifelse(pninsts[authors]=="", pnnames[authors], paste(pnnames[authors]," (",pninsts[authors],")",sep=""))
-##   autline <- paste.and(autlines)
-##   ctblines <- pnnames[!authors]
-##   ctbline <- paste.and(ctblines)
-
-##   mystrwrap <- function(...) paste(strwrap(...),collapse="\n")
-
-##   m <- mystrwrap(paste(desc$Package, ' ', desc$Version, " by ", autline, if(length(ctblines)) paste(", with contributions from ", ctbline) else "", ".", sep=""))
-##   paste('', m,mystrwrap(paste('Part of the Statnet suite (statnet.org).  For citation information, type citation("',desc$Package,'").',sep="")),collapse="\n",sep="\n")
-
-## }
 
 #' Set [options()] according to a named list, skipping those already
 #' set.
