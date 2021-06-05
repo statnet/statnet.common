@@ -29,7 +29,7 @@ Run `revdep_details(, "BasketballAnalyzeR")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/Blaunet
 * Date/Publication: 2020-05-22 08:10:11 UTC
-* Number of recursive dependencies: 84
+* Number of recursive dependencies: 85
 
 Run `revdep_details(, "Blaunet")` for more info
 
@@ -69,10 +69,33 @@ Run `revdep_details(, "ergm")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  8.4Mb
+      installed size is 10.5Mb
       sub-directories of 1Mb or more:
         doc    3.6Mb
-        help   1.0Mb
-        libs   2.3Mb
+        help   1.5Mb
+        libs   3.9Mb
+    ```
+
+# pkggraph
+
+<details>
+
+* Version: 0.2.3
+* GitHub: https://github.com/talegari/pkggraph
+* Source code: https://github.com/cran/pkggraph
+* Date/Publication: 2018-11-15 09:50:03 UTC
+* Number of recursive dependencies: 65
+
+Run `revdep_details(, "pkggraph")` for more info
+
+</details>
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  8.5Mb
+      sub-directories of 1Mb or more:
+        doc   8.0Mb
     ```
 
