@@ -21,6 +21,7 @@ respectively.
 
 * A new function, `fixed.pval()` that wraps `base::format.pval()` with better default arguments.
 
+* A reimplementation of `attr()` is exported, which disables partial matching by default.
 
 # Enhancements to existing utilities
 
@@ -35,6 +36,8 @@ respectively.
 * `rle` utilities are no longer reexported.
 
 * `statnet.common` no longer depends on `purrr`.
+
+* `statnetStartupMessage()` has been simplified.
 
 # statnet.common 4.4.0
 
