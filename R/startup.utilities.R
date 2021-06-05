@@ -59,7 +59,7 @@
 statnetStartupMessage <- function(pkgname, friends = c(), nofriends = c()) {
   desc <- utils::packageDescription(pkgname)
 
-  paste0(sQuote(desc$Package), " ", desc$Version, " (", desc$Date, "), part of the Statnet Project\n",
+  paste0("\n", sQuote(desc$Package), " ", desc$Version, " (", desc$Date, "), part of the Statnet Project\n",
          "* ", sQuote(paste0("news(package=\"", desc$Package, "\")")), " for changes since last version\n",
          "* ", sQuote(paste0("citation(\"", desc$Package, "\")"))," for citation information\n",
          "* ", sQuote("https://statnet.org"), " for help, support, and other information\n")
