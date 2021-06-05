@@ -26,7 +26,7 @@ i.e., \code{\var{METHOD}.\var{CLASS}}. Like \code{.Deprecate_once} it
 only issues a warning the first time.
 }
 \examples{
-\donttest{
+\dontrun{
 options(warn=1) # Print warning immediately after the call.
 f <- function(){
    .Deprecate_once("new_f")
@@ -34,7 +34,7 @@ f <- function(){
 f() # Deprecation warning
 f() # No deprecation warning
 }
-\donttest{
+\dontrun{
 options(warn=1) # Print warning immediately after the call.
 summary.packageDescription <- function(object, ...){
    .Deprecate_method("summary", "packageDescription")

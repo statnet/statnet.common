@@ -22,7 +22,7 @@ NULL
 #' @param ... arguments passed to [.Deprecated()].
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' options(warn=1) # Print warning immediately after the call.
 #' f <- function(){
 #'    .Deprecate_once("new_f")
@@ -54,7 +54,7 @@ NULL
 #'   class name of the function to be deprecated.
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' options(warn=1) # Print warning immediately after the call.
 #' summary.packageDescription <- function(object, ...){
 #'    .Deprecate_method("summary", "packageDescription")
