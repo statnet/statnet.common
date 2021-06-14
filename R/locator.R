@@ -106,7 +106,7 @@ locate_function <- function(name, env = globalenv(), ...){
   if(length(m$objs)){
     ## Prioritise visible over not:
     if(any(m$visible)){
-      m <- lapply(m[-1], "[", m$visible)
+      m <- lapply(unclass(m)[-1], "[", m$visible)
     }
     if(length(m$objs)>1) warning("Name ",name," matched by multiple objects; using the first one on the list.", ...)
     envname <- environmentName(environment(m$objs[[1]]))
