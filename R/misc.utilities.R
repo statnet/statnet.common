@@ -761,6 +761,7 @@ persistEvalQ <- function(expr, retries=NVL(getOption("eval.retries"), 5), before
 #'
 #' @export
 deInf <- function(x, replace=1/.Machine$double.eps){
+  NVL(x) <- integer(0)
   if(tolower(replace) %in% c("maxint","intmax")) replace <- .Machine$integer.max
   ifelse(is.nan(x) | abs(x)<replace, x, sign(x)*replace)
 }
