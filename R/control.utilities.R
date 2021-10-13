@@ -401,10 +401,10 @@ as.control.list.list <- function(x, FUN=NULL, unflat=TRUE, ...){
 #' @export
 snctrl <- function(...){
   control <- list(...)
-  if(length(control)){
-    if(any(names(control)=="")) stop("All arguments to ",sQuote("snctrl")," must be named.", call.=FALSE)
-    warning("The following arguments to ",sQuote("snctrl")," are not recognised: ", paste.and(sQuote(names(control))), call.=FALSE, immediate.=TRUE)
-  }
+  # NB: The results of snctrl() will eventually get passed to
+  # as.control.list.list(), which will check for misspelled names, so
+  # we don't need to do that here.
+  if(any(names(control)=="")) stop("All arguments to ",sQuote("snctrl")," must be named.", call.=FALSE)
 
   formal.args<-formals(sys.function())
   formal.args[["..."]] <- NULL
