@@ -7,7 +7,7 @@
 \alias{var.Welford}
 \title{A Welford accumulator for sample mean and variance}
 \usage{
-Welford(d)
+Welford(dn, mean, var)
 
 \method{update}{Welford}(object, newdata)
 
@@ -16,7 +16,10 @@ Welford(d)
 \method{var}{Welford}(x, ...)
 }
 \arguments{
-\item{d}{the dimension of the data vector}
+\item{dn, mean, var}{initialization of the Welford object: if \code{mean}
+and \code{var} are given, they are treated as the running mean and
+variance, and \code{dn} is their associated sample size, and if not,
+\code{dn} is the dimension of the vector (with sample size 0).}
 
 \item{object, x}{a \code{Welford} object.}
 
@@ -54,6 +57,10 @@ stopifnot(isTRUE(all.equal(mean(w), colMeans(X))))
 stopifnot(isTRUE(all.equal(var(w), apply(X,2,var))))
 
 w <- w0 \%>\% update(X[1:12,]) \%>\% update(X[13:20,])
+stopifnot(isTRUE(all.equal(mean(w), colMeans(X))))
+stopifnot(isTRUE(all.equal(var(w), apply(X,2,var))))
+
+w <- Welford(12, colMeans(X[1:12,]), apply(X[1:12,], 2, var)) \%>\% update(X[13:20,])
 stopifnot(isTRUE(all.equal(mean(w), colMeans(X))))
 stopifnot(isTRUE(all.equal(var(w), apply(X,2,var))))
 

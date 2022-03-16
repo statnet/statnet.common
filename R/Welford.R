@@ -2,7 +2,10 @@
 #'
 #' A simple class for keeping track of the running mean and the sum of squared deviations from the mean.
 #'
-#' @param d the dimension of the data vector
+#' @param dn,mean,var initialization of the Welford object: if `mean`
+#'   and `var` are given, they are treated as the running mean and
+#'   variance, and `dn` is their associated sample size, and if not,
+#'   `dn` is the dimension of the vector (with sample size 0).
 #'
 #' @return an object of type `Welford`: a list with three elements:
 #' 
@@ -22,9 +25,17 @@
 #' stopifnot(isTRUE(all.equal(mean(w), colMeans(X))))
 #' stopifnot(isTRUE(all.equal(var(w), apply(X,2,var))))
 #' 
+#' w <- Welford(12, colMeans(X[1:12,]), apply(X[1:12,], 2, var)) %>% update(X[13:20,])
+#' stopifnot(isTRUE(all.equal(mean(w), colMeans(X))))
+#' stopifnot(isTRUE(all.equal(var(w), apply(X,2,var))))
+#' 
 #' @export
-Welford <- function(d){
-  structure(list(0L, numeric(d), numeric(d)), class = "Welford")
+Welford <- function(dn, mean, var){
+  switch(!missing(mean) + !missing(var) + 1,
+         structure(list(0L, numeric(dn), numeric(dn)), class = "Welford"), # Neither mean nor var -> dn is dimension.
+         stop("Either both ", sQuote("mean"), " and ", sQuote("var"), " should be passed or neither."), # One of the two -> error.
+         structure(list(dn, mean, var*(dn-1)), class = "Welford") # Both mean and var -> dn is sample size.
+         )
 }
 
 #' @describeIn Welford Update a `Welford` object with new
