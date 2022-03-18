@@ -4,14 +4,20 @@
 \alias{Welford}
 \alias{update.Welford}
 \alias{mean.Welford}
+\alias{var}
+\alias{var.default}
 \alias{var.Welford}
 \title{A Welford accumulator for sample mean and variance}
 \usage{
 Welford(dn, mean, var)
 
-\method{update}{Welford}(object, newdata)
+\method{update}{Welford}(object, newdata, ...)
 
 \method{mean}{Welford}(x, ...)
+
+var(x, ...)
+
+\method{var}{default}(x, y = NULL, na.rm = FALSE, use, ...)
 
 \method{var}{Welford}(x, ...)
 }
@@ -26,6 +32,8 @@ variance, and \code{dn} is their associated sample size, and if not,
 \item{newdata}{either a numeric vector of length \code{d}, a numeric
 matrix with \code{d} columns for a group update, or another \code{Welford}
 object with the same \code{d}.}
+
+\item{...}{additional arguments, currently unused.}
 }
 \value{
 an object of type \code{Welford}: a list with three elements:
@@ -49,6 +57,7 @@ data.
 }}
 
 \examples{
+
 X <- matrix(rnorm(200), 20, 10)
 w0 <- Welford(10)
 
@@ -56,12 +65,15 @@ w <- update(w0, X)
 stopifnot(isTRUE(all.equal(mean(w), colMeans(X))))
 stopifnot(isTRUE(all.equal(var(w), apply(X,2,var))))
 
-w <- w0 \%>\% update(X[1:12,]) \%>\% update(X[13:20,])
+w <- update(w0, X[1:12,])
+w <- update(w, X[13:20,])
 stopifnot(isTRUE(all.equal(mean(w), colMeans(X))))
 stopifnot(isTRUE(all.equal(var(w), apply(X,2,var))))
 
-w <- Welford(12, colMeans(X[1:12,]), apply(X[1:12,], 2, var)) \%>\% update(X[13:20,])
+w <- Welford(12, colMeans(X[1:12,]), apply(X[1:12,], 2, var))
+w <- update(w, X[13:20,])
 stopifnot(isTRUE(all.equal(mean(w), colMeans(X))))
 stopifnot(isTRUE(all.equal(var(w), apply(X,2,var))))
 
 }
+\keyword{internal}

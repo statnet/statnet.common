@@ -14,6 +14,7 @@
 #' 3. Running sum of squared deviations from the mean for each variable
 #'
 #' @examples
+#'
 #' X <- matrix(rnorm(200), 20, 10)
 #' w0 <- Welford(10)
 #'
@@ -21,20 +22,22 @@
 #' stopifnot(isTRUE(all.equal(mean(w), colMeans(X))))
 #' stopifnot(isTRUE(all.equal(var(w), apply(X,2,var))))
 #'
-#' w <- w0 %>% update(X[1:12,]) %>% update(X[13:20,])
+#' w <- update(w0, X[1:12,])
+#' w <- update(w, X[13:20,])
 #' stopifnot(isTRUE(all.equal(mean(w), colMeans(X))))
 #' stopifnot(isTRUE(all.equal(var(w), apply(X,2,var))))
 #' 
-#' w <- Welford(12, colMeans(X[1:12,]), apply(X[1:12,], 2, var)) %>% update(X[13:20,])
+#' w <- Welford(12, colMeans(X[1:12,]), apply(X[1:12,], 2, var))
+#' w <- update(w, X[13:20,])
 #' stopifnot(isTRUE(all.equal(mean(w), colMeans(X))))
 #' stopifnot(isTRUE(all.equal(var(w), apply(X,2,var))))
 #' 
 #' @export
 Welford <- function(dn, mean, var){
-  switch(!missing(mean) + !missing(var) + 1,
-         structure(list(0L, numeric(dn), numeric(dn)), class = "Welford"), # Neither mean nor var -> dn is dimension.
+  switch(1 + missing(mean) + missing(var),
+         structure(list(dn, mean, var*(dn-1)), class = "Welford"), # Both mean and var -> dn is sample size.
          stop("Either both ", sQuote("mean"), " and ", sQuote("var"), " should be passed or neither."), # One of the two -> error.
-         structure(list(dn, mean, var*(dn-1)), class = "Welford") # Both mean and var -> dn is sample size.
+         structure(list(0L, numeric(dn), numeric(dn)), class = "Welford") # Neither mean nor var -> dn is dimension.
          )
 }
 
@@ -47,7 +50,7 @@ Welford <- function(dn, mean, var){
 #'   object with the same `d`.
 #'
 #' @export
-update.Welford <- function(object, newdata){
+update.Welford <- function(object, newdata, ...){
   l <- object
   x <- newdata
 
@@ -66,7 +69,7 @@ update.Welford <- function(object, newdata){
   }else if(is.numeric(x)){ # Either a vector or a matrix with statistics in rows.
     xm <- rbind(x)
 
-    if(length(l[[2]]) != ncol(x[[2]]))
+    if(length(l[[2]]) != ncol(xm))
       stop(sQuote("newdata"), " must have the same dimension as ", sQuote("object"))
 
     for(r in seq_len(nrow(xm))){
@@ -84,20 +87,25 @@ update.Welford <- function(object, newdata){
 }
 
 #' @describeIn Welford Return the running mean vector.
+#' @param ... additional arguments, currently unused.
 #' @export
 mean.Welford <- function(x, ...){
   if(...length()) warning(sQuote("mean"), " method for Welford objects only uses the first argument and ignores the others at this time")
   x[[2]]
 }
 
+#' @rdname Welford
 #' @importFrom stats var
+#' @keywords internal
 #' @export
 var <- function(x, ...){
   UseMethod("var")
 }
 
+#' @rdname Welford
+#' @keywords internal
 #' @export
-var.default <- stats::var
+var.default <- function(x, y = NULL, na.rm = FALSE, use, ...) stats::var(x, y, na.rm, use)
 
 #' @describeIn Welford Return the running variance vector.
 #' @export
