@@ -90,6 +90,7 @@ mean.Welford <- function(x, ...){
   x[[2]]
 }
 
+#' @importFrom stats var
 #' @export
 var <- function(x, ...){
   UseMethod("var")
