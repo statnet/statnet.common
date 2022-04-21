@@ -1,3 +1,25 @@
+statnet.common 4.6.0
+====================
+
+New utilities
+-------------
+
+-   An implementation of Welford's online algorithm for calculating
+    sample mean and variance has been added as a class `Welford` that
+    implements methods `update()`, `mean()`, and `var()` methods (the
+    latter having been made generic and reexported).
+
+Bug fixes
+---------
+
+-   `snctrl()` was issuing a warning twice when called with a misspelled
+    argument.
+
+-   `deInf()` now handles `NULL` input.
+
+-   in `locate_function()` a subtle bug has been fixed in handling of
+    visible as opposed to invisible objects.
+
 statnet.common 4.5.0
 ====================
 
