@@ -9,18 +9,19 @@
 ################################################################################
 #' A Welford accumulator for sample mean and variance
 #'
-#' A simple class for keeping track of the running mean and the sum of squared deviations from the mean.
+#' A simple class for keeping track of the running mean and the sum of squared deviations from the mean for a vector.
 #'
-#' @param dn,mean,var initialization of the Welford object: if `mean`
-#'   and `var` are given, they are treated as the running mean and
-#'   variance, and `dn` is their associated sample size, and if not,
+#' @param dn,means,vars initialization of the Welford object: if `means`
+#'   and `vars` are given, they are treated as the running means and
+#'   variances, and `dn` is their associated sample size, and if not,
 #'   `dn` is the dimension of the vector (with sample size 0).
 #'
-#' @return an object of type `Welford`: a list with three elements:
+#' @return an object of type `Welford`: a list with four elements:
 #' 
-#' 1. Running number of observations
-#' 2. Running mean for each variable
-#' 3. Running sum of squared deviations from the mean for each variable
+#' 1. `n`: Running number of observations
+#' 2. `means`: Running mean for each variable
+#' 3. `SSDs`: Running sum of squared deviations from the mean for each variable
+#' 4. `vars`: Running variance of each variable
 #'
 #' @examples
 #'
@@ -28,35 +29,36 @@
 #' w0 <- Welford(10)
 #'
 #' w <- update(w0, X)
-#' stopifnot(isTRUE(all.equal(mean(w), colMeans(X))))
-#' stopifnot(isTRUE(all.equal(var(w), apply(X,2,var))))
+#' stopifnot(isTRUE(all.equal(w$means, colMeans(X))))
+#' stopifnot(isTRUE(all.equal(w$vars, apply(X,2,var))))
 #'
 #' w <- update(w0, X[1:12,])
 #' w <- update(w, X[13:20,])
-#' stopifnot(isTRUE(all.equal(mean(w), colMeans(X))))
-#' stopifnot(isTRUE(all.equal(var(w), apply(X,2,var))))
+#' stopifnot(isTRUE(all.equal(w$means, colMeans(X))))
+#' stopifnot(isTRUE(all.equal(w$vars, apply(X,2,var))))
 #' 
 #' w <- Welford(12, colMeans(X[1:12,]), apply(X[1:12,], 2, var))
 #' w <- update(w, X[13:20,])
-#' stopifnot(isTRUE(all.equal(mean(w), colMeans(X))))
-#' stopifnot(isTRUE(all.equal(var(w), apply(X,2,var))))
+#' stopifnot(isTRUE(all.equal(w$means, colMeans(X))))
+#' stopifnot(isTRUE(all.equal(w$vars, apply(X,2,var))))
 #' 
 #' @export
-Welford <- function(dn, mean, var){
-  switch(1 + missing(mean) + missing(var),
-         structure(list(dn, mean, var*(dn-1)), class = "Welford"), # Both mean and var -> dn is sample size.
+Welford <- function(dn, means, vars){
+  switch(1 + missing(means) + missing(vars),
+         structure(list(n = dn, means = means, SSDs = vars*(dn-1), vars = vars), class = "Welford"), # Both means and vars -> dn is sample size.
          stop("Either both ", sQuote("mean"), " and ", sQuote("var"), " should be passed or neither."), # One of the two -> error.
-         structure(list(0L, numeric(dn), numeric(dn)), class = "Welford") # Neither mean nor var -> dn is dimension.
+         structure(list(n = 0L, means = numeric(dn), SSDs = numeric(dn), vars = numeric(dn)), class = "Welford") # Neither means nor vars -> dn is dimension.
          )
 }
 
 #' @describeIn Welford Update a `Welford` object with new
 #'   data.
 #'
-#' @param object,x a `Welford` object.
+#' @param object a `Welford` object.
 #' @param newdata either a numeric vector of length `d`, a numeric
 #'   matrix with `d` columns for a group update, or another `Welford`
 #'   object with the same `d`.
+#' @param ... additional arguments to methods.
 #'
 #' @export
 update.Welford <- function(object, newdata, ...){
@@ -92,33 +94,7 @@ update.Welford <- function(object, newdata, ...){
 
   }else stop(sQuote("newdata"), " must be either another Welford object, a scalar of correct length, or a matrix with statistics in rows.")
 
+  l[[4]] <- l[[3]]/(l[[1]]-1)
+
   l
-}
-
-#' @describeIn Welford Return the running mean vector.
-#' @param ... additional arguments, currently unused.
-#' @export
-mean.Welford <- function(x, ...){
-  if(...length()) warning(sQuote("mean"), " method for Welford objects only uses the first argument and ignores the others at this time")
-  x[[2]]
-}
-
-#' @rdname Welford
-#' @importFrom stats var
-#' @keywords internal
-#' @export
-var <- function(x, ...){
-  UseMethod("var")
-}
-
-#' @rdname Welford
-#' @keywords internal
-#' @export
-var.default <- function(x, y = NULL, na.rm = FALSE, use, ...) stats::var(x, y, na.rm, use)
-
-#' @describeIn Welford Return the running variance vector.
-#' @export
-var.Welford <- function(x, ...){
-  if(...length()) warning(sQuote("var"), " method for Welford objects only uses the first argument and ignores the others at this time")
-  x[[3]]/(x[[1]]-1)
 }

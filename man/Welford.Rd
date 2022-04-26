@@ -3,57 +3,42 @@
 \name{Welford}
 \alias{Welford}
 \alias{update.Welford}
-\alias{mean.Welford}
-\alias{var}
-\alias{var.default}
-\alias{var.Welford}
 \title{A Welford accumulator for sample mean and variance}
 \usage{
-Welford(dn, mean, var)
+Welford(dn, means, vars)
 
 \method{update}{Welford}(object, newdata, ...)
-
-\method{mean}{Welford}(x, ...)
-
-var(x, ...)
-
-\method{var}{default}(x, y = NULL, na.rm = FALSE, use, ...)
-
-\method{var}{Welford}(x, ...)
 }
 \arguments{
-\item{dn, mean, var}{initialization of the Welford object: if \code{mean}
-and \code{var} are given, they are treated as the running mean and
-variance, and \code{dn} is their associated sample size, and if not,
+\item{dn, means, vars}{initialization of the Welford object: if \code{means}
+and \code{vars} are given, they are treated as the running means and
+variances, and \code{dn} is their associated sample size, and if not,
 \code{dn} is the dimension of the vector (with sample size 0).}
 
-\item{object, x}{a \code{Welford} object.}
+\item{object}{a \code{Welford} object.}
 
 \item{newdata}{either a numeric vector of length \code{d}, a numeric
 matrix with \code{d} columns for a group update, or another \code{Welford}
 object with the same \code{d}.}
 
-\item{...}{additional arguments, currently unused.}
+\item{...}{additional arguments to methods.}
 }
 \value{
-an object of type \code{Welford}: a list with three elements:
+an object of type \code{Welford}: a list with four elements:
 \enumerate{
-\item Running number of observations
-\item Running mean for each variable
-\item Running sum of squared deviations from the mean for each variable
+\item \code{n}: Running number of observations
+\item \code{means}: Running mean for each variable
+\item \code{SSDs}: Running sum of squared deviations from the mean for each variable
+\item \code{vars}: Running variance of each variable
 }
 }
 \description{
-A simple class for keeping track of the running mean and the sum of squared deviations from the mean.
+A simple class for keeping track of the running mean and the sum of squared deviations from the mean for a vector.
 }
 \section{Methods (by generic)}{
 \itemize{
 \item \code{update}: Update a \code{Welford} object with new
 data.
-
-\item \code{mean}: Return the running mean vector.
-
-\item \code{var}: Return the running variance vector.
 }}
 
 \examples{
@@ -62,18 +47,17 @@ X <- matrix(rnorm(200), 20, 10)
 w0 <- Welford(10)
 
 w <- update(w0, X)
-stopifnot(isTRUE(all.equal(mean(w), colMeans(X))))
-stopifnot(isTRUE(all.equal(var(w), apply(X,2,var))))
+stopifnot(isTRUE(all.equal(w$means, colMeans(X))))
+stopifnot(isTRUE(all.equal(w$vars, apply(X,2,var))))
 
 w <- update(w0, X[1:12,])
 w <- update(w, X[13:20,])
-stopifnot(isTRUE(all.equal(mean(w), colMeans(X))))
-stopifnot(isTRUE(all.equal(var(w), apply(X,2,var))))
+stopifnot(isTRUE(all.equal(w$means, colMeans(X))))
+stopifnot(isTRUE(all.equal(w$vars, apply(X,2,var))))
 
 w <- Welford(12, colMeans(X[1:12,]), apply(X[1:12,], 2, var))
 w <- update(w, X[13:20,])
-stopifnot(isTRUE(all.equal(mean(w), colMeans(X))))
-stopifnot(isTRUE(all.equal(var(w), apply(X,2,var))))
+stopifnot(isTRUE(all.equal(w$means, colMeans(X))))
+stopifnot(isTRUE(all.equal(w$vars, apply(X,2,var))))
 
 }
-\keyword{internal}
