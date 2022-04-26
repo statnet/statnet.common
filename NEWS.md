@@ -2,7 +2,7 @@
 
 ## New utilities
 
-* An implementation of Welford's online algorithm for calculating sample mean and variance has been added as a class `Welford` that implements methods `update()`, `mean()`, and `var()` methods (the latter having been made generic and reexported).
+* An implementation of Welford's online algorithm for calculating sample mean and variance has been added as a class `Welford` that implements method `update()` and maintains elements `$n`, `$means`, `$SSDs`, and `$vars`.
 
 ## Bug fixes
 
