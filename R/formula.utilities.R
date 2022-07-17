@@ -257,7 +257,7 @@ nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
     attr(out,"sign") <- c(attr(l1,"sign"), attr(l2,"sign"))
     out
   }
-  else if(x[[1L]]=="(") .recurse_summation(x[[2L]], sign)
+  else if(length(x[[1]]) && x[[1L]]=="(") .recurse_summation(x[[2L]], sign)
   else {out <- list(x); attr(out,"sign")<-sign; out}
 }
 
@@ -299,6 +299,15 @@ list_summands.call<-function(object){
 #'
 #' @return
 #' \code{list_rhs.formula} returns a list of formula terms, with an additional numerical vector attribute \code{"sign"} with of the same length, giving the corresponding term's sign as \code{+1} or \code{-1}.
+#'
+#' @examples
+#' stopifnot(identical(list_rhs.formula(a~b), structure(alist(b), sign=1)))
+#' stopifnot(identical(list_rhs.formula(~b), structure(alist(b), sign=1)))
+#' stopifnot(identical(list_rhs.formula(~b+NULL), structure(alist(b, NULL), sign=c(1,1))))
+#' stopifnot(identical(list_rhs.formula(~-b+NULL), structure(alist(b, NULL), sign=c(-1,1))))
+#' stopifnot(identical(list_rhs.formula(~+b-NULL), structure(alist(b, NULL), sign=c(1,-1))))
+#' stopifnot(identical(list_rhs.formula(~+b-(NULL+c)), structure(alist(b, NULL, c), sign=c(1,-1,-1))))
+#'
 #' @export
 list_rhs.formula<-function(object){
   if (!is(object, "formula"))

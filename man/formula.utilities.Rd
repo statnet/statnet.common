@@ -164,6 +164,13 @@ stopifnot(f6 == ~-a+b)
 stopifnot(f7 == ~-a+b)
 }
 
+stopifnot(identical(list_rhs.formula(a~b), structure(alist(b), sign=1)))
+stopifnot(identical(list_rhs.formula(~b), structure(alist(b), sign=1)))
+stopifnot(identical(list_rhs.formula(~b+NULL), structure(alist(b, NULL), sign=c(1,1))))
+stopifnot(identical(list_rhs.formula(~-b+NULL), structure(alist(b, NULL), sign=c(-1,1))))
+stopifnot(identical(list_rhs.formula(~+b-NULL), structure(alist(b, NULL), sign=c(1,-1))))
+stopifnot(identical(list_rhs.formula(~+b-(NULL+c)), structure(alist(b, NULL, c), sign=c(1,-1,-1))))
+
 ## eval_lhs.formula
 
 (result <- eval_lhs.formula((2+2)~1))

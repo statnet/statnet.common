@@ -20,9 +20,11 @@ are loaded, as are those of its reexports from other packages. This
 is done using an API provided by helper functions. (See \code{API?snctrl}.)
 }
 \note{
-You may see messages along the lines of\preformatted{The following object is masked from 'package:PKG':
+You may see messages along the lines of
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{The following object is masked from 'package:PKG':
 snctrl
-}
+}\if{html}{\out{</div>}}
 
 when loading packages. They are benign.
 }
