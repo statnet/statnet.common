@@ -329,7 +329,7 @@ c.term_list <- function(x, ...){
   structure(
     c(unclass(x), ...),
     sign = unlist(lapply(xl, attr, "sign"), use.names=FALSE),
-    env = unlist(lapply(xl, attr, "env"), use.names=FALSE),
+    env = unlist(lapply(xl, attr, "env"), recursive=FALSE, use.names=FALSE),
     class = "term_list"
   )
 }
