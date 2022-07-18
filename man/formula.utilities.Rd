@@ -11,15 +11,13 @@
 \alias{list_summands.call}
 \alias{list_rhs.formula}
 \alias{eval_lhs.formula}
-\title{Functions for Querying, Validating and Extracting from Formulas
-
-A suite of utilities for handling model formulas of the style used in Statnet packages.}
+\title{Functions for Querying, Validating and Extracting from Formulas}
 \usage{
 append_rhs.formula(
   object = NULL,
   newterms,
   keep.onesided = FALSE,
-  env = environment(object)
+  env = if (is.null(object)) NULL else environment(object)
 )
 
 append.rhs.formula(object, newterms, keep.onesided = FALSE)
@@ -41,16 +39,19 @@ eval_lhs.formula(object)
 \arguments{
 \item{object}{formula object to be updated or evaluated}
 
-\item{newterms}{list of terms (names) to append to the formula, or
-a formula whose RHS terms will be used; either may have a "sign"
-attribute vector of the same length as the list, giving the sign
-of each term (\code{+1} or \code{-1}).}
+\item{newterms}{a \code{\link{term_list}} object, or any list of terms (names
+or calls) to append to the formula, or a formula whose RHS terms
+will be used; its \code{"sign"} attribute vector can give the sign of
+each term (\code{+1} or \code{-1}), and its \code{"environment"} attribute
+vector will be used to set its environment, with the first
+available being used and subsequent ones producing a warning.}
 
 \item{keep.onesided}{if the initial formula is one-sided, keep it
 whether to keep it one-sided or whether to make the initial
 formula the new LHS}
 
-\item{env}{an environment for the new formula, if \code{object} is \code{NULL}}
+\item{env}{an environment for the new formula, if \code{object} is
+\code{NULL}}
 
 \item{f}{a function whose first argument is the term and whose
 additional arguments are forwarded from \code{...} that returns either
@@ -73,15 +74,15 @@ containing only the terms in \code{newterms} will be returned.
 \code{nonsimp_update.formula} each return an
 updated formula object
 
-\code{list_summands.call} returns a list of unevaluated calls, with an additional numerical vector attribute \code{"sign"} with of the same length, giving the corresponding term's sign as \code{+1} or \code{-1}.
+\code{list_summands.call} returns an object of type
+\code{\link{term_list}}; its \code{environment} attribute is set to a list of
+\code{NULL}s, however.
 
-\code{list_rhs.formula} returns a list of formula terms, with an additional numerical vector attribute \code{"sign"} with of the same length, giving the corresponding term's sign as \code{+1} or \code{-1}.
+\code{list_rhs.formula} returns an object of type \code{\link{term_list}}.
 
 \code{eval_lhs.formula} an object of whatever type the LHS evaluates to.
 }
 \description{
-Functions for Querying, Validating and Extracting from Formulas
-
 A suite of utilities for handling model formulas of the style used in Statnet packages.
 }
 \section{Functions}{
@@ -109,14 +110,15 @@ in from.new (if a character vector) or all of new (if TRUE).
 \item \code{term.list.formula}: \code{term.list.formula} is an older version of \code{list_rhs.formula} that required the RHS call, rather than the formula itself.
 
 \item \code{list_summands.call}: \code{list_summands.call}, given an unevaluated call or expression
-containing the sum of one or more terms, returns a list of the
+containing the sum of one or more terms, returns an object of class \code{\link{term_list}} with the
 terms being summed, handling \code{+} and \code{-} operators and
 parentheses, and keeping track of whether a term has a plus or a
 minus sign.
 
-\item \code{list_rhs.formula}: \code{list_rhs.formula} returns a list containing terms in a given
-formula, handling \code{+} and \code{-} operators and parentheses, and
-keeping track of whether a term has a plus or a minus sign.
+\item \code{list_rhs.formula}: \code{list_rhs.formula} returns an object of type \code{\link{term_list}},
+containing terms in a given formula, handling \code{+} and \code{-}
+operators and parentheses, and keeping track of whether a term has
+a plus or a minus sign.
 
 \item \code{eval_lhs.formula}: \code{eval_lhs.formula} extracts the LHS of a formula, evaluates it in the formula's environment, and returns the result.
 }}
@@ -133,6 +135,13 @@ keeping track of whether a term has a plus or a minus sign.
 (f6 <- append_rhs.formula(NULL,list(as.name("z"))))
 (f7 <- append_rhs.formula(NULL,structure(list(as.name("z")),sign=-1)))
 
+fe <- ~z2+z3
+environment(fe) <- new.env()
+(f8 <- append_rhs.formula(NULL, fe)) # OK
+(f9 <- append_rhs.formula(y~x, fe)) # Warning
+(f10 <- append_rhs.formula(y~x, fe, env=NULL)) # No warning, environment from fe.
+(f11 <- append_rhs.formula(fe, ~z1)) # Warning, environment from fe
+
 \dontshow{
 stopifnot(f1 == (y~x+z1+z2))
 stopifnot(f2 == (y~z))
@@ -141,6 +150,10 @@ stopifnot(f4 == (~y+z))
 stopifnot(f5 == (y~x+z1-z2))
 stopifnot(f6 == (~z))
 stopifnot(f7 == (~-z))
+stopifnot(f8 == (~z2+z3), identical(environment(f8), environment(fe)))
+stopifnot(f9 == (y~x+z2+z3), identical(environment(f9), globalenv()))
+stopifnot(f10 == (y~x+z2+z3), identical(environment(f10), environment(fe)))
+stopifnot(f11 == (z2+z3~z1), identical(environment(f11), environment(fe)))
 }
 
 ## filter_rhs.formula
@@ -164,12 +177,12 @@ stopifnot(f6 == ~-a+b)
 stopifnot(f7 == ~-a+b)
 }
 
-stopifnot(identical(list_rhs.formula(a~b), structure(alist(b), sign=1)))
-stopifnot(identical(list_rhs.formula(~b), structure(alist(b), sign=1)))
-stopifnot(identical(list_rhs.formula(~b+NULL), structure(alist(b, NULL), sign=c(1,1))))
-stopifnot(identical(list_rhs.formula(~-b+NULL), structure(alist(b, NULL), sign=c(-1,1))))
-stopifnot(identical(list_rhs.formula(~+b-NULL), structure(alist(b, NULL), sign=c(1,-1))))
-stopifnot(identical(list_rhs.formula(~+b-(NULL+c)), structure(alist(b, NULL, c), sign=c(1,-1,-1))))
+stopifnot(identical(list_rhs.formula(a~b), structure(alist(b), sign=1, environment=list(globalenv()), class="term_list")))
+stopifnot(identical(list_rhs.formula(~b), structure(alist(b), sign=1, environment=list(globalenv()), class="term_list")))
+stopifnot(identical(list_rhs.formula(~b+NULL), structure(alist(b, NULL), sign=c(1,1), environment=rep(list(globalenv()), 2), class="term_list")))
+stopifnot(identical(list_rhs.formula(~-b+NULL), structure(alist(b, NULL), sign=c(-1,1), environment=rep(list(globalenv()), 2), class="term_list")))
+stopifnot(identical(list_rhs.formula(~+b-NULL), structure(alist(b, NULL), sign=c(1,-1), environment=rep(list(globalenv()), 2), class="term_list")))
+stopifnot(identical(list_rhs.formula(~+b-(NULL+c)), structure(alist(b, NULL, c), sign=c(1,-1,-1), environment=rep(list(globalenv()), 3), class="term_list")))
 
 ## eval_lhs.formula
 
