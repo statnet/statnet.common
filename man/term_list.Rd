@@ -4,6 +4,7 @@
 \alias{term_list}
 \alias{c.term_list}
 \alias{[.term_list}
+\alias{print.term_list}
 \title{A helper class for list of terms in an formula}
 \usage{
 term_list(x, sign, environment = NULL)
@@ -11,6 +12,8 @@ term_list(x, sign, environment = NULL)
 \method{c}{term_list}(x, ...)
 
 \method{[}{term_list}(x, i, ...)
+
+\method{print}{term_list}(x, ...)
 }
 \arguments{
 \item{x}{a list of terms or a term; a \code{term_list}}
@@ -36,6 +39,8 @@ extracted. Indexing and concatenation methods preserve these.
 \item \code{c}: A concatenation method for \code{term_list}s.
 
 \item \code{[}: An indexing method for \code{term_list}s.
+
+\item \code{print}: A printing method for \code{term_list}s.
 }}
 
 \examples{
@@ -48,15 +53,19 @@ f2 <- ~-NULL+1
 l1 <- list_rhs.formula(f1)
 l2 <- list_rhs.formula(f2)
 
-l <- c(l1,l2)
+(l <- c(l1,l2))
+\dontshow{
 stopifnot(identical(c(unclass(l)), alist(b, c, NULL, 1)))
 stopifnot(identical(attr(l, "sign"), c(1,1,-1,1)))
 stopifnot(identical(attr(l, "environment"), rep(list(e1, globalenv()), each=2)))
+}
 
-l <- c(l2[1], l1[2], l1[1], l1[1], l2[2])
+(l <- c(l2[1], l1[2], l1[1], l1[1], l2[2]))
+\dontshow{
 stopifnot(identical(c(unclass(l)), alist(NULL, c, b, b, 1)))
 stopifnot(identical(attr(l, "sign"), c(-1,1,1,1,1)))
 stopifnot(identical(attr(l, "environment"), list(globalenv(), e1, e1, e1, globalenv())))
+}
 
 }
 \seealso{

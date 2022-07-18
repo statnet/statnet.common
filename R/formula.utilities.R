@@ -283,18 +283,22 @@ nonsimp.update.formula<-function (object, new, ..., from.new=FALSE){
 #' environment(f1) <- e1
 #' f2 <- ~-NULL+1
 #'
-#' l1 <- list_rhs.formula(f1)
-#' l2 <- list_rhs.formula(f2)
+#' (l1 <- list_rhs.formula(f1))
+#' (l2 <- list_rhs.formula(f2))
 #'
-#' l <- c(l1,l2)
+#' (l <- c(l1,l2))
+#' \dontshow{
 #' stopifnot(identical(c(unclass(l)), alist(b, c, NULL, 1)))
 #' stopifnot(identical(attr(l, "sign"), c(1,1,-1,1)))
 #' stopifnot(identical(attr(l, "environment"), rep(list(e1, globalenv()), each=2)))
+#' }
 #'
-#' l <- c(l2[1], l1[2], l1[1], l1[1], l2[2])
+#' (l <- c(l2[1], l1[2], l1[1], l1[1], l2[2]))
+#' \dontshow{
 #' stopifnot(identical(c(unclass(l)), alist(NULL, c, b, b, 1)))
 #' stopifnot(identical(attr(l, "sign"), c(-1,1,1,1,1)))
 #' stopifnot(identical(attr(l, "environment"), list(globalenv(), e1, e1, e1, globalenv())))
+#' }
 #'
 #' @export
 term_list <- function(x, sign, environment = NULL){
@@ -326,6 +330,20 @@ c.term_list <- function(x, ...){
 #' @export
 `[.term_list` <- function(x, i, ...){
   term_list(NextMethod(), sign = attr(x, "sign")[i], environment = attr(x, "environment")[i])
+}
+
+#' @describeIn term_list
+#'
+#' A printing method for `term_list`s.
+#' @export
+print.term_list <- function(x, ...){
+  signstr <- ifelse(attr(x, "sign")>=0, "+", "-")
+  envstr <- sapply(attr(x, "environment"), format)
+  termstr <- lapply(lapply(x, format), paste0, collapse="\n")
+
+  cat("Term List:\n")
+  cat(paste(signstr, termstr, envstr, collapse="\n"))
+  cat("\n")
 }
 
 .recurse_summation <- function(x, sign){
