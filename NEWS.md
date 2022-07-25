@@ -1,3 +1,13 @@
+# statnet.common 4.7.0
+
+## New utilities
+
+* An S3 class `term_list` for storing terms extracted from a formula, by `list_rhs.formula()` and others, containing information about each term's sign and environment. Concatenation, indexing, and print methods are implemented.
+
+## Bug fixes
+
+* `list_rhs.formula()` can now handle `NULL` terms on the RHS.
+
 # statnet.common 4.6.0
 
 ## New utilities
