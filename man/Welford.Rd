@@ -37,10 +37,10 @@ A simple class for keeping track of the running mean and the sum of squared devi
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{update}: Update a \code{Welford} object with new
+\item \code{update(Welford)}: Update a \code{Welford} object with new
 data.
-}}
 
+}}
 \examples{
 
 X <- matrix(rnorm(200), 20, 10)

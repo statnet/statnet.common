@@ -34,8 +34,8 @@ or a named list with elements \code{x} and \code{y}, containing \code{x}'s and
 \description{
 Identify and the differences between two control lists.
 }
-\section{Functions}{
+\section{Methods (by generic)}{
 \itemize{
-\item \code{print.diff.control.list}: A print method.
-}}
+\item \code{print(diff.control.list)}: A print method.
 
+}}

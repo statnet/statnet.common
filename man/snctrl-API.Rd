@@ -51,15 +51,15 @@ Helper functions used by packages to facilitate \code{\link{snctrl}} updating.
 }
 \section{Functions}{
 \itemize{
-\item \code{snctrl_names}: Typeset the currently defined list of
+\item \code{snctrl_names()}: Typeset the currently defined list of
 argument names by package and control function.
 
-\item \code{update_snctrl}: Typically called from \code{\link[=.onLoad]{.onLoad()}}, Update the
+\item \code{update_snctrl()}: Typically called from \code{\link[=.onLoad]{.onLoad()}}, Update the
 argument list of \code{\link[=snctrl]{snctrl()}} to include additional argument names
 associated with the package, and set a callback for the package
 to update its own copy.
 
-\item \code{collate_controls}: Obtain and concatenate the argument lists of
+\item \code{collate_controls()}: Obtain and concatenate the argument lists of
 specified functions or all functions starting with dQuote(\code{control.}) in
 the environment.
 
@@ -70,8 +70,8 @@ the client package's copy of \code{\link[=snctrl]{snctrl()}}.
 \item \code{COLLATE_ALL_MY_CONTROLS_EXPR}: A stored expression that, if evaluated on
 loading, will add arguments of the package's \verb{control.*()}
 functions to \code{\link[=snctrl]{snctrl()}} and set the callback.
-}}
 
+}}
 \examples{
 \dontrun{
 # In the client package (outside any function):

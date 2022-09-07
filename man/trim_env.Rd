@@ -31,8 +31,8 @@ Make a copy of an environment with just the selected objects.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{environment}: A method for environment objects.
+\item \code{trim_env(environment)}: A method for environment objects.
 
-\item \code{default}: Default method, for objects such as \code{\link{formula}} and \code{\link{function}} that have \code{\link[=environment]{environment()}} and \verb{environment()<-} methods.
+\item \code{trim_env(default)}: Default method, for objects such as \code{\link{formula}} and \code{\link{function}} that have \code{\link[=environment]{environment()}} and \verb{environment()<-} methods.
+
 }}
-

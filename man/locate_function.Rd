@@ -59,14 +59,14 @@ Because \code{\link[=getAnywhere]{getAnywhere()}} can be slow, past searches are
 }
 \section{Functions}{
 \itemize{
-\item \code{locate_function}: a low-level function returning the
+\item \code{locate_function()}: a low-level function returning the
 reference to the function named \code{name}, or \code{NULL} if not found.
 
-\item \code{locate_prefixed_function}: a helper function that searches for a
+\item \code{locate_prefixed_function()}: a helper function that searches for a
 function of the form \code{prefix.name} and produces an informative
 error message if not found.
-}}
 
+}}
 \examples{
 
 # Locate a random function in base.

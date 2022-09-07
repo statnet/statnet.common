@@ -87,42 +87,42 @@ A suite of utilities for handling model formulas of the style used in Statnet pa
 }
 \section{Functions}{
 \itemize{
-\item \code{append_rhs.formula}: \code{append_rhs.formula} appends a list of terms to the RHS of a
+\item \code{append_rhs.formula()}: \code{append_rhs.formula} appends a list of terms to the RHS of a
 formula. If the formula is one-sided, the RHS becomes the LHS, if
 \code{keep.onesided==FALSE} (the default).
 
-\item \code{append.rhs.formula}: \code{append.rhs.formula} has been renamed to \code{append_rhs.formula}.
+\item \code{append.rhs.formula()}: \code{append.rhs.formula} has been renamed to \code{append_rhs.formula}.
 
-\item \code{filter_rhs.formula}: \code{filter_rhs.formula} filters through the terms in the RHS of a
+\item \code{filter_rhs.formula()}: \code{filter_rhs.formula} filters through the terms in the RHS of a
 formula, returning a formula without the terms for which function
 \code{f(term, ...)} is \code{FALSE}. Terms inside another term (e.g.,
 parentheses or an operator other than + or -) will be unaffected.
 
-\item \code{nonsimp_update.formula}: \code{nonsimp_update.formula} is a reimplementation of
+\item \code{nonsimp_update.formula()}: \code{nonsimp_update.formula} is a reimplementation of
 \code{\link{update.formula}} that does not simplify.  Note that the
 resulting formula's environment is set as follows. If
 \code{from.new==FALSE}, it is set to that of object. Otherwise, a new
 sub-environment of object, containing, in addition, variables in new listed
 in from.new (if a character vector) or all of new (if TRUE).
 
-\item \code{nonsimp.update.formula}: \code{nonsimp.update.formula} has been renamed to \code{nonsimp_update.formula}.
+\item \code{nonsimp.update.formula()}: \code{nonsimp.update.formula} has been renamed to \code{nonsimp_update.formula}.
 
-\item \code{term.list.formula}: \code{term.list.formula} is an older version of \code{list_rhs.formula} that required the RHS call, rather than the formula itself.
+\item \code{term.list.formula()}: \code{term.list.formula} is an older version of \code{list_rhs.formula} that required the RHS call, rather than the formula itself.
 
-\item \code{list_summands.call}: \code{list_summands.call}, given an unevaluated call or expression
+\item \code{list_summands.call()}: \code{list_summands.call}, given an unevaluated call or expression
 containing the sum of one or more terms, returns an object of class \code{\link{term_list}} with the
 terms being summed, handling \code{+} and \code{-} operators and
 parentheses, and keeping track of whether a term has a plus or a
 minus sign.
 
-\item \code{list_rhs.formula}: \code{list_rhs.formula} returns an object of type \code{\link{term_list}},
+\item \code{list_rhs.formula()}: \code{list_rhs.formula} returns an object of type \code{\link{term_list}},
 containing terms in a given formula, handling \code{+} and \code{-}
 operators and parentheses, and keeping track of whether a term has
 a plus or a minus sign.
 
-\item \code{eval_lhs.formula}: \code{eval_lhs.formula} extracts the LHS of a formula, evaluates it in the formula's environment, and returns the result.
-}}
+\item \code{eval_lhs.formula()}: \code{eval_lhs.formula} extracts the LHS of a formula, evaluates it in the formula's environment, and returns the result.
 
+}}
 \examples{
 
 ## append_rhs.formula

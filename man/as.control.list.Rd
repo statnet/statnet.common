@@ -37,12 +37,12 @@ Convert to a control list.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{control.list}: Idempotent method for control lists.
+\item \code{as.control.list(control.list)}: Idempotent method for control lists.
 
-\item \code{list}: The method for plain lists, which runs
+\item \code{as.control.list(list)}: The method for plain lists, which runs
 them through \code{FUN}.
-}}
 
+}}
 \examples{
 myfun <- function(..., control=control.myfun()){
   as.control.list(control)

@@ -43,32 +43,32 @@ Convenience functions for handling \code{\link{NULL}} objects.
 }
 \section{Functions}{
 \itemize{
-\item \code{NVL}: Inspired by SQL function \code{NVL}, returns the first argument
+\item \code{NVL()}: Inspired by SQL function \code{NVL}, returns the first argument
 that is not \code{NULL}, or \code{NULL} if all arguments are
 \code{NULL}.
 
-\item \code{NVL2}: Inspired by Oracle SQL function \code{NVL2}, returns the second argument
+\item \code{NVL2()}: Inspired by Oracle SQL function \code{NVL2}, returns the second argument
 if the first argument is not \code{NULL} and the third argument if the
 first argument is \code{NULL}. The third argument defaults to \code{NULL}, so
 \code{NVL2(a, b)} can serve as shorthand for \code{(if(!is.null(a)) b)}.
 
-\item \code{NVL3}: Inspired by Oracle SQL \code{NVL2} function and \code{magittr} \code{\%>\%}
+\item \code{NVL3()}: Inspired by Oracle SQL \code{NVL2} function and \code{magittr} \code{\%>\%}
 operator, behaves as \code{NVL2} but \code{.}s in the second argument are
 substituted with the first argument.
 
-\item \code{EVL}: As \code{NVL}, but for any objects of length 0 (\emph{E}mpty) rather than just \code{NULL}. Note that if no non-zero-length arguments are given, \code{NULL} is returned.
+\item \code{EVL()}: As \code{NVL}, but for any objects of length 0 (\emph{E}mpty) rather than just \code{NULL}. Note that if no non-zero-length arguments are given, \code{NULL} is returned.
 
-\item \code{EVL2}: As \code{NVL2}, but for any objects of length 0 (\emph{E}mpty) rather than just \code{NULL}.
+\item \code{EVL2()}: As \code{NVL2}, but for any objects of length 0 (\emph{E}mpty) rather than just \code{NULL}.
 
-\item \code{EVL3}: As \code{NVL3}, but for any objects of length 0 (\emph{E}mpty) rather than just \code{NULL}.
+\item \code{EVL3()}: As \code{NVL3}, but for any objects of length 0 (\emph{E}mpty) rather than just \code{NULL}.
 
-\item \code{NVL<-}: Assigning to \code{NVL} overwrites its first argument if that argument
+\item \code{NVL(x) <- value}: Assigning to \code{NVL} overwrites its first argument if that argument
 is \code{\link{NULL}}. Note that it will \emph{always} return the right-hand-side
 of the assignment (\code{value}), regardless of what \code{x} is.
 
-\item \code{EVL<-}: As assignment to \code{NVL}, but for any objects of length 0 (\emph{E}mpty) rather than just \code{NULL}.
-}}
+\item \code{EVL(x) <- value}: As assignment to \code{NVL}, but for any objects of length 0 (\emph{E}mpty) rather than just \code{NULL}.
 
+}}
 \note{
 Whenever possible, these functions use lazy evaluation, so,
 for example \code{NVL(1, stop("Error!"))} will never evaluate the
