@@ -47,7 +47,7 @@ respectively.
 
 * A reimplementation of `attr()` is exported, which disables partial matching by default.
 
-# Enhancements to existing utilities
+## Enhancements to existing utilities
 
 * `statnetStartupMessage()` now first looks for a `comment=(affil=...)` for the contributor's affiliation, before using e-mail.
 
@@ -55,7 +55,7 @@ respectively.
 
 * `append_rhs.formula()` now accepts NULL as the first argument, in which case it creates a new formula, and takes an additonal argument `env=`, which is used as this new formula's environment.
 
-# Miscellaneous changes
+## Miscellaneous changes
 
 * `rle` utilities are no longer reexported.
 

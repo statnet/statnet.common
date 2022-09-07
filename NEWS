@@ -80,7 +80,7 @@ New utilities
     matching by default.
 
 Enhancements to existing utilities
-==================================
+----------------------------------
 
 -   `statnetStartupMessage()` now first looks for a
     `comment=(affil=...)` for the contributor's affiliation, before
@@ -93,7 +93,7 @@ Enhancements to existing utilities
     `env=`, which is used as this new formula's environment.
 
 Miscellaneous changes
-=====================
+---------------------
 
 -   `rle` utilities are no longer reexported.
 
