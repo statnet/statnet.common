@@ -1,5 +1,5 @@
 Package: statnet.common
-Version: 4.7.0-409
+Version: 4.7.0
 Date: 2022-09-08
 Title: Common R Scripts and Utilities Used by the Statnet Project Software
 Authors@R: c(
