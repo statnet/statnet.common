@@ -177,12 +177,22 @@ stopifnot(f6 == ~-a+b)
 stopifnot(f7 == ~-a+b)
 }
 
-stopifnot(identical(list_rhs.formula(a~b), structure(alist(b), sign=1, env=list(globalenv()), class="term_list")))
-stopifnot(identical(list_rhs.formula(~b), structure(alist(b), sign=1, env=list(globalenv()), class="term_list")))
-stopifnot(identical(list_rhs.formula(~b+NULL), structure(alist(b, NULL), sign=c(1,1), env=rep(list(globalenv()), 2), class="term_list")))
-stopifnot(identical(list_rhs.formula(~-b+NULL), structure(alist(b, NULL), sign=c(-1,1), env=rep(list(globalenv()), 2), class="term_list")))
-stopifnot(identical(list_rhs.formula(~+b-NULL), structure(alist(b, NULL), sign=c(1,-1), env=rep(list(globalenv()), 2), class="term_list")))
-stopifnot(identical(list_rhs.formula(~+b-(NULL+c)), structure(alist(b, NULL, c), sign=c(1,-1,-1), env=rep(list(globalenv()), 3), class="term_list")))
+stopifnot(identical(list_rhs.formula(a~b),
+          structure(alist(b), sign=1, env=list(globalenv()), class="term_list")))
+stopifnot(identical(list_rhs.formula(~b),
+          structure(alist(b), sign=1, env=list(globalenv()), class="term_list")))
+stopifnot(identical(list_rhs.formula(~b+NULL),
+          structure(alist(b, NULL),
+                    sign=c(1,1), env=rep(list(globalenv()), 2), class="term_list")))
+stopifnot(identical(list_rhs.formula(~-b+NULL),
+          structure(alist(b, NULL),
+                    sign=c(-1,1), env=rep(list(globalenv()), 2), class="term_list")))
+stopifnot(identical(list_rhs.formula(~+b-NULL),
+          structure(alist(b, NULL),
+                    sign=c(1,-1), env=rep(list(globalenv()), 2), class="term_list")))
+stopifnot(identical(list_rhs.formula(~+b-(NULL+c)),
+          structure(alist(b, NULL, c),
+                    sign=c(1,-1,-1), env=rep(list(globalenv()), 3), class="term_list")))
 
 ## eval_lhs.formula
 
