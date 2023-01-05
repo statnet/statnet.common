@@ -887,3 +887,45 @@ simplify_simple <- function(x, toNA = c("null","empty","keep"), empty = c("keep"
 attr <- function(x, which, exact = TRUE) {
   base::attr(x, which, exact)
 }
+
+#' An error handler for [rlang::check_dots_used()] that issues a
+#' warning that only lists argument names.
+#'
+#' This handler parses the error message produced by
+#' [rlang::check_dots_used()], extracting the names of the unused
+#' arguments, and formats them into a more gentle warning message. It
+#' relies on \CRANpkg{rlang} maintaining its current format.
+#'
+#' @param e a [condition][condition] object, typically not passed by
+#'   the end-user; see example below.
+#'
+#' @examples
+#'
+#' \dontshow{
+#' o <- options(warn=1, useFancyQuotes=FALSE)
+#' }
+#'
+#' g <- function(b=NULL, ...){
+#'   invisible(force(b))
+#' }
+#'
+#' f <- function(...){
+#'   rlang::check_dots_used(error = unused_dots_warning)
+#'   g(...)
+#' }
+#'
+#' f() # OK
+#' f(b=2) # OK
+#' f(a=1, b=2, c=3) # Warning about a and c but not about b
+#'
+#' \dontshow{
+#' # Test:
+#' stopifnot(grepl("Argument(s) 'a' and 'c' were not recognised or used. Did you misspell an argument name?", tryCatch(f(a=1, b=2, c=3), warning = function(e) e$message), fixed=TRUE))
+#' options(o)
+#' }
+#' @export
+unused_dots_warning <- function(e){
+  v <- lapply(parse(text = e$body[names(e$body)=="*"]), `[[`, 2)
+  rlang::warn(sprintf("Argument(s) %s were not recognised or used. Did you misspell an argument name?",
+               paste.and(sQuote(v))))
+}
