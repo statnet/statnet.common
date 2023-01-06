@@ -926,6 +926,6 @@ attr <- function(x, which, exact = TRUE) {
 #' @export
 unused_dots_warning <- function(e){
   v <- lapply(parse(text = e$body[names(e$body)=="*"]), `[[`, 2)
-  rlang::warn(sprintf("Argument(s) %s were not recognised or used. Did you misspell an argument name?",
+  rlang::warn(sprintf("Argument(s) %s were not recognised or used. Did you mistype an argument name?",
                paste.and(sQuote(v))))
 }
