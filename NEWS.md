@@ -1,3 +1,9 @@
+# statnet.common 4.8.0
+
+## New utilities
+
+* A helper function `unused_dots_warning()` is exported that works with `rlang::check_dots_used()` to print an informative message.
+
 # statnet.common 4.7.0
 
 ## New utilities
