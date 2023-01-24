@@ -920,12 +920,12 @@ attr <- function(x, which, exact = TRUE) {
 #'
 #' \dontshow{
 #' # Test:
-#' stopifnot(grepl("Argument(s) 'a' and 'c' were not recognised or used. Did you misspell an argument name?", tryCatch(f(a=1, b=2, c=3), warning = function(e) e$message), fixed=TRUE))
+#' stopifnot(grepl("Argument(s) 'a' and 'c' were not recognized or used. Did you mistype an argument name?", tryCatch(f(a=1, b=2, c=3), warning = function(e) e$message), fixed=TRUE))
 #' options(o)
 #' }
 #' @export
 unused_dots_warning <- function(e){
   v <- lapply(parse(text = e$body[names(e$body)=="*"]), `[[`, 2)
-  rlang::warn(sprintf("Argument(s) %s were not recognised or used. Did you mistype an argument name?",
+  rlang::warn(sprintf("Argument(s) %s were not recognized or used. Did you mistype an argument name?",
                paste.and(sQuote(v))))
 }

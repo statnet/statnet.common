@@ -38,7 +38,7 @@ f(a=1, b=2, c=3) # Warning about a and c but not about b
 
 \dontshow{
 # Test:
-stopifnot(grepl("Argument(s) 'a' and 'c' were not recognised or used. Did you misspell an argument name?", tryCatch(f(a=1, b=2, c=3), warning = function(e) e$message), fixed=TRUE))
+stopifnot(grepl("Argument(s) 'a' and 'c' were not recognized or used. Did you mistype an argument name?", tryCatch(f(a=1, b=2, c=3), warning = function(e) e$message), fixed=TRUE))
 options(o)
 }
 }
