@@ -8,21 +8,16 @@
 #  Copyright 2007-2023 Statnet Commons
 ################################################################################
 #' Utilities for performing calculations on logarithmic scale.
-#' 
+#'
 #' A small suite of functions to compute sums, means, and weighted means on
 #' logarithmic scale, minimizing loss of precision.
-#' 
-#' 
-#' @aliases log_mean_exp log_sum_exp lweighted.mean lweighted.var
+#'
 #' @param logx Numeric vector of \eqn{\log(x)}, the natural logarithms of the
 #' values to be summed or averaged.
 #'
-#' @param x Numeric vector of \eqn{x}, the (raw) values to be summed
-#'   or averaged. For \code{lweighted.mean} and \code{lweighted.var},
-#'   \code{x} may also be a matrix, in which case the weighted mean
-#'   will be computed for each column of \code{x} and the weighted
-#'   variance-covariance matrix of the columns of \code{x} will be
-#'   returned, respectively.
+#' @param x,y Numeric vectors or matrices of \eqn{x} and \eqn{y}, the (raw) values
+#'   to be summed, averaged, or whose variances and covariances are to
+#'   be calculated.
 #'
 #' @param logw Numeric vector of \eqn{\log(w)}, the natural logarithms of the
 #' weights.
@@ -31,48 +26,54 @@
 #' \code{FALSE}, the package's own implementation based on it is used, using
 #' \code{double} precision, which is (on most systems) several times faster, at
 #' the cost of precision.
-#' @return The functions return the equivalents of the following R expressions,
-#' but faster and with less loss of precision: \describe{
-#' \item{`log_sum_exp(logx)`}{\code{log(sum(exp(logx)))}}
-#' \item{`log_mean_exp(logx)`}{\code{log(mean(exp(logx)))}}
-#' \item{`lweighted.mean(x,logw)`}{\code{sum(x*exp(logw))/sum(exp(logw))} for \code{x} scalar and
-#' \code{colSums(x*exp(logw))/sum(exp(logw))} for \code{x} matrix}
-#' \item{`lweighted.var(x,logw)`}{\code{crossprod(x*exp(logw/2))/sum(exp(logw))}} }
+#' @return The functions return the equivalents of the R expressions given below,
+#' but faster and with less loss of precision.
 #' @author Pavel N. Krivitsky
 #' @keywords arith
 #' @examples
-#' 
-#' logx <- rnorm(1000)
-#' stopifnot(all.equal(log(sum(exp(logx))), log_sum_exp(logx)))
-#' stopifnot(all.equal(log(mean(exp(logx))), log_mean_exp(logx)))
-#' 
 #' x <- rnorm(1000)
+#' stopifnot(all.equal(log_sum_exp(x), log(sum(exp(x))), check.attributes=FALSE))
+#' stopifnot(all.equal(log_mean_exp(x), log(mean(exp(x))), check.attributes=FALSE))
+#'
 #' logw <- rnorm(1000)
 #' stopifnot(all.equal(m <- sum(x*exp(logw))/sum(exp(logw)),lweighted.mean(x, logw)))
 #' stopifnot(all.equal(sum((x-m)^2*exp(logw))/sum(exp(logw)),
 #'                     lweighted.var(x, logw), check.attributes=FALSE))
-#' 
+#'
 #' x <- cbind(x, rnorm(1000))
-#' stopifnot(all.equal(m <- colSums(x*exp(logw))/sum(exp(logw)),
+#' stopifnot(all.equal(mx <- colSums(x*exp(logw))/sum(exp(logw)),
 #'                     lweighted.mean(x, logw), check.attributes=FALSE))
-#' stopifnot(all.equal(crossprod(t(t(x)-m)*exp(logw/2))/sum(exp(logw)),
+#' stopifnot(all.equal(crossprod(t(t(x)-mx)*exp(logw/2))/sum(exp(logw)),
 #'                     lweighted.var(x, logw), check.attributes=FALSE))
+#'
+#'
+#' y <- cbind(x, rnorm(1000))
+#' my <- colSums(y*exp(logw))/sum(exp(logw))
+#' stopifnot(all.equal(crossprod(t(t(x)-mx)*exp(logw/2), t(t(y)-my)*exp(logw/2))/sum(exp(logw)),
+#'                     lweighted.cov(x, y, logw), check.attributes=FALSE))
+#' stopifnot(all.equal(crossprod(t(t(y)-my)*exp(logw/2), t(t(x)-mx)*exp(logw/2))/sum(exp(logw)),
+#'                     lweighted.cov(y, x, logw), check.attributes=FALSE))
 #' @name logspace.utils
 #' @useDynLib statnet.common
+NULL
+
+#' @describeIn logspace.utils `log(sum(exp(logx)))`
 #' @export
 log_sum_exp <- function(logx, use_ldouble=FALSE){
   if(length(logx)==0) -Inf
   else .Call("log_sum_exp_wrapper", logx, use_ldouble, PACKAGE="statnet.common")
 }
 
-#' @rdname logspace.utils
+#' @describeIn logspace.utils `log(mean(exp(logx)))`
 #' @export
 log_mean_exp <- function(logx, use_ldouble=FALSE){
   if(length(logx)==0) NaN
   else .Call("log_sum_exp_wrapper", logx, use_ldouble, PACKAGE="statnet.common") - log(length(logx))
 }
 
-#' @rdname logspace.utils
+#' @describeIn logspace.utils weighted mean of `x`:
+#'   `sum(x*exp(logw))/sum(exp(logw))` for `x` scalar and
+#'   `colSums(x*exp(logw))/sum(exp(logw))` for `x` matrix
 #' @export
 lweighted.mean <- function(x, logw){
   d <- dim(x)
@@ -89,7 +90,7 @@ lweighted.mean <- function(x, logw){
   }
 }
 
-#' @rdname logspace.utils
+#' @describeIn logspace.utils weighted variance of `x`: `crossprod(x-lweighted.mean(x,logw)*exp(logw/2))/sum(exp(logw))`
 #' @export
 lweighted.var <- function(x, logw){
   E <- lweighted.mean(x, logw)
@@ -103,6 +104,28 @@ lweighted.var <- function(x, logw){
   }
 }
 
+#' @describeIn logspace.utils weighted covariance between `x` and `y`: `crossprod(x-lweighted.mean(x,logw)*exp(logw/2), y-lweighted.mean(y,logw)*exp(logw/2))/sum(exp(logw))`
+#' @export
+lweighted.cov <- function(x, y, logw){
+  xdim <- dim(x)
+  E <- lweighted.mean(x, logw)
+  x <- if(is.null(xdim)) x - E else sweep_cols.matrix(x, E)
+
+  ydim <- dim(y)
+  E <- lweighted.mean(y, logw)
+  y <- if(is.null(ydim)) y - E else sweep_cols.matrix(y, E)
+
+  if(is.null(xdim) || is.null(ydim)){
+    if(length(x)<2) return(NA)
+    o <- lweighted.mean(x*y, logw)
+    if(!is.null(xdim)) cbind(o)
+    else if(!is.null(xdim)) rbind(o)
+    else o
+  }else{
+    if(nrow(x)<2) matrix(NA, ncol(x), ncol(y))
+    else .Call("logspace_wxmean_wrapper", x, y, logw, PACKAGE="statnet.common")
+  }
+}
 
 
 #' Suptract a elements of a vector from respective columns of a matrix

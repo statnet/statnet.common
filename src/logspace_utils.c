@@ -117,8 +117,8 @@ void logspace_wmeans (const double *xm, const double* logw, int n, int p, double
 
 
 SEXP logspace_wmeans_wrapper(SEXP xm, SEXP logw){
-  SEXP xdim = PROTECT(getAttrib(xm, R_DimSymbol));
-  int n = INTEGER(xdim)[0], p = INTEGER(xdim)[1];
+  int *xdim = INTEGER(PROTECT(getAttrib(xm, R_DimSymbol)));
+  int n = xdim[0], p = xdim[1];
   xm = PROTECT(coerceVector(xm, REALSXP));
   logw = PROTECT(coerceVector(logw, REALSXP));
   if(n != length(logw)) error("Number of rows in the value matrix differs from the length of the log-weights vector.");
@@ -129,8 +129,8 @@ SEXP logspace_wmeans_wrapper(SEXP xm, SEXP logw){
 }
 
 SEXP sweep2m(SEXP xm, SEXP stats){
-  SEXP xdim = PROTECT(getAttrib(xm, R_DimSymbol));
-  int n = INTEGER(xdim)[0], p = INTEGER(xdim)[1];
+  int *xdim = INTEGER(PROTECT(getAttrib(xm, R_DimSymbol)));
+  int n = xdim[0], p = xdim[1];
   SEXP out = PROTECT(allocMatrix(REALSXP, n, p));
   xm = PROTECT(coerceVector(xm, REALSXP));
   stats = PROTECT(coerceVector(stats, REALSXP));
@@ -171,13 +171,53 @@ void logspace_wmean2 (const double *xm, const double* logw, int n, int p, double
 }
 
 SEXP logspace_wmean2_wrapper(SEXP xm, SEXP logw){
-  SEXP xdim = PROTECT(getAttrib(xm, R_DimSymbol));
-  int n = INTEGER(xdim)[0], p = INTEGER(xdim)[1];
+  int *xdim = INTEGER(PROTECT(getAttrib(xm, R_DimSymbol)));
+  int n = xdim[0], p = xdim[1];
   xm = PROTECT(coerceVector(xm, REALSXP));
   logw = PROTECT(coerceVector(logw, REALSXP));
   if(n != length(logw)) error("Number of rows in the value matrix differs from the length of the log-weights vector.");
   SEXP out = PROTECT(allocMatrix(REALSXP, p, p));
   logspace_wmean2(REAL(xm), REAL(logw), n, p, REAL(out));
   UNPROTECT(4);
+  return(out);
+}
+
+void logspace_wxmean (const double *xm, const double *ym, const double* logw, int n, int p, int q, double *out)
+{
+  // else (n >= 2) :
+  int i;
+  // Mw := max_i log(w_i)
+  double Mw = logw[0];
+  for(i = 1; i < n; i++) if(Mw < logw[i]) Mw = logw[i];
+  memset(out, 0, p*q*sizeof(double));
+  double sw = 0.;
+  for(i = 0; i < n; i++){
+    double w = exp(logw[i] - Mw);
+    sw += w;
+    for(unsigned int j = 0; j < p; j++)
+      for(unsigned int k = 0; k < q; k++)
+	out[j + k*p] += w*xm[i + j*n]*ym[i + k*n];
+  }
+  for(unsigned int j = 0; j < p; j++)
+    for(unsigned int k = 0; k < q; k++)
+      out[j + k*p] /= sw;
+}
+
+SEXP logspace_wxmean_wrapper(SEXP xm, SEXP ym, SEXP logw){
+  int *xdim = INTEGER(PROTECT(getAttrib(xm, R_DimSymbol)));
+  int n = xdim[0], p = xdim[1];
+  int *ydim = INTEGER(PROTECT(getAttrib(ym, R_DimSymbol)));
+  if(n != ydim[0]) error("Numbers of rows in the value matrices differ.");
+  int q = ydim[1];
+
+  xm = PROTECT(coerceVector(xm, REALSXP));
+  ym = PROTECT(coerceVector(ym, REALSXP));
+  logw = PROTECT(coerceVector(logw, REALSXP));
+  if(n != length(logw)) error("Number of rows in the value matrices differs from the length of the log-weights vector.");
+
+  SEXP out = PROTECT(allocMatrix(REALSXP, p, q));
+  logspace_wxmean(REAL(xm), REAL(ym), REAL(logw), n, p, q, REAL(out));
+
+  UNPROTECT(6);
   return(out);
 }

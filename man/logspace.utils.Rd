@@ -6,6 +6,7 @@
 \alias{log_mean_exp}
 \alias{lweighted.mean}
 \alias{lweighted.var}
+\alias{lweighted.cov}
 \title{Utilities for performing calculations on logarithmic scale.}
 \usage{
 log_sum_exp(logx, use_ldouble = FALSE)
@@ -15,6 +16,8 @@ log_mean_exp(logx, use_ldouble = FALSE)
 lweighted.mean(x, logw)
 
 lweighted.var(x, logw)
+
+lweighted.cov(x, y, logw)
 }
 \arguments{
 \item{logx}{Numeric vector of \eqn{\log(x)}, the natural logarithms of the
@@ -26,46 +29,59 @@ calculation. If \code{TRUE}, 's C built-in \code{logspace_sum()} is used. If
 \code{double} precision, which is (on most systems) several times faster, at
 the cost of precision.}
 
-\item{x}{Numeric vector of \eqn{x}, the (raw) values to be summed
-or averaged. For \code{lweighted.mean} and \code{lweighted.var},
-\code{x} may also be a matrix, in which case the weighted mean
-will be computed for each column of \code{x} and the weighted
-variance-covariance matrix of the columns of \code{x} will be
-returned, respectively.}
+\item{x, y}{Numeric vectors or matrices of \eqn{x} and \eqn{y}, the (raw) values
+to be summed, averaged, or whose variances and covariances are to
+be calculated.}
 
 \item{logw}{Numeric vector of \eqn{\log(w)}, the natural logarithms of the
 weights.}
 }
 \value{
-The functions return the equivalents of the following R expressions,
-but faster and with less loss of precision: \describe{
-\item{\code{log_sum_exp(logx)}}{\code{log(sum(exp(logx)))}}
-\item{\code{log_mean_exp(logx)}}{\code{log(mean(exp(logx)))}}
-\item{\code{lweighted.mean(x,logw)}}{\code{sum(x*exp(logw))/sum(exp(logw))} for \code{x} scalar and
-\code{colSums(x*exp(logw))/sum(exp(logw))} for \code{x} matrix}
-\item{\code{lweighted.var(x,logw)}}{\code{crossprod(x*exp(logw/2))/sum(exp(logw))}} }
+The functions return the equivalents of the R expressions given below,
+but faster and with less loss of precision.
 }
 \description{
 A small suite of functions to compute sums, means, and weighted means on
 logarithmic scale, minimizing loss of precision.
 }
+\section{Functions}{
+\itemize{
+\item \code{log_sum_exp()}: \code{log(sum(exp(logx)))}
+
+\item \code{log_mean_exp()}: \code{log(mean(exp(logx)))}
+
+\item \code{lweighted.mean()}: weighted mean of \code{x}:
+\code{sum(x*exp(logw))/sum(exp(logw))} for \code{x} scalar and
+\code{colSums(x*exp(logw))/sum(exp(logw))} for \code{x} matrix
+
+\item \code{lweighted.var()}: weighted variance of \code{x}: \code{crossprod(x-lweighted.mean(x,logw)*exp(logw/2))/sum(exp(logw))}
+
+\item \code{lweighted.cov()}: weighted covariance between \code{x} and \code{y}: \code{crossprod(x-lweighted.mean(x,logw)*exp(logw/2), y-lweighted.mean(y,logw)*exp(logw/2))/sum(exp(logw))}
+
+}}
 \examples{
-
-logx <- rnorm(1000)
-stopifnot(all.equal(log(sum(exp(logx))), log_sum_exp(logx)))
-stopifnot(all.equal(log(mean(exp(logx))), log_mean_exp(logx)))
-
 x <- rnorm(1000)
+stopifnot(all.equal(log_sum_exp(x), log(sum(exp(x))), check.attributes=FALSE))
+stopifnot(all.equal(log_mean_exp(x), log(mean(exp(x))), check.attributes=FALSE))
+
 logw <- rnorm(1000)
 stopifnot(all.equal(m <- sum(x*exp(logw))/sum(exp(logw)),lweighted.mean(x, logw)))
 stopifnot(all.equal(sum((x-m)^2*exp(logw))/sum(exp(logw)),
                     lweighted.var(x, logw), check.attributes=FALSE))
 
 x <- cbind(x, rnorm(1000))
-stopifnot(all.equal(m <- colSums(x*exp(logw))/sum(exp(logw)),
+stopifnot(all.equal(mx <- colSums(x*exp(logw))/sum(exp(logw)),
                     lweighted.mean(x, logw), check.attributes=FALSE))
-stopifnot(all.equal(crossprod(t(t(x)-m)*exp(logw/2))/sum(exp(logw)),
+stopifnot(all.equal(crossprod(t(t(x)-mx)*exp(logw/2))/sum(exp(logw)),
                     lweighted.var(x, logw), check.attributes=FALSE))
+
+
+y <- cbind(x, rnorm(1000))
+my <- colSums(y*exp(logw))/sum(exp(logw))
+stopifnot(all.equal(crossprod(t(t(x)-mx)*exp(logw/2), t(t(y)-my)*exp(logw/2))/sum(exp(logw)),
+                    lweighted.cov(x, y, logw), check.attributes=FALSE))
+stopifnot(all.equal(crossprod(t(t(y)-my)*exp(logw/2), t(t(x)-mx)*exp(logw/2))/sum(exp(logw)),
+                    lweighted.cov(y, x, logw), check.attributes=FALSE))
 }
 \author{
 Pavel N. Krivitsky
