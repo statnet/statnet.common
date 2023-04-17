@@ -156,7 +156,7 @@ handle.controls <- function(myname, ...){
 
   if(exists("match.arg.pars", parent.frame()))
     for(arg in get("match.arg.pars", parent.frame()))
-      control[arg] <- list(match.arg(control[[arg]][1], eval(formal.args[[arg]])))
+      control[arg] <- list(match.arg(control[[arg]][1], eval(formal.args[[arg]], parent.frame())))
 
   control
 }
