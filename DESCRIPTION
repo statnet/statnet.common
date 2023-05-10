@@ -1,6 +1,6 @@
 Package: statnet.common
-Version: 4.8.0-419
-Date: 2023-04-17
+Version: 4.8.0-420
+Date: 2023-05-10
 Title: Common R Scripts and Utilities Used by the Statnet Project Software
 Authors@R: c(
     person("Pavel N.", "Krivitsky", role=c("aut","cre"), email="pavel@statnet.org", comment=c(ORCID="0000-0002-9101-3362", affiliation="University of New South Wales")),
@@ -15,4 +15,7 @@ URL: https://statnet.org
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Encoding: UTF-8
-Suggests: covr, rlang (>= 1.0.6)
+Suggests: covr,
+          rlang (>= 1.0.6),
+          MASS,
+          Matrix
