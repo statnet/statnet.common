@@ -42,7 +42,7 @@ vector.namesmatch<-function(v,names,errname=NULL){
        && all(sort(names(v)) == sort(names))){
       namesmatch <- match(names, names(v))
       v <- v[namesmatch]
-    }else stop('Name missmatch in "', errname,'". Specify by position.')
+    }else stop('Name mismatch in "', errname,'". Specify by position.')
   }
   v
 }
