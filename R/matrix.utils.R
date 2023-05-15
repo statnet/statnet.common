@@ -1,3 +1,12 @@
+#  File R/matrix.utils.R in package statnet.common, part of the
+#  Statnet suite of packages for network analysis, https://statnet.org .
+#
+#  This software is distributed under the GPL-3 license.  It is free,
+#  open source, and has the attribution requirements (GPL Section 7) at
+#  https://statnet.org/attribution .
+#
+#  Copyright 2007-2023 Statnet Commons
+################################################################################
 #' Test if the object is a matrix that is symmetric and positive definite
 #'
 #' @param x the object to be tested.
