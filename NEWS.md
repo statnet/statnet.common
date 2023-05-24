@@ -5,6 +5,10 @@
 * A new function,`lweighted.cov()`, to compute weighted covariance between two matrices or vectors.
 * New linear algebra utilities, `is.SPD()`, `sandwich_solve()`, `sandwich_ssolve()`, `sginv()`, `snearPD()`, `srcond()`, `ssolve()`, `xAxT()`, `xTAx()`, `xTAx_qrsolve()`, `xTAx_qrssolve()`, `xTAx_solve()`, and `xTAx_ssolve()` moved from `ergm` and documented.
 
+## Bug fixes
+
+* In `handle.controls()`, arguments that are `match.arg()`-ed are now evaluated in the correct frame.
+
 # statnet.common 4.8.0
 
 ## New utilities
