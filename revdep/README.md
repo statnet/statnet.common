@@ -79,7 +79,7 @@
 |lvm4net            |0.3      |      |        |     |
 |[MBCbook](problems.md#mbcbook)|0.1.1    |      |        |1    |
 |MEclustnet         |1.2.2    |      |        |     |
-|[metanetwork](problems.md#metanetwork)|0.7.0    |1     |        |     |
+|metanetwork        |0.7.0    |      |        |     |
 |migraph            |0.13.2   |      |        |     |
 |mlergm             |0.8      |      |        |     |
 |motifr             |1.0.0    |      |        |     |

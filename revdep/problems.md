@@ -474,30 +474,6 @@ Run `revdep_details(, "MBCbook")` for more info
       Note: found 66 marked UTF-8 strings
     ```
 
-# metanetwork
-
-<details>
-
-* Version: 0.7.0
-* GitHub: https://github.com/MarcOhlmann/metanetwork
-* Source code: https://github.com/cran/metanetwork
-* Date/Publication: 2022-12-05 14:10:02 UTC
-* Number of recursive dependencies: 106
-
-Run `revdep_details(, "metanetwork")` for more info
-
-</details>
-
-## In both
-
-*   checking package dependencies ... ERROR
-    ```
-    Package required but not available: ‘ggimage’
-    
-    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-    manual.
-    ```
-
 # MSG
 
 <details>
