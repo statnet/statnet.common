@@ -13,6 +13,12 @@ New utilities
     `xTAx_solve()`, and `xTAx_ssolve()` moved from `ergm` and
     documented.
 
+Bug fixes
+---------
+
+-   In `handle.controls()`, arguments that are `match.arg()`-ed are now
+     evaluated in the correct frame.
+
 statnet.common 4.8.0
 ====================
 
