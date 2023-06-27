@@ -361,7 +361,8 @@ as.control.list.list <- function(x, FUN=NULL, unflat=TRUE, ...){
           l[aname] <- list(x[[aname]])
           xnames_unused <<- setdiff(xnames_unused, aname)
         }else if(is.call(aval <- args[[aname]]) && startsWith(as.character(aval[[1]]), "control.")){ # A control list not supplied directly: process recursively.
-          l[aname] <- list(unflat(get(as.character(aval[[1]]), pos=environment(f), mode="function")))
+          subargs <- unflat(get(as.character(aval[[1]]), pos=environment(f), mode="function"))
+          if(length(subargs)) l[aname] <- list(subargs)
         }
       # Otherwise, leave blank.
 
