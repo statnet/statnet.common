@@ -8,7 +8,7 @@ Authors@R: c(
     person("Chad", "Klumb", role=c("ctb"), email="cklumb@gmail.com", comment=c(affiliation="University of Washington")))
 Description: Non-statistical utilities used by the software developed by the Statnet Project. They may also be of use to others.
 Depends: R (>= 3.5)
-Imports: utils, methods, coda, parallel, tools
+Imports: utils, methods, coda, parallel, tools, magrittr
 BugReports: https://github.com/statnet/statnet.common/issues
 License: GPL-3 + file LICENSE
 URL: https://statnet.org

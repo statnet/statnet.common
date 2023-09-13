@@ -190,6 +190,8 @@ xTAx_ssolve <- function(x, A, ...) {
 }
 
 #' @rdname ssolve
+#' 
+#' @importFrom magrittr %>%
 #'
 #' @examples
 #' x <- rnorm(2, sd=c(1,1e12))
@@ -227,6 +229,7 @@ xTAx_qrssolve <- function(x, A, tol = 1e-07, ...) {
 }
 
 #' @rdname ssolve
+#' 
 #'
 #' @export
 sandwich_ssolve <- function(A, B, ...) {
