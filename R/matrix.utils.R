@@ -214,7 +214,7 @@ xTAx_ssolve <- function(x, A, ...) {
 #' @export
 xTAx_qrssolve <- function(x, A, tol = 1e-07, ...) {
   d <- diag(as.matrix(A))
-  d <- ifelse(d==0, 1, 1/d) |> sqrt()
+  d <- sqrt(ifelse(d==0, 1, 1/d))
 
   if(anyNA(d)) stop("Matrix x has negative elements on the diagonal.")
   dd <- rep(d, each = length(d)) * d
