@@ -1,3 +1,9 @@
+# statnet.common 4.10.0
+
+* `as.cntrol.list.list()` and hence `snctrl()` no longer clobbers nested controls, e.g., `control.ergm(SAN=control.san(...),...)`.
+* To facilitate support for earlier versions of R, avoid using the built-in pipe (`|>`) for now.
+* New linear algebra utilities: `ginv_eigen()`, which performs generalised inverse via eigendecomposition rather than SVD, to be used by `sginv()` if `snnd=TRUE`; and `xTAx_eigen()` and `xTAx_seigen()` to evaluate the inverse quadratic form using eigendecomposition.
+
 # statnet.common 4.9.0
 
 ## New utilities
