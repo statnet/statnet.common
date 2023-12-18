@@ -3,6 +3,8 @@
 \name{ssolve}
 \alias{ssolve}
 \alias{sginv}
+\alias{ginv_eigen}
+\alias{xTAx_seigen}
 \alias{srcond}
 \alias{snearPD}
 \alias{xTAx_ssolve}
@@ -14,6 +16,10 @@ arguments}
 ssolve(a, b, ..., snnd = TRUE)
 
 sginv(X, ..., snnd = TRUE)
+
+ginv_eigen(X, tol = sqrt(.Machine$double.eps), ...)
+
+xTAx_seigen(x, A, tol = sqrt(.Machine$double.eps), ...)
 
 srcond(x, ..., snnd = TRUE)
 
@@ -27,8 +33,10 @@ sandwich_ssolve(A, B, ...)
 }
 \arguments{
 \item{snnd}{assume that the matrix is symmetric non-negative
-definite (SNND). If it's "obvious" that it's not (e.g., negative
-diagonal elements), an error is raised.}
+definite (SNND). This typically entails scaling that converts
+covariance to correlation and use of eigendecomposition rather
+than singular-value decomposition. If it's "obvious" that the matrix is
+not SSND (e.g., negative diagonal elements), an error is raised.}
 
 \item{x, a, b, X, A, B, tol, ...}{corresponding arguments of the wrapped functions.}
 }
@@ -41,12 +49,17 @@ functions first scale the matrix's rows and/or columns by its
 diagonal elements and then undo the scaling on the result.
 }
 \details{
-\code{ssolve()}, \code{sginv()}, and \code{snearPD()} wrap \code{\link[=solve]{solve()}},
-\code{\link[MASS:ginv]{MASS::ginv()}}, and \code{\link[Matrix:nearPD]{Matrix::nearPD()}}, respectively. \code{srcond()}
-returns the reciprocal condition number of \code{\link[=rcond]{rcond()}} net of the
-above scaling. \code{xTAx_ssolve}, \code{xTAx_qrssolve}, and
-\code{sandwich_ssolve} wrap the corresponding \pkg{statnet.common}
-functions.
+\code{ginv_eigen()} reimplements \code{\link[MASS:ginv]{MASS::ginv()}} but using
+eigendecomposition rather than SVD; this means that it is only
+suitable for symmetric matrices, but that detection of negative
+eigenvalues is more robust.
+
+\code{ssolve()}, \code{sginv()}, \code{sginv_eigen()}, and \code{snearPD()} wrap
+\code{\link[=solve]{solve()}}, \code{\link[MASS:ginv]{MASS::ginv()}}, \code{ginv_eigen()}, and \code{\link[Matrix:nearPD]{Matrix::nearPD()}},
+respectively. \code{srcond()} returns the reciprocal condition number of
+\code{\link[=rcond]{rcond()}} net of the above scaling. \code{xTAx_ssolve()},
+\code{xTAx_qrssolve()}, \code{xTAx_seigen()}, and \code{sandwich_ssolve()} wrap
+the corresponding \pkg{statnet.common} functions.
 }
 \examples{
 x <- rnorm(2, sd=c(1,1e12))

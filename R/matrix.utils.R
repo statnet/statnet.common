@@ -85,6 +85,27 @@ sandwich_solve <- function(A, B, ...) {
   solve(A, t(solve(A, B, ...)), ...)
 }
 
+#' @describeIn xTAx Evaluate \eqn{x' A^{-1} x} for vector \eqn{x} and
+#'   matrix \eqn{A} (symmetric, nonnegative-definite) via
+#'   eigendecomposition; returns `rank` and `nullity` as attributes
+#'   just in case subsequent calculations (e.g., hypothesis test
+#'   degrees of freedom) are affected.
+#'
+#'   Decompose \eqn{A = P L P'} for \eqn{L} diagonal matrix of
+#'   eigenvalues and \eqn{P} orthogonal. Then \eqn{A^{-1} = P L^{-1}
+#'   P'}.
+#'
+#'   Substituting, \deqn{x' A^{-1} x = x' P L^{-1} P' x
+#'   = h' L^{-1} h} for \eqn{h = P' x}.
+#'
+#' @export
+xTAx_eigen <- function(x, A, tol=sqrt(.Machine$double.eps), ...) {
+  e <- eigen(A, symmetric=TRUE)
+  keep <- e$values > max(tol * e$values[1L], 0)
+  h <- drop(crossprod(x, e$vectors[, keep, drop=FALSE]))
+  structure(sum(h*h/e$values[keep]), rank = sum(keep), nullity = sum(!keep))
+}
+
 
 #' Wrappers around matrix algebra functions that pre-*s*cale their
 #' arguments
@@ -96,16 +117,23 @@ sandwich_solve <- function(A, B, ...) {
 #' functions first scale the matrix's rows and/or columns by its
 #' diagonal elements and then undo the scaling on the result.
 #'
-#' `ssolve()`, `sginv()`, and `snearPD()` wrap [solve()],
-#' [MASS::ginv()], and [Matrix::nearPD()], respectively. `srcond()`
-#' returns the reciprocal condition number of [rcond()] net of the
-#' above scaling. `xTAx_ssolve`, `xTAx_qrssolve`, and
-#' `sandwich_ssolve` wrap the corresponding \pkg{statnet.common}
-#' functions.
+#' `ginv_eigen()` reimplements [MASS::ginv()] but using
+#' eigendecomposition rather than SVD; this means that it is only
+#' suitable for symmetric matrices, but that detection of negative
+#' eigenvalues is more robust.
+#'
+#' `ssolve()`, `sginv()`, `sginv_eigen()`, and `snearPD()` wrap
+#' [solve()], [MASS::ginv()], `ginv_eigen()`, and [Matrix::nearPD()],
+#' respectively. `srcond()` returns the reciprocal condition number of
+#' [rcond()] net of the above scaling. `xTAx_ssolve()`,
+#' `xTAx_qrssolve()`, `xTAx_seigen()`, and `sandwich_ssolve()` wrap
+#' the corresponding \pkg{statnet.common} functions.
 #'
 #' @param snnd assume that the matrix is symmetric non-negative
-#'   definite (SNND). If it's "obvious" that it's not (e.g., negative
-#'   diagonal elements), an error is raised.
+#'   definite (SNND). This typically entails scaling that converts
+#'   covariance to correlation and use of eigendecomposition rather
+#'   than singular-value decomposition. If it's "obvious" that the matrix is
+#'   not SSND (e.g., negative diagonal elements), an error is raised.
 #'
 #' @param x,a,b,X,A,B,tol,... corresponding arguments of the wrapped functions.
 #'
@@ -135,7 +163,7 @@ ssolve <- function(a, b, ..., snnd = TRUE) {
 #' @rdname ssolve
 #'
 #' @export
-sginv <- function(X, ..., snnd = TRUE) {
+sginv <- function(X, ..., snnd = TRUE){
   d <- diag(as.matrix(X))
   d <- ifelse(d==0, 1, 1/d)
 
@@ -143,12 +171,36 @@ sginv <- function(X, ..., snnd = TRUE) {
     d <- sqrt(d)
     if(anyNA(d)) stop("Matrix a has negative elements on the diagonal, and snnd=TRUE.")
     dd <- rep(d, each = length(d)) * d
-    X <- X * dd
-    MASS::ginv(X, ...) * dd
+    ginv_eigen(X * dd, ...) * dd
   } else {
     dd <- rep(d, each = length(d))
-    MASS::ginv(X*d, ...) * dd
+    MASS::ginv(X * dd, ...) * t(dd)
   }
+}
+
+#' @rdname ssolve
+#' @export
+ginv_eigen <- function(X, tol = sqrt(.Machine$double.eps), ...){
+  e <- eigen(X, symmetric=TRUE)
+  keep <- e$values > max(tol * e$values[1L], 0)
+  tcrossprod(e$vectors[, keep, drop=FALSE] / rep(e$values[keep],each=ncol(X)), e$vectors[, keep, drop=FALSE])
+}
+
+
+#' @rdname ssolve
+#'
+#' @export
+xTAx_seigen <- function(x, A, tol=sqrt(.Machine$double.eps), ...) {
+  d <- diag(as.matrix(A))
+  d <- ifelse(d<=0, 0, 1/d)
+
+  d <- sqrt(d)
+  dd <- rep(d, each = length(d)) * d
+
+  A <- A * dd
+  x <- x * d
+
+  xTAx_eigen(x, A, tol=tol, ...)
 }
 
 #' @rdname ssolve
