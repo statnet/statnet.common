@@ -26,6 +26,14 @@
 #' \code{FALSE}, the package's own implementation based on it is used, using
 #' \code{double} precision, which is (on most systems) several times faster, at
 #' the cost of precision.
+#'
+#' @param onerow If given a matrix or matrices with only one row
+#'   (i.e., sample size 1), [var()] and [cov()] will return `NA`. But,
+#'   since weighted matrices are often a product of compression, the
+#'   same could be interpreted as a variance of variables that do not
+#'   vary, i.e., 0. This argument controls what value should be
+#'   returned.
+#'
 #' @return The functions return the equivalents of the R expressions given below,
 #' but faster and with less loss of precision.
 #' @author Pavel N. Krivitsky
@@ -92,21 +100,21 @@ lweighted.mean <- function(x, logw){
 
 #' @describeIn logspace.utils weighted variance of `x`: `crossprod(x-lweighted.mean(x,logw)*exp(logw/2))/sum(exp(logw))`
 #' @export
-lweighted.var <- function(x, logw){
+lweighted.var <- function(x, logw, onerow = NA){
   E <- lweighted.mean(x, logw)
   if(is.null(dim(x))){
-    if(length(x)<2) return(NA)
+    if(length(x)<2) return(onerow)
     x <- x - E
     lweighted.mean(x*x, logw)
   }else{
-    if(nrow(x)<2) return(matrix(NA, 1, ncol(x)))
+    if(nrow(x)<2) return(matrix(onerow, ncol(x), ncol(x)))
     .Call("logspace_wmean2_wrapper", sweep_cols.matrix(x, E), logw, PACKAGE="statnet.common")
   }
 }
 
 #' @describeIn logspace.utils weighted covariance between `x` and `y`: `crossprod(x-lweighted.mean(x,logw)*exp(logw/2), y-lweighted.mean(y,logw)*exp(logw/2))/sum(exp(logw))`
 #' @export
-lweighted.cov <- function(x, y, logw){
+lweighted.cov <- function(x, y, logw, onerow = NA){
   xdim <- dim(x)
   E <- lweighted.mean(x, logw)
   x <- if(is.null(xdim)) x - E else sweep_cols.matrix(x, E)
@@ -116,13 +124,13 @@ lweighted.cov <- function(x, y, logw){
   y <- if(is.null(ydim)) y - E else sweep_cols.matrix(y, E)
 
   if(is.null(xdim) || is.null(ydim)){
-    if(length(x)<2) return(NA)
+    if(length(x)<2) return(onerow)
     o <- lweighted.mean(x*y, logw)
     if(!is.null(xdim)) cbind(o)
     else if(!is.null(xdim)) rbind(o)
     else o
   }else{
-    if(nrow(x)<2) matrix(NA, ncol(x), ncol(y))
+    if(nrow(x)<2) matrix(onerow, ncol(x), ncol(y))
     else .Call("logspace_wxmean_wrapper", x, y, logw, PACKAGE="statnet.common")
   }
 }

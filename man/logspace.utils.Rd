@@ -15,9 +15,9 @@ log_mean_exp(logx, use_ldouble = FALSE)
 
 lweighted.mean(x, logw)
 
-lweighted.var(x, logw)
+lweighted.var(x, logw, onerow = NA)
 
-lweighted.cov(x, y, logw)
+lweighted.cov(x, y, logw, onerow = NA)
 }
 \arguments{
 \item{logx}{Numeric vector of \eqn{\log(x)}, the natural logarithms of the
@@ -35,6 +35,13 @@ be calculated.}
 
 \item{logw}{Numeric vector of \eqn{\log(w)}, the natural logarithms of the
 weights.}
+
+\item{onerow}{If given a matrix or matrices with only one row
+(i.e., sample size 1), \code{\link[=var]{var()}} and \code{\link[=cov]{cov()}} will return \code{NA}. But,
+since weighted matrices are often a product of compression, the
+same could be interpreted as a variance of variables that do not
+vary, i.e., 0. This argument controls what value should be
+returned.}
 }
 \value{
 The functions return the equivalents of the R expressions given below,
