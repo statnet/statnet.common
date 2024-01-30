@@ -3,11 +3,14 @@
 \name{mcmc-utilities}
 \alias{mcmc-utilities}
 \alias{colMeans.mcmc.list}
+\alias{var.mcmc.list}
 \alias{sweep.mcmc.list}
 \alias{lapply.mcmc.list}
 \title{Utility operations for \code{\link{mcmc.list}} objects}
 \usage{
 colMeans.mcmc.list(x, ...)
+
+var.mcmc.list(x, ...)
 
 sweep.mcmc.list(x, STATS, FUN = "-", check.margin = TRUE, ...)
 
@@ -19,7 +22,7 @@ lapply.mcmc.list(X, FUN, ...)
 \item{\dots}{additional arguments to \code{\link{colMeans}} or
 \code{\link{sweep}}.}
 
-\item{STATS, FUN, check.margin}{See help for \code{\link{sweep}}.}
+\item{STATS, FUN, check.margin}{See help for \code{\link[=sweep]{sweep()}}.}
 
 \item{X}{An \code{\link{mcmc.list}} object.}
 }
@@ -35,13 +38,20 @@ version of \code{x}
 whose chains had been passed through \code{FUN}.
 }
 \description{
-\code{colMeans.mcmc.list} is a "method" for (non-generic) \code{\link{colMeans}} applicable to \code{\link{mcmc.list}} objects.
+\code{colMeans.mcmc.list} is a "method" for (non-generic) \code{\link[=colMeans]{colMeans()}} applicable to \code{\link{mcmc.list}} objects.
+
+\code{var.mcmc.list} is a "method" for (non-generic)
+\code{\link[=var]{var()}} applicable to \code{\link{mcmc.list}} objects. Since MCMC chains
+are assumed to all be sampling from the same underlying
+distribution, pooled mean is used. This implementation should be
+equivalent (within numerical error) to \code{var(as.matrix(x))} while
+avoiding constructing the large matrix.
 
 \code{sweep.mcmc.list} is a "method" for (non-generic)
-\code{\link{sweep}} applicable to \code{\link{mcmc.list}} objects.
+\code{\link[=sweep]{sweep()}} applicable to \code{\link{mcmc.list}} objects.
 
 \code{lapply.mcmc.list} is a "method" for (non-generic)
-\code{\link{lapply}} applicable to \code{\link{mcmc.list}} objects.
+\code{\link[=lapply]{lapply()}} applicable to \code{\link{mcmc.list}} objects.
 }
 \examples{
 data(line, package="coda")
@@ -49,6 +59,12 @@ summary(line) # coda
 colMeans.mcmc.list(line) # "Method"
 \dontshow{
 stopifnot(isTRUE(all.equal(summary(line)$statistics[,"Mean"],colMeans.mcmc.list(line))))
+}
+data(line, package="coda")
+var(as.matrix(line)) # coda
+var.mcmc.list(line) # "Method"
+\dontshow{
+stopifnot(isTRUE(all.equal(var.mcmc.list(line), var(as.matrix(line)))))
 }
 data(line, package="coda")
 colMeans.mcmc.list(line)-1:3
@@ -64,9 +80,11 @@ stopifnot(isTRUE(all.equal(colMeans.mcmc.list(line)[c(2,3,1)],colMeans.mcmc.list
 }
 }
 \seealso{
-\code{\link{colMeans}}, \code{\link{mcmc.list}}
+\code{\link[=colMeans]{colMeans()}}, \code{\link{mcmc.list}}
 
-\code{\link{sweep}}
+\code{\link[=var]{var()}}
 
-\code{\link{lapply}}
+\code{\link[=sweep]{sweep()}}
+
+\code{\link[=lapply]{lapply()}}
 }

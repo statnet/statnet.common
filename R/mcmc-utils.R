@@ -10,7 +10,7 @@
 #' @name mcmc-utilities
 #' @title Utility operations for [`mcmc.list`] objects
 #' 
-#' @description \code{colMeans.mcmc.list} is a "method" for (non-generic) [`colMeans`] applicable to [`mcmc.list`] objects.
+#' @description \code{colMeans.mcmc.list} is a "method" for (non-generic) [colMeans()] applicable to [`mcmc.list`] objects.
 #' 
 #' @param x a \code{\link{mcmc.list}} object.
 #' @param \dots additional arguments to \code{\link{colMeans}} or
@@ -18,7 +18,7 @@
 #' @return \code{colMeans.mcmc} returns a vector with length equal to
 #'   the number of mcmc chains in \code{x} with the mean value for
 #'   each chain.
-#' @seealso [`colMeans`], [`mcmc.list`]
+#' @seealso [colMeans()], [`mcmc.list`]
 #' @examples
 #' data(line, package="coda")
 #' summary(line) # coda
@@ -31,13 +31,39 @@ colMeans.mcmc.list<-function(x,...) colMeans(as.matrix(x),...)
 
 #' @rdname mcmc-utilities
 #'
+#' @description \code{var.mcmc.list} is a "method" for (non-generic)
+#'   [var()] applicable to [`mcmc.list`] objects. Since MCMC chains
+#'   are assumed to all be sampling from the same underlying
+#'   distribution, pooled mean is used. This implementation should be
+#'   equivalent (within numerical error) to `var(as.matrix(x))` while
+#'   avoiding constructing the large matrix.
+#'
+#' @seealso [var()]
+#' @examples
+#' data(line, package="coda")
+#' var(as.matrix(line)) # coda
+#' var.mcmc.list(line) # "Method"
+#' \dontshow{
+#' stopifnot(isTRUE(all.equal(var.mcmc.list(line), var(as.matrix(line)))))
+#' }
+#' @export var.mcmc.list
+var.mcmc.list <- function(x, ...){
+  nchain <- length(x)
+  niter <- NROW(x[[1]])
+  SSW <- Reduce(`+`, lapply(x, cov)) * (niter-1)
+  SSB <- if(nchain > 1) cov(t(sapply(x, colMeans))) * niter else 0
+  (SSW+SSB) / (niter*nchain-1)
+}
+
+#' @rdname mcmc-utilities
+#'
 #' @description \code{sweep.mcmc.list} is a "method" for (non-generic)
-#'   [`sweep`] applicable to [`mcmc.list`] objects.
+#'   [sweep()] applicable to [`mcmc.list`] objects.
 #' 
-#' @param STATS,FUN,check.margin See help for [`sweep`].
+#' @param STATS,FUN,check.margin See help for [sweep()].
 #' @return \code{sweep.mcmc.list} returns an appropriately modified
 #'   version of \code{x}
-#' @seealso [`sweep`]
+#' @seealso [sweep()]
 #' @examples
 #' data(line, package="coda")
 #' colMeans.mcmc.list(line)-1:3
@@ -56,12 +82,12 @@ sweep.mcmc.list<-function(x, STATS, FUN="-", check.margin=TRUE, ...){
 #' @rdname mcmc-utilities
 #'
 #' @description \code{lapply.mcmc.list} is a "method" for (non-generic)
-#'   [`lapply`] applicable to [`mcmc.list`] objects.
+#'   [lapply()] applicable to [`mcmc.list`] objects.
 #' 
 #' @param X An [`mcmc.list`] object.
 #' @return `lapply.mcmc.list` returns an [`mcmc.list`] each of
 #'   whose chains had been passed through `FUN`.
-#' @seealso [`lapply`]
+#' @seealso [lapply()]
 #' @examples
 #' data(line, package="coda")
 #' colMeans.mcmc.list(line)[c(2,3,1)]
