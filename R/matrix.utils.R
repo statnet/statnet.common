@@ -106,6 +106,18 @@ xTAx_eigen <- function(x, A, tol=sqrt(.Machine$double.eps), ...) {
   structure(sum(h*h/e$values[keep]), rank = sum(keep), nullity = sum(!keep))
 }
 
+.inv_diag <- function(X){
+  d <- diag(as.matrix(X))
+  ifelse(d==0, 0, 1/d)
+}
+
+.sqrt_inv_diag <- function(X){
+  Xname <- deparse1(substitute(X))
+  d <- .inv_diag(X)
+  d <- suppressWarnings(sqrt(d))
+  if(anyNA(d)) stop("Matrix ", sQuote(Xname), " assumed symmetric and non-negative-definite has negative elements on the diagonal.")
+  d
+}
 
 #' Wrappers around matrix algebra functions that pre-*s*cale their
 #' arguments
@@ -144,15 +156,12 @@ ssolve <- function(a, b, ..., snnd = TRUE) {
     colnames(b) <- rownames(a)
   }
 
-  d <- diag(as.matrix(a))
-  d <- ifelse(d==0, 1, 1/d)
-
   if(snnd) {
-    d <- sqrt(d)
-    if(anyNA(d)) stop("Matrix a has negative elements on the diagonal, and snnd=TRUE.")
+    d <- .sqrt_inv_diag(a)
     a <- a * d * rep(d, each = length(d))
     solve(a, b*d, ...) * d
   } else {
+    d <- .inv_diag(a)
     ## NB: In R, vector * matrix and matrix * vector always scales
     ## corresponding rows.
     solve(a*d, b*d, ...)
@@ -164,15 +173,12 @@ ssolve <- function(a, b, ..., snnd = TRUE) {
 #'
 #' @export
 sginv <- function(X, ..., snnd = TRUE){
-  d <- diag(as.matrix(X))
-  d <- ifelse(d==0, 1, 1/d)
-
   if(snnd) {
-    d <- sqrt(d)
-    if(anyNA(d)) stop("Matrix a has negative elements on the diagonal, and snnd=TRUE.")
+    d <- .sqrt_inv_diag(X)
     dd <- rep(d, each = length(d)) * d
     ginv_eigen(X * dd, ...) * dd
   } else {
+    d <- .inv_diag(X)
     dd <- rep(d, each = length(d))
     MASS::ginv(X * dd, ...) * t(dd)
   }
@@ -191,10 +197,7 @@ ginv_eigen <- function(X, tol = sqrt(.Machine$double.eps), ...){
 #'
 #' @export
 xTAx_seigen <- function(x, A, tol=sqrt(.Machine$double.eps), ...) {
-  d <- diag(as.matrix(A))
-  d <- ifelse(d<=0, 0, 1/d)
-
-  d <- sqrt(d)
+  d <- .sqrt_inv_diag(A)
   dd <- rep(d, each = length(d)) * d
 
   A <- A * dd
@@ -207,15 +210,12 @@ xTAx_seigen <- function(x, A, tol=sqrt(.Machine$double.eps), ...) {
 #'
 #' @export
 srcond <- function(x, ..., snnd = TRUE) {
-  d <- diag(as.matrix(x))
-  d <- ifelse(d==0, 1, 1/d)
-
   if(snnd) {
-    d <- sqrt(d)
-    if(anyNA(d)) stop("Matrix a has negative elements on the diagonal, and snnd=TRUE.")
+    d <- .sqrt_inv_diag(x)
     dd <- rep(d, each = length(d)) * d
     rcond(x*dd)
   } else {
+    d <- .inv_diag(x)
     rcond(x*d, ...)
   }
 }
@@ -226,8 +226,8 @@ srcond <- function(x, ..., snnd = TRUE) {
 snearPD <- function(x, ...) {
   d <- abs(diag(as.matrix(x)))
   d[d==0] <- 1
-  d <- sqrt(d)
-  if(anyNA(d)) stop("Matrix x has negative elements on the diagonal.")
+  d <- suppressWarnings(sqrt(d))
+  if(anyNA(d)) stop("Matrix ", sQuote("x"), " has negative elements on the diagonal.")
   dd <- rep(d, each = length(d)) * d
   x <- Matrix::nearPD(x / dd, ...)
   x$mat <- x$mat * dd
@@ -265,10 +265,7 @@ xTAx_ssolve <- function(x, A, ...) {
 #'
 #' @export
 xTAx_qrssolve <- function(x, A, tol = 1e-07, ...) {
-  d <- diag(as.matrix(A))
-  d <- sqrt(ifelse(d==0, 1, 1/d))
-
-  if(anyNA(d)) stop("Matrix x has negative elements on the diagonal.")
+  d <- .sqrt_inv_diag(A)
   dd <- rep(d, each = length(d)) * d
 
   Aqr <- qr(A*dd, tol=tol, ...)
