@@ -1,14 +1,14 @@
-# amen
+# BasketballAnalyzeR
 
 <details>
 
-* Version: 1.4.4
-* GitHub: https://github.com/pdhoff/amen
-* Source code: https://github.com/cran/amen
-* Date/Publication: 2020-12-16 14:00:09 UTC
-* Number of recursive dependencies: 40
+* Version: 0.5.0
+* GitHub: https://github.com/sndmrc/BasketballAnalyzeR
+* Source code: https://github.com/cran/BasketballAnalyzeR
+* Date/Publication: 2020-06-26 09:00:11 UTC
+* Number of recursive dependencies: 85
 
-Run `revdep_details(, "amen")` for more info
+Run `revdepcheck::revdep_details(, "BasketballAnalyzeR")` for more info
 
 </details>
 
@@ -16,39 +16,57 @@ Run `revdep_details(, "amen")` for more info
 
 *   checking dependencies in R code ... NOTE
     ```
-    'library' or 'require' call to ‘network’ in package code.
-      Please use :: or requireNamespace() instead.
-      See section 'Suggested packages' in the 'Writing R Extensions' manual.
+    Namespaces in Imports field not imported from:
+      ‘circlize’ ‘hexbin’ ‘scales’ ‘sna’
+      All declared Imports should be used.
     ```
 
 # BGGM
 
 <details>
 
-* Version: 2.0.4
+* Version: 2.1.1
 * GitHub: https://github.com/donaldRwilliams/BGGM
 * Source code: https://github.com/cran/BGGM
-* Date/Publication: 2021-08-20 15:50:06 UTC
-* Number of recursive dependencies: 165
+* Date/Publication: 2024-02-23 08:00:06 UTC
+* Number of recursive dependencies: 202
 
-Run `revdep_details(, "BGGM")` for more info
+Run `revdepcheck::revdep_details(, "BGGM")` for more info
 
 </details>
 
 ## In both
 
-*   checking C++ specification ... NOTE
+*   checking installed package size ... NOTE
     ```
-      Specified C++11: please drop specification unless essential
+      installed size is 12.3Mb
+      sub-directories of 1Mb or more:
+        doc    3.4Mb
+        help   1.1Mb
+        libs   7.1Mb
     ```
+
+# bigergm
+
+<details>
+
+* Version: 1.1.0
+* GitHub: NA
+* Source code: https://github.com/cran/bigergm
+* Date/Publication: 2024-02-16 15:10:10 UTC
+* Number of recursive dependencies: 92
+
+Run `revdepcheck::revdep_details(, "bigergm")` for more info
+
+</details>
+
+## In both
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 13.0Mb
+      installed size is  9.3Mb
       sub-directories of 1Mb or more:
-        doc    3.8Mb
-        help   1.1Mb
-        libs   7.4Mb
+        libs   8.9Mb
     ```
 
 # bingat
@@ -61,7 +79,7 @@ Run `revdep_details(, "BGGM")` for more info
 * Date/Publication: 2017-07-05 18:30:37 UTC
 * Number of recursive dependencies: 32
 
-Run `revdep_details(, "bingat")` for more info
+Run `revdepcheck::revdep_details(, "bingat")` for more info
 
 </details>
 
@@ -80,9 +98,9 @@ Run `revdep_details(, "bingat")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/bootcluster
 * Date/Publication: 2022-01-29 22:50:03 UTC
-* Number of recursive dependencies: 69
+* Number of recursive dependencies: 81
 
-Run `revdep_details(, "bootcluster")` for more info
+Run `revdepcheck::revdep_details(, "bootcluster")` for more info
 
 </details>
 
@@ -94,6 +112,50 @@ Run `revdep_details(, "bootcluster")` for more info
       All declared Imports should be used.
     ```
 
+# btergm
+
+<details>
+
+* Version: 1.10.12
+* GitHub: https://github.com/leifeld/btergm
+* Source code: https://github.com/cran/btergm
+* Date/Publication: 2024-03-31 22:30:06 UTC
+* Number of recursive dependencies: 100
+
+Run `revdepcheck::revdep_details(, "btergm")` for more info
+
+</details>
+
+## In both
+
+*   checking data for non-ASCII characters ... NOTE
+    ```
+      Note: found 89 marked UTF-8 strings
+    ```
+
+# CINNA
+
+<details>
+
+* Version: 1.2.2
+* GitHub: NA
+* Source code: https://github.com/cran/CINNA
+* Date/Publication: 2023-08-08 16:40:02 UTC
+* Number of recursive dependencies: 148
+
+Run `revdepcheck::revdep_details(, "CINNA")` for more info
+
+</details>
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘circlize’ ‘utils’
+      All declared Imports should be used.
+    ```
+
 # conserveR
 
 <details>
@@ -102,9 +164,9 @@ Run `revdep_details(, "bootcluster")` for more info
 * GitHub: https://github.com/azizka/conserveR
 * Source code: https://github.com/cran/conserveR
 * Date/Publication: 2021-08-02 09:10:06 UTC
-* Number of recursive dependencies: 51
+* Number of recursive dependencies: 63
 
-Run `revdep_details(, "conserveR")` for more info
+Run `revdepcheck::revdep_details(, "conserveR")` for more info
 
 </details>
 
@@ -132,7 +194,7 @@ Run `revdep_details(, "conserveR")` for more info
 * Date/Publication: 2020-11-30 17:10:03 UTC
 * Number of recursive dependencies: 73
 
-Run `revdep_details(, "dnr")` for more info
+Run `revdepcheck::revdep_details(, "dnr")` for more info
 
 </details>
 
@@ -147,13 +209,13 @@ Run `revdep_details(, "dnr")` for more info
 
 <details>
 
-* Version: 0.4.1
+* Version: 0.4.2
 * GitHub: https://github.com/schochastics/edgebundle
 * Source code: https://github.com/cran/edgebundle
-* Date/Publication: 2022-11-22 07:00:02 UTC
+* Date/Publication: 2023-12-16 06:00:02 UTC
 * Number of recursive dependencies: 55
 
-Run `revdep_details(, "edgebundle")` for more info
+Run `revdepcheck::revdep_details(, "edgebundle")` for more info
 
 </details>
 
@@ -164,6 +226,159 @@ Run `revdep_details(, "edgebundle")` for more info
       Note: found 22 marked UTF-8 strings
     ```
 
+# EpiModel
+
+<details>
+
+* Version: 2.4.0
+* GitHub: https://github.com/EpiModel/EpiModel
+* Source code: https://github.com/cran/EpiModel
+* Date/Publication: 2023-06-20 18:20:05 UTC
+* Number of recursive dependencies: 122
+
+Run `revdepcheck::revdep_details(, "EpiModel")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘ndtv’
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘ndtv’
+    ```
+
+# ergm
+
+<details>
+
+* Version: 4.6.0
+* GitHub: https://github.com/statnet/ergm
+* Source code: https://github.com/cran/ergm
+* Date/Publication: 2023-12-18 09:20:02 UTC
+* Number of recursive dependencies: 88
+
+Run `revdepcheck::revdep_details(, "ergm")` for more info
+
+</details>
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  7.1Mb
+      sub-directories of 1Mb or more:
+        doc    1.7Mb
+        libs   2.6Mb
+        R      1.0Mb
+    ```
+
+# ergm.rank
+
+<details>
+
+* Version: 4.1.0
+* GitHub: https://github.com/statnet/ergm.rank
+* Source code: https://github.com/cran/ergm.rank
+* Date/Publication: 2022-06-01 21:40:02 UTC
+* Number of recursive dependencies: 60
+
+Run `revdepcheck::revdep_details(, "ergm.rank")` for more info
+
+</details>
+
+## In both
+
+*   checking Rd files ... NOTE
+    ```
+    checkRd: (-1) ergm.rank-package.Rd:42: Lost braces
+        42 | 1100-1128. c("\\Sexpr[results=rd,stage=build]{tools:::Rd_expr_doi(\"#1\")}",
+           |                                              ^
+    ```
+
+# ergMargins
+
+<details>
+
+* Version: 1.3
+* GitHub: NA
+* Source code: https://github.com/cran/ergMargins
+* Date/Publication: 2024-05-08 21:30:02 UTC
+* Number of recursive dependencies: 70
+
+Run `revdepcheck::revdep_details(, "ergMargins")` for more info
+
+</details>
+
+## In both
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Unknown package ‘margins’ in Rd xrefs
+    ```
+
+# ergmito
+
+<details>
+
+* Version: 0.3-1
+* GitHub: https://github.com/muriteams/ergmito
+* Source code: https://github.com/cran/ergmito
+* Date/Publication: 2023-06-14 10:42:05 UTC
+* Number of recursive dependencies: 68
+
+Run `revdepcheck::revdep_details(, "ergmito")` for more info
+
+</details>
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  7.3Mb
+      sub-directories of 1Mb or more:
+        libs   5.9Mb
+    ```
+
+# FinNet
+
+<details>
+
+* Version: 0.1.2
+* GitHub: https://github.com/FATelarico/FinNet
+* Source code: https://github.com/cran/FinNet
+* Date/Publication: 2023-08-10 06:50:20 UTC
+* Number of recursive dependencies: 42
+
+Run `revdepcheck::revdep_details(, "FinNet")` for more info
+
+</details>
+
+## In both
+
+*   checking Rd files ... NOTE
+    ```
+    checkRd: (-1) fun-igraph_financial.Rd:34: Lost braces; missing escapes or markup?
+        34 | The same result for both \code{igraph} and {igraph_financial} objects
+           |                                            ^
+    checkRd: (-1) igraph_E_iterators.Rd:31: Lost braces; missing escapes or markup?
+        31 | The same result for both \code{igraph} and {igraph_financial} objects
+           |                                            ^
+    checkRd: (-1) igraph_v_iterators.Rd:29: Lost braces; missing escapes or markup?
+        29 | The same result for both \code{igraph} and {igraph_financial} objects
+           |                                            ^
+    checkRd: (-1) plot_igraph-methods.Rd:22: Lost braces
+        22 | Methods to extend code{igraph}'s plotting functions to \code{igraph_financial} objects
+           |                       ^
+    checkRd: (-1) plot_igraph-methods.Rd:19: Lost braces; missing escapes or markup?
+        19 | For both \code{igraph} and {igraph_financial} objects, returns NULL invisibly. It is called to print the graph to any R device. (see method and \href{https://rdrr.io/cran/igraph/man/plot.igraph.html}{igraph::plot.igraph})
+           |                            ^
+    ```
+
 # fssemR
 
 <details>
@@ -172,9 +387,9 @@ Run `revdep_details(, "edgebundle")` for more info
 * GitHub: https://github.com/Ivis4ml/fssemR
 * Source code: https://github.com/cran/fssemR
 * Date/Publication: 2022-02-11 13:00:02 UTC
-* Number of recursive dependencies: 88
+* Number of recursive dependencies: 87
 
-Run `revdep_details(, "fssemR")` for more info
+Run `revdepcheck::revdep_details(, "fssemR")` for more info
 
 </details>
 
@@ -187,9 +402,9 @@ Run `revdep_details(, "fssemR")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 15.3Mb
+      installed size is 22.4Mb
       sub-directories of 1Mb or more:
-        libs  14.6Mb
+        libs  21.7Mb
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -208,7 +423,7 @@ Run `revdep_details(, "fssemR")` for more info
 * Date/Publication: 2015-09-08 13:13:41
 * Number of recursive dependencies: 16
 
-Run `revdep_details(, "ftsspec")` for more info
+Run `revdepcheck::revdep_details(, "ftsspec")` for more info
 
 </details>
 
@@ -233,9 +448,9 @@ Run `revdep_details(, "ftsspec")` for more info
 * GitHub: https://github.com/donaldRwilliams/GGMncv
 * Source code: https://github.com/cran/GGMncv
 * Date/Publication: 2021-12-15 07:40:28 UTC
-* Number of recursive dependencies: 150
+* Number of recursive dependencies: 183
 
-Run `revdep_details(, "GGMncv")` for more info
+Run `revdepcheck::revdep_details(, "GGMncv")` for more info
 
 </details>
 
@@ -267,9 +482,9 @@ Run `revdep_details(, "GGMncv")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/GGMnonreg
 * Date/Publication: 2021-04-08 11:30:06 UTC
-* Number of recursive dependencies: 121
+* Number of recursive dependencies: 132
 
-Run `revdep_details(, "GGMnonreg")` for more info
+Run `revdepcheck::revdep_details(, "GGMnonreg")` for more info
 
 </details>
 
@@ -291,13 +506,13 @@ Run `revdep_details(, "GGMnonreg")` for more info
 
 <details>
 
-* Version: 0.5.12
+* Version: 0.5.13
 * GitHub: https://github.com/briatte/ggnetwork
 * Source code: https://github.com/cran/ggnetwork
-* Date/Publication: 2023-03-06 20:00:02 UTC
-* Number of recursive dependencies: 73
+* Date/Publication: 2024-02-14 11:20:02 UTC
+* Number of recursive dependencies: 71
 
-Run `revdep_details(, "ggnetwork")` for more info
+Run `revdepcheck::revdep_details(, "ggnetwork")` for more info
 
 </details>
 
@@ -314,42 +529,37 @@ Run `revdep_details(, "ggnetwork")` for more info
 
 <details>
 
-* Version: 2.1.0
+* Version: 2.2.1
 * GitHub: https://github.com/thomasp85/ggraph
 * Source code: https://github.com/cran/ggraph
-* Date/Publication: 2022-10-09 20:33:19 UTC
-* Number of recursive dependencies: 98
+* Date/Publication: 2024-03-07 12:40:02 UTC
+* Number of recursive dependencies: 115
 
-Run `revdep_details(, "ggraph")` for more info
+Run `revdepcheck::revdep_details(, "ggraph")` for more info
 
 </details>
 
 ## In both
 
-*   checking C++ specification ... NOTE
-    ```
-      Specified C++11: please drop specification unless essential
-    ```
-
 *   checking installed package size ... NOTE
     ```
-      installed size is  9.0Mb
+      installed size is  8.4Mb
       sub-directories of 1Mb or more:
-        doc    3.5Mb
-        libs   4.2Mb
+        doc    3.9Mb
+        libs   2.8Mb
     ```
 
 # GOxploreR
 
 <details>
 
-* Version: 1.2.6
+* Version: 1.2.7
 * GitHub: NA
 * Source code: https://github.com/cran/GOxploreR
-* Date/Publication: 2022-04-19 14:02:33 UTC
-* Number of recursive dependencies: 114
+* Date/Publication: 2023-11-03 14:10:02 UTC
+* Number of recursive dependencies: 113
 
-Run `revdep_details(, "GOxploreR")` for more info
+Run `revdepcheck::revdep_details(, "GOxploreR")` for more info
 
 </details>
 
@@ -359,7 +569,7 @@ Run `revdep_details(, "GOxploreR")` for more info
     ```
       installed size is  6.6Mb
       sub-directories of 1Mb or more:
-        R   6.1Mb
+        R   6.0Mb
     ```
 
 # HiveR
@@ -370,9 +580,9 @@ Run `revdep_details(, "GOxploreR")` for more info
 * GitHub: https://github.com/bryanhanson/HiveR
 * Source code: https://github.com/cran/HiveR
 * Date/Publication: 2020-06-09 13:00:03 UTC
-* Number of recursive dependencies: 78
+* Number of recursive dependencies: 64
 
-Run `revdep_details(, "HiveR")` for more info
+Run `revdepcheck::revdep_details(, "HiveR")` for more info
 
 </details>
 
@@ -393,9 +603,9 @@ Run `revdep_details(, "HiveR")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/InflectSSP
 * Date/Publication: 2023-04-19 08:00:03 UTC
-* Number of recursive dependencies: 85
+* Number of recursive dependencies: 96
 
-Run `revdep_details(, "InflectSSP")` for more info
+Run `revdepcheck::revdep_details(, "InflectSSP")` for more info
 
 </details>
 
@@ -407,17 +617,38 @@ Run `revdep_details(, "InflectSSP")` for more info
       All declared Imports should be used.
     ```
 
+# latentnet
+
+<details>
+
+* Version: 2.11.0
+* GitHub: https://github.com/statnet/latentnet
+* Source code: https://github.com/cran/latentnet
+* Date/Publication: 2024-02-19 19:40:02 UTC
+* Number of recursive dependencies: 114
+
+Run `revdepcheck::revdep_details(, "latentnet")` for more info
+
+</details>
+
+## In both
+
+*   checking for GNU extensions in Makefiles ... NOTE
+    ```
+    GNU make is a SystemRequirements.
+    ```
+
 # leiden
 
 <details>
 
-* Version: 0.4.3
+* Version: 0.4.3.1
 * GitHub: https://github.com/TomKellyGenetics/leiden
 * Source code: https://github.com/cran/leiden
-* Date/Publication: 2022-09-10 17:22:53 UTC
-* Number of recursive dependencies: 147
+* Date/Publication: 2023-11-17 10:20:23 UTC
+* Number of recursive dependencies: 138
 
-Run `revdep_details(, "leiden")` for more info
+Run `revdepcheck::revdep_details(, "leiden")` for more info
 
 </details>
 
@@ -425,45 +656,76 @@ Run `revdep_details(, "leiden")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.0Mb
+      installed size is  5.5Mb
       sub-directories of 1Mb or more:
-        doc   5.9Mb
+        doc   5.3Mb
     ```
 
 # lolog
 
 <details>
 
-* Version: 1.3
+* Version: 1.3.1
 * GitHub: https://github.com/statnet/lolog
 * Source code: https://github.com/cran/lolog
-* Date/Publication: 2021-07-01 07:50:06 UTC
+* Date/Publication: 2023-12-07 12:40:02 UTC
 * Number of recursive dependencies: 85
 
-Run `revdep_details(, "lolog")` for more info
+Run `revdepcheck::revdep_details(, "lolog")` for more info
 
 </details>
 
 ## In both
 
+*   R CMD check timed out
+    
+
 *   checking installed package size ... NOTE
     ```
-      installed size is 27.8Mb
+      installed size is 27.9Mb
       sub-directories of 1Mb or more:
-        libs  26.1Mb
+        libs  26.2Mb
+    ```
+
+# manynet
+
+<details>
+
+* Version: 0.4.4
+* GitHub: https://github.com/stocnet/manynet
+* Source code: https://github.com/cran/manynet
+* Date/Publication: 2024-03-15 19:20:10 UTC
+* Number of recursive dependencies: 142
+
+Run `revdepcheck::revdep_details(, "manynet")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘gifski’
+    
+    Package which this enhances but not available for checking: ‘Rgraphviz’
+    ```
+
+*   checking data for non-ASCII characters ... NOTE
+    ```
+      Note: found 7 marked UTF-8 strings
     ```
 
 # MBCbook
 
 <details>
 
-* Version: 0.1.1
-* GitHub: NA
+* Version: 0.1.2
+* GitHub: https://github.com/cbouveyron/MBCbook
 * Source code: https://github.com/cran/MBCbook
-* Date/Publication: 2019-07-02 07:00:03 UTC
-* Number of recursive dependencies: 23
+* Date/Publication: 2024-05-08 11:00:06 UTC
+* Number of recursive dependencies: 22
 
-Run `revdep_details(, "MBCbook")` for more info
+Run `revdepcheck::revdep_details(, "MBCbook")` for more info
 
 </details>
 
@@ -474,6 +736,30 @@ Run `revdep_details(, "MBCbook")` for more info
       Note: found 66 marked UTF-8 strings
     ```
 
+# metanetwork
+
+<details>
+
+* Version: 0.7.0
+* GitHub: https://github.com/MarcOhlmann/metanetwork
+* Source code: https://github.com/cran/metanetwork
+* Date/Publication: 2022-12-05 14:10:02 UTC
+* Number of recursive dependencies: 118
+
+Run `revdepcheck::revdep_details(, "metanetwork")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘ggimage’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
 # MSG
 
 <details>
@@ -482,9 +768,9 @@ Run `revdep_details(, "MBCbook")` for more info
 * GitHub: https://github.com/yihui/MSG
 * Source code: https://github.com/cran/MSG
 * Date/Publication: 2021-07-21 19:50:05 UTC
-* Number of recursive dependencies: 71
+* Number of recursive dependencies: 67
 
-Run `revdep_details(, "MSG")` for more info
+Run `revdepcheck::revdep_details(, "MSG")` for more info
 
 </details>
 
@@ -495,54 +781,73 @@ Run `revdep_details(, "MSG")` for more info
     Package suggested but not available for checking: ‘animation’
     ```
 
+# ndtv
+
+<details>
+
+* Version: 0.13.3
+* GitHub: https://github.com/statnet/ndtv
+* Source code: https://github.com/cran/ndtv
+* Date/Publication: 2022-11-20 22:10:05 UTC
+* Number of recursive dependencies: 85
+
+Run `revdepcheck::revdep_details(, "ndtv")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘animation’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
 # netdiffuseR
 
 <details>
 
-* Version: 1.22.5
+* Version: 1.22.6
 * GitHub: https://github.com/USCCANA/netdiffuseR
 * Source code: https://github.com/cran/netdiffuseR
-* Date/Publication: 2022-12-02 16:20:02 UTC
-* Number of recursive dependencies: 86
+* Date/Publication: 2023-08-30 17:00:10 UTC
+* Number of recursive dependencies: 84
 
-Run `revdep_details(, "netdiffuseR")` for more info
+Run `revdepcheck::revdep_details(, "netdiffuseR")` for more info
 
 </details>
 
 ## In both
-
-*   checking C++ specification ... NOTE
-    ```
-      Specified C++11: please drop specification unless essential
-    ```
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 13.9Mb
+      installed size is 13.4Mb
       sub-directories of 1Mb or more:
         doc    2.5Mb
-        libs   9.5Mb
+        libs   9.1Mb
     ```
 
-# NetMix
+# netmediate
 
 <details>
 
-* Version: 0.2.0.1
-* GitHub: https://github.com/solivella/NetMix
-* Source code: https://github.com/cran/NetMix
-* Date/Publication: 2022-11-16 16:34:41 UTC
-* Number of recursive dependencies: 59
+* Version: 0.1.4
+* GitHub: NA
+* Source code: https://github.com/cran/netmediate
+* Date/Publication: 2024-02-21 23:20:09 UTC
+* Number of recursive dependencies: 105
 
-Run `revdep_details(, "NetMix")` for more info
+Run `revdepcheck::revdep_details(, "netmediate")` for more info
 
 </details>
 
 ## In both
 
-*   checking C++ specification ... NOTE
+*   checking Rd cross-references ... NOTE
     ```
-      Specified C++11: please drop specification unless essential
+    Package unavailable to check Rd xrefs: ‘mediation’
     ```
 
 # NetworkChange
@@ -553,9 +858,9 @@ Run `revdep_details(, "NetMix")` for more info
 * GitHub: https://github.com/jongheepark/NetworkChange
 * Source code: https://github.com/cran/NetworkChange
 * Date/Publication: 2022-03-04 07:30:02 UTC
-* Number of recursive dependencies: 120
+* Number of recursive dependencies: 131
 
-Run `revdep_details(, "NetworkChange")` for more info
+Run `revdepcheck::revdep_details(, "NetworkChange")` for more info
 
 </details>
 
@@ -576,9 +881,9 @@ Run `revdep_details(, "NetworkChange")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/NetworkDistance
 * Date/Publication: 2021-08-21 15:00:08 UTC
-* Number of recursive dependencies: 56
+* Number of recursive dependencies: 53
 
-Run `revdep_details(, "NetworkDistance")` for more info
+Run `revdepcheck::revdep_details(, "NetworkDistance")` for more info
 
 </details>
 
@@ -589,25 +894,71 @@ Run `revdep_details(, "NetworkDistance")` for more info
       Specified C++11: please drop specification unless essential
     ```
 
-# PAFit
+# networkDynamicData
 
 <details>
 
-* Version: 1.2.5
-* GitHub: https://github.com/thongphamthe/PAFit
-* Source code: https://github.com/cran/PAFit
-* Date/Publication: 2022-01-11 10:02:48 UTC
-* Number of recursive dependencies: 61
+* Version: 0.2.1
+* GitHub: NA
+* Source code: https://github.com/cran/networkDynamicData
+* Date/Publication: 2016-01-12 00:23:27
+* Number of recursive dependencies: 22
 
-Run `revdep_details(, "PAFit")` for more info
+Run `revdepcheck::revdep_details(, "networkDynamicData")` for more info
 
 </details>
 
 ## In both
 
-*   checking C++ specification ... NOTE
+*   checking Rd files ... NOTE
     ```
-      Specified C++14: please drop specification unless essential
+    checkRd: (-1) harry_potter.Rd:44: Lost braces in \itemize; meant \describe ?
+    checkRd: (-1) harry_potter.Rd:45: Lost braces in \itemize; meant \describe ?
+    checkRd: (-1) harry_potter.Rd:46: Lost braces in \itemize; meant \describe ?
+    checkRd: (-1) harry_potter.Rd:47-48: Lost braces in \itemize; meant \describe ?
+    checkRd: (-1) harry_potter.Rd:49: Lost braces in \itemize; meant \describe ?
+    checkRd: (-1) vanDeBunt_students.Rd:46: Lost braces in \itemize; meant \describe ?
+    checkRd: (-1) vanDeBunt_students.Rd:47: Lost braces in \itemize; meant \describe ?
+    checkRd: (-1) vanDeBunt_students.Rd:48: Lost braces in \itemize; meant \describe ?
+    checkRd: (-1) vanDeBunt_students.Rd:49: Lost braces in \itemize; meant \describe ?
+    ```
+
+# NetworkExtinction
+
+<details>
+
+* Version: 1.0.3
+* GitHub: NA
+* Source code: https://github.com/cran/NetworkExtinction
+* Date/Publication: 2023-03-31 11:40:02 UTC
+* Number of recursive dependencies: 100
+
+Run `revdepcheck::revdep_details(, "NetworkExtinction")` for more info
+
+</details>
+
+## In both
+
+*   checking Rd files ... NOTE
+    ```
+    checkRd: (-1) ExtinctionOrder.Rd:35: Lost braces
+        35 | \item{RewiringDist}{a numeric matrix of NxN dimension (N... number of nodes in Network). Contains, for example, phylogenetic or functional trait distances between nodes in Network which are used by the Rewiring argument to calculate rewiring probabilities. If Rewiring == function(x){x}, this matrix is expected to contain probabilities of a connection being present between species-pairs.}
+           |                                                                                                                                                                                                                                                                                            ^
+    checkRd: (-1) RandomExtinctions.Rd:52: Lost braces
+        52 | \item{RewiringDist}{a numeric matrix of NxN dimension (N... number of nodes in Network). Contains, for example, phylogenetic or functional trait distances between nodes in Network which are used by the Rewiring argument to calculate rewiring probabilities. If Rewiring == function(x){x}, this matrix is expected to contain probabilities of a connection being present between species-pairs.}
+           |                                                                                                                                                                                                                                                                                            ^
+    checkRd: (-1) RandomExtinctions.Rd:71-72: Lost braces
+        71 | primary removals. For example, if a network has five species {A,B,
+           |                                                              ^
+    checkRd: (-1) RandomExtinctions.Rd:72: Lost braces; missing escapes or markup?
+        72 | ,D,E} and a pre-defined "random" order of removal {C,A,B,E,D} with
+           |                                                   ^
+    checkRd: (-1) RandomExtinctions.Rd:77: Lost braces; missing escapes or markup?
+        77 | vector, i.e., {C,A,B}."
+           |               ^
+    checkRd: (-1) SimulateExtinctions.Rd:38: Lost braces
+        38 | \item{RewiringDist}{a numeric matrix of NxN dimension (N... number of nodes in Network). Contains, for example, phylogenetic or functional trait distances between nodes in Network which are used by the Rewiring argument to calculate rewiring probabilities. If Rewiring == function(x){x}, this matrix is expected to contain probabilities of a connection being present between species-pairs.}
+           |                                                                                                                                                                                                                                                                                            ^
     ```
 
 # PDN
@@ -618,9 +969,9 @@ Run `revdep_details(, "PAFit")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/PDN
 * Date/Publication: 2017-11-03 23:27:43 UTC
-* Number of recursive dependencies: 63
+* Number of recursive dependencies: 60
 
-Run `revdep_details(, "PDN")` for more info
+Run `revdepcheck::revdep_details(, "PDN")` for more info
 
 </details>
 
@@ -632,17 +983,78 @@ Run `revdep_details(, "PDN")` for more info
       All declared Imports should be used.
     ```
 
+# relevent
+
+<details>
+
+* Version: 1.2-1
+* GitHub: NA
+* Source code: https://github.com/cran/relevent
+* Date/Publication: 2023-01-24 08:10:02 UTC
+* Number of recursive dependencies: 17
+
+Run `revdepcheck::revdep_details(, "relevent")` for more info
+
+</details>
+
+## In both
+
+*   checking Rd files ... NOTE
+    ```
+    checkRd: (-1) rem.dyad.Rd:121: Lost braces; missing escapes or markup?
+       121 | \item Single or multiple covariates, time varying: For \code{CovSnd}, \code{CovRec}, or \code{CovInt}, an \code{m} by \code{p} by {n} array whose respective dimensions index time (i.e., event number), covariate, and actor.  For \code{CovEvent}, a \code{m} by \code{p} by \code{n} by \code{n} array, whose dimensions are analogous to the previous case.
+           |                                                                                                                                   ^
+    ```
+
+# RHMS
+
+<details>
+
+* Version: 1.7
+* GitHub: NA
+* Source code: https://github.com/cran/RHMS
+* Date/Publication: 2021-09-27 15:50:02 UTC
+* Number of recursive dependencies: 95
+
+Run `revdepcheck::revdep_details(, "RHMS")` for more info
+
+</details>
+
+## In both
+
+*   checking Rd files ... NOTE
+    ```
+    checkRd: (-1) reachRouting.base.Rd:14: Lost braces
+        14 |   \item{inflow}{a vector of runoff (cms) or an object inherited from any of the following classes :{\code{transform} ; \code{reachRouting} ; \code{reservoirRouting}}.}
+           |                                                                                                    ^
+    checkRd: (-1) reachRouting.default.Rd:21: Lost braces
+        21 |   \item{inflow}{a vector of runoff (cms) or an object inherited from any of the following classes :{\code{transform} ; \code{reachRouting} ; \code{reservoirRouting}}.}
+           |                                                                                                    ^
+    checkRd: (-1) reachRouting.Rd:15: Lost braces
+        15 |   \item{inflow}{a vector of runoff (cms) presenting a runoff event generated by excess rainfall computed by \code{loss} methods or an object inherited from any of the following classes :{\code{transform} ; \code{reachRouting} ; \code{reservoirRouting}}.}
+           |                                                                                                                                                                                           ^
+    checkRd: (-1) reservoirRouting.base.Rd:13: Lost braces
+        13 |   \item{inflow}{a vector of in (cms) presenting a runoff event generated by excess rainfall computed by \code{loss} methods or an object inherited from any of the following classes :{\code{transform} ; \code{reachRouting} ; \code{reservoirRouting}}.}
+           |                                                                                                                                                                                       ^
+    checkRd: (-1) reservoirRouting.default.Rd:18: Lost braces
+        18 |   \item{inflow}{a vector of in (cms) presenting a runoff event generated by excess rainfall computed by \code{loss} methods or an object inherited from any of the following classes :{\code{transform} ; \code{reachRouting} ; \code{reservoirRouting}}.}
+           |                                                                                                                                                                                       ^
+    checkRd: (-1) reservoirRouting.Rd:13: Lost braces
+        13 |   \item{inflow}{a vector of in (cms) presenting a runoff event generated by excess rainfall computed by \code{loss} methods or an object inherited from any of the following classes :{\code{transform} ; \code{reachRouting} ; \code{reservoirRouting}}.}
+           |                                                                                                                                                                                       ^
+    ```
+
 # RSiena
 
 <details>
 
-* Version: 1.3.14.1
-* GitHub: NA
+* Version: 1.4.7
+* GitHub: https://github.com/stocnet/rsiena
 * Source code: https://github.com/cran/RSiena
-* Date/Publication: 2023-02-05 15:56:02 UTC
+* Date/Publication: 2024-02-21 12:10:02 UTC
 * Number of recursive dependencies: 19
 
-Run `revdep_details(, "RSiena")` for more info
+Run `revdepcheck::revdep_details(, "RSiena")` for more info
 
 </details>
 
@@ -650,9 +1062,9 @@ Run `revdep_details(, "RSiena")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 21.2Mb
+      installed size is 21.1Mb
       sub-directories of 1Mb or more:
-        libs  19.2Mb
+        libs  19.5Mb
         R      1.0Mb
     ```
 
@@ -666,7 +1078,7 @@ Run `revdep_details(, "RSiena")` for more info
 * Date/Publication: 2020-07-02 07:20:06 UTC
 * Number of recursive dependencies: 155
 
-Run `revdep_details(, "sand")` for more info
+Run `revdepcheck::revdep_details(, "sand")` for more info
 
 </details>
 
@@ -690,9 +1102,9 @@ Run `revdep_details(, "sand")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/SBICgraph
 * Date/Publication: 2021-03-02 19:10:09 UTC
-* Number of recursive dependencies: 50
+* Number of recursive dependencies: 47
 
-Run `revdep_details(, "SBICgraph")` for more info
+Run `revdepcheck::revdep_details(, "SBICgraph")` for more info
 
 </details>
 
@@ -719,7 +1131,7 @@ Run `revdep_details(, "SBICgraph")` for more info
 * Date/Publication: 2016-08-25 10:01:01
 * Number of recursive dependencies: 29
 
-Run `revdep_details(, "sfc")` for more info
+Run `revdepcheck::revdep_details(, "sfc")` for more info
 
 </details>
 
@@ -730,25 +1142,103 @@ Run `revdep_details(, "sfc")` for more info
       'LazyData' is specified without a 'data' directory
     ```
 
-# sparsebnUtils
+# sidier
 
 <details>
 
-* Version: 0.0.8
-* GitHub: https://github.com/itsrainingdata/sparsebnUtils
-* Source code: https://github.com/cran/sparsebnUtils
-* Date/Publication: 2021-01-27 06:30:02 UTC
-* Number of recursive dependencies: 69
+* Version: 4.1.0
+* GitHub: NA
+* Source code: https://github.com/cran/sidier
+* Date/Publication: 2021-06-25 11:50:02 UTC
+* Number of recursive dependencies: 56
 
-Run `revdep_details(, "sparsebnUtils")` for more info
+Run `revdepcheck::revdep_details(, "sidier")` for more info
 
 </details>
 
 ## In both
 
-*   checking Rd cross-references ... NOTE
+*   checking Rd files ... NOTE
     ```
-    Unknown package ‘sparsebn’ in Rd xrefs
+    checkRd: (-1) pop.dist.Rd:41: Lost braces; missing escapes or markup?
+        41 | where \emph{dist(i,j)} represents the distance between populations \emph{i} and \emph{j}, \emph{m} and \emph{n} are the number of sequences in populations \emph{i} and \emph{j}, respectively, and \emph{dist(H_{ki},H_{lj})} is the distance between the \emph{k-th} sequence found in population \emph{i} and the \emph{l-th} sequence found in population \emph{j}. 
+           |                                                                                                                                                                                                                  ^
+    checkRd: (-1) pop.dist.Rd:41: Lost braces; missing escapes or markup?
+        41 | where \emph{dist(i,j)} represents the distance between populations \emph{i} and \emph{j}, \emph{m} and \emph{n} are the number of sequences in populations \emph{i} and \emph{j}, respectively, and \emph{dist(H_{ki},H_{lj})} is the distance between the \emph{k-th} sequence found in population \emph{i} and the \emph{l-th} sequence found in population \emph{j}. 
+           |                                                                                                                                                                                                                         ^
+    ```
+
+# spaceNet
+
+<details>
+
+* Version: 1.2
+* GitHub: NA
+* Source code: https://github.com/cran/spaceNet
+* Date/Publication: 2019-05-19 22:30:03 UTC
+* Number of recursive dependencies: 31
+
+Run `revdepcheck::revdep_details(, "spaceNet")` for more info
+
+</details>
+
+## In both
+
+*   checking Rd files ... NOTE
+    ```
+    checkRd: (-1) heuSearch.Rd:24: Lost braces in \itemize; \value handles \item{}{} directly
+    checkRd: (-1) heuSearch.Rd:25: Lost braces in \itemize; \value handles \item{}{} directly
+    checkRd: (-1) heuSearch.Rd:26: Lost braces in \itemize; \value handles \item{}{} directly
+    checkRd: (-1) multiNet.Rd:124: Lost braces in \itemize; meant \describe ?
+    checkRd: (-1) multiNet.Rd:125: Lost braces in \itemize; meant \describe ?
+    checkRd: (-1) multiNet.Rd:126-137: Lost braces in \itemize; meant \describe ?
+    checkRd: (-1) multiNet.Rd:128: Lost braces in \itemize; meant \describe ?
+    checkRd: (-1) multiNet.Rd:129-134: Lost braces in \itemize; meant \describe ?
+    checkRd: (-1) multiNet.Rd:138-147: Lost braces in \itemize; meant \describe ?
+    checkRd: (-1) multiNet.Rd:142: Lost braces in \itemize; meant \describe ?
+    ...
+    checkRd: (-1) multiNet.Rd:89: Lost braces in \itemize; \value handles \item{}{} directly
+    checkRd: (-1) multiNet.Rd:90: Lost braces in \itemize; \value handles \item{}{} directly
+    checkRd: (-1) multiNet.Rd:91: Lost braces in \itemize; \value handles \item{}{} directly
+    checkRd: (-1) multiNet.Rd:97: Lost braces in \itemize; \value handles \item{}{} directly
+    checkRd: (-1) multiNet.Rd:98: Lost braces in \itemize; \value handles \item{}{} directly
+    checkRd: (-1) multiNet.Rd:99: Lost braces in \itemize; \value handles \item{}{} directly
+    checkRd: (-1) multiNet.Rd:100: Lost braces in \itemize; \value handles \item{}{} directly
+    checkRd: (-1) multiNet.Rd:101: Lost braces in \itemize; \value handles \item{}{} directly
+    checkRd: (-1) multiNet.Rd:102: Lost braces in \itemize; \value handles \item{}{} directly
+    checkRd: (-1) multiNet.Rd:103: Lost braces in \itemize; \value handles \item{}{} directly
+    ```
+
+# SSrat
+
+<details>
+
+* Version: 1.1
+* GitHub: NA
+* Source code: https://github.com/cran/SSrat
+* Date/Publication: 2018-04-03 22:36:44 UTC
+* Number of recursive dependencies: 18
+
+Run `revdepcheck::revdep_details(, "SSrat")` for more info
+
+</details>
+
+## In both
+
+*   checking Rd files ... NOTE
+    ```
+    checkRd: (-1) readratdatafixed.Rd:25: Lost braces; missing escapes or markup?
+        25 | number of the set {1, 2, 3}, {1..5}, {1..7} or {1..9}. When there are 10
+           |                   ^
+    checkRd: (-1) readratdatafixed.Rd:25: Lost braces; missing escapes or markup?
+        25 | number of the set {1, 2, 3}, {1..5}, {1..7} or {1..9}. When there are 10
+           |                              ^
+    checkRd: (-1) readratdatafixed.Rd:25: Lost braces; missing escapes or markup?
+        25 | number of the set {1, 2, 3}, {1..5}, {1..7} or {1..9}. When there are 10
+           |                                      ^
+    checkRd: (-1) readratdatafixed.Rd:25: Lost braces; missing escapes or markup?
+        25 | number of the set {1, 2, 3}, {1..5}, {1..7} or {1..9}. When there are 10
+           |                                                ^
     ```
 
 # stargazer
@@ -761,7 +1251,7 @@ Run `revdep_details(, "sparsebnUtils")` for more info
 * Date/Publication: 2022-03-04 11:50:02 UTC
 * Number of recursive dependencies: 0
 
-Run `revdep_details(, "stargazer")` for more info
+Run `revdepcheck::revdep_details(, "stargazer")` for more info
 
 </details>
 
@@ -773,7 +1263,46 @@ Run `revdep_details(, "stargazer")` for more info
       'AER', 'betareg', 'brglm', 'censReg', 'dynlm', 'eha', 'erer',
       'fGarch', 'gee', 'glmx', 'gmm', 'lfe', 'lme4', 'lmtest', 'mclogit',
       'mlogit', 'ordinal', 'plm', 'pscl', 'quantreg', 'rms', 'relevent',
-      'sampleSelection', 'spdep', 'survey'
+      'sampleSelection', 'spdep'
+    ```
+
+*   checking Rd files ... NOTE
+    ```
+    checkRd: (-1) stargazer.Rd:229: Lost braces
+       229 |   \item{report}{a character string containing only elements of {\code{"v"}, \code{"c"}, \code{"s"},\code{"t"}, \code{"p"}, \code{"*"}} that determines whether, and in which order, variable names (\code{"v"}), coefficients (\code{"c"}), standard errors/confidence intervals (\code{"s"}), test statistics (\code{"t"}) and p-values (\code{"p"}) should be reported in regression tables. If one of the aforementioned letters is followed by an asterisk (\code{"*"}), significance stars will be reported next to the corresponding statistic.}
+           |                                                                ^
+    checkRd: (-1) stargazer.Rd:246: Lost braces
+       246 |   \item{table.placement}{a character string containing only elements of {\code{"h"}, \code{"t"},\code{"b"}, \code{"p"}, \code{"!"}, \code{"H"}} that determines the table placement in its LaTeX floating environment.}
+           |                                                                         ^
+    ```
+
+# statnet
+
+<details>
+
+* Version: 2019.6
+* GitHub: https://github.com/statnet/statnet
+* Source code: https://github.com/cran/statnet
+* Date/Publication: 2019-06-14 08:00:06 UTC
+* Number of recursive dependencies: 100
+
+Run `revdepcheck::revdep_details(, "statnet")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking: 'networksis', 'ndtv'
+    ```
+
+*   checking whether startup messages can be suppressed ... NOTE
+    ```
+    unable to reach CRAN
+    
+    It looks like this package (or a package it requires) has a startup
+    message which cannot be suppressed: see ?packageStartupMessage.
     ```
 
 # statnetWeb
@@ -784,9 +1313,9 @@ Run `revdep_details(, "stargazer")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/statnetWeb
 * Date/Publication: 2020-08-05 18:00:03 UTC
-* Number of recursive dependencies: 67
+* Number of recursive dependencies: 66
 
-Run `revdep_details(, "statnetWeb")` for more info
+Run `revdepcheck::revdep_details(, "statnetWeb")` for more info
 
 </details>
 
@@ -797,39 +1326,46 @@ Run `revdep_details(, "statnetWeb")` for more info
       'LazyData' is specified without a 'data' directory
     ```
 
-# strategicplayers
+# tergm
 
 <details>
 
-* Version: 1.0
-* GitHub: NA
-* Source code: https://github.com/cran/strategicplayers
-* Date/Publication: 2016-09-22 17:10:02
-* Number of recursive dependencies: 16
+* Version: 4.2.0
+* GitHub: https://github.com/statnet/tergm
+* Source code: https://github.com/cran/tergm
+* Date/Publication: 2023-05-30 12:20:02 UTC
+* Number of recursive dependencies: 80
 
-Run `revdep_details(, "strategicplayers")` for more info
+Run `revdepcheck::revdep_details(, "tergm")` for more info
 
 </details>
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking Rd files ... NOTE
     ```
-    Namespace in Imports field not imported from: ‘sna’
-      All declared Imports should be used.
+    checkRd: (-1) NEWS.Rd:427: Lost braces; missing escapes or markup?
+       427 |       \item  Changes to \code{simulate.stergm} parameters: addition of \code{duration.dependent} parameter: {Logical: Whether the model terms in formula or model are duration dependent. E.g., if a duration-dependent term  is used in estimation/simulation model, the probability of forming or dissolving a tie may dependent on the age the dyad status. If TRUE, the matrix of tie ages will be allocated.}
+           |                                                                                                             ^
+    checkRd: (-1) discordBDStratTNT-ergmProposal-9267ec8b.Rd:18: Lost braces
+        18 | code{\link[ergm:blocks-ergmConstraint]{blocks}} constraints and
+           |     ^
+    checkRd: (-1) discordTNT-ergmProposal-bc75dff0.Rd:9: Lost braces
+         9 | code{discordance_fraction} of proposed toggles being made on the set of discordant dyads,
+           |     ^
     ```
 
 # texreg
 
 <details>
 
-* Version: 1.38.6
+* Version: 1.39.3
 * GitHub: https://github.com/leifeld/texreg
 * Source code: https://github.com/cran/texreg
-* Date/Publication: 2022-04-06 22:00:02 UTC
-* Number of recursive dependencies: 86
+* Date/Publication: 2023-11-10 00:00:03 UTC
+* Number of recursive dependencies: 103
 
-Run `revdep_details(, "texreg")` for more info
+Run `revdepcheck::revdep_details(, "texreg")` for more info
 
 </details>
 
@@ -839,82 +1375,91 @@ Run `revdep_details(, "texreg")` for more info
     ```
     Packages which this enhances but not available for checking:
       'AER', 'alpaca', 'betareg', 'Bergm', 'bife', 'biglm', 'brglm',
-      'brms', 'btergm', 'dynlm', 'eha', 'erer', 'feisr', 'fGarch',
-      'fixest', 'forecast', 'gamlss', 'gamlss.inf', 'gee', 'glmmTMB',
-      'gmm', 'gnm', 'h2o', 'latentnet', 'lfe', 'lme4', 'lqmm', 'maxLik',
-      'metaSEM', 'mfx', 'mhurdle', 'miceadds', 'mlogit', 'mnlogit',
-      'MuMIn', 'oglmx', 'ordinal', 'pglm', 'plm', 'relevent', 'rms',
-      'robust', 'simex', 'spatialreg', 'spdep', 'speedglm', 'truncreg',
-      'VGAM', 'Zelig'
+      'brms', 'dynlm', 'eha', 'erer', 'feisr', 'fGarch', 'fixest',
+      'forecast', 'gamlss', 'gamlss.inf', 'gee', 'glmmTMB', 'gmm', 'gnm',
+      'h2o', 'latentnet', 'lfe', 'logitr', 'lqmm', 'maxLik', 'metaSEM',
+      'mfx', 'mhurdle', 'miceadds', 'mlogit', 'mnlogit', 'MuMIn', 'oglmx',
+      'ordinal', 'pglm', 'plm', 'relevent', 'rms', 'robust', 'simex',
+      'spatialreg', 'spdep', 'speedglm', 'truncreg', 'VGAM', 'Zelig'
     ```
 
 *   checking Rd cross-references ... NOTE
     ```
-    Packages unavailable to check Rd xrefs: ‘h2o’, ‘spatialreg’, ‘eha’, ‘MuMIn’, ‘Bergm’, ‘mfx’, ‘betareg’, ‘bife’, ‘biglm’, ‘brglm’, ‘brms’, ‘btergm’, ‘ordinal’, ‘dynlm’, ‘latentnet’, ‘forecast’, ‘fGarch’, ‘alpaca’, ‘feisr’, ‘lfe’, ‘fixest’, ‘gamlss’, ‘gamlss.inf’, ‘gee’, ‘gmm’, ‘miceadds’, ‘lme4’, ‘glmmTMB’, ‘gnm’, ‘AER’, ‘robust’, ‘lqmm’, ‘rms’, ‘erer’, ‘maxLik’, ‘mhurdle’, ‘mlogit’, ‘oglmx’, ‘plm’, ‘pglm’, ‘relevent’, ‘simex’, ‘speedglm’, ‘truncreg’, ‘VGAM’, ‘metaSEM’
+    Packages unavailable to check Rd xrefs: ‘h2o’, ‘spatialreg’, ‘eha’, ‘MuMIn’, ‘Bergm’, ‘mfx’, ‘betareg’, ‘bife’, ‘biglm’, ‘brglm’, ‘brms’, ‘ordinal’, ‘dynlm’, ‘latentnet’, ‘forecast’, ‘fGarch’, ‘alpaca’, ‘feisr’, ‘lfe’, ‘fixest’, ‘gamlss’, ‘gamlss.inf’, ‘gee’, ‘gmm’, ‘miceadds’, ‘glmmTMB’, ‘gnm’, ‘AER’, ‘robust’, ‘lqmm’, ‘rms’, ‘erer’, ‘maxLik’, ‘mlogit’, ‘oglmx’, ‘plm’, ‘pglm’, ‘relevent’, ‘simex’, ‘speedglm’, ‘truncreg’, ‘VGAM’, ‘metaSEM’
+    Unknown package ‘mhurdle’ in Rd xrefs
+    ```
+
+# tip
+
+<details>
+
+* Version: 0.1.0
+* GitHub: NA
+* Source code: https://github.com/cran/tip
+* Date/Publication: 2022-11-14 17:30:02 UTC
+* Number of recursive dependencies: 112
+
+Run `revdepcheck::revdep_details(, "tip")` for more info
+
+</details>
+
+## In both
+
+*   checking Rd files ... NOTE
+    ```
+    checkRd: (-1) partition_undirected_graph.Rd:20: Lost braces; missing escapes or markup?
+        20 | \item{cutoff}{Numeric. The value max(0, g_{i,j} - cutoff) so that there are <\code{.num_components}> components in the graph.}
+           |                                           ^
     ```
 
 # VineCopula
 
 <details>
 
-* Version: 2.4.5
+* Version: 2.5.0
 * GitHub: https://github.com/tnagler/VineCopula
 * Source code: https://github.com/cran/VineCopula
-* Date/Publication: 2023-01-19 18:10:05 UTC
+* Date/Publication: 2023-07-10 19:00:11 UTC
 * Number of recursive dependencies: 67
 
-Run `revdep_details(, "VineCopula")` for more info
+Run `revdepcheck::revdep_details(, "VineCopula")` for more info
 
 </details>
 
 ## In both
+
+*   checking Rd files ... NOTE
+    ```
+    checkRd: (-1) RVineMatrix.Rd:90: Lost braces in \itemize; \value handles \item{}{} directly
+    checkRd: (-1) RVineMatrix.Rd:91: Lost braces in \itemize; \value handles \item{}{} directly
+    checkRd: (-1) RVineMatrix.Rd:92: Lost braces in \itemize; \value handles \item{}{} directly
+    ```
 
 *   checking Rd cross-references ... NOTE
     ```
     Package unavailable to check Rd xrefs: ‘copula’
     ```
 
-# vivid
-
-<details>
-
-* Version: 0.2.7
-* GitHub: NA
-* Source code: https://github.com/cran/vivid
-* Date/Publication: 2023-04-11 13:50:02 UTC
-* Number of recursive dependencies: 209
-
-Run `revdep_details(, "vivid")` for more info
-
-</details>
-
-## In both
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘zenplots’
-    ```
-
 # webSDM
 
 <details>
 
-* Version: 1.1-3
+* Version: 1.1-4
 * GitHub: https://github.com/giopogg/webSDM
 * Source code: https://github.com/cran/webSDM
-* Date/Publication: 2023-03-14 13:50:02 UTC
-* Number of recursive dependencies: 190
+* Date/Publication: 2023-09-18 17:00:02 UTC
+* Number of recursive dependencies: 201
 
-Run `revdep_details(, "webSDM")` for more info
+Run `revdepcheck::revdep_details(, "webSDM")` for more info
 
 </details>
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking Rd files ... NOTE
     ```
-    Namespace in Imports field not imported from: ‘Matrix’
-      All declared Imports should be used.
+    checkRd: (-1) predict.SDMfit.Rd:23: Lost braces in \itemize; \value handles \item{}{} directly
+    checkRd: (-1) predict.SDMfit.Rd:24: Lost braces in \itemize; \value handles \item{}{} directly
     ```
 
 # WOTPLY
@@ -925,9 +1470,9 @@ Run `revdep_details(, "webSDM")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/WOTPLY
 * Date/Publication: 2022-09-12 07:43:01 UTC
-* Number of recursive dependencies: 70
+* Number of recursive dependencies: 82
 
-Run `revdep_details(, "WOTPLY")` for more info
+Run `revdepcheck::revdep_details(, "WOTPLY")` for more info
 
 </details>
 
@@ -937,6 +1482,35 @@ Run `revdep_details(, "WOTPLY")` for more info
     ```
     Namespace in Imports field not imported from: ‘sna’
       All declared Imports should be used.
+    ```
+
+# WRSS
+
+<details>
+
+* Version: 3.1
+* GitHub: NA
+* Source code: https://github.com/cran/WRSS
+* Date/Publication: 2022-05-29 18:10:02 UTC
+* Number of recursive dependencies: 108
+
+Run `revdepcheck::revdep_details(, "WRSS")` for more info
+
+</details>
+
+## In both
+
+*   checking Rd files ... NOTE
+    ```
+    checkRd: (-1) createDemandSite.base.Rd:26: Lost braces
+        26 |   \item{suppliers}{(optional) A list of object(s) inherited from the folowing classes: \code{\link[WRSS]{createAquifer}}, \code{\link[WRSS]{createRiver}}, \code{\link[WRSS]{createReservoir}}, code{\link[WRSS]{createDiversion}}.}
+           |                                                                                                                                                                                                     ^
+    checkRd: (-1) createDemandSite.default.Rd:32: Lost braces
+        32 |   \item{suppliers}{(optional) A list of object(s) inherited from the folowing classes: \code{\link[WRSS]{createAquifer}}, \code{\link[WRSS]{createRiver}}, \code{\link[WRSS]{createReservoir}}, code{\link[WRSS]{createDiversion}}.}
+           |                                                                                                                                                                                                     ^
+    checkRd: (-1) createDemandSite.Rd:26: Lost braces
+        26 |   \item{suppliers}{(optional) A list of object(s) inherited from the folowing classes: \code{\link[WRSS]{createAquifer}}, \code{\link[WRSS]{createRiver}}, \code{\link[WRSS]{createReservoir}}, code{\link[WRSS]{createDiversion}}.}
+           |                                                                                                                                                                                                     ^
     ```
 
 # xergm.common
@@ -949,11 +1523,20 @@ Run `revdep_details(, "WOTPLY")` for more info
 * Date/Publication: 2020-04-07 09:50:02 UTC
 * Number of recursive dependencies: 36
 
-Run `revdep_details(, "xergm.common")` for more info
+Run `revdepcheck::revdep_details(, "xergm.common")` for more info
 
 </details>
 
 ## In both
+
+*   checking Rd files ... NOTE
+    ```
+    checkRd: (-1) chemnet.Rd:111: Lost braces in \itemize; meant \describe ?
+    checkRd: (-1) chemnet.Rd:112: Lost braces in \itemize; meant \describe ?
+    checkRd: (-1) knecht.Rd:103: Lost braces in \itemize; meant \describe ?
+    checkRd: (-1) knecht.Rd:104: Lost braces in \itemize; meant \describe ?
+    checkRd: (-1) knecht.Rd:105: Lost braces in \itemize; meant \describe ?
+    ```
 
 *   checking Rd cross-references ... NOTE
     ```
