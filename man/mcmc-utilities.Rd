@@ -19,8 +19,7 @@ lapply.mcmc.list(X, FUN, ...)
 \arguments{
 \item{x}{a \code{\link{mcmc.list}} object.}
 
-\item{\dots}{additional arguments to \code{\link{colMeans}} or
-\code{\link{sweep}}.}
+\item{\dots}{additional arguments to the functions evaluated on each chain.}
 
 \item{STATS, FUN, check.margin}{See help for \code{\link[=sweep]{sweep()}}.}
 
@@ -43,9 +42,7 @@ whose chains had been passed through \code{FUN}.
 \code{var.mcmc.list} is a "method" for (non-generic)
 \code{\link[=var]{var()}} applicable to \code{\link{mcmc.list}} objects. Since MCMC chains
 are assumed to all be sampling from the same underlying
-distribution, pooled mean is used. This implementation should be
-equivalent (within numerical error) to \code{var(as.matrix(x))} while
-avoiding constructing the large matrix.
+distribution, their pooled mean is used.
 
 \code{sweep.mcmc.list} is a "method" for (non-generic)
 \code{\link[=sweep]{sweep()}} applicable to \code{\link{mcmc.list}} objects.
@@ -53,12 +50,17 @@ avoiding constructing the large matrix.
 \code{lapply.mcmc.list} is a "method" for (non-generic)
 \code{\link[=lapply]{lapply()}} applicable to \code{\link{mcmc.list}} objects.
 }
+\details{
+These implementations should be equivalent (within
+numerical error) to the same function being called on
+\code{as.matrix(x)}, while avoiding construction of the large matrix.
+}
 \examples{
 data(line, package="coda")
-summary(line) # coda
+colMeans(as.matrix(line)) # also coda
 colMeans.mcmc.list(line) # "Method"
 \dontshow{
-stopifnot(isTRUE(all.equal(summary(line)$statistics[,"Mean"],colMeans.mcmc.list(line))))
+stopifnot(isTRUE(all.equal(colMeans(as.matrix(line)),colMeans.mcmc.list(line))))
 }
 data(line, package="coda")
 var(as.matrix(line)) # coda
@@ -80,7 +82,9 @@ stopifnot(isTRUE(all.equal(colMeans.mcmc.list(line)[c(2,3,1)],colMeans.mcmc.list
 }
 }
 \seealso{
-\code{\link[=colMeans]{colMeans()}}, \code{\link{mcmc.list}}
+\code{\link{mcmc.list}}
+
+\code{\link[=colMeans]{colMeans()}}
 
 \code{\link[=var]{var()}}
 

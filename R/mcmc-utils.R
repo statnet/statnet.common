@@ -13,30 +13,37 @@
 #' @description \code{colMeans.mcmc.list} is a "method" for (non-generic) [colMeans()] applicable to [`mcmc.list`] objects.
 #' 
 #' @param x a \code{\link{mcmc.list}} object.
-#' @param \dots additional arguments to \code{\link{colMeans}} or
-#'   \code{\link{sweep}}.
+#' @param \dots additional arguments to the functions evaluated on each chain.
 #' @return \code{colMeans.mcmc} returns a vector with length equal to
 #'   the number of mcmc chains in \code{x} with the mean value for
 #'   each chain.
-#' @seealso [colMeans()], [`mcmc.list`]
+#'
+#' @details These implementations should be equivalent (within
+#'   numerical error) to the same function being called on
+#'   `as.matrix(x)`, while avoiding construction of the large matrix.
+#'
+#' @seealso [`mcmc.list`]
+#'
+#' [colMeans()]
 #' @examples
 #' data(line, package="coda")
-#' summary(line) # coda
+#' colMeans(as.matrix(line)) # also coda
 #' colMeans.mcmc.list(line) # "Method"
 #' \dontshow{
-#' stopifnot(isTRUE(all.equal(summary(line)$statistics[,"Mean"],colMeans.mcmc.list(line))))
+#' stopifnot(isTRUE(all.equal(colMeans(as.matrix(line)),colMeans.mcmc.list(line))))
 #' }
 #' @export colMeans.mcmc.list
-colMeans.mcmc.list<-function(x,...) colMeans(as.matrix(x),...)
+colMeans.mcmc.list <- function(x,...){
+  nchain <- length(x)
+  Reduce(`+`, lapply(x, colMeans, ...)) / nchain
+}
 
 #' @rdname mcmc-utilities
 #'
 #' @description \code{var.mcmc.list} is a "method" for (non-generic)
 #'   [var()] applicable to [`mcmc.list`] objects. Since MCMC chains
 #'   are assumed to all be sampling from the same underlying
-#'   distribution, pooled mean is used. This implementation should be
-#'   equivalent (within numerical error) to `var(as.matrix(x))` while
-#'   avoiding constructing the large matrix.
+#'   distribution, their pooled mean is used.
 #'
 #' @seealso [var()]
 #' @examples
@@ -46,12 +53,13 @@ colMeans.mcmc.list<-function(x,...) colMeans(as.matrix(x),...)
 #' \dontshow{
 #' stopifnot(isTRUE(all.equal(var.mcmc.list(line), var(as.matrix(line)))))
 #' }
+#' @importFrom stats var
 #' @export var.mcmc.list
 var.mcmc.list <- function(x, ...){
   nchain <- length(x)
   niter <- NROW(x[[1]])
-  SSW <- Reduce(`+`, lapply(x, cov)) * (niter-1)
-  SSB <- if(nchain > 1) cov(t(sapply(x, colMeans))) * niter else 0
+  SSW <- Reduce(`+`, lapply(x, var, ...)) * (niter-1)
+  SSB <- if(nchain > 1) var(t(sapply(x, colMeans, ...))) * niter else 0
   (SSW+SSB) / (niter*nchain-1)
 }
 
