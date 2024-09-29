@@ -3,6 +3,10 @@
 * `as.cntrol.list.list()` and hence `snctrl()` no longer clobbers nested controls, e.g., `control.ergm(SAN=control.san(...),...)`.
 * To facilitate support for earlier versions of R, avoid using the built-in pipe (`|>`) for now.
 * New linear algebra utilities: `ginv_eigen()`, which performs generalised inverse via eigendecomposition rather than SVD, to be used by `sginv()` if `snnd=TRUE`; and `xTAx_eigen()` and `xTAx_seigen()` to evaluate the inverse quadratic form using eigendecomposition.
+* `lweighted.var()` and `lweighted.cov()` now take an additional argument `onerow=` to specify what they should return (`NA`, 0, or something else) if the input matrix has one row.
+* A new function `var.mcmc.list()` "method" to evaluate the covariance matrix for an `mcmc.list` without constructing a large matrix.
+* `colMeans.mcmc.list()` "method" no longer constructs a large matrix when calculating.
+
 
 # statnet.common 4.9.0
 
