@@ -39,6 +39,68 @@ Run `revdepcheck::revdep_details(, "amen")` for more info
     Execution halted
     ```
 
+# BANAM
+
+<details>
+
+* Version: 0.2.1
+* GitHub: NA
+* Source code: https://github.com/cran/BANAM
+* Date/Publication: 2024-06-20 10:30:02 UTC
+* Number of recursive dependencies: 96
+
+Run `revdepcheck::revdep_details(, "BANAM")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘BANAM’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/checks/BANAM/new/BANAM.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘BANAM’ ...
+** package ‘BANAM’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+Error: package or namespace load failed for ‘BFpack’ in dyn.load(file, DLLpath = DLLpath, ...):
+ unable to load shared object '/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/library/BANAM/gsl/libs/gsl.so':
+  libgsl.so.27: cannot open shared object file: No such file or directory
+Execution halted
+ERROR: lazy loading failed for package ‘BANAM’
+* removing ‘/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/checks/BANAM/new/BANAM.Rcheck/BANAM’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘BANAM’ ...
+** package ‘BANAM’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+Error: package or namespace load failed for ‘BFpack’ in dyn.load(file, DLLpath = DLLpath, ...):
+ unable to load shared object '/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/library/BANAM/gsl/libs/gsl.so':
+  libgsl.so.27: cannot open shared object file: No such file or directory
+Execution halted
+ERROR: lazy loading failed for package ‘BANAM’
+* removing ‘/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/checks/BANAM/old/BANAM.Rcheck/BANAM’
+
+
+```
 # BasketballAnalyzeR
 
 <details>
@@ -47,7 +109,7 @@ Run `revdepcheck::revdep_details(, "amen")` for more info
 * GitHub: https://github.com/sndmrc/BasketballAnalyzeR
 * Source code: https://github.com/cran/BasketballAnalyzeR
 * Date/Publication: 2020-06-26 09:00:11 UTC
-* Number of recursive dependencies: 85
+* Number of recursive dependencies: 77
 
 Run `revdepcheck::revdep_details(, "BasketballAnalyzeR")` for more info
 
@@ -62,15 +124,93 @@ Run `revdepcheck::revdep_details(, "BasketballAnalyzeR")` for more info
       All declared Imports should be used.
     ```
 
+# BFpack
+
+<details>
+
+* Version: 1.3.0
+* GitHub: https://github.com/jomulder/BFpack
+* Source code: https://github.com/cran/BFpack
+* Date/Publication: 2024-06-19 10:50:02 UTC
+* Number of recursive dependencies: 106
+
+Run `revdepcheck::revdep_details(, "BFpack")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘BFpack’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/checks/BFpack/new/BFpack.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘BFpack’ ...
+** package ‘BFpack’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+using C compiler: ‘gcc (Debian 14.2.0-3) 14.2.0’
+using Fortran compiler: ‘GNU Fortran (Debian 14.2.0-3) 14.2.0’
+gcc -I"/usr/share/R/include" -DNDEBUG       -fpic  -g -O2 -ffile-prefix-map=/build/reproducible-path/r-base-4.4.1=. -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -Wdate-time -D_FORTIFY_SOURCE=2  -c BFpack_init.c -o BFpack_init.o
+gfortran  -fpic  -g -O2 -ffile-prefix-map=/build/reproducible-path/r-base-4.4.1=. -fstack-protector-strong -fstack-clash-protection -fcf-protection  -c  bct_mixedordinal.f90 -o bct_mixedordinal.o
+gfortran  -fpic  -g -O2 -ffile-prefix-map=/build/reproducible-path/r-base-4.4.1=. -fstack-protector-strong -fstack-clash-protection -fcf-protection  -c  bct_prior.f90 -o bct_prior.o
+gcc -shared -L/usr/lib/R/lib -Wl,-z,relro -o BFpack.so BFpack_init.o bct_mixedordinal.o bct_prior.o -llapack -lblas -lgfortran -lm -lquadmath -L/usr/lib/R/lib -lR
+...
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in dyn.load(file, DLLpath = DLLpath, ...) : 
+  unable to load shared object '/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/library/BFpack/gsl/libs/gsl.so':
+  libgsl.so.27: cannot open shared object file: No such file or directory
+Calls: <Anonymous> ... asNamespace -> loadNamespace -> library.dynam -> dyn.load
+Execution halted
+ERROR: lazy loading failed for package ‘BFpack’
+* removing ‘/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/checks/BFpack/new/BFpack.Rcheck/BFpack’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘BFpack’ ...
+** package ‘BFpack’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+using C compiler: ‘gcc (Debian 14.2.0-3) 14.2.0’
+using Fortran compiler: ‘GNU Fortran (Debian 14.2.0-3) 14.2.0’
+gcc -I"/usr/share/R/include" -DNDEBUG       -fpic  -g -O2 -ffile-prefix-map=/build/reproducible-path/r-base-4.4.1=. -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -Wdate-time -D_FORTIFY_SOURCE=2  -c BFpack_init.c -o BFpack_init.o
+gfortran  -fpic  -g -O2 -ffile-prefix-map=/build/reproducible-path/r-base-4.4.1=. -fstack-protector-strong -fstack-clash-protection -fcf-protection  -c  bct_mixedordinal.f90 -o bct_mixedordinal.o
+gfortran  -fpic  -g -O2 -ffile-prefix-map=/build/reproducible-path/r-base-4.4.1=. -fstack-protector-strong -fstack-clash-protection -fcf-protection  -c  bct_prior.f90 -o bct_prior.o
+gcc -shared -L/usr/lib/R/lib -Wl,-z,relro -o BFpack.so BFpack_init.o bct_mixedordinal.o bct_prior.o -llapack -lblas -lgfortran -lm -lquadmath -L/usr/lib/R/lib -lR
+...
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in dyn.load(file, DLLpath = DLLpath, ...) : 
+  unable to load shared object '/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/library/BFpack/gsl/libs/gsl.so':
+  libgsl.so.27: cannot open shared object file: No such file or directory
+Calls: <Anonymous> ... asNamespace -> loadNamespace -> library.dynam -> dyn.load
+Execution halted
+ERROR: lazy loading failed for package ‘BFpack’
+* removing ‘/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/checks/BFpack/old/BFpack.Rcheck/BFpack’
+
+
+```
 # BGGM
 
 <details>
 
-* Version: 2.1.1
+* Version: 2.1.3
 * GitHub: https://github.com/donaldRwilliams/BGGM
 * Source code: https://github.com/cran/BGGM
-* Date/Publication: 2024-02-23 08:00:06 UTC
-* Number of recursive dependencies: 202
+* Date/Publication: 2024-07-05 20:30:02 UTC
+* Number of recursive dependencies: 206
 
 Run `revdepcheck::revdep_details(, "BGGM")` for more info
 
@@ -78,23 +218,76 @@ Run `revdepcheck::revdep_details(, "BGGM")` for more info
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking whether package ‘BGGM’ can be installed ... ERROR
     ```
-      installed size is 12.3Mb
-      sub-directories of 1Mb or more:
-        doc    3.4Mb
-        help   1.1Mb
-        libs   7.1Mb
+    Installation failed.
+    See ‘/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/checks/BGGM/new/BGGM.Rcheck/00install.out’ for details.
     ```
 
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘BGGM’ ...
+** package ‘BGGM’ successfully unpacked and MD5 sums checked
+** using staged installation
+checking whether the C++ compiler works... yes
+checking for C++ compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C++ compiler... yes
+checking whether g++ -std=gnu++17 accepts -g... yes
+...
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in dyn.load(file, DLLpath = DLLpath, ...) : 
+  unable to load shared object '/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/library/BGGM/gsl/libs/gsl.so':
+  libgsl.so.27: cannot open shared object file: No such file or directory
+Calls: <Anonymous> ... asNamespace -> loadNamespace -> library.dynam -> dyn.load
+Execution halted
+ERROR: lazy loading failed for package ‘BGGM’
+* removing ‘/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/checks/BGGM/new/BGGM.Rcheck/BGGM’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘BGGM’ ...
+** package ‘BGGM’ successfully unpacked and MD5 sums checked
+** using staged installation
+checking whether the C++ compiler works... yes
+checking for C++ compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C++ compiler... yes
+checking whether g++ -std=gnu++17 accepts -g... yes
+...
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in dyn.load(file, DLLpath = DLLpath, ...) : 
+  unable to load shared object '/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/library/BGGM/gsl/libs/gsl.so':
+  libgsl.so.27: cannot open shared object file: No such file or directory
+Calls: <Anonymous> ... asNamespace -> loadNamespace -> library.dynam -> dyn.load
+Execution halted
+ERROR: lazy loading failed for package ‘BGGM’
+* removing ‘/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/checks/BGGM/old/BGGM.Rcheck/BGGM’
+
+
+```
 # bigergm
 
 <details>
 
-* Version: 1.1.0
+* Version: 1.2.1
 * GitHub: NA
 * Source code: https://github.com/cran/bigergm
-* Date/Publication: 2024-02-16 15:10:10 UTC
+* Date/Publication: 2024-06-13 21:50:13 UTC
 * Number of recursive dependencies: 92
 
 Run `revdepcheck::revdep_details(, "bigergm")` for more info
@@ -105,9 +298,10 @@ Run `revdepcheck::revdep_details(, "bigergm")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  9.4Mb
+      installed size is 11.1Mb
       sub-directories of 1Mb or more:
-        libs   9.0Mb
+        data   1.3Mb
+        libs   8.9Mb
     ```
 
 # bingat
@@ -139,7 +333,7 @@ Run `revdepcheck::revdep_details(, "bingat")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/bootcluster
 * Date/Publication: 2022-01-29 22:50:03 UTC
-* Number of recursive dependencies: 81
+* Number of recursive dependencies: 70
 
 Run `revdepcheck::revdep_details(, "bootcluster")` for more info
 
@@ -151,30 +345,6 @@ Run `revdepcheck::revdep_details(, "bootcluster")` for more info
     ```
     Namespace in Imports field not imported from: ‘sna’
       All declared Imports should be used.
-    ```
-
-# broom
-
-<details>
-
-* Version: 1.0.6
-* GitHub: https://github.com/tidymodels/broom
-* Source code: https://github.com/cran/broom
-* Date/Publication: 2024-05-17 09:10:02 UTC
-* Number of recursive dependencies: 302
-
-Run `revdepcheck::revdep_details(, "broom")` for more info
-
-</details>
-
-## In both
-
-*   checking Rd cross-references ... WARNING
-    ```
-    Missing link or links in Rd file 'glance.survfit.Rd':
-      ‘summary.survfit’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
     ```
 
 # btergm
@@ -206,7 +376,7 @@ Run `revdepcheck::revdep_details(, "btergm")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/CINNA
 * Date/Publication: 2023-08-08 16:40:02 UTC
-* Number of recursive dependencies: 148
+* Number of recursive dependencies: 131
 
 Run `revdepcheck::revdep_details(, "CINNA")` for more info
 
@@ -229,7 +399,7 @@ Run `revdepcheck::revdep_details(, "CINNA")` for more info
 * GitHub: https://github.com/azizka/conserveR
 * Source code: https://github.com/cran/conserveR
 * Date/Publication: 2021-08-02 09:10:06 UTC
-* Number of recursive dependencies: 63
+* Number of recursive dependencies: 52
 
 Run `revdepcheck::revdep_details(, "conserveR")` for more info
 
@@ -270,6 +440,95 @@ Run `revdepcheck::revdep_details(, "dnr")` for more info
     checkRd: (-1) dnr.Rd:12: Escaped LaTeX specials: \#
     ```
 
+# ecoCopula
+
+<details>
+
+* Version: 1.0.2
+* GitHub: NA
+* Source code: https://github.com/cran/ecoCopula
+* Date/Publication: 2022-03-02 00:20:02 UTC
+* Number of recursive dependencies: 114
+
+Run `revdepcheck::revdep_details(, "ecoCopula")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘ecoCopula’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/checks/ecoCopula/new/ecoCopula.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘ecoCopula’ ...
+** package ‘ecoCopula’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: package or namespace load failed for ‘mvabund’ in dyn.load(file, DLLpath = DLLpath, ...):
+ unable to load shared object '/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/library/ecoCopula/mvabund/libs/mvabund.so':
+  libgsl.so.27: cannot open shared object file: No such file or directory
+Execution halted
+ERROR: lazy loading failed for package ‘ecoCopula’
+* removing ‘/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/checks/ecoCopula/new/ecoCopula.Rcheck/ecoCopula’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘ecoCopula’ ...
+** package ‘ecoCopula’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: package or namespace load failed for ‘mvabund’ in dyn.load(file, DLLpath = DLLpath, ...):
+ unable to load shared object '/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/library/ecoCopula/mvabund/libs/mvabund.so':
+  libgsl.so.27: cannot open shared object file: No such file or directory
+Execution halted
+ERROR: lazy loading failed for package ‘ecoCopula’
+* removing ‘/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/checks/ecoCopula/old/ecoCopula.Rcheck/ecoCopula’
+
+
+```
+# econet
+
+<details>
+
+* Version: 1.0.0.1
+* GitHub: NA
+* Source code: https://github.com/cran/econet
+* Date/Publication: 2024-07-31 10:59:28 UTC
+* Number of recursive dependencies: 64
+
+Run `revdepcheck::revdep_details(, "econet")` for more info
+
+</details>
+
+## In both
+
+*   checking installed files from ‘inst/doc’ ... NOTE
+    ```
+    The following files should probably not be installed:
+      ‘econet.tex’
+    
+    Consider the use of a .Rinstignore file: see ‘Writing R Extensions’,
+    or move the vignette sources from ‘inst/doc’ to ‘vignettes’.
+    ```
+
 # edgebundle
 
 <details>
@@ -295,10 +554,10 @@ Run `revdepcheck::revdep_details(, "edgebundle")` for more info
 
 <details>
 
-* Version: 0.46.11
+* Version: 0.46.18
 * GitHub: https://github.com/gobbios/EloRating
 * Source code: https://github.com/cran/EloRating
-* Date/Publication: 2020-03-12 16:10:14 UTC
+* Date/Publication: 2024-07-15 16:40:02 UTC
 * Number of recursive dependencies: 69
 
 Run `revdepcheck::revdep_details(, "EloRating")` for more info
@@ -313,7 +572,7 @@ Run `revdepcheck::revdep_details(, "EloRating")` for more info
       ...
     --- re-building ‘EloRating_tutorial.Rmd’ using rmarkdown
     
-    Quitting from lines 528-569 [differentshapes] (EloRating_tutorial.Rmd)
+    Quitting from lines 525-568 [differentshapes] (EloRating_tutorial.Rmd)
     Error: processing vignette 'EloRating_tutorial.Rmd' failed with diagnostics:
     there is no package called 'codetools'
     --- failed re-building ‘EloRating_tutorial.Rmd’
@@ -323,6 +582,29 @@ Run `revdepcheck::revdep_details(, "EloRating")` for more info
     
     Error: Vignette re-building failed.
     Execution halted
+    ```
+
+# EpiModel
+
+<details>
+
+* Version: 2.4.0
+* GitHub: https://github.com/EpiModel/EpiModel
+* Source code: https://github.com/cran/EpiModel
+* Date/Publication: 2023-06-20 18:20:05 UTC
+* Number of recursive dependencies: 125
+
+Run `revdepcheck::revdep_details(, "EpiModel")` for more info
+
+</details>
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.0Mb
+      sub-directories of 1Mb or more:
+        doc   2.8Mb
     ```
 
 # ergm
@@ -368,7 +650,7 @@ Run `revdepcheck::revdep_details(, "ergm")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  7.1Mb
+      installed size is  7.2Mb
       sub-directories of 1Mb or more:
         R      1.0Mb
         doc    1.7Mb
@@ -409,29 +691,6 @@ Run `revdepcheck::revdep_details(, "ergm.multi")` for more info
     Execution halted
     ```
 
-# ergm.rank
-
-<details>
-
-* Version: 4.1.0
-* GitHub: https://github.com/statnet/ergm.rank
-* Source code: https://github.com/cran/ergm.rank
-* Date/Publication: 2022-06-01 21:40:02 UTC
-* Number of recursive dependencies: 60
-
-Run `revdepcheck::revdep_details(, "ergm.rank")` for more info
-
-</details>
-
-## In both
-
-*   checking Rd files ... NOTE
-    ```
-    checkRd: (-1) ergm.rank-package.Rd:42: Lost braces
-        42 | 1100-1128. c("\\Sexpr[results=rd,stage=build]{tools:::Rd_expr_doi(\"#1\")}",
-           |                                              ^
-    ```
-
 # ergMargins
 
 <details>
@@ -450,7 +709,7 @@ Run `revdepcheck::revdep_details(, "ergMargins")` for more info
 
 *   checking Rd cross-references ... NOTE
     ```
-    Unknown package ‘margins’ in Rd xrefs
+    Package unavailable to check Rd xrefs: ‘margins’
     ```
 
 # ergmito
@@ -471,9 +730,9 @@ Run `revdepcheck::revdep_details(, "ergmito")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  7.3Mb
+      installed size is  7.7Mb
       sub-directories of 1Mb or more:
-        libs   5.9Mb
+        libs   6.3Mb
     ```
 
 # FinNet
@@ -534,9 +793,9 @@ Run `revdepcheck::revdep_details(, "fssemR")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 22.3Mb
+      installed size is 24.1Mb
       sub-directories of 1Mb or more:
-        libs  21.6Mb
+        libs  23.4Mb
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -604,7 +863,7 @@ Run `revdepcheck::revdep_details(, "genBaRcode")` for more info
 * GitHub: https://github.com/donaldRwilliams/GGMncv
 * Source code: https://github.com/cran/GGMncv
 * Date/Publication: 2021-12-15 07:40:28 UTC
-* Number of recursive dependencies: 183
+* Number of recursive dependencies: 174
 
 Run `revdepcheck::revdep_details(, "GGMncv")` for more info
 
@@ -638,7 +897,7 @@ Run `revdepcheck::revdep_details(, "GGMncv")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/GGMnonreg
 * Date/Publication: 2021-04-08 11:30:06 UTC
-* Number of recursive dependencies: 132
+* Number of recursive dependencies: 123
 
 Run `revdepcheck::revdep_details(, "GGMnonreg")` for more info
 
@@ -699,10 +958,10 @@ Run `revdepcheck::revdep_details(, "ggraph")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  8.4Mb
+      installed size is  8.3Mb
       sub-directories of 1Mb or more:
         doc    3.9Mb
-        libs   2.9Mb
+        libs   2.8Mb
     ```
 
 # GOxploreR
@@ -761,27 +1020,52 @@ ERROR: lazy loading failed for package ‘GOxploreR’
 
 
 ```
-# HiveR
+# inferCSN
 
 <details>
 
-* Version: 0.3.63
-* GitHub: https://github.com/bryanhanson/HiveR
-* Source code: https://github.com/cran/HiveR
-* Date/Publication: 2020-06-09 13:00:03 UTC
-* Number of recursive dependencies: 64
+* Version: 1.0.8
+* GitHub: https://github.com/mengxu98/inferCSN
+* Source code: https://github.com/cran/inferCSN
+* Date/Publication: 2024-08-24 05:30:02 UTC
+* Number of recursive dependencies: 197
 
-Run `revdepcheck::revdep_details(, "HiveR")` for more info
+Run `revdepcheck::revdep_details(, "inferCSN")` for more info
 
 </details>
 
 ## In both
 
-*   checking whether package ‘HiveR’ can be installed ... WARNING
+*   checking examples ... ERROR
     ```
-    Found the following significant warnings:
-      Warning: no DISPLAY variable so Tk is not available
-    See ‘/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/checks/HiveR/new/HiveR.Rcheck/00install.out’ for details.
+    Running examples in ‘inferCSN-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: plot_network_heatmap
+    > ### Title: Plot network heatmap
+    > ### Aliases: plot_network_heatmap
+    > 
+    > ### ** Examples
+    > 
+    > data("example_matrix")
+    ...
+    > 
+    > p1 <- plot_network_heatmap(
+    +   example_ground_truth[, 1:3],
+    +   heatmap_title = "Ground truth",
+    +   legend_name = "Ground truth"
+    + )
+    Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+      there is no package called ‘S4Vectors’
+    Calls: plot_network_heatmap ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+    Execution halted
+    ```
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is 22.1Mb
+      sub-directories of 1Mb or more:
+        libs  20.8Mb
     ```
 
 # InflectSSP
@@ -792,7 +1076,7 @@ Run `revdepcheck::revdep_details(, "HiveR")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/InflectSSP
 * Date/Publication: 2023-04-19 08:00:03 UTC
-* Number of recursive dependencies: 96
+* Number of recursive dependencies: 85
 
 Run `revdepcheck::revdep_details(, "InflectSSP")` for more info
 
@@ -806,6 +1090,25 @@ Run `revdepcheck::revdep_details(, "InflectSSP")` for more info
       All declared Imports should be used.
     ```
 
+# KinMixLite
+
+<details>
+
+* Version: 2.1.0
+* GitHub: NA
+* Source code: https://github.com/cran/KinMixLite
+* Date/Publication: 2023-04-09 12:50:02 UTC
+* Number of recursive dependencies: 49
+
+Run `revdepcheck::revdep_details(, "KinMixLite")` for more info
+
+</details>
+
+## In both
+
+*   R CMD check timed out
+    
+
 # latentnet
 
 <details>
@@ -814,7 +1117,7 @@ Run `revdepcheck::revdep_details(, "InflectSSP")` for more info
 * GitHub: https://github.com/statnet/latentnet
 * Source code: https://github.com/cran/latentnet
 * Date/Publication: 2024-02-19 19:40:02 UTC
-* Number of recursive dependencies: 114
+* Number of recursive dependencies: 110
 
 Run `revdepcheck::revdep_details(, "latentnet")` for more info
 
@@ -871,9 +1174,9 @@ Run `revdepcheck::revdep_details(, "lolog")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 26.9Mb
+      installed size is 29.0Mb
       sub-directories of 1Mb or more:
-        libs  25.3Mb
+        libs  27.3Mb
     ```
 
 *   checking whether startup messages can be suppressed ... NOTE
@@ -899,11 +1202,11 @@ Run `revdepcheck::revdep_details(, "lolog")` for more info
 
 <details>
 
-* Version: 0.4.4
+* Version: 1.1.0
 * GitHub: https://github.com/stocnet/manynet
 * Source code: https://github.com/cran/manynet
-* Date/Publication: 2024-03-15 19:20:10 UTC
-* Number of recursive dependencies: 142
+* Date/Publication: 2024-09-12 22:10:10 UTC
+* Number of recursive dependencies: 147
 
 Run `revdepcheck::revdep_details(, "manynet")` for more info
 
@@ -913,8 +1216,6 @@ Run `revdepcheck::revdep_details(, "manynet")` for more info
 
 *   checking package dependencies ... NOTE
     ```
-    Package suggested but not available for checking: ‘gifski’
-    
     Package which this enhances but not available for checking: ‘Rgraphviz’
     ```
 
@@ -952,7 +1253,7 @@ Run `revdepcheck::revdep_details(, "MBCbook")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/MRPC
 * Date/Publication: 2022-04-11 14:32:34 UTC
-* Number of recursive dependencies: 184
+* Number of recursive dependencies: 170
 
 Run `revdepcheck::revdep_details(, "MRPC")` for more info
 
@@ -1006,47 +1307,6 @@ ERROR: lazy loading failed for package ‘MRPC’
 
 
 ```
-# ndtv
-
-<details>
-
-* Version: 0.13.3
-* GitHub: https://github.com/statnet/ndtv
-* Source code: https://github.com/cran/ndtv
-* Date/Publication: 2022-11-20 22:10:05 UTC
-* Number of recursive dependencies: 85
-
-Run `revdepcheck::revdep_details(, "ndtv")` for more info
-
-</details>
-
-## In both
-
-*   checking Rd files ... NOTE
-    ```
-    checkRd: (-1) render.d3movie.Rd:104: Lost braces in \itemize; meant \describe ?
-    checkRd: (-1) render.d3movie.Rd:105: Lost braces in \itemize; meant \describe ?
-    checkRd: (-1) render.d3movie.Rd:106: Lost braces in \itemize; meant \describe ?
-    checkRd: (-1) render.d3movie.Rd:107: Lost braces in \itemize; meant \describe ?
-    checkRd: (-1) render.d3movie.Rd:108: Lost braces in \itemize; meant \describe ?
-    checkRd: (-1) render.d3movie.Rd:109: Lost braces in \itemize; meant \describe ?
-    checkRd: (-1) render.d3movie.Rd:110: Lost braces in \itemize; meant \describe ?
-    checkRd: (-1) render.d3movie.Rd:111: Lost braces in \itemize; meant \describe ?
-    checkRd: (-1) render.d3movie.Rd:112: Lost braces in \itemize; meant \describe ?
-    checkRd: (-1) render.d3movie.Rd:113: Lost braces in \itemize; meant \describe ?
-    ...
-    checkRd: (-1) render.d3movie.Rd:126: Lost braces in \itemize; meant \describe ?
-    checkRd: (-1) render.d3movie.Rd:127: Lost braces in \itemize; meant \describe ?
-    checkRd: (-1) render.d3movie.Rd:136: Lost braces in \itemize; meant \describe ?
-    checkRd: (-1) render.d3movie.Rd:137: Lost braces in \itemize; meant \describe ?
-    checkRd: (-1) render.d3movie.Rd:138: Lost braces in \itemize; meant \describe ?
-    checkRd: (-1) render.d3movie.Rd:139: Lost braces in \itemize; meant \describe ?
-    checkRd: (-1) render.d3movie.Rd:141: Lost braces in \itemize; meant \describe ?
-    checkRd: (-1) render.d3movie.Rd:142: Lost braces in \itemize; meant \describe ?
-    checkRd: (-1) render.d3movie.Rd:143: Lost braces in \itemize; meant \describe ?
-    checkRd: (-1) render.d3movie.Rd:144: Lost braces in \itemize; meant \describe ?
-    ```
-
 # netdiffuseR
 
 <details>
@@ -1065,21 +1325,21 @@ Run `revdepcheck::revdep_details(, "netdiffuseR")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 13.4Mb
+      installed size is 14.2Mb
       sub-directories of 1Mb or more:
         doc    2.5Mb
-        libs   9.1Mb
+        libs   9.9Mb
     ```
 
 # netmediate
 
 <details>
 
-* Version: 0.1.4
+* Version: 1.0.1
 * GitHub: NA
 * Source code: https://github.com/cran/netmediate
-* Date/Publication: 2024-02-21 23:20:09 UTC
-* Number of recursive dependencies: 105
+* Date/Publication: 2024-06-19 08:40:07 UTC
+* Number of recursive dependencies: 89
 
 Run `revdepcheck::revdep_details(, "netmediate")` for more info
 
@@ -1134,7 +1394,7 @@ Run `revdepcheck::revdep_details(, "networkABC")` for more info
 * GitHub: https://github.com/jongheepark/NetworkChange
 * Source code: https://github.com/cran/NetworkChange
 * Date/Publication: 2022-03-04 07:30:02 UTC
-* Number of recursive dependencies: 131
+* Number of recursive dependencies: 122
 
 Run `revdepcheck::revdep_details(, "NetworkChange")` for more info
 
@@ -1207,7 +1467,7 @@ Run `revdepcheck::revdep_details(, "networkDynamicData")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/NetworkExtinction
 * Date/Publication: 2023-03-31 11:40:02 UTC
-* Number of recursive dependencies: 100
+* Number of recursive dependencies: 101
 
 Run `revdepcheck::revdep_details(, "NetworkExtinction")` for more info
 
@@ -1290,7 +1550,7 @@ Run `revdepcheck::revdep_details(, "relevent")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/RHMS
 * Date/Publication: 2021-09-27 15:50:02 UTC
-* Number of recursive dependencies: 95
+* Number of recursive dependencies: 85
 
 Run `revdepcheck::revdep_details(, "RHMS")` for more info
 
@@ -1338,10 +1598,10 @@ Run `revdepcheck::revdep_details(, "RSiena")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 20.1Mb
+      installed size is 20.5Mb
       sub-directories of 1Mb or more:
         R      1.0Mb
-        libs  18.6Mb
+        libs  19.0Mb
     ```
 
 # sand
@@ -1352,7 +1612,7 @@ Run `revdepcheck::revdep_details(, "RSiena")` for more info
 * GitHub: https://github.com/kolaczyk/sand
 * Source code: https://github.com/cran/sand
 * Date/Publication: 2020-07-02 07:20:06 UTC
-* Number of recursive dependencies: 155
+* Number of recursive dependencies: 147
 
 Run `revdepcheck::revdep_details(, "sand")` for more info
 
@@ -1461,6 +1721,31 @@ Run `revdepcheck::revdep_details(, "spaceNet")` for more info
 
 ## In both
 
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘spaceNet-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: multiNet
+    > ### Title: Latent Space Models for Multivariate Networks
+    > ### Aliases: multiNet print.multiNet
+    > 
+    > ### ** Examples
+    > 
+    > data(vickers)
+    ...
+    > 
+    > it <- 10     # small number of iterations just for example
+    > 
+    > # 2-dimensional latent space model, no covariates
+    > mod <- multiNet(vickers, niter = it, D = 2)
+    Error in dyn.load(file, DLLpath = DLLpath, ...) : 
+      unable to load shared object '/home/pavel/Documents/Research/Software/statnet/statnet.common/revdep/library/spaceNet/RcppZiggurat/libs/RcppZiggurat.so':
+      libgsl.so.27: cannot open shared object file: No such file or directory
+    Calls: multiNet ... asNamespace -> loadNamespace -> library.dynam -> dyn.load
+    Execution halted
+    ```
+
 *   checking Rd files ... NOTE
     ```
     checkRd: (-1) heuSearch.Rd:24: Lost braces in \itemize; \value handles \item{}{} directly
@@ -1562,7 +1847,7 @@ Run `revdepcheck::revdep_details(, "stargazer")` for more info
 * GitHub: https://github.com/statnet/statnet
 * Source code: https://github.com/cran/statnet
 * Date/Publication: 2019-06-14 08:00:06 UTC
-* Number of recursive dependencies: 100
+* Number of recursive dependencies: 113
 
 Run `revdepcheck::revdep_details(, "statnet")` for more info
 
@@ -1581,27 +1866,6 @@ Run `revdepcheck::revdep_details(, "statnet")` for more info
     
     It looks like this package (or a package it requires) has a startup
     message which cannot be suppressed: see ?packageStartupMessage.
-    ```
-
-# statnetWeb
-
-<details>
-
-* Version: 0.5.6
-* GitHub: NA
-* Source code: https://github.com/cran/statnetWeb
-* Date/Publication: 2020-08-05 18:00:03 UTC
-* Number of recursive dependencies: 66
-
-Run `revdepcheck::revdep_details(, "statnetWeb")` for more info
-
-</details>
-
-## In both
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
     ```
 
 # tergm
@@ -1637,11 +1901,11 @@ Run `revdepcheck::revdep_details(, "tergm")` for more info
 
 <details>
 
-* Version: 1.39.3
+* Version: 1.39.4
 * GitHub: https://github.com/leifeld/texreg
 * Source code: https://github.com/cran/texreg
-* Date/Publication: 2023-11-10 00:00:03 UTC
-* Number of recursive dependencies: 103
+* Date/Publication: 2024-07-24 12:20:01 UTC
+* Number of recursive dependencies: 109
 
 Run `revdepcheck::revdep_details(, "texreg")` for more info
 
@@ -1653,19 +1917,18 @@ Run `revdepcheck::revdep_details(, "texreg")` for more info
     ```
     Packages which this enhances but not available for checking:
       'AER', 'alpaca', 'betareg', 'Bergm', 'bife', 'biglm', 'brglm',
-      'brms', 'btergm', 'dynlm', 'eha', 'erer', 'ergm', 'feisr', 'fGarch',
+      'brms', 'btergm', 'dynlm', 'eha', 'ergm', 'feisr', 'fGarch',
       'fixest', 'forecast', 'gamlss', 'gamlss.inf', 'gee', 'glmmTMB',
       'gmm', 'gnm', 'h2o', 'latentnet', 'lfe', 'logitr', 'lqmm', 'maxLik',
-      'metaSEM', 'mfx', 'mhurdle', 'miceadds', 'mlogit', 'mnlogit',
-      'MuMIn', 'oglmx', 'ordinal', 'pglm', 'plm', 'relevent', 'rms',
-      'robust', 'simex', 'spatialreg', 'spdep', 'speedglm', 'truncreg',
-      'VGAM', 'Zelig'
+      'metaSEM', 'mfx', 'mhurdle', 'miceadds', 'mlogit', 'MuMIn', 'oglmx',
+      'ordinal', 'pglm', 'plm', 'relevent', 'remify', 'remstats',
+      'remstimate', 'rms', 'robust', 'simex', 'spatialreg', 'spdep',
+      'speedglm', 'truncreg', 'VGAM'
     ```
 
 *   checking Rd cross-references ... NOTE
     ```
-    Packages unavailable to check Rd xrefs: ‘h2o’, ‘spatialreg’, ‘eha’, ‘MuMIn’, ‘Bergm’, ‘mfx’, ‘betareg’, ‘bife’, ‘biglm’, ‘brglm’, ‘brms’, ‘btergm’, ‘ordinal’, ‘dynlm’, ‘ergm’, ‘latentnet’, ‘forecast’, ‘fGarch’, ‘alpaca’, ‘feisr’, ‘lfe’, ‘fixest’, ‘gamlss’, ‘gamlss.inf’, ‘gee’, ‘gmm’, ‘miceadds’, ‘glmmTMB’, ‘gnm’, ‘AER’, ‘robust’, ‘lqmm’, ‘rms’, ‘erer’, ‘maxLik’, ‘mlogit’, ‘oglmx’, ‘plm’, ‘pglm’, ‘relevent’, ‘simex’, ‘speedglm’, ‘truncreg’, ‘VGAM’, ‘metaSEM’
-    Unknown package ‘mhurdle’ in Rd xrefs
+    Packages unavailable to check Rd xrefs: ‘h2o’, ‘spatialreg’, ‘eha’, ‘MuMIn’, ‘Bergm’, ‘mfx’, ‘betareg’, ‘bife’, ‘biglm’, ‘brglm’, ‘brms’, ‘btergm’, ‘ordinal’, ‘dynlm’, ‘ergm’, ‘latentnet’, ‘forecast’, ‘fGarch’, ‘alpaca’, ‘feisr’, ‘lfe’, ‘fixest’, ‘gamlss’, ‘gamlss.inf’, ‘gee’, ‘gmm’, ‘miceadds’, ‘glmmTMB’, ‘gnm’, ‘AER’, ‘robust’, ‘lqmm’, ‘rms’, ‘maxLik’, ‘mhurdle’, ‘mlogit’, ‘oglmx’, ‘plm’, ‘pglm’, ‘relevent’, ‘remstimate’, ‘simex’, ‘speedglm’, ‘truncreg’, ‘VGAM’, ‘metaSEM’
     ```
 
 # tip
@@ -1676,7 +1939,7 @@ Run `revdepcheck::revdep_details(, "texreg")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/tip
 * Date/Publication: 2022-11-14 17:30:02 UTC
-* Number of recursive dependencies: 112
+* Number of recursive dependencies: 101
 
 Run `revdepcheck::revdep_details(, "tip")` for more info
 
@@ -1691,56 +1954,6 @@ Run `revdepcheck::revdep_details(, "tip")` for more info
            |                                           ^
     ```
 
-# VineCopula
-
-<details>
-
-* Version: 2.5.0
-* GitHub: https://github.com/tnagler/VineCopula
-* Source code: https://github.com/cran/VineCopula
-* Date/Publication: 2023-07-10 19:00:11 UTC
-* Number of recursive dependencies: 67
-
-Run `revdepcheck::revdep_details(, "VineCopula")` for more info
-
-</details>
-
-## In both
-
-*   checking Rd files ... NOTE
-    ```
-    checkRd: (-1) RVineMatrix.Rd:90: Lost braces in \itemize; \value handles \item{}{} directly
-    checkRd: (-1) RVineMatrix.Rd:91: Lost braces in \itemize; \value handles \item{}{} directly
-    checkRd: (-1) RVineMatrix.Rd:92: Lost braces in \itemize; \value handles \item{}{} directly
-    ```
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘copula’
-    ```
-
-# webSDM
-
-<details>
-
-* Version: 1.1-4
-* GitHub: https://github.com/giopogg/webSDM
-* Source code: https://github.com/cran/webSDM
-* Date/Publication: 2023-09-18 17:00:02 UTC
-* Number of recursive dependencies: 201
-
-Run `revdepcheck::revdep_details(, "webSDM")` for more info
-
-</details>
-
-## In both
-
-*   checking Rd files ... NOTE
-    ```
-    checkRd: (-1) predict.SDMfit.Rd:23: Lost braces in \itemize; \value handles \item{}{} directly
-    checkRd: (-1) predict.SDMfit.Rd:24: Lost braces in \itemize; \value handles \item{}{} directly
-    ```
-
 # WOTPLY
 
 <details>
@@ -1749,7 +1962,7 @@ Run `revdepcheck::revdep_details(, "webSDM")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/WOTPLY
 * Date/Publication: 2022-09-12 07:43:01 UTC
-* Number of recursive dependencies: 82
+* Number of recursive dependencies: 71
 
 Run `revdepcheck::revdep_details(, "WOTPLY")` for more info
 
@@ -1771,7 +1984,7 @@ Run `revdepcheck::revdep_details(, "WOTPLY")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/WRSS
 * Date/Publication: 2022-05-29 18:10:02 UTC
-* Number of recursive dependencies: 108
+* Number of recursive dependencies: 85
 
 Run `revdepcheck::revdep_details(, "WRSS")` for more info
 
