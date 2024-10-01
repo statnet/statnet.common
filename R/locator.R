@@ -5,7 +5,7 @@
 #  open source, and has the attribution requirements (GPL Section 7) at
 #  https://statnet.org/attribution .
 #
-#  Copyright 2007-2023 Statnet Commons
+#  Copyright 2007-2024 Statnet Commons
 ################################################################################
 #' A simple dictionary to cache recent InitFunction lookups.
 #'
