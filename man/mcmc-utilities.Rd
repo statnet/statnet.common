@@ -6,7 +6,7 @@
 \alias{var.mcmc.list}
 \alias{sweep.mcmc.list}
 \alias{lapply.mcmc.list}
-\title{Utility operations for \code{\link{mcmc.list}} objects}
+\title{Utility operations for \code{\link[coda:mcmc.list]{mcmc.list}} objects}
 \usage{
 colMeans.mcmc.list(x, ...)
 
@@ -17,13 +17,13 @@ sweep.mcmc.list(x, STATS, FUN = "-", check.margin = TRUE, ...)
 lapply.mcmc.list(X, FUN, ...)
 }
 \arguments{
-\item{x}{a \code{\link{mcmc.list}} object.}
+\item{x}{a \code{\link[coda:mcmc.list]{mcmc.list}} object.}
 
 \item{\dots}{additional arguments to the functions evaluated on each chain.}
 
 \item{STATS, FUN, check.margin}{See help for \code{\link[=sweep]{sweep()}}.}
 
-\item{X}{An \code{\link{mcmc.list}} object.}
+\item{X}{An \code{\link[coda:mcmc.list]{mcmc.list}} object.}
 }
 \value{
 \code{colMeans.mcmc} returns a vector with length equal to
@@ -33,22 +33,22 @@ each chain.
 \code{sweep.mcmc.list} returns an appropriately modified
 version of \code{x}
 
-\code{lapply.mcmc.list} returns an \code{\link{mcmc.list}} each of
+\code{lapply.mcmc.list} returns an \code{\link[coda:mcmc.list]{mcmc.list}} each of
 whose chains had been passed through \code{FUN}.
 }
 \description{
-\code{colMeans.mcmc.list} is a "method" for (non-generic) \code{\link[=colMeans]{colMeans()}} applicable to \code{\link{mcmc.list}} objects.
+\code{colMeans.mcmc.list} is a "method" for (non-generic) \code{\link[=colMeans]{colMeans()}} applicable to \code{\link[coda:mcmc.list]{mcmc.list}} objects.
 
 \code{var.mcmc.list} is a "method" for (non-generic)
-\code{\link[=var]{var()}} applicable to \code{\link{mcmc.list}} objects. Since MCMC chains
+\code{\link[=var]{var()}} applicable to \code{\link[coda:mcmc.list]{mcmc.list}} objects. Since MCMC chains
 are assumed to all be sampling from the same underlying
 distribution, their pooled mean is used.
 
 \code{sweep.mcmc.list} is a "method" for (non-generic)
-\code{\link[=sweep]{sweep()}} applicable to \code{\link{mcmc.list}} objects.
+\code{\link[=sweep]{sweep()}} applicable to \code{\link[coda:mcmc.list]{mcmc.list}} objects.
 
 \code{lapply.mcmc.list} is a "method" for (non-generic)
-\code{\link[=lapply]{lapply()}} applicable to \code{\link{mcmc.list}} objects.
+\code{\link[=lapply]{lapply()}} applicable to \code{\link[coda:mcmc.list]{mcmc.list}} objects.
 }
 \details{
 These implementations should be equivalent (within
@@ -82,7 +82,7 @@ stopifnot(isTRUE(all.equal(colMeans.mcmc.list(line)[c(2,3,1)],colMeans.mcmc.list
 }
 }
 \seealso{
-\code{\link{mcmc.list}}
+\code{\link[coda:mcmc.list]{mcmc.list}}
 
 \code{\link[=colMeans]{colMeans()}}
 

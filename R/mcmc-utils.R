@@ -8,11 +8,11 @@
 #  Copyright 2007-2024 Statnet Commons
 ################################################################################
 #' @name mcmc-utilities
-#' @title Utility operations for [`mcmc.list`] objects
+#' @title Utility operations for [`mcmc.list`][coda::mcmc.list] objects
 #' 
-#' @description \code{colMeans.mcmc.list} is a "method" for (non-generic) [colMeans()] applicable to [`mcmc.list`] objects.
+#' @description \code{colMeans.mcmc.list} is a "method" for (non-generic) [colMeans()] applicable to [`mcmc.list`][coda::mcmc.list] objects.
 #' 
-#' @param x a \code{\link{mcmc.list}} object.
+#' @param x a [`mcmc.list`][coda::mcmc.list] object.
 #' @param \dots additional arguments to the functions evaluated on each chain.
 #' @return \code{colMeans.mcmc} returns a vector with length equal to
 #'   the number of mcmc chains in \code{x} with the mean value for
@@ -22,7 +22,7 @@
 #'   numerical error) to the same function being called on
 #'   `as.matrix(x)`, while avoiding construction of the large matrix.
 #'
-#' @seealso [`mcmc.list`]
+#' @seealso [`mcmc.list`][coda::mcmc.list]
 #'
 #' [colMeans()]
 #' @examples
@@ -41,7 +41,7 @@ colMeans.mcmc.list <- function(x,...){
 #' @rdname mcmc-utilities
 #'
 #' @description \code{var.mcmc.list} is a "method" for (non-generic)
-#'   [var()] applicable to [`mcmc.list`] objects. Since MCMC chains
+#'   [var()] applicable to [`mcmc.list`][coda::mcmc.list] objects. Since MCMC chains
 #'   are assumed to all be sampling from the same underlying
 #'   distribution, their pooled mean is used.
 #'
@@ -66,7 +66,7 @@ var.mcmc.list <- function(x, ...){
 #' @rdname mcmc-utilities
 #'
 #' @description \code{sweep.mcmc.list} is a "method" for (non-generic)
-#'   [sweep()] applicable to [`mcmc.list`] objects.
+#'   [sweep()] applicable to [`mcmc.list`][coda::mcmc.list] objects.
 #' 
 #' @param STATS,FUN,check.margin See help for [sweep()].
 #' @return \code{sweep.mcmc.list} returns an appropriately modified
@@ -90,10 +90,10 @@ sweep.mcmc.list<-function(x, STATS, FUN="-", check.margin=TRUE, ...){
 #' @rdname mcmc-utilities
 #'
 #' @description \code{lapply.mcmc.list} is a "method" for (non-generic)
-#'   [lapply()] applicable to [`mcmc.list`] objects.
+#'   [lapply()] applicable to [`mcmc.list`][coda::mcmc.list] objects.
 #' 
-#' @param X An [`mcmc.list`] object.
-#' @return `lapply.mcmc.list` returns an [`mcmc.list`] each of
+#' @param X An [`mcmc.list`][coda::mcmc.list] object.
+#' @return `lapply.mcmc.list` returns an [`mcmc.list`][coda::mcmc.list] each of
 #'   whose chains had been passed through `FUN`.
 #' @seealso [lapply()]
 #' @examples
