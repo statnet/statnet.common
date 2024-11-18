@@ -926,3 +926,68 @@ unused_dots_warning <- function(e){
   rlang::warn(sprintf("Argument(s) %s were not recognized or used. Did you mistype an argument name?",
                paste.and(sQuote(v))))
 }
+
+#' Modify the argument in the calling environment of the calling function
+#'
+#' This is a helper function that enables a function to modify its argument in place, emulating behavior of \CRANpkg{R6} classes and methods in the \CRANpkg{network}. It should typically be the last line of the calling function.
+#'
+#' This function determines whether the argument can be assigned to by actually attempting to do so. If this results in an error, for example, because the argument is anonymous, the error is silently ignored.
+#'
+#' It can be called multiple times by the same function to modify multiple arguments. It uses the [on.exit()] mechanism, adding to the list. Thus, if some other function calls `on.exit(..., add = FALSE)` (the default) afterwards, `modify_in_place()` will fail silently.
+#'
+#' @param x the argument (not its name!) to be modified
+#' @param value the value to assign (defaulting to the current value of `x`)
+#'
+#' @return `value`, invisibly, while attempting to modify `x` in place
+#'
+#' @examples
+#' ## A function that increments its argument in place:
+#' inc <- function(x){
+#'   modify_in_place(x, x+1)
+#' }
+#'
+#' y <- 1
+#' z <- 1
+#'
+#' stopifnot(inc(z) == 2)
+#' stopifnot(z == 2)
+#' stopifnot(inc(y) == 2)
+#' stopifnot(y == 2)
+#' stopifnot(inc(z) == 3)
+#' stopifnot(z == 3)
+#'
+#' stopifnot(inc(identity(z)) == 4)
+#' stopifnot(z == 3) # Not updated!
+#'
+#' ## Modify an argument that's been updated in place:
+#' inc2 <- function(y){
+#'   y <- y + 1
+#'   modify_in_place(y)
+#' }
+#'
+#' z
+#' stopifnot(inc2(z) == 4)
+#' stopifnot(z == 4)
+#'
+#' ## Decrement the first argument, increment the second:
+#' incdec <- function(x,y){
+#'   modify_in_place(x, x-1)
+#'   modify_in_place(y, y+1)
+#' }
+#'
+#' c(y,z)
+#' incdec(y,z)
+#' stopifnot(all(c(y,z) == c(1,5)))
+#' @export
+modify_in_place <- function(x, value = x){
+  xn <- substitute(x) # Grab the name of the argument to be updated.
+  xnn <- match.call(sys.function(-1), sys.call(-1))[[xn]] # Grab the expression that was passed into its argument.
+
+  eval.parent(on.exit( # As the calling function exits...
+    tryCatch( # try to...
+    eval.parent(call("<-", xnn, value), n = 2), # Assign `value` to whatever `xnn` stands for in the caller's calling environment.
+    error = identity # and do nothing if it fails.
+    ), add = TRUE))
+
+  invisible(value) # Return invisibly.
+}
