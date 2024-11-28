@@ -221,3 +221,14 @@ SEXP logspace_wxmean_wrapper(SEXP xm, SEXP ym, SEXP logw){
   UNPROTECT(6);
   return(out);
 }
+
+SEXP log1mexp_wrapper(SEXP xR){
+  xR = PROTECT(coerceVector(xR, REALSXP));
+  unsigned int n = length(xR);
+  SEXP outR = PROTECT(allocVector(REALSXP, n));
+  double *x = REAL(xR), *out = REAL(outR);
+  for(unsigned int i = 0; i < n; i++)
+    *(out++) = log1mexp(*(x++));
+  UNPROTECT(2);
+  return outR;
+}

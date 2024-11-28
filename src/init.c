@@ -12,12 +12,9 @@
 #include <stdlib.h> // for NULL
 #include <R_ext/Rdynload.h>
 
-/* FIXME: 
-   Check these declarations against the C/Fortran source code.
-*/
-
 /* .Call calls */
 extern SEXP log_sum_exp_wrapper(SEXP, SEXP);
+extern SEXP log1mexp_wrapper(SEXP);
 extern SEXP logspace_wmean_wrapper(SEXP, SEXP);
 extern SEXP logspace_wmean2_wrapper(SEXP, SEXP);
 extern SEXP logspace_wmeans_wrapper(SEXP, SEXP);
@@ -26,6 +23,7 @@ extern SEXP sweep2m(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
     {"log_sum_exp_wrapper",     (DL_FUNC) &log_sum_exp_wrapper,     2},
+    {"log1mexp_wrapper",        (DL_FUNC) &log1mexp_wrapper,        1},
     {"logspace_wmean_wrapper",  (DL_FUNC) &logspace_wmean_wrapper,  2},
     {"logspace_wmean2_wrapper", (DL_FUNC) &logspace_wmean2_wrapper, 2},
     {"logspace_wmeans_wrapper", (DL_FUNC) &logspace_wmeans_wrapper, 2},

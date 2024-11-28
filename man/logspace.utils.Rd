@@ -7,6 +7,7 @@
 \alias{lweighted.mean}
 \alias{lweighted.var}
 \alias{lweighted.cov}
+\alias{log1mexp}
 \title{Utilities for performing calculations on logarithmic scale.}
 \usage{
 log_sum_exp(logx, use_ldouble = FALSE)
@@ -18,6 +19,8 @@ lweighted.mean(x, logw)
 lweighted.var(x, logw, onerow = NA)
 
 lweighted.cov(x, y, logw, onerow = NA)
+
+log1mexp(x)
 }
 \arguments{
 \item{logx}{Numeric vector of \eqn{\log(x)}, the natural logarithms of the
@@ -65,6 +68,8 @@ logarithmic scale, minimizing loss of precision.
 
 \item \code{lweighted.cov()}: weighted covariance between \code{x} and \code{y}: \code{crossprod(x-lweighted.mean(x,logw)*exp(logw/2), y-lweighted.mean(y,logw)*exp(logw/2))/sum(exp(logw))}
 
+\item \code{log1mexp()}: \code{log(1-exp(-x))} for \code{x >= 0} (a wrapper for the eponymous C macro provided by R)
+
 }}
 \examples{
 x <- rnorm(1000)
@@ -89,6 +94,10 @@ stopifnot(all.equal(crossprod(t(t(x)-mx)*exp(logw/2), t(t(y)-my)*exp(logw/2))/su
                     lweighted.cov(x, y, logw), check.attributes=FALSE))
 stopifnot(all.equal(crossprod(t(t(y)-my)*exp(logw/2), t(t(x)-mx)*exp(logw/2))/sum(exp(logw)),
                     lweighted.cov(y, x, logw), check.attributes=FALSE))
+
+x <- rexp(1000)
+stopifnot(isTRUE(all.equal(log1mexp(x), log(1-exp(-x)))))
+
 }
 \author{
 Pavel N. Krivitsky

@@ -135,6 +135,14 @@ lweighted.cov <- function(x, y, logw, onerow = NA){
   }
 }
 
+#' @describeIn logspace.utils `log(1-exp(-x))` for `x >= 0` (a wrapper for the eponymous C macro provided by R)
+#' @examples
+#'
+#' x <- rexp(1000)
+#' stopifnot(isTRUE(all.equal(log1mexp(x), log(1-exp(-x)))))
+#'
+#' @export
+log1mexp <- function(x) .Call("log1mexp_wrapper", x)
 
 #' Suptract a elements of a vector from respective columns of a matrix
 #' 
