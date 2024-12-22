@@ -473,7 +473,9 @@ eval_lhs.formula <- function(object){
 #'   dropping all. Variables that cannot be resolved are silently
 #'   ignored.
 #'
-#' @return An object of the same type as `object`, with updated environment.
+#' @return An object of the same type as `object`, with updated
+#'   environment. If `keep` is empty, the environment is [baseenv()];
+#'   if not empty, it's a new environment with [baseenv()] as parent.
 #' @export
 trim_env <- function(object, keep=NULL, ...){
   UseMethod("trim_env")
@@ -484,7 +486,7 @@ trim_env <- function(object, keep=NULL, ...){
 trim_env.environment <- function(object, keep=NULL, ...){
   # NB: The parent should be baseenv(), not emptyenv(), because :: and
   # ::: are defined in baseenv(), so PKG:::NAME calls won't work.
-  e <- new.env(parent=baseenv())
+  e <- if(length(keep)) new.env(parent=baseenv()) else baseenv()
   for(vn in keep){
     try(assign(vn, get(vn, envir=object), envir=e), silent=TRUE)
   }

@@ -24,7 +24,9 @@ ignored.}
 \item{...}{Additional arguments, passed on to lower-level methods.}
 }
 \value{
-An object of the same type as \code{object}, with updated environment.
+An object of the same type as \code{object}, with updated
+environment. If \code{keep} is empty, the environment is \code{\link[=baseenv]{baseenv()}};
+if not empty, it's a new environment with \code{\link[=baseenv]{baseenv()}} as parent.
 }
 \description{
 Make a copy of an environment with just the selected objects.
