@@ -1,3 +1,15 @@
+statnet.common 4.11.0
+=====================
+
+-   New function, `modify_in_place()`, that attempts to modify the
+    argument of its caller in place. A function can call it to modify
+    its own arguments in place.
+-   New function, `log1mexp(x)` to compute `log(1-exp(-x))` minimizing
+    the loss of precision. R provides a C macro `log1mexp(x)` but not
+    the corresponding R wrapper.
+-   The behavior of `trim_env()` has changed: if no variables are to be
+    copied in, the environment is set directly to `baseenv()`.
+
 statnet.common 4.10.0
 =====================
 
