@@ -102,8 +102,8 @@ sandwich_solve <- function(A, B, ...) {
 xTAx_eigen <- function(x, A, tol=sqrt(.Machine$double.eps), ...) {
   e <- eigen(A, symmetric=TRUE)
   keep <- e$values > max(tol * e$values[1L], 0)
-  h <- drop(crossprod(x, e$vectors[, keep, drop=FALSE]))
-  structure(sum(h*h/e$values[keep]), rank = sum(keep), nullity = sum(!keep))
+  h <- crossprod(e$vectors[, keep, drop=FALSE], x)
+  structure(drop(crossprod(h, h/e$values[keep])), rank = sum(keep), nullity = sum(!keep))
 }
 
 .inv_diag <- function(X){
