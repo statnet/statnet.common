@@ -10,6 +10,7 @@
 \alias{xTAx_ssolve}
 \alias{xTAx_qrssolve}
 \alias{sandwich_ssolve}
+\alias{qrssolve}
 \title{Wrappers around matrix algebra functions that pre-\emph{s}cale their
 arguments}
 \usage{
@@ -30,6 +31,8 @@ xTAx_ssolve(x, A, ...)
 xTAx_qrssolve(x, A, tol = 1e-07, ...)
 
 sandwich_ssolve(A, B, ...)
+
+qrssolve(a, b, tol = 1e-07, ..., snnd = TRUE)
 }
 \arguments{
 \item{snnd}{assume that the matrix is symmetric non-negative
@@ -59,7 +62,9 @@ eigenvalues is more robust.
 respectively. \code{srcond()} returns the reciprocal condition number of
 \code{\link[=rcond]{rcond()}} net of the above scaling. \code{xTAx_ssolve()},
 \code{xTAx_qrssolve()}, \code{xTAx_seigen()}, and \code{sandwich_ssolve()} wrap
-the corresponding \pkg{statnet.common} functions.
+the corresponding \pkg{statnet.common} functions. \code{qrssolve()}
+solves the linear system via QR decomposition after scaling by
+diagonal.
 }
 \examples{
 x <- rnorm(2, sd=c(1,1e12))
@@ -67,10 +72,12 @@ x <- c(x, sum(x))
 A <- matrix(c(1, 0, 1,
               0, 1e24, 1e24,
               1, 1e24, 1e24), 3, 3)
-stopifnot(all.equal(
+stopifnot(isTRUE(all.equal(
   xTAx_qrssolve(x,A),
   structure(drop(x\%*\%sginv(A)\%*\%x), rank = 2L, nullity = 1L)
-))
+)))
+
+stopifnot(isTRUE(all.equal(c(A \%*\% qrssolve(A, x)), x)))
 
 x <- rnorm(2, sd=c(1,1e12))
 x <- c(x, rnorm(1, sd=1e12))

@@ -139,7 +139,9 @@ xTAx_eigen <- function(x, A, tol=sqrt(.Machine$double.eps), ...) {
 #' respectively. `srcond()` returns the reciprocal condition number of
 #' [rcond()] net of the above scaling. `xTAx_ssolve()`,
 #' `xTAx_qrssolve()`, `xTAx_seigen()`, and `sandwich_ssolve()` wrap
-#' the corresponding \pkg{statnet.common} functions.
+#' the corresponding \pkg{statnet.common} functions. `qrssolve()`
+#' solves the linear system via QR decomposition after scaling by
+#' diagonal.
 #'
 #' @param snnd assume that the matrix is symmetric non-negative
 #'   definite (SNND). This typically entails scaling that converts
@@ -249,10 +251,12 @@ xTAx_ssolve <- function(x, A, ...) {
 #' A <- matrix(c(1, 0, 1,
 #'               0, 1e24, 1e24,
 #'               1, 1e24, 1e24), 3, 3)
-#' stopifnot(all.equal(
+#' stopifnot(isTRUE(all.equal(
 #'   xTAx_qrssolve(x,A),
 #'   structure(drop(x%*%sginv(A)%*%x), rank = 2L, nullity = 1L)
-#' ))
+#' )))
+#'
+#' stopifnot(isTRUE(all.equal(c(A %*% qrssolve(A, x)), x)))
 #'
 #' x <- rnorm(2, sd=c(1,1e12))
 #' x <- c(x, rnorm(1, sd=1e12))
@@ -280,4 +284,34 @@ xTAx_qrssolve <- function(x, A, tol = 1e-07, ...) {
 #' @export
 sandwich_ssolve <- function(A, B, ...) {
   ssolve(A, t(ssolve(A, B, ...)), ...)
+}
+
+#' @rdname ssolve
+#' @export
+qrssolve <- function(a, b, tol = 1e-07, ..., snnd = TRUE) {
+  if(missing(b)) {
+    b <- diag(1, nrow(a))
+    colnames(b) <- rownames(a)
+  }
+
+  if(snnd) {
+    d <- .sqrt_inv_diag(a)
+    dd <- d * rep(d, each = length(d))
+
+    aqr <- qr(a*dd, tol = tol, ...)
+    nullity <- min(nrow(a), ncol(a)) - aqr$rank
+    if(nullity && !all(abs(crossprod(qr.Q(aqr)[,-seq_len(aqr$rank), drop=FALSE], b*d))<tol))
+      stop("b is not in the span of a")
+    x <- qr.coef(aqr, b*d)*d
+  } else {
+    d <- .inv_diag(a)
+    ## NB: In R, vector * matrix and matrix * vector always scales
+    ## corresponding rows.
+    aqr <- qr(a*d, tol = tol, ...)
+    nullity <- min(nrow(a), ncol(a)) - aqr$rank
+    if(nullity && !all(abs(crossprod(qr.Q(aqr)[,-seq_len(aqr$rank), drop=FALSE], b*d))<tol))
+      stop("b is not in the span of a")
+    x <- qr.coef(aqr, b*d)
+  }
+  structure(replace(x, is.na(x), 0), rank=aqr$rank, nullity=nullity)
 }
