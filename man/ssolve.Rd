@@ -11,6 +11,8 @@
 \alias{xTAx_qrssolve}
 \alias{sandwich_ssolve}
 \alias{qrssolve}
+\alias{sandwich_qrssolve}
+\alias{sandwich_qrsolve}
 \title{Wrappers around matrix algebra functions that pre-\emph{s}cale their
 arguments}
 \usage{
@@ -33,6 +35,10 @@ xTAx_qrssolve(x, A, tol = 1e-07, ...)
 sandwich_ssolve(A, B, ...)
 
 qrssolve(a, b, tol = 1e-07, ..., snnd = TRUE)
+
+sandwich_qrssolve(A, B, ...)
+
+sandwich_qrsolve(A, B, ...)
 }
 \arguments{
 \item{snnd}{assume that the matrix is symmetric non-negative

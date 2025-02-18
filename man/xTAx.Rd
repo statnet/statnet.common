@@ -7,6 +7,8 @@
 \alias{xTAx_qrsolve}
 \alias{sandwich_solve}
 \alias{xTAx_eigen}
+\alias{sandwich_sginv}
+\alias{sandwich_ginv}
 \title{Common quadratic forms}
 \usage{
 xTAx(x, A)
@@ -20,6 +22,10 @@ xTAx_qrsolve(x, A, tol = 1e-07, ...)
 sandwich_solve(A, B, ...)
 
 xTAx_eigen(x, A, tol = sqrt(.Machine$double.eps), ...)
+
+sandwich_sginv(A, B, ...)
+
+sandwich_ginv(A, B, ...)
 }
 \arguments{
 \item{x}{a vector}

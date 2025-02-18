@@ -315,3 +315,33 @@ qrssolve <- function(a, b, tol = 1e-07, ..., snnd = TRUE) {
   }
   structure(replace(x, is.na(x), 0), rank=aqr$rank, nullity=nullity)
 }
+
+#' @rdname ssolve
+#'
+#' @export
+sandwich_qrssolve <- function(A, B, ...) {
+  qrssolve(A, t(qrssolve(A, B, ...)), ...)
+}
+
+#' @rdname ssolve
+#'
+#' @export
+sandwich_qrsolve <- function(A, B, ...) {
+  qrsolve(A, t(qrsolve(A, B, ...)), ...)
+}
+
+#' @rdname xTAx
+#'
+#' @export
+sandwich_sginv <- function(A, B, ...) {
+  Ai <- sginv(A, ...)
+  Ai %*% B %*% t(Ai)
+}
+
+#' @rdname xTAx
+#'
+#' @export
+sandwich_ginv <- function(A, B, ...) {
+  Ai <- ginv(A, ...)
+  Ai %*% B %*% t(Ai)
+}
