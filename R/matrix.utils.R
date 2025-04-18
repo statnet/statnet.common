@@ -87,9 +87,10 @@ sandwich_solve <- function(A, B, ...) {
 
 #' @describeIn xTAx Evaluate \eqn{x' A^{-1} x} for vector \eqn{x} and
 #'   matrix \eqn{A} (symmetric, nonnegative-definite) via
-#'   eigendecomposition; returns `rank` and `nullity` as attributes
-#'   just in case subsequent calculations (e.g., hypothesis test
-#'   degrees of freedom) are affected.
+#'   eigendecomposition and confirming that \eqn{x} is in the span of
+#'   \eqn{A} if \eqn{A} is singular; returns `rank` and `nullity` as
+#'   attributes just in case subsequent calculations (e.g., hypothesis
+#'   test degrees of freedom) are affected.
 #'
 #'   Decompose \eqn{A = P L P'} for \eqn{L} diagonal matrix of
 #'   eigenvalues and \eqn{P} orthogonal. Then \eqn{A^{-1} = P L^{-1}
@@ -102,13 +103,17 @@ sandwich_solve <- function(A, B, ...) {
 xTAx_eigen <- function(x, A, tol=sqrt(.Machine$double.eps), ...) {
   e <- eigen(A, symmetric=TRUE)
   keep <- e$values > max(tol * e$values[1L], 0)
-  h <- crossprod(e$vectors[, keep, drop=FALSE], x)
+  h <- crossprod(e$vectors, x)
+  if(!all(keep) && !all(abs(h[!keep,])<tol))
+    stop("x is not in the span of A")
+
+  h <- h[keep, , drop=FALSE]
   structure(drop(crossprod(h, h/e$values[keep])), rank = sum(keep), nullity = sum(!keep))
 }
 
-.inv_diag <- function(X){
+.inv_diag <- function(X, zero = .Machine$double.xmax){
   d <- diag(as.matrix(X))
-  ifelse(d==0, 0, 1/d)
+  ifelse(d==0, zero, 1/d)
 }
 
 .sqrt_inv_diag <- function(X){
