@@ -92,9 +92,12 @@ lweighted.mean <- function(x, logw){
   }else if(length(d)>2){
     stop("Arrays of 3 or more dimensions are not supported at this time.")
   }else{ # Matrix
-    if(d[1L]==0) rep(NaN, d[2L])
-    else if(d[1L]!=length(logw)) stop("logw must have the same length as the number of rows in x")
-    else .Call("logspace_wmeans_wrapper", x, logw, PACKAGE="statnet.common")
+    setNames(
+      if(d[1L]==0) rep(NaN, d[2L])
+      else if(d[1L]!=length(logw)) stop("logw must have the same length as the number of rows in x")
+      else .Call("logspace_wmeans_wrapper", x, logw, PACKAGE="statnet.common"),
+      colnames(x)
+    )
   }
 }
 
@@ -107,8 +110,11 @@ lweighted.var <- function(x, logw, onerow = NA){
     x <- x - E
     lweighted.mean(x*x, logw)
   }else{
-    if(nrow(x)<2) return(matrix(onerow, ncol(x), ncol(x)))
-    .Call("logspace_wmean2_wrapper", sweep_cols.matrix(x, E), logw, PACKAGE="statnet.common")
+    structure(
+      if(nrow(x)<2) matrix(onerow, ncol(x), ncol(x))
+      else .Call("logspace_wmean2_wrapper", sweep_cols.matrix(x, E), logw, PACKAGE="statnet.common"),
+      dimnames = list(dimnames(x)[[2]], dimnames(x)[[2]])
+    )
   }
 }
 
@@ -126,12 +132,15 @@ lweighted.cov <- function(x, y, logw, onerow = NA){
   if(is.null(xdim) || is.null(ydim)){
     if(length(x)<2) return(onerow)
     o <- lweighted.mean(x*y, logw)
-    if(!is.null(xdim)) cbind(o)
-    else if(!is.null(xdim)) rbind(o)
+    if(!is.null(xdim)) cbind(o, deparse.level = 0)
+    else if(!is.null(ydim)) rbind(o, deparse.level = 0)
     else o
   }else{
-    if(nrow(x)<2) matrix(onerow, ncol(x), ncol(y))
-    else .Call("logspace_wxmean_wrapper", x, y, logw, PACKAGE="statnet.common")
+    structure(
+      if(nrow(x)<2) matrix(onerow, ncol(x), ncol(y))
+      else .Call("logspace_wxmean_wrapper", x, y, logw, PACKAGE="statnet.common"),
+      dimnames = list(dimnames(x)[[2]], dimnames(y)[[2]])
+    )
   }
 }
 
