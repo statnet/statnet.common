@@ -111,7 +111,7 @@ xTAx_eigen <- function(x, A, tol=sqrt(.Machine$double.eps), ...) {
   structure(drop(crossprod(h, h/e$values[keep])), rank = sum(keep), nullity = sum(!keep))
 }
 
-.inv_diag <- function(X, zero = .Machine$double.xmax){
+.inv_diag <- function(X, zero = .Machine$double.xmax/(1 + .Machine$double.eps)){
   d <- diag(as.matrix(X))
   ifelse(d==0, zero, 1/d)
 }
