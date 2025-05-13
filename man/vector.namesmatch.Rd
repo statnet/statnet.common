@@ -20,15 +20,11 @@ to \code{deparse(substitute(v))}}
 returns \code{v}, with elements reordered
 }
 \description{
-A helper function to reorder vector \code{v} (if named) into order specified
-by matching its names to the argument \code{names}
-}
-\details{
-does some checking of appropriateness of arguments, and reorders v by
-matching its names to character vector \code{names}
+This function is deprecated in favor of \code{\link[=match_names]{match_names()}} and will be
+removed in a future release.
 }
 \note{
-earlier versions of this function did not order as advertiased
+earlier versions of this function did not order as advertised
 }
 \examples{
 

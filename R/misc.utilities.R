@@ -10,11 +10,8 @@
 #' reorder vector v into order determined by matching the names of its elements
 #' to a vector of names
 #' 
-#' A helper function to reorder vector \code{v} (if named) into order specified
-#' by matching its names to the argument \code{names}
-#' 
-#' does some checking of appropriateness of arguments, and reorders v by
-#' matching its names to character vector \code{names}
+#' This function is deprecated in favor of [match_names()] and will be
+#' removed in a future release.
 #' 
 #' @param v a vector (or list) with named elements, to be reorderd
 #' @param names a character vector of element names, corresponding to names of
@@ -22,7 +19,7 @@
 #' @param errname optional, name to be reported in any error messages. default
 #' to \code{deparse(substitute(v))}
 #' @return returns \code{v}, with elements reordered
-#' @note earlier versions of this function did not order as advertiased
+#' @note earlier versions of this function did not order as advertised
 #' @examples
 #' 
 #' test<-list(c=1,b=2,a=3)
@@ -31,10 +28,10 @@
 vector.namesmatch<-function(v,names,errname=NULL){
   if(is.null(errname)) errname <- deparse(substitute(v))
 
-  if (is.null(names(v))){
+  if(is.null(names(v))){
     if(length(v) == length(names)){
       names(v) <- names
-    }else stop('Length of "', errname, '" is ', length(v), " but should be ", length(names),".")
+    }else stop('Length of ', sQuote(errname), ' is ', length(v), " but should be ", length(names),".")
   }else{
     if(length(v) == length(names)
        && length(unique(names(v)))==length(v)
@@ -42,9 +39,137 @@ vector.namesmatch<-function(v,names,errname=NULL){
        && all(sort(names(v)) == sort(names))){
       namesmatch <- match(names, names(v))
       v <- v[namesmatch]
-    }else stop('Name mismatch in "', errname,'". Specify by position.')
+    }else stop('Name mismatch in ', sQuote(errname),'. Specify by position.')
   }
   v
+}
+
+#' Construct a named vector with semantics useful for parameter vectors
+#'
+#' This is a helper function that constructs a named vector with names
+#' in `names` with values taken from `v` and optionally `default`,
+#' performing various checks. It supersedes [vector.namesmatch()].
+#'
+#' If `v` is not named, it is required to be the same length as
+#' `names` and is simply given the corresponding names. If it is
+#' named, nonempty names are matched to the corresponding elements of
+#' `names`, with partial matching supported.
+#'
+#' Default values can be specified by the caller in `default` or by
+#' the end-user by adding an element with an empty (`""`) name in
+#' addition to the others. If given, the latter overrides the former.
+#'
+#' Duplicated names in `v` or `names` are resolved sequentially,
+#' though note the example below for caveat about partial matching.
+#'
+#' An informative error is raised under any of the following conditions:
+#'
+#' * `v` is not named but has length that differs from that of `names`.
+#'
+#' * More than one element of `v` has an empty name.
+#'
+#' * Not all elements of `names` are matched by an element of `v`, and
+#'   no default is specified.
+#'
+#' * Not all elements of `v` are used up for elements of `names`.
+#'
+#' * There is ambiguity that [pmatch()] cannot resolve.
+#'
+#' @note At this time, passing `partial=FALSE` will use a crude
+#'   sentinel to prevent partial matching, which in some, extremely
+#'   improbable, circumstances might not work.
+#'
+#' @param v a vector
+#' @param names a character vector of element names
+#' @param default value to be used for elements of `names` not found in `v`
+#' @param partial whether partial matching is allowed
+#' @param errname optional, name to be reported in any error messages;
+#'   defaults to `deparse1(substitute(v))`
+#' @return A named vector with names `names` (in that order). See
+#'   Details.
+#' @examples
+#'
+#' # Unnamed:
+#' test <- as.numeric(1:3)
+#' stopifnot(identical(
+#'   match_names(test, c('a', 'c', 'b')),
+#'   c(a = 1, c = 2, b = 3)
+#' ))
+#'
+#' # Named, reordered:
+#' test <- c(c = 1, b = 2, a = 3)
+#' stopifnot(identical(
+#'   match_names(test, c('a', 'c', 'b')),
+#'   c(a = 3, c = 1, b = 2)
+#' ))
+#'
+#' # Default value specified by default= assigned to a
+#' test <- c(c = 1, b = 2)
+#' stopifnot(identical(
+#'   match_names(test, c('a', 'c', 'b'), NA),
+#'   c(a = NA, c = 1, b = 2)
+#' ))
+#'
+#' # Default value specified in v assigned to a and b:
+#' test <- c(c = 1, 2)
+#' stopifnot(identical(
+#'   match_names(test, c('a', 'c', 'b')),
+#'   c(a = 2, c = 1, b = 2)
+#' ))
+#'
+#' # Partial matching
+#' test <- c(c = 1, 2)
+#' stopifnot(identical(
+#'   match_names(test, c('a', 'cab', 'b')),
+#'   c(a = 2, cab = 1, b = 2)
+#' ))
+#'
+#' # Multiple matching
+#' test <- c(c = 1, 2, c = 3)
+#' stopifnot(identical(
+#'   match_names(test, c('a', 'c', 'c')),
+#'   c(a = 2, c = 1, c = 3)
+#' ))
+#'
+#' # Partial + multiple matching caveat: exact match will match first.
+#' test <- c(c = 1, a = 2, ca = 3)
+#' stopifnot(identical(
+#'   match_names(test, c('a', 'ca', 'ca')),
+#'   c(a = 2, ca = 3, ca = 1)
+#' ))
+#'
+#' @importFrom stats na.omit setNames
+#' @export
+match_names <- function(v, names, default = NULL, partial = TRUE, errname = NULL) {
+  if(is.null(errname)) errname <- deparse1(substitute(v))
+
+  if(is.null(names(v))){
+    if(length(v) == length(names)){
+      setNames(v, names)
+    }else stop('Length of ', sQuote(errname), ' is ', length(v), " but should be ", length(names),".")
+  }else{
+    blanks <- names(v) == ""
+    if(any(blanks)){
+      if(sum(blanks) > 1L) stop("Named vector ", sQuote(errname), " may have at most one unnamed element.")
+
+      default <- unname(v[blanks])
+      v <- v[!blanks]
+    }
+
+    # partial == FALSE -> add a sentinel string at the end of all strings to prevent partial matching.
+    namesmatch <- if(partial) pmatch(names(v), names)
+                  else pmatch(paste(names(v), "\n\xf5\xdc\n"), paste(names, "\n\xf5\xdc\n"))
+    used <- !is.na(namesmatch)
+    found <- unwhich(na.omit(namesmatch), length(names))
+
+    if(is.null(default) && !all(found)) stop("Named vector ", sQuote(errname), " is missing values for the following elements: ", paste.and(sQuote(names[!found])), ".")
+    if(!all(used)) stop("In named vector ", sQuote(errname), " unused or not uniquely matched elements: ", substr(s <- deparse1(v[!used]), 3, nchar(s)-1L))
+
+    numeric(length(names)) |>
+      replace(na.omit(namesmatch), v[used]) |>
+      replace(!found, default) |>
+      setNames(names)
+  }
 }
 
 #' "Compress" a data frame.
