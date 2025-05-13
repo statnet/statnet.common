@@ -538,23 +538,46 @@ opttest <- function(expr, testname=NULL, testvar="ENABLE_statnet_TESTS", yesvals
 #' Test if all items in a vector or a list are identical.
 #'
 #' @param x a vector or a list
+#' @param fun a function of two arguments returning a logical.
+#'   Defaults to [identical()].
+#' @param ... additional arguments passed to `fun()`
 #'
-#' @return `TRUE` if all elements of `x` are identical to each other.
+#' @return By default `TRUE` if all elements of `x` are identical to each
+#'   other, `FALSE` otherwise. In the general case, `all_identical()`
+#'   returns `TRUE` if and only if `fun()` returns `TRUE` for all the pairs
+#'   involving the first element and the remaining elements.
 #'
-#' @seealso [`identical`]
+#' @seealso [identical()], [all.equal()]
 #'
 #' @examples
 #'
 #' stopifnot(!all_identical(1:3))
 #'
 #' stopifnot(all_identical(list("a", "a", "a")))
+#' 
+#' # Using with `all.equal()` has it's quirks 
+#' # because of numerical tolerance:
+#' x <- seq(
+#'   .Machine$double.eps, 
+#'   .Machine$double.eps + 1.1 * sqrt(.Machine$double.eps), 
+#'   length = 3
+#' )
+#' # Results with `all.equal()` are affected by ordering
+#' all_identical(x, all.equal) # FALSE
+#' all_identical(x[c(2,3,1)], all.equal) # TRUE
+#' # ... because `all.equal()` is intransitive
+#' all_identical(x[-3], all.equal) # is TRUE and
+#' all_identical(x[-1], all.equal) # is TRUE, but
+#' all_identical(x[-2], all.equal) # is FALSE
+#' 
 #' @export
-all_identical <- function(x){
-  if(length(x)==0) return(TRUE)
+all_identical <- function(x, fun = identical, ...){
+  if(length(x) == 0) return(TRUE)
   v0 <- x[[1L]]
-  for(v in x[-1]) if(!identical(v0,v)) return(FALSE)
+  for(v in x[-1]) if(!isTRUE(fun(v0, v, ...))) return(FALSE)
   return(TRUE)
 }
+
 
 #' Construct a logical vector with `TRUE` in specified positions.
 #'

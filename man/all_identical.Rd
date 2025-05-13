@@ -4,13 +4,21 @@
 \alias{all_identical}
 \title{Test if all items in a vector or a list are identical.}
 \usage{
-all_identical(x)
+all_identical(x, fun = identical, ...)
 }
 \arguments{
 \item{x}{a vector or a list}
+
+\item{fun}{a function of two arguments returning a logical.
+Defaults to \code{\link[=identical]{identical()}}.}
+
+\item{...}{additional arguments passed to \code{fun()}}
 }
 \value{
-\code{TRUE} if all elements of \code{x} are identical to each other.
+By default \code{TRUE} if all elements of \code{x} are identical to each
+other, \code{FALSE} otherwise. In the general case, \code{all_identical()}
+returns \code{TRUE} if and only if \code{fun()} returns \code{TRUE} for all the pairs
+involving the first element and the remaining elements.
 }
 \description{
 Test if all items in a vector or a list are identical.
@@ -20,7 +28,23 @@ Test if all items in a vector or a list are identical.
 stopifnot(!all_identical(1:3))
 
 stopifnot(all_identical(list("a", "a", "a")))
+
+# Using with `all.equal()` has it's quirks 
+# because of numerical tolerance:
+x <- seq(
+  .Machine$double.eps, 
+  .Machine$double.eps + 1.1 * sqrt(.Machine$double.eps), 
+  length = 3
+)
+# Results with `all.equal()` are affected by ordering
+all_identical(x, all.equal) # FALSE
+all_identical(x[c(2,3,1)], all.equal) # TRUE
+# ... because `all.equal()` is intransitive
+all_identical(x[-3], all.equal) # is TRUE and
+all_identical(x[-1], all.equal) # is TRUE, but
+all_identical(x[-2], all.equal) # is FALSE
+
 }
 \seealso{
-\code{\link{identical}}
+\code{\link[=identical]{identical()}}, \code{\link[=all.equal]{all.equal()}}
 }
