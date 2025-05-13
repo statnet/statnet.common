@@ -1,24 +1,53 @@
 # statnet.common 4.11.0
 
+## New utilities
+
 * New function, `modify_in_place()`, that attempts to modify the argument of its caller in place. A function can call it to modify its own arguments in place.
+
 * New function, `log1mexp(x)` to compute `log(1-exp(-x))` minimizing the loss of precision. R provides a C macro `log1mexp(x)` but not the corresponding R wrapper.
+
+* New matrix functions: `qrssolve()` to solve linear systems via QR decomposition after scaling, and `qrsolve()` to do the same without scaling, along with `sandwich_qrsolve()`, `sandwich_qrssolve()`, `sandwich_ginv()`, and `sandwich_sginv()`.
+
+* New function, `match_names()` to replace `vector.namesmatch()` with more flexible behavior and error checking.
+
+## Enhancements to existing utilities
+
 * The behavior of `trim_env()` has changed: if no variables are to be copied in, the environment is set directly to `baseenv()`.
+
+* `statnetStartupMessage()` now prints `Remote:` information if the package was installed from a remote.
+
+* Matrices returned by the `lweighted.*()` family of functions now inherit dimensional names.
+
+* `xTAx_eigen()` (and therefore `xTAx_seigen()`) now handle matrix-valued x correctly and check that `x` is in the span of `A`.
+
+* Scaling version of matrix operations now use `.Machine$double.xmax/(1 + .Machine$double.eps)` as the inverse of the zero diagonal.
 
 # statnet.common 4.10.0
 
-* `as.cntrol.list.list()` and hence `snctrl()` no longer clobbers nested controls, e.g., `control.ergm(SAN=control.san(...),...)`.
-* To facilitate support for earlier versions of R, avoid using the built-in pipe (`|>`) for now.
+## New utilities
+
 * New linear algebra utilities: `ginv_eigen()`, which performs generalised inverse via eigendecomposition rather than SVD, to be used by `sginv()` if `snnd=TRUE`; and `xTAx_eigen()` and `xTAx_seigen()` to evaluate the inverse quadratic form using eigendecomposition.
-* `lweighted.var()` and `lweighted.cov()` now take an additional argument `onerow=` to specify what they should return (`NA`, 0, or something else) if the input matrix has one row.
+
 * A new function `var.mcmc.list()` "method" to evaluate the covariance matrix for an `mcmc.list` without constructing a large matrix.
+
+## Enhancements to existing utilities
+
 * `colMeans.mcmc.list()` "method" no longer constructs a large matrix when calculating.
 
+* `lweighted.var()` and `lweighted.cov()` now take an additional argument `onerow=` to specify what they should return (`NA`, 0, or something else) if the input matrix has one row.
+
+## Bug fixes
+
+* `as.cntrol.list.list()` and hence `snctrl()` no longer clobbers nested controls, e.g., `control.ergm(SAN=control.san(...),...)`.
+
+* To facilitate support for earlier versions of R, avoid using the built-in pipe (`|>`) for now.
 
 # statnet.common 4.9.0
 
 ## New utilities
 
 * A new function,`lweighted.cov()`, to compute weighted covariance between two matrices or vectors.
+
 * New linear algebra utilities, `is.SPD()`, `sandwich_solve()`, `sandwich_ssolve()`, `sginv()`, `snearPD()`, `srcond()`, `ssolve()`, `xAxT()`, `xTAx()`, `xTAx_qrsolve()`, `xTAx_qrssolve()`, `xTAx_solve()`, and `xTAx_ssolve()` moved from `ergm` and documented.
 
 ## Bug fixes
