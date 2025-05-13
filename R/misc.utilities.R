@@ -62,6 +62,14 @@ vector.namesmatch<-function(v,names,errname=NULL){
 #' Duplicated names in `v` or `names` are resolved sequentially,
 #' though note the example below for caveat about partial matching.
 #'
+#' Zero-length `v` is handled as follows:
+#'
+#' * If length of `names` is empty, return `v` unchanged.
+#'
+#' * If it is not and `default` is not `NULL`, return the `default` vector.
+#'
+#' * Otherwise, raise an error.
+#'
 #' An informative error is raised under any of the following conditions:
 #'
 #' * `v` is not named but has length that differs from that of `names`.
@@ -143,7 +151,11 @@ vector.namesmatch<-function(v,names,errname=NULL){
 match_names <- function(v, names, default = NULL, partial = TRUE, errname = NULL) {
   if(is.null(errname)) errname <- deparse1(substitute(v))
 
-  if(is.null(names(v))){
+  if(length(v) == 0) {
+    if(length(names) == 0) v
+    else if(!is.null(default)) setNames(rep_len(default, length(names)), names)
+    else stop(sQuote(errname), ' is ', sQuote(deparse1(v)), " but should have ", length(names)," element(s):\n", paste(strwrap(paste(sQuote(names), collapse = ", "), indent = 2, exdent = 2), collapse = "\n"))
+  }else if(is.null(names(v))){
     if(length(v) == length(names)){
       setNames(v, names)
     }else stop('Length of ', sQuote(errname), ' is ', length(v), " but should be ", length(names),":\n", paste(strwrap(paste(sQuote(names), collapse = ", "), indent = 2, exdent = 2), collapse = "\n"))

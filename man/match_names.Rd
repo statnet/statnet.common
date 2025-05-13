@@ -40,6 +40,13 @@ addition to the others. If given, the latter overrides the former.
 Duplicated names in \code{v} or \code{names} are resolved sequentially,
 though note the example below for caveat about partial matching.
 
+Zero-length \code{v} is handled as follows:
+\itemize{
+\item If length of \code{names} is empty, return \code{v} unchanged.
+\item If it is not and \code{default} is not \code{NULL}, return the \code{default} vector.
+\item Otherwise, raise an error.
+}
+
 An informative error is raised under any of the following conditions:
 \itemize{
 \item \code{v} is not named but has length that differs from that of \code{names}.
