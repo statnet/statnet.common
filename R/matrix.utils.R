@@ -322,6 +322,23 @@ qrssolve <- function(a, b, tol = 1e-07, ..., snnd = TRUE) {
 }
 
 #' @rdname ssolve
+#' @export
+qrsolve <- function(a, b, tol = 1e-07, ...) {
+  if(missing(b)) {
+    b <- diag(1, nrow(a))
+    colnames(b) <- rownames(a)
+  }
+
+  aqr <- qr(a, tol = tol, ...)
+  nullity <- min(nrow(a), ncol(a)) - aqr$rank
+  if(nullity && !all(abs(crossprod(qr.Q(aqr)[,-seq_len(aqr$rank), drop=FALSE], b))<tol))
+      stop("b is not in the span of a")
+    x <- qr.coef(aqr, b)
+
+  structure(replace(x, is.na(x), 0), rank=aqr$rank, nullity=nullity)
+}
+
+#' @rdname ssolve
 #'
 #' @export
 sandwich_qrssolve <- function(A, B, ...) {
@@ -347,6 +364,6 @@ sandwich_sginv <- function(A, B, ...) {
 #'
 #' @export
 sandwich_ginv <- function(A, B, ...) {
-  Ai <- ginv(A, ...)
+  Ai <- MASS::ginv(A, ...)
   Ai %*% B %*% t(Ai)
 }

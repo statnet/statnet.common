@@ -11,6 +11,7 @@
 \alias{xTAx_qrssolve}
 \alias{sandwich_ssolve}
 \alias{qrssolve}
+\alias{qrsolve}
 \alias{sandwich_qrssolve}
 \alias{sandwich_qrsolve}
 \title{Wrappers around matrix algebra functions that pre-\emph{s}cale their
@@ -35,6 +36,8 @@ xTAx_qrssolve(x, A, tol = 1e-07, ...)
 sandwich_ssolve(A, B, ...)
 
 qrssolve(a, b, tol = 1e-07, ..., snnd = TRUE)
+
+qrsolve(a, b, tol = 1e-07, ...)
 
 sandwich_qrssolve(A, B, ...)
 
