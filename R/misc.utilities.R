@@ -154,15 +154,15 @@ match_names <- function(v, names, default = NULL, partial = TRUE, errname = NULL
   if(length(v) == 0) {
     if(length(names) == 0) v
     else if(!is.null(default)) setNames(rep_len(default, length(names)), names)
-    else stop(sQuote(errname), ' is ', sQuote(deparse1(v)), " but should have ", length(names)," element(s):\n", paste(strwrap(paste(sQuote(names), collapse = ", "), indent = 2, exdent = 2), collapse = "\n"))
+    else stop(sQuote(errname), ' is ', sQuote(deparse1(v)), " but should have ", length(names)," element(s):\n", paste(strwrap(paste(sQuote(names), collapse = ", "), indent = 2, exdent = 2), collapse = "\n"), call. = FALSE)
   }else if(is.null(names(v))){
     if(length(v) == length(names)){
       setNames(v, names)
-    }else stop('Length of ', sQuote(errname), ' is ', length(v), " but should be ", length(names),":\n", paste(strwrap(paste(sQuote(names), collapse = ", "), indent = 2, exdent = 2), collapse = "\n"))
+    }else stop('Length of ', sQuote(errname), ' is ', length(v), " but should be ", length(names),":\n", paste(strwrap(paste(sQuote(names), collapse = ", "), indent = 2, exdent = 2), collapse = "\n"), call. = FALSE)
   }else{
     blanks <- names(v) == ""
     if(any(blanks)){
-      if(sum(blanks) > 1L) stop("Named vector ", sQuote(errname), " may have at most one unnamed element.")
+      if(sum(blanks) > 1L) stop("Named vector ", sQuote(errname), " may have at most one unnamed element.", call. = FALSE)
 
       default <- unname(v[blanks])
       v <- v[!blanks]
@@ -174,8 +174,8 @@ match_names <- function(v, names, default = NULL, partial = TRUE, errname = NULL
     used <- !is.na(namesmatch)
     found <- unwhich(na.omit(namesmatch), length(names))
 
-    if(is.null(default) && !all(found)) stop("Named vector ", sQuote(errname), " is missing values for the following elements: ", paste.and(sQuote(names[!found])), ".")
-    if(!all(used)) stop("In named vector ", sQuote(errname), " unused or not uniquely matched elements: ", substr(s <- deparse1(v[!used]), 3, nchar(s)-1L))
+    if(is.null(default) && !all(found)) stop("Named vector ", sQuote(errname), " is missing values for the following elements: ", paste.and(sQuote(names[!found])), ".", call. = FALSE)
+    if(!all(used)) stop("In named vector ", sQuote(errname), " unused or not uniquely matched elements: ", substr(s <- deparse1(v[!used]), 3, nchar(s)-1L), call. = FALSE)
 
     numeric(length(names)) |>
       replace(na.omit(namesmatch), v[used]) |>
