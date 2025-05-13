@@ -146,7 +146,7 @@ match_names <- function(v, names, default = NULL, partial = TRUE, errname = NULL
   if(is.null(names(v))){
     if(length(v) == length(names)){
       setNames(v, names)
-    }else stop('Length of ', sQuote(errname), ' is ', length(v), " but should be ", length(names),".")
+    }else stop('Length of ', sQuote(errname), ' is ', length(v), " but should be ", length(names),":\n", paste(strwrap(paste(sQuote(names), collapse = ", "), indent = 2, exdent = 2), collapse = "\n"))
   }else{
     blanks <- names(v) == ""
     if(any(blanks)){
