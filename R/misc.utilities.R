@@ -550,9 +550,11 @@ opttest <- function(expr, testname=NULL, testvar="ENABLE_statnet_TESTS", yesvals
 #' Test if all items in a vector or a list are identical.
 #'
 #' @param x a vector or a list
-#' @param fun a function of two arguments returning a logical.
+#' @param .f a function of two arguments returning a logical.
 #'   Defaults to [identical()].
-#' @param ... additional arguments passed to `fun()`
+#' @param .ref integer; element of `x` to which all the remaining ones will
+#'   be compared. Defaults to 1.
+#' @param ... additional arguments passed to `.f()`
 #'
 #' @return By default `TRUE` if all elements of `x` are identical to each
 #'   other, `FALSE` otherwise. In the general case, `all_identical()`
@@ -567,7 +569,7 @@ opttest <- function(expr, testname=NULL, testvar="ENABLE_statnet_TESTS", yesvals
 #'
 #' stopifnot(all_identical(list("a", "a", "a")))
 #' 
-#' # Using with `all.equal()` has it's quirks 
+#' # Using with `all.equal()` has its quirks 
 #' # because of numerical tolerance:
 #' x <- seq(
 #'   .Machine$double.eps, 
@@ -583,10 +585,12 @@ opttest <- function(expr, testname=NULL, testvar="ENABLE_statnet_TESTS", yesvals
 #' all_identical(x[-2], all.equal) # is FALSE
 #' 
 #' @export
-all_identical <- function(x, fun = identical, ...){
+all_identical <- function(x, .f = identical, .ref = 1L, ...){
   if(length(x) == 0) return(TRUE)
-  v0 <- x[[1L]]
-  for(v in x[-1]) if(!isTRUE(fun(v0, v, ...))) return(FALSE)
+  stopifnot(is.function(.f))
+  stopifnot(length(.ref) == 1)
+  v0 <- x[[.ref]]
+  for(v in x[- .ref]) if(!isTRUE(.f(v0, v, ...))) return(FALSE)
   return(TRUE)
 }
 

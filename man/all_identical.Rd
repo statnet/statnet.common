@@ -4,15 +4,18 @@
 \alias{all_identical}
 \title{Test if all items in a vector or a list are identical.}
 \usage{
-all_identical(x, fun = identical, ...)
+all_identical(x, .f = identical, .ref = 1L, ...)
 }
 \arguments{
 \item{x}{a vector or a list}
 
-\item{fun}{a function of two arguments returning a logical.
+\item{.f}{a function of two arguments returning a logical.
 Defaults to \code{\link[=identical]{identical()}}.}
 
-\item{...}{additional arguments passed to \code{fun()}}
+\item{.ref}{integer; element of \code{x} to which all the remaining ones will
+be compared. Defaults to 1.}
+
+\item{...}{additional arguments passed to \code{.f()}}
 }
 \value{
 By default \code{TRUE} if all elements of \code{x} are identical to each
@@ -29,7 +32,7 @@ stopifnot(!all_identical(1:3))
 
 stopifnot(all_identical(list("a", "a", "a")))
 
-# Using with `all.equal()` has it's quirks 
+# Using with `all.equal()` has its quirks 
 # because of numerical tolerance:
 x <- seq(
   .Machine$double.eps, 
