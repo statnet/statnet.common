@@ -262,6 +262,7 @@ jobs:
             check
             !check/*/00_pkg_src
 
+
       - name: Test coverage
         if: contains(matrix.config.flags, 'covr')
         timeout-minutes: ${{ matrix.config.timeout }}
@@ -271,7 +272,6 @@ jobs:
           ENABLE_statnet_TESTS: ${{ contains(matrix.config.flags, 'full') }}
         run: |
           cov <- covr::package_coverage(
-            type=c("tests", "examples"),
             quiet = FALSE,
             clean = FALSE,
             install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
@@ -279,9 +279,8 @@ jobs:
           covr::to_cobertura(cov)
         shell: Rscript {0}
 
-      - name: Upload coverage results
+      - uses: codecov/codecov-action@v4
         if: contains(matrix.config.flags, 'covr')
-        uses: codecov/codecov-action@v4
         with:
           fail_ci_if_error: ${{ github.event_name != 'pull_request' && true || false }}
           file: ./cobertura.xml
