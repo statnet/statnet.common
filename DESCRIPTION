@@ -16,5 +16,8 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2.9000
 Encoding: UTF-8
 Suggests: covr,
+          roxygen2,
           rlang (>= 1.1.1),
           MASS
+Remotes:
+    krivit/roxygen2@anchor-sometimes
