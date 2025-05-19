@@ -468,28 +468,25 @@ EVL3 <- function(test, notnull, null = NULL){
 }
 
 
-#' Return the first argument passed (out of any number) that is not a
-#' \code{try-error} (result of \code{\link[base]{try}} encountering an error.
+#' Attempt a series of statements and return the first one that is not an error.
+#'
+#' `ERRVL()` expects the potentially erring statements to be wrapped
+#' in [try()]. In addition, all expressions after the first may
+#' contain a `.`, which is substituted with the `try-error` object
+#' returned by the previous expression.
 #' 
-#' This function is inspired by \code{\link{NVL}}, and simply returns the first
-#' argument that is not a \code{try-error}, raising an error if all arguments
-#' are \code{try-error}s.
+#' @note This family of functions behave similarly to the [NVL()] and the [EVL()] families.
 #' 
-#' 
-#' @param \dots Expressions to be tested; usually outputs of
-#'   \code{\link[base]{try}}.
-#' @return The first argument that is not a \code{try-error}. Stops
-#'   with an error if all are.
-#' @note This function uses lazy evaluation, so, for example `ERRVL(1,
-#'   stop("Error!"))` will never evaluate the [`stop`] call and will
-#'   not produce an error, whereas `ERRVL(try(solve(0)),
+#' @param \dots Expressions to be attempted; for `ERRVL()`, should be
+#'   wrapped in [try()].
+#' @return The first argument that is not an error. Stops with an
+#'   error if all are.
+#' @note These functions use lazy evaluation, so, for example
+#'   `ERRVL(1, stop("Error!"))` will never evaluate the [stop()] call
+#'   and will not produce an error, whereas `ERRVL2(solve(0),
 #'   stop("Error!"))` would.
 #'
-#' In addition, all expressions after the first may contain a `.`,
-#' which is substituted with the `try-error` object returned by the
-#' previous expression.
-#' 
-#' @seealso \code{\link[base]{try}}, \code{\link[base]{inherits}}
+#' @seealso [try()], [inherits()], [tryCatch()]
 #' @keywords utilities
 #' @examples
 #' 
@@ -501,11 +498,11 @@ EVL3 <- function(test, notnull, null = NULL){
 #' # Error:
 #' print(ERRVL(try(solve(0), silent=TRUE),
 #'             stop("Error!")))
-#' 
-#' # Error with an elaborate message:
-#' print(ERRVL(try(solve(0), silent=TRUE),
-#'             stop("Stopped with an error: ", .)))
 #' }
+#'
+#' # Capture and print the try-error object:
+#' ERRVL(try(solve(0), silent=TRUE),
+#'       print(paste0("Stopped with an error: ", .)))
 #' @export
 ERRVL <- function(...){
   x <- NULL
@@ -516,6 +513,53 @@ ERRVL <- function(...){
   stop("No non-error expressions passed.")
 }
 
+#' @rdname ERRVL
+#' @description `ERRVL2()` does *not* require the potentially erring
+#'   statements to be wrapped in [try()] and will, in fact, treat them
+#'   as non-erring; it does not perform dot substitution.
+#'
+#' @examples
+#'
+#' print(ERRVL2(1,2,3)) # 1
+#' print(ERRVL2(solve(0),2,3)) # 2
+#' print(ERRVL2(1, stop("Error!"))) # No error
+#'
+#' @export
+ERRVL2 <- function(...){
+  for(e in eval(substitute(alist(...)))) # Lazy evaluate. (See http://adv-r.had.co.nz/Computing-on-the-language.html .)
+    tryCatch(return(eval(e, parent.frame())),
+             error = function(err){})
+  stop("No non-error expressions passed.")
+}
+
+#' @rdname ERRVL
+#' @description `ERRVL3()` behaves as `ERRVL2()`, but it does perform
+#'   dot-substitution with the [`condition`] object.
+#'
+#' @examples
+#'
+#' \dontrun{
+#' # Error:
+#' ERRVL3(solve(0), stop("Error!"))
+#' }
+#'
+#' # Capture and print the error object:
+#' ERRVL3(solve(0), print(paste0("Stopped with an error: ", .)))
+#'
+#' # Shorthand for tryCatch(expr, error = function(e) e):
+#' ERRVL3(solve(0), .)
+#'
+#' @export
+ERRVL3 <- function(...){
+  x <- NULL
+  for(e in eval(substitute(alist(...)))) # Lazy evaluate. (See http://adv-r.had.co.nz/Computing-on-the-language.html .)
+    x <- tryCatch(
+      return(eval(if(!is.null(x)) do.call(substitute, list(e, list(.=x)))
+                  else e,
+                  parent.frame())),
+      error = function(err) err)
+  stop("No non-error expressions passed.")
+}
 
 #' Optionally test code depending on environment variable.
 #' 
