@@ -10,6 +10,8 @@
 
 * New function, `match_names()` to replace `vector.namesmatch()` with more flexible behavior and error checking.
 
+* New functions, `ERRVL2()` and `ERRVL3()` that, unlike `ERRVL()`, do not require the expressions to be wrapped in `try()`.
+
 ## Enhancements to existing utilities
 
 * The behavior of `trim_env()` has changed: if no variables are to be copied in, the environment is set directly to `baseenv()`.
@@ -21,6 +23,8 @@
 * `xTAx_eigen()` (and therefore `xTAx_seigen()`) now handle matrix-valued x correctly and check that `x` is in the span of `A`.
 
 * Scaling version of matrix operations now use `.Machine$double.xmax/(1 + .Machine$double.eps)` as the inverse of the zero diagonal.
+
+* `all_identical()` can now use a custom comparison predicate (e.g., `all.equal()`), and the use any of the elements in the list as the reference. (Thanks to Michał Bojanowski @mbojan.)
 
 # statnet.common 4.10.0
 

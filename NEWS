@@ -20,6 +20,9 @@ New utilities
 -   New function, `match_names()` to replace `vector.namesmatch()` with
     more flexible behavior and error checking.
 
+-   New functions, `ERRVL2()` and `ERRVL3()` that, unlike `ERRVL()`, do
+    not require the expressions to be wrapped in `try()`.
+
 Enhancements to existing utilities
 ----------------------------------
 
@@ -38,6 +41,10 @@ Enhancements to existing utilities
 -   Scaling version of matrix operations now use
     `.Machine$double.xmax/(1 + .Machine$double.eps)` as the inverse of
     the zero diagonal.
+
+-   `all_identical()` can now use a custom comparison predicate (e.g.,
+    `all.equal()`), and the use any of the elements in the list as the
+    reference. (Thanks to Michał Bojanowski @mbojan.)
 
 statnet.common 4.10.0
 =====================

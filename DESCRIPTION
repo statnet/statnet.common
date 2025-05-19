@@ -1,11 +1,12 @@
 Package: statnet.common
-Version: 4.12.0-482
+Version: 4.12.0-483
 Date: 2025-05-19
 Title: Common R Scripts and Utilities Used by the Statnet Project Software
 Authors@R: c(
     person(c("Pavel", "N."), "Krivitsky", role=c("aut","cre"), email="pavel@statnet.org", comment=c(ORCID="0000-0002-9101-3362", affiliation="University of New South Wales")),
     person("Skye", "Bender-deMoll", role=c("ctb"), email="skyebend@uw.edu"),
-    person("Chad", "Klumb", role=c("ctb"), email="cklumb@gmail.com", comment=c(affiliation="University of Washington")))
+    person("Chad", "Klumb", role=c("ctb"), email="cklumb@gmail.com", comment=c(affiliation="University of Washington")),
+    person("Michał", "Bojanowski", role=c("ctb"), email="michal2992@gmail.com", comment=c(ORCID="0000-0001-7503-852X")))
 Description: Non-statistical utilities used by the software developed by the Statnet Project. They may also be of use to others.
 Depends: R (>= 4.1)
 Imports: utils, methods, coda, parallel, tools, Matrix
