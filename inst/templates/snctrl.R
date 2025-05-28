@@ -1,11 +1,11 @@
-#  File inst/templates/snctrl.R in package statnet.common, part of the
-#  Statnet suite of packages for network analysis, https://statnet.org .
+#  File inst/templates/snctrl.R in package statnet.common, part of the Statnet
+#  suite of packages for network analysis, https://statnet.org .
 #
-#  This software is distributed under the GPL-3 license.  It is free,
-#  open source, and has the attribution requirements (GPL Section 7) at
+#  This software is distributed under the GPL-3 license.  It is free, open
+#  source, and has the attribution requirements (GPL Section 7) at
 #  https://statnet.org/attribution .
 #
-#  Copyright 2007-2024 Statnet Commons
+#  Copyright 2007-2025 Statnet Commons
 ################################################################################
 # This document provides a template for exporting a package's
 # control.* functions to be visible to snctrl() and providing a
