@@ -2,9 +2,12 @@
 % Please edit documentation in R/misc.utilities.R
 \name{replace}
 \alias{replace}
+\alias{replace<-}
 \title{Replace values in a vector according to functions}
 \usage{
 replace(x, list, values, ...)
+
+replace(x, list, ...) <- value
 }
 \arguments{
 \item{x}{a vector.}
@@ -12,7 +15,7 @@ replace(x, list, values, ...)
 \item{list}{either an index vector or a function (\emph{not} a function
 name).}
 
-\item{values}{either a vector of replacement values or a function
+\item{values, value}{either a vector of replacement values or a function
 (\emph{not} a function name).}
 
 \item{...}{additional arguments to \code{list} if it is a function;
@@ -24,13 +27,14 @@ A vector with the values replaced.
 \description{
 This is a thin wrapper around \code{\link[base:replace]{base::replace()}} that allows \code{list}
 and/or \code{values} to be functions that are evaluated on \code{x} to obtain
-the replacement indices and values.
+the replacement indices and values. The assignment version replaces
+\code{x}.
 }
 \details{
 \code{list} function is passed the whole vector \code{x} at once (not
 elementwise) and any additional arguments to \code{replace()}, and must
 return an indexing vector (numeric, logical, character,
-etc.). \code{values} function is passed \code{x} after subsetting it by the
+etc.). \code{values}/\code{value} function is passed \code{x} after subsetting it by the
 result of calling \code{list()}.
 
 If passing named arguments, \code{x}, \code{list}, and \code{values} may cause a
@@ -55,6 +59,13 @@ stopifnot(identical(replace(x, `<`, 0, 1/4),
 x |> replace(\(.x) .x < 0, \(.x) .x * 1i)
 stopifnot(identical(replace(x, \(.x) .x < 0, \(.x) .x * 1i),
                     base::replace(x, x < 0, x[x < 0] * 1i)))
+
+### Modify the list in place.
+
+y <- x
+replace(x, `<`, 1/4) <- 0
+x
+stopifnot(identical(x, replace(y, `<`, 0, 1/4)))
 
 }
 \seealso{
