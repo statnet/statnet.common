@@ -29,6 +29,12 @@ New utilities
     `replace()<-` is also implemented, allowing the list to be modified
     in place.
 
+-   New pair of functions, `arr_to_coo()` and `arr_from_coo()`, to
+    translate between an array and its list of non-default values.
+
+-   New function, `set_diag()` to set a diagonal of a matrix to
+    specified values and return (as opposed to modifying it in place).
+
 Enhancements to existing utilities
 ----------------------------------
 
