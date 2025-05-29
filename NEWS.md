@@ -12,7 +12,7 @@
 
 * New functions, `ERRVL2()` and `ERRVL3()` that, unlike `ERRVL()`, do not require the expressions to be wrapped in `try()`.
 
-* New function, `replace()`, a more pipe-friendly drop-in replacement for `base::replace()` for which replacement indices and values can be specified as functions evaluated on the input vector.
+* New function, `replace()`, a more pipe-friendly drop-in replacement for `base::replace()` for which replacement indices and values can be specified as functions evaluated on the input vector. `replace()<-` is also implemented, allowing the list to be modified in place.
 
 ## Enhancements to existing utilities
 
