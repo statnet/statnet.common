@@ -1199,3 +1199,57 @@ modify_in_place <- function(x, value = x){
 
   invisible(value) # Return invisibly.
 }
+
+#' Replace values in a vector according to functions
+#'
+#' This is a thin wrapper around [base::replace()] that allows `list`
+#' and/or `values` to be functions that are evaluated on `x` to obtain
+#' the replacement indices and values.
+#'
+#' `list` function is passed the whole vector `x` at once (not
+#' elementwise) and any additional arguments to `replace()`, and must
+#' return an indexing vector (numeric, logical, character,
+#' etc.). `values` function is passed `x` after subsetting it by the
+#' result of calling `list()`.
+#'
+#' If passing named arguments, `x`, `list`, and `values` may cause a
+#' conflict.
+#'
+#' @param x a vector.
+#' @param list either an index vector or a function (*not* a function
+#'   name).
+#' @param values either a vector of replacement values or a function
+#'   (*not* a function name).
+#' @param ... additional arguments to `list` if it is a function;
+#'   otherwise ignored.
+#'
+#' @return A vector with the values replaced.
+#'
+#' @seealso [purrr::modify()] family of functions.
+#'
+#' @examples
+#'
+#' (x <- rnorm(10))
+#'
+#' ### Replace elements of x that are < 1/4 with 0.
+#'
+#' # Note that this code is pipeable.
+#' x |> replace(`<`, 0, 1/4)
+#' # More readable, using lambda notation.
+#' x |> replace(\(.x) .x < 1/4, 0)
+#' # base equivalent.
+#' stopifnot(identical(replace(x, `<`, 0, 1/4),
+#'                     base::replace(x, x < 1/4, 0)))
+#'
+#' ### Multiply negative elements of x by 1i.
+#'
+#' x |> replace(\(.x) .x < 0, \(.x) .x * 1i)
+#' stopifnot(identical(replace(x, \(.x) .x < 0, \(.x) .x * 1i),
+#'                     base::replace(x, x < 0, x[x < 0] * 1i)))
+#'
+#' @export
+replace <- function(x, list, values, ...) {
+  if (is.function(list)) list <- list(x, ...)
+  if (is.function(values)) values <- values(x[list], ...)
+  base::replace(x, list, values)
+}
