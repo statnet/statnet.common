@@ -14,6 +14,10 @@
 
 * New function, `replace()`, a more pipe-friendly drop-in replacement for `base::replace()` for which replacement indices and values can be specified as functions evaluated on the input vector. `replace()<-` is also implemented, allowing the list to be modified in place.
 
+* New pair of functions, `arr_to_coo()` and `arr_from_coo()`, to translate between an array and its list of non-default values.
+
+* New function, `set_diag()` to set a diagonal of a matrix to specified values and return (as opposed to modifying it in place).
+
 ## Enhancements to existing utilities
 
 * The behavior of `trim_env()` has changed: if no variables are to be copied in, the environment is set directly to `baseenv()`.
