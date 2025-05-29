@@ -1204,12 +1204,13 @@ modify_in_place <- function(x, value = x){
 #'
 #' This is a thin wrapper around [base::replace()] that allows `list`
 #' and/or `values` to be functions that are evaluated on `x` to obtain
-#' the replacement indices and values.
+#' the replacement indices and values. The assignment version replaces
+#' `x`.
 #'
 #' `list` function is passed the whole vector `x` at once (not
 #' elementwise) and any additional arguments to `replace()`, and must
 #' return an indexing vector (numeric, logical, character,
-#' etc.). `values` function is passed `x` after subsetting it by the
+#' etc.). `values`/`value` function is passed `x` after subsetting it by the
 #' result of calling `list()`.
 #'
 #' If passing named arguments, `x`, `list`, and `values` may cause a
@@ -1218,7 +1219,7 @@ modify_in_place <- function(x, value = x){
 #' @param x a vector.
 #' @param list either an index vector or a function (*not* a function
 #'   name).
-#' @param values either a vector of replacement values or a function
+#' @param values,value either a vector of replacement values or a function
 #'   (*not* a function name).
 #' @param ... additional arguments to `list` if it is a function;
 #'   otherwise ignored.
@@ -1247,9 +1248,20 @@ modify_in_place <- function(x, value = x){
 #' stopifnot(identical(replace(x, \(.x) .x < 0, \(.x) .x * 1i),
 #'                     base::replace(x, x < 0, x[x < 0] * 1i)))
 #'
+#' ### Modify the list in place.
+#'
+#' y <- x
+#' replace(x, `<`, 1/4) <- 0
+#' x
+#' stopifnot(identical(x, replace(y, `<`, 0, 1/4)))
+#'
 #' @export
 replace <- function(x, list, values, ...) {
   if (is.function(list)) list <- list(x, ...)
   if (is.function(values)) values <- values(x[list], ...)
   base::replace(x, list, values)
 }
+
+#' @rdname replace
+#' @export
+`replace<-` <- function(x, list, ..., value) replace(x, list, value, ...)
