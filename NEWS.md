@@ -12,6 +12,8 @@
 
 * New functions, `ERRVL2()` and `ERRVL3()` that, unlike `ERRVL()`, do not require the expressions to be wrapped in `try()`.
 
+* New function, `replace()`, a more pipe-friendly drop-in replacement for `base::replace()` for which replacement indices and values can be specified as functions evaluated on the input vector.
+
 ## Enhancements to existing utilities
 
 * The behavior of `trim_env()` has changed: if no variables are to be copied in, the environment is set directly to `baseenv()`.
