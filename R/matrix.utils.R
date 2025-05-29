@@ -367,3 +367,82 @@ sandwich_ginv <- function(A, B, ...) {
   Ai <- MASS::ginv(A, ...)
   Ai %*% B %*% t(Ai)
 }
+
+#' Conveniently covert between coordinate-value and array representations
+#'
+#' These function similarly to \CRANpkg{Matrix}'s utilities but is
+#' simpler and allows arbitrary baseline and handling of missing
+#' values. (It is also almost certainly much slower.) Also, since it
+#' is likely that operations will be performed on the elements of the
+#' array, their argument is first for easier piping.
+#'
+#' If `x0` is `NA`, non-`NA` elements are returned; if `x0` is `NULL`,
+#' all elements are.
+#'
+#' @param x values of elements differing from the default.
+#' @param coord an integer matrix of their indices.
+#' @param dim dimension vector; recycled to `ncol(coord)`; if not
+#'   given, inferred from `dimnames`.
+#' @param x0 the default value.
+#' @param dimnames dimension name list.
+#' @param X an array.
+#' @param na.rm whether the `NA` elements of the array should be
+#'   omitted from the list.
+#'
+#' @return `coo_to_arr()` returns a matrix or an array.
+#'
+#' @examples
+#' m <- matrix(rpois(25, 1), 5, 5)
+#' arr_to_coo(m, 0L)
+#' stopifnot(identical(do.call(arr_from_coo, arr_to_coo(m, 0L)), m))
+#'
+#' stopifnot(length(arr_to_coo(m, NULL)$x) == 25) # No baseline
+#'
+#' m[sample.int(25L, 2L)] <- NA
+#' m
+#' arr_to_coo(m, 0L) # Return NAs
+#'
+#' arr_to_coo(m, 0L, na.rm = TRUE) # Drop NAs
+#' @export
+arr_from_coo <- function(x, coord, dim = lengths(dimnames), x0 = NA, dimnames = NULL) {
+  coord <- as.matrix(coord)
+  dim <- rep_len(dim, ncol(coord))
+  if (anyNA(dim)) stop("array dimensions not specified")
+  replace(array(NVL(x0, NA), dim, dimnames), coord, x)
+}
+
+#' @rdname arr_from_coo
+#' @return `arr_to_coo()` returns a list with the following elements:
+#'
+#' \item{`x`}{the values distinct from `x0`}
+#'
+#' \item{`coord`}{a matrix with a column for each dimension containing
+#' indexes of values distinct from `x0`}
+#'
+#' \item{`dim`}{the dimension vector of the matrix}
+#'
+#' \item{`dimnames`}{the dimension name list of the matrix}
+#'
+#' @export
+arr_to_coo <- function(X, x0, na.rm = FALSE) {
+  nz  <- if (is.null(x0)) seq_along(X)
+         else if (is.na(x0)) which(!is.na(X))
+         else if (na.rm) which(X != x0)
+         else which(is.na(X) | X != x0)
+  coord <- arrayInd(nz, d <- dim(X), dn <- dimnames(X), TRUE)
+  list(x = X[nz], coord = coord, dim = d, x0 = x0, dimnames = dn)
+}
+
+#' Return the matrix with diagonal set to a specified value
+#'
+#' This function simply assigns `value` to diagonal of `x` and returns
+#' `x`.
+#'
+#' @param x a square matrix.
+#' @param value a value or a vector (recycled to the required length).
+#'
+#' @export
+set_diag <- function(x, value) {
+  diag(x) <- value
+  x
+}
