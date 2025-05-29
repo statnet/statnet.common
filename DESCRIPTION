@@ -19,4 +19,5 @@ Encoding: UTF-8
 Suggests: covr,
           roxygen2,
           rlang (>= 1.1.1),
+          purrr,
           MASS
