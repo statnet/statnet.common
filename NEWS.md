@@ -1,10 +1,6 @@
-# statnet.common 4.11.0
+# statnet.common 4.12.0
 
 ## New utilities
-
-* New function, `modify_in_place()`, that attempts to modify the argument of its caller in place. A function can call it to modify its own arguments in place.
-
-* New function, `log1mexp(x)` to compute `log(1-exp(-x))` minimizing the loss of precision. R provides a C macro `log1mexp(x)` but not the corresponding R wrapper.
 
 * New matrix functions: `qrssolve()` to solve linear systems via QR decomposition after scaling, and `qrsolve()` to do the same without scaling, along with `sandwich_qrsolve()`, `sandwich_qrssolve()`, `sandwich_ginv()`, and `sandwich_sginv()`.
 
@@ -20,8 +16,6 @@
 
 ## Enhancements to existing utilities
 
-* The behavior of `trim_env()` has changed: if no variables are to be copied in, the environment is set directly to `baseenv()`.
-
 * `statnetStartupMessage()` now prints `Remote:` information if the package was installed from a remote.
 
 * Matrices returned by the `lweighted.*()` family of functions now inherit dimensional names.
@@ -31,6 +25,18 @@
 * Scaling version of matrix operations now use `.Machine$double.xmax/(1 + .Machine$double.eps)` as the inverse of the zero diagonal.
 
 * `all_identical()` can now use a custom comparison predicate (e.g., `all.equal()`), and the use any of the elements in the list as the reference. (Thanks to Michał Bojanowski @mbojan.)
+
+# statnet.common 4.11.0
+
+## New utilities
+
+* New function, `modify_in_place()`, that attempts to modify the argument of its caller in place. A function can call it to modify its own arguments in place.
+
+* New function, `log1mexp(x)` to compute `log(1-exp(-x))` minimizing the loss of precision. R provides a C macro `log1mexp(x)` but not the corresponding R wrapper.
+
+## Enhancements to existing utilities
+
+* The behavior of `trim_env()` has changed: if no variables are to be copied in, the environment is set directly to `baseenv()`.
 
 # statnet.common 4.10.0
 
