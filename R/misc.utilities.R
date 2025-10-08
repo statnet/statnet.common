@@ -1265,3 +1265,71 @@ replace <- function(x, list, values, ...) {
 #' @rdname replace
 #' @export
 `replace<-` <- function(x, list, ..., value) replace(x, list, value, ...)
+
+#' Wrap an object into a singleton list if not already a list
+#'
+#' This function tests whether its first argument is a list according
+#' to the specified criterion; if not, puts it into a list of length 1.
+#'
+#' @param x an object to be wrapped.
+#'
+#' @param test how a string or a function to decide whether an object
+#'   counts as a list; see Details.
+#'
+#' @details `test` can be one of the following \describe{
+#'
+#' \item{`"inherits"`}{use [`inherits`]`(x, "list")`. This will
+#' require the object to have class `list` and is generally the
+#' strictest (i.e., will wrap the most objects).}
+#'
+#' \item{`"list"`}{use [`is.list`]`(x)`. This will treat S3 objects
+#' based on lists as lists.}
+#'
+#' \item{`"vector"`}{use [`is.vector`]`(x)`. This will treat atomic
+#' vectors and [`expression`]s as lists.}
+#'
+#' \item{a function with 1 argument}{call `as.logical(test(x))`; if
+#' `TRUE`, the object is treated as a list; otherwise not.}
+#'
+#' }
+#'
+#' @examples
+#'
+#' data(mtcars)
+#' stopifnot(
+#'   # Atomic vectors don't inherit from lists.
+#'   identical(enlist(1:3), list(1:3)),
+#'   # Atomic vectors are not lists internally.
+#'   identical(enlist(1:3, "list"), list(1:3)),
+#'   # Atomic vectors are a type of R vector.
+#'   identical(enlist(1:3, "vector"), 1:3),
+#'   # Data frames don't inherit from lists.
+#'   identical(enlist(mtcars), list(mtcars)),
+#'   # Data frames are lists internally.
+#'   identical(enlist(mtcars, "list"), mtcars),
+#'   # Data frames are not considered R vectors.
+#'   identical(enlist(mtcars, "vector"), list(mtcars))
+#' )
+#'
+#' # We treat something as a "list" if its first element is odd.
+#' is.odd <- function(x) as.logical(x[1] %% 2)
+#' stopifnot(
+#'   # 1 is a list.
+#'   identical(enlist(1, is.odd), 1),
+#'   # 2 is not.
+#'   identical(enlist(2, is.odd), list(2))
+#' )
+#'
+#' @export
+enlist <- function(x, test = c("inherits", "vector", "list")) {
+  if (is.character(test))
+    test <- switch(match.arg(test),
+                   vector = is.vector,
+                   list = is.list,
+                   inherits = function(x) inherits(x, "list"))
+  else if (!as.logical(is.function(test)))
+    stop(sQuote("test"), " is neither a function nor one of ",
+         paste.and(dQuote(formals(enlist)$test), "or"))
+
+  if (test(x)) x else list(x)
+}
