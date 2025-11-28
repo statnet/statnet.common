@@ -41,10 +41,11 @@ eval_lhs.formula(object)
 
 \item{newterms}{a \code{\link{term_list}} object, or any list of terms (names
 or calls) to append to the formula, or a formula whose RHS terms
-will be used; its \code{"sign"} attribute vector can give the sign of
-each term (\code{+1} or \code{-1}), and its \code{"env"} attribute
-vector will be used to set its environment, with the first
-available being used and subsequent ones producing a warning.}
+will be used; it can have a \code{\link[=sign]{sign()}} method or a \code{"sign"}
+attribute vector can give the sign of each term (\code{+1} or \code{-1}),
+and its \code{\link[=envir]{envir()}} method or \code{"env"} attribute vector will be used
+to set its environment, with the first available being used and
+subsequent ones producing a warning.}
 
 \item{keep.onesided}{if the initial formula is one-sided, keep it
 whether to keep it one-sided or whether to make the initial
@@ -178,21 +179,21 @@ stopifnot(f7 == ~-a+b)
 }
 
 stopifnot(identical(list_rhs.formula(a~b),
-          structure(alist(b), sign=1, env=list(globalenv()), class="term_list")))
+          structure(alist(b), sign=1L, env=list(globalenv()), class="term_list")))
 stopifnot(identical(list_rhs.formula(~b),
-          structure(alist(b), sign=1, env=list(globalenv()), class="term_list")))
+          structure(alist(b), sign=1L, env=list(globalenv()), class="term_list")))
 stopifnot(identical(list_rhs.formula(~b+NULL),
           structure(alist(b, NULL),
-                    sign=c(1,1), env=rep(list(globalenv()), 2), class="term_list")))
+                    sign=c(1L,1L), env=rep(list(globalenv()), 2), class="term_list")))
 stopifnot(identical(list_rhs.formula(~-b+NULL),
           structure(alist(b, NULL),
-                    sign=c(-1,1), env=rep(list(globalenv()), 2), class="term_list")))
+                    sign=c(-1L,1L), env=rep(list(globalenv()), 2), class="term_list")))
 stopifnot(identical(list_rhs.formula(~+b-NULL),
           structure(alist(b, NULL),
-                    sign=c(1,-1), env=rep(list(globalenv()), 2), class="term_list")))
+                    sign=c(1L,-1L), env=rep(list(globalenv()), 2), class="term_list")))
 stopifnot(identical(list_rhs.formula(~+b-(NULL+c)),
           structure(alist(b, NULL, c),
-                    sign=c(1,-1,-1), env=rep(list(globalenv()), 3), class="term_list")))
+                    sign=c(1L,-1L,-1L), env=rep(list(globalenv()), 3), class="term_list")))
 
 ## eval_lhs.formula
 
