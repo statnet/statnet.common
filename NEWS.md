@@ -1,3 +1,13 @@
+# statnet.common 4.13.0
+
+## New utilities
+
+* New `testthat` predicate, `skip_if_not_checking()`, that skips the test if it's not part of an `R CMD check`, e.g., if run by `testthat::test_local()`.
+
+* New function, `enlist()` to wrap an object into a singleton list if it's not already a list, for various definitions of "list".
+
+* `term_list` objects now have `envir()`, `envir<-()`, `sign()`, and `sign<-()` methods to better encapsulate their environment and sign information.
+
 # statnet.common 4.12.0
 
 ## New utilities

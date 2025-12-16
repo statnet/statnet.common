@@ -1,16 +1,25 @@
-statnet.common 4.11.0
+statnet.common 4.13.0
 =====================
 
 New utilities
 -------------
 
--   New function, `modify_in_place()`, that attempts to modify the
-    argument of its caller in place. A function can call it to modify
-    its own arguments in place.
+-   New `testthat` predicate, `skip_if_not_checking()`, that skips the
+    test if it's not part of an `R CMD check`, e.g., if run by
+    `testthat::test_local()`.
 
--   New function, `log1mexp(x)` to compute `log(1-exp(-x))` minimizing
-    the loss of precision. R provides a C macro `log1mexp(x)` but not
-    the corresponding R wrapper.
+-   New function, `enlist()` to wrap an object into a singleton list if
+    it's not already a list, for various definitions of "list".
+
+-   `term_list` objects now have `envir()`, `envir<-()`, `sign()`, and
+    `sign<-()` methods to better encapsulate their environment and sign
+    information.
+
+statnet.common 4.12.0
+=====================
+
+New utilities
+-------------
 
 -   New matrix functions: `qrssolve()` to solve linear systems via QR
     decomposition after scaling, and `qrsolve()` to do the same without
@@ -38,9 +47,6 @@ New utilities
 Enhancements to existing utilities
 ----------------------------------
 
--   The behavior of `trim_env()` has changed: if no variables are to be
-    copied in, the environment is set directly to `baseenv()`.
-
 -   `statnetStartupMessage()` now prints `Remote:` information if the
     package was installed from a remote.
 
@@ -57,6 +63,26 @@ Enhancements to existing utilities
 -   `all_identical()` can now use a custom comparison predicate (e.g.,
     `all.equal()`), and the use any of the elements in the list as the
     reference. (Thanks to Michał Bojanowski @mbojan.)
+
+statnet.common 4.11.0
+=====================
+
+New utilities
+-------------
+
+-   New function, `modify_in_place()`, that attempts to modify the
+    argument of its caller in place. A function can call it to modify
+    its own arguments in place.
+
+-   New function, `log1mexp(x)` to compute `log(1-exp(-x))` minimizing
+    the loss of precision. R provides a C macro `log1mexp(x)` but not
+    the corresponding R wrapper.
+
+Enhancements to existing utilities
+----------------------------------
+
+-   The behavior of `trim_env()` has changed: if no variables are to be
+    copied in, the environment is set directly to `baseenv()`.
 
 statnet.common 4.10.0
 =====================
