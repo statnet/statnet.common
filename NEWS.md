@@ -6,7 +6,15 @@
 
 * New function, `enlist()` to wrap an object into a singleton list if it's not already a list, for various definitions of "list".
 
+* New function, `which_top_n()`, to return the indices of top or bottom `n` elements of a vector, with several methods for resolving ties.
+
+* New function, `split_len()` to split a split()-able object by lengths.
+
+## Enhancements to existing utilities
+
 * `term_list` objects now have `envir()`, `envir<-()`, `sign()`, and `sign<-()` methods to better encapsulate their environment and sign information.
+
+* `ERRVL*()` functions if not given any non-erroring expressions now throw the last error rather than a generic message.
 
 # statnet.common 4.12.0
 
