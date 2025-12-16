@@ -510,7 +510,7 @@ ERRVL <- function(...){
     x <- eval(if(inherits(x, "try-error")) do.call(substitute, list(e, list(.=x))) else e, parent.frame())
     if(!inherits(x, "try-error")) return(x)
   }
-  stop("No non-error expressions passed.")
+  stop(attr(x, "condition"))
 }
 
 #' @rdname ERRVL
@@ -527,9 +527,9 @@ ERRVL <- function(...){
 #' @export
 ERRVL2 <- function(...){
   for(e in eval(substitute(alist(...)))) # Lazy evaluate. (See http://adv-r.had.co.nz/Computing-on-the-language.html .)
-    tryCatch(return(eval(e, parent.frame())),
-             error = function(err){})
-  stop("No non-error expressions passed.")
+    err <- tryCatch(return(eval.parent(e)),
+                    error = function(err) err)
+  stop(err)
 }
 
 #' @rdname ERRVL
@@ -551,14 +551,13 @@ ERRVL2 <- function(...){
 #'
 #' @export
 ERRVL3 <- function(...){
-  x <- NULL
+  err <- NULL
   for(e in eval(substitute(alist(...)))) # Lazy evaluate. (See http://adv-r.had.co.nz/Computing-on-the-language.html .)
-    x <- tryCatch(
-      return(eval(if(!is.null(x)) do.call(substitute, list(e, list(.=x)))
-                  else e,
-                  parent.frame())),
+    err <- tryCatch(
+      return(eval.parent(if (!is.null(err)) do.call(substitute, list(e, list(. = err)))
+                         else e)),
       error = function(err) err)
-  stop("No non-error expressions passed.")
+  stop(err)
 }
 
 #' Optionally test code depending on environment variable.
