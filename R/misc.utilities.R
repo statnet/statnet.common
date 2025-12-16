@@ -1332,3 +1332,53 @@ enlist <- function(x, test = c("inherits", "vector", "list")) {
 
   if (test(x)) x else list(x)
 }
+
+#' Top or bottom `n` elements of a vector
+#'
+#' Return the indices of the top or bottom `abs(n)` elements of a
+#' vector, with several methods for resolving ties.
+#'
+#' @param x a vector on which [rank()] can be evaluated.
+#'
+#' @param n the number of elements to attempt to select; if positive
+#'   top `n` are selected, and if negative bottom `-n`.
+#'
+#' @param tied a string to specify how to handle multiple elements
+#'   tied for `n`'th place: `all` or `none` to include all or none of
+#'   the tied elements, returning a longer or shorter vector than `n`,
+#'   respectively; `given` (the default) to use the order in which the
+#'   elements are found in `x`.
+#'
+#' @return An integer vector of indices on `x`, with an attribute
+#'   `attr(, "tied")` with the indicies of the tied elements (possibly
+#'   empty).
+#'
+#' @examples
+#'
+#' (x <- rep(1:4, 1:4))
+#'
+#' stopifnot(identical(which_top_n(x, 5, "all"), structure(4:10, tied = 4:6)))
+#' stopifnot(identical(which_top_n(x, 5, "none"), structure(7:10, tied = 4:6)))
+#' stopifnot(identical(which_top_n(x, 5), structure(6:10, tied = 4:6)))
+#'
+#' stopifnot(identical(which_top_n(x, -5, "all"), structure(1:6, tied = 4:6)))
+#' stopifnot(identical(which_top_n(x, -5, "none"), structure(1:3, tied = 4:6)))
+#' stopifnot(identical(which_top_n(x, -5), structure(1:5, tied = 4:6)))
+#'
+#' @export
+which_top_n <- function(x, n, tied = c("given", "all", "none")) {
+  tied <- match.arg(tied)
+
+  ordcut <- if (n > 0) function(r) (length(x) + 1 - r) <= n
+            else function(r) r <= -n
+  s1 <- ordcut(rank(x, ties.method = "min"))
+  s2 <- ordcut(rank(x, ties.method = "max"))
+
+  structure(
+    which(switch(tied,
+                 given = ordcut(rank(x, ties.method = "first")),
+                 all = s1 | s2,
+                 none = s1 & s2)),
+    tied = which(s1 != s2)
+  )
+}
