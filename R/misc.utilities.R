@@ -1382,3 +1382,27 @@ which_top_n <- function(x, n, tied = c("given", "all", "none")) {
     tied = which(s1 != s2)
   )
 }
+
+#' Split a list or some other `split()`-able object by lengths
+#'
+#' `split_len()` splits an object, such as a list or a data frame,
+#' into subsets with specified lengths.
+#'
+#' @param x an object with a [split()] method.
+#' @param l a vector of lengths of the subsets.
+#'
+#' @return A list with elements of the same type as `x`.
+#'
+#' @examples
+#' x <- 1:10
+#' l <- 1:4
+#'
+#' o <- split_len(x, l)
+#'
+#' stopifnot(identical(lengths(o), l))
+#' stopifnot(identical(unlist(o), x))
+#'
+#' @export
+split_len <- function(x, l) {
+  unname(split(x, factor(rep.int(seq_along(l), l), levels = seq_along(l))))
+}
