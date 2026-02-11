@@ -2,19 +2,19 @@
 % Please edit documentation in R/misc.utilities.R
 \name{attr}
 \alias{attr}
-\title{A wrapper for base::attr which defaults to exact matching.}
+\title{A wrapper for \code{\link[base:attr]{base::attr()}} which defaults to exact matching.}
 \usage{
 attr(x, which, exact = TRUE)
 }
 \arguments{
-\item{x, which, exact}{as in \code{base::attr}, but with \code{exact}
+\item{x, which, exact}{as in \code{\link[base:attr]{base::attr()}}, but with \code{exact}
 defaulting to \code{TRUE} in this implementation}
 }
 \value{
-as in \code{base::attr}
+As \code{\link[base:attr]{base::attr()}}.
 }
 \description{
-A wrapper for base::attr which defaults to exact matching.
+A wrapper for \code{\link[base:attr]{base::attr()}} which defaults to exact matching.
 }
 \examples{
 

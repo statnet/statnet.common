@@ -1071,12 +1071,12 @@ simplify_simple <- function(x, toNA = c("null","empty","keep"), empty = c("keep"
   else x
 }
 
-#' A wrapper for base::attr which defaults to exact matching.
+#' A wrapper for [base::attr()] which defaults to exact matching.
 #'
-#' @param x,which,exact as in \code{base::attr}, but with \code{exact}
-#'   defaulting to \code{TRUE} in this implementation
+#' @param x,which,exact as in [base::attr()], but with `exact`
+#'   defaulting to `TRUE` in this implementation
 #'
-#' @return as in \code{base::attr}
+#' @return As [base::attr()].
 #' @examples
 #'
 #' x <- list()
@@ -1088,9 +1088,28 @@ simplify_simple <- function(x, toNA = c("null","empty","keep"), empty = c("keep"
 #'
 #' base::attr(x, "n", exact = TRUE)
 #' @export
-attr <- function(x, which, exact = TRUE) {
-  base::attr(x, which, exact)
-}
+attr <- function(x, which, exact = TRUE) base::attr(x, which, exact)
+
+#' Check if an object has an attribute with a specified name.
+#'
+#' Analogous function to [utils::hasName()] but for [attr()]
+#' attributes.
+#'
+#' @param x Any object.
+#'
+#' @param name One or more character values to look for.
+#'
+#' @return A logical vector of the same length as `name`, containing
+#'   `TRUE` if `attr(x, name, exact = TRUE)` is not `NULL`.
+#'
+#' @seealso [hasName()]
+#' @examples
+#' x <- structure(list(), name = 10)
+#'
+#' stopifnot(hasAttr(x, c("n", "name")) == c(FALSE, TRUE))
+#'
+#' @export
+hasAttr <- function(x, name) vapply(name, function(nm) !is.null(attr(x, nm)), FALSE)
 
 #' An error handler for [rlang::check_dots_used()] that issues a
 #' warning that only lists argument names.
