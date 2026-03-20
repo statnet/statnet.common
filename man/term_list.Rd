@@ -7,6 +7,7 @@
 \alias{as.term_list.default}
 \alias{c.term_list}
 \alias{[.term_list}
+\alias{unique.term_list}
 \alias{print.term_list}
 \alias{sign.term_list}
 \alias{sign<-.term_list}
@@ -25,6 +26,8 @@ as.term_list(x, ...)
 \method{c}{term_list}(x, ...)
 
 \method{[}{term_list}(x, i, ...)
+
+\method{unique}{term_list}(x, ...)
 
 \method{print}{term_list}(x, ...)
 

@@ -345,6 +345,12 @@ c.term_list <- function(x, ...){
 
 #' @rdname term_list
 #' @export
+unique.term_list <- function(x, ...) {
+  lapply(seq_along(x), \(i) x[i]) |> unique(...) |> do.call(c, args = _)
+}
+
+#' @rdname term_list
+#' @export
 print.term_list <- function(x, ...){
   signstr <- ifelse(sign(x) >= 0L, "+", "-")
   envstr <- sapply(envir(x), format)
