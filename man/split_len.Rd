@@ -4,12 +4,14 @@
 \alias{split_len}
 \title{Split a list or some other \code{split()}-able object by lengths}
 \usage{
-split_len(x, l)
+split_len(x, l, ...)
 }
 \arguments{
 \item{x}{an object with a \code{\link[=split]{split()}} method.}
 
 \item{l}{a vector of lengths of the subsets.}
+
+\item{...}{further arguments to \code{\link[=split]{split()}}.}
 }
 \value{
 A list with elements of the same type as \code{x}.

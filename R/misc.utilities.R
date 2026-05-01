@@ -1409,6 +1409,7 @@ which_top_n <- function(x, n, tied = c("given", "all", "none")) {
 #'
 #' @param x an object with a [split()] method.
 #' @param l a vector of lengths of the subsets.
+#' @param ... further arguments to [split()].
 #'
 #' @return A list with elements of the same type as `x`.
 #'
@@ -1422,6 +1423,6 @@ which_top_n <- function(x, n, tied = c("given", "all", "none")) {
 #' stopifnot(identical(unlist(o), x))
 #'
 #' @export
-split_len <- function(x, l) {
-  unname(split(x, factor(rep.int(seq_along(l), l), levels = seq_along(l))))
+split_len <- function(x, l, ...) {
+  unname(split(x, factor(rep.int(seq_along(l), l), levels = seq_along(l)), ...))
 }
