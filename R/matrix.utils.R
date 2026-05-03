@@ -57,6 +57,36 @@ xTAx_solve <- function(x, A, ...) {
   drop(crossprod(x, solve(A, x, ...)))
 }
 
+#' Check that matrix or vector `b` is in the span of matrix `a`. If so,
+#' evaluate `f(a^-1 b)` via QR decomposition and wrap the output to
+#' include rank and nullity.
+#'
+#' @param f a function that takes a vector or a matrix
+#' @param a,b,tol passed to [qr()]; `tol` is also used for span
+#'   checking.
+#' @param nm a vector of names for `a` and `b` to use; defaults to the
+#'   corresponding expressions in the parent frame.
+#'
+#' @return Results of `f` with additional attributes `"rank"` and
+#'   `"nullity"`.
+#' @noRd
+with_qrcoef <- function(f, a, b, tol,
+                        nm = c(deparse1(substitute(a)),
+                               deparse1(substitute(b)))) {
+  qr <- qr(a)
+  rank <- qr$rank
+  q <- qr.Q(qr)
+
+  if (nullity <- min(dim(q)) - rank) {
+    if (rank > 0L) q <- q[, -seq_len(rank), drop = FALSE]
+    if (!all(abs(crossprod(q, b)) < tol))
+      stop(simpleError(paste(nm[[2]], "is not in the span of", nm[[1]]),
+                       call = sys.call(-1L)))
+  }
+
+  structure(f(qr.coef(qr, b)), rank = rank, nullity = nullity)
+}
+
 #' @describeIn xTAx Evaluate \eqn{x'A^{-1}x} for vector \eqn{x} and
 #'   matrix \eqn{A} using QR decomposition and confirming that \eqn{x}
 #'   is in the span of \eqn{A} if \eqn{A} is singular; returns `rank`
@@ -67,11 +97,7 @@ xTAx_solve <- function(x, A, ...) {
 #'
 #' @export
 xTAx_qrsolve <- function(x, A, tol = 1e-07, ...) {
-  Aqr <- qr(A, tol=tol, ...)
-  nullity <- NCOL(A) - Aqr$rank
-  if(nullity && !all(abs(crossprod(qr.Q(Aqr)[,-seq_len(Aqr$rank), drop=FALSE], x))<tol))
-    stop("x is not in the span of A")
-  structure(sum(x*qr.coef(Aqr, x), na.rm=TRUE), rank=Aqr$rank, nullity=nullity)
+  with_qrcoef(\(z) sum(x * z, na.rm = TRUE), A, x, tol)
 }
 
 #' @describeIn xTAx Evaluate \eqn{A^{-1}B(A')^{-1}} for \eqn{B} a
@@ -277,11 +303,8 @@ xTAx_qrssolve <- function(x, A, tol = 1e-07, ...) {
   d <- .sqrt_inv_diag(A)
   dd <- rep(d, each = length(d)) * d
 
-  Aqr <- qr(A*dd, tol=tol, ...)
-  nullity <- NCOL(A) - Aqr$rank
-  if(nullity && !all(abs(crossprod(qr.Q(Aqr)[,-seq_len(Aqr$rank), drop=FALSE], x*d))<tol))
-    stop("x is not in the span of A")
-  structure(sum(x*d*qr.coef(Aqr, x*d), na.rm=TRUE), rank=Aqr$rank, nullity=nullity)
+  with_qrcoef(function(z) sum(x * d * z, na.rm = TRUE),
+              A * dd, x * d, tol, c("A", "x"))
 }
 
 #' @rdname ssolve
@@ -302,23 +325,16 @@ qrssolve <- function(a, b, tol = 1e-07, ..., snnd = TRUE) {
   if(snnd) {
     d <- .sqrt_inv_diag(a)
     dd <- d * rep(d, each = length(d))
-
-    aqr <- qr(a*dd, tol = tol, ...)
-    nullity <- min(nrow(a), ncol(a)) - aqr$rank
-    if(nullity && !all(abs(crossprod(qr.Q(aqr)[,-seq_len(aqr$rank), drop=FALSE], b*d))<tol))
-      stop("b is not in the span of a")
-    x <- qr.coef(aqr, b*d)*d
+    x <- with_qrcoef(function(z) z * d,
+                     a * dd, b * d, tol, c("a", "b"))
   } else {
     d <- .inv_diag(a)
     ## NB: In R, vector * matrix and matrix * vector always scales
     ## corresponding rows.
-    aqr <- qr(a*d, tol = tol, ...)
-    nullity <- min(nrow(a), ncol(a)) - aqr$rank
-    if(nullity && !all(abs(crossprod(qr.Q(aqr)[,-seq_len(aqr$rank), drop=FALSE], b*d))<tol))
-      stop("b is not in the span of a")
-    x <- qr.coef(aqr, b*d)
+    x <- with_qrcoef(identity,
+                     a * d, b * d, tol, c("a", "b"))
   }
-  structure(replace(x, is.na(x), 0), rank=aqr$rank, nullity=nullity)
+  replace(x, is.na, 0)
 }
 
 #' @rdname ssolve
@@ -329,13 +345,7 @@ qrsolve <- function(a, b, tol = 1e-07, ...) {
     colnames(b) <- rownames(a)
   }
 
-  aqr <- qr(a, tol = tol, ...)
-  nullity <- min(nrow(a), ncol(a)) - aqr$rank
-  if(nullity && !all(abs(crossprod(qr.Q(aqr)[,-seq_len(aqr$rank), drop=FALSE], b))<tol))
-      stop("b is not in the span of a")
-    x <- qr.coef(aqr, b)
-
-  structure(replace(x, is.na(x), 0), rank=aqr$rank, nullity=nullity)
+  with_qrcoef(identity, a, b, tol) |> replace(is.na, 0)
 }
 
 #' @rdname ssolve
