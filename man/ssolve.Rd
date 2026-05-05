@@ -17,7 +17,7 @@
 \title{Wrappers around matrix algebra functions that pre-\emph{s}cale their
 arguments}
 \usage{
-ssolve(a, b, ..., snnd = TRUE)
+ssolve(a, b, ..., snnd = FALSE)
 
 sginv(X, ..., snnd = TRUE)
 
@@ -35,7 +35,7 @@ xTAx_qrssolve(x, A, tol = 1e-07, ...)
 
 sandwich_ssolve(A, B, ...)
 
-qrssolve(a, b, tol = 1e-07, ..., snnd = TRUE)
+qrssolve(a, b, tol = 1e-07, ..., snnd = FALSE)
 
 qrsolve(a, b, tol = 1e-07, ...)
 
@@ -47,8 +47,10 @@ sandwich_qrsolve(A, B, ...)
 \item{snnd}{assume that the matrix is symmetric non-negative
 definite (SNND). This typically entails scaling that converts
 covariance to correlation and use of eigendecomposition rather
-than singular-value decomposition. If it's "obvious" that the matrix is
-not SSND (e.g., negative diagonal elements), an error is raised.}
+than singular-value decomposition. If it's "obvious" that the
+matrix is not SSND (e.g., negative diagonal elements), an error
+is raised. It defaults to \code{TRUE} for eigenvalue-based methods and
+\code{FALSE} for QR-based methods.}
 
 \item{x, a, b, X, A, B, tol, ...}{corresponding arguments of the wrapped functions.}
 }

@@ -177,13 +177,15 @@ xTAx_eigen <- function(x, A, tol=sqrt(.Machine$double.eps), ...) {
 #' @param snnd assume that the matrix is symmetric non-negative
 #'   definite (SNND). This typically entails scaling that converts
 #'   covariance to correlation and use of eigendecomposition rather
-#'   than singular-value decomposition. If it's "obvious" that the matrix is
-#'   not SSND (e.g., negative diagonal elements), an error is raised.
+#'   than singular-value decomposition. If it's "obvious" that the
+#'   matrix is not SSND (e.g., negative diagonal elements), an error
+#'   is raised. It defaults to `TRUE` for eigenvalue-based methods and
+#'   `FALSE` for QR-based methods.
 #'
 #' @param x,a,b,X,A,B,tol,... corresponding arguments of the wrapped functions.
 #'
 #' @export
-ssolve <- function(a, b, ..., snnd = TRUE) {
+ssolve <- function(a, b, ..., snnd = FALSE) {
   if(missing(b)) {
     b <- diag(1, nrow(a))
     colnames(b) <- rownames(a)
@@ -316,7 +318,7 @@ sandwich_ssolve <- function(A, B, ...) {
 
 #' @rdname ssolve
 #' @export
-qrssolve <- function(a, b, tol = 1e-07, ..., snnd = TRUE) {
+qrssolve <- function(a, b, tol = 1e-07, ..., snnd = FALSE) {
   if(missing(b)) {
     b <- diag(1, nrow(a))
     colnames(b) <- rownames(a)
