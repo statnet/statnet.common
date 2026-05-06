@@ -380,6 +380,37 @@ sandwich_ginv <- function(A, B, ...) {
   Ai %*% B %*% t(Ai)
 }
 
+
+#' (Pseudo-)Determinant of the ratio of two matrices
+#'
+#' @param num,denom numerator and denominator matrices.
+#' @param log whether to return log-pseudo-determinant.
+#' @param root whether to return \eqn{p}th root of the ratio, where
+#'   \eqn{p} is the effective rank.
+#' @param ... additional arguments to [qrssolve()], particularly `tol`
+#'   for determining the cut-off for estimating the rank and `snnd`
+#'   for whether `denom` can be assumed to be symmetric and positive
+#'   non-negative definite.
+#'
+#' @note Kernel of `denom` must be contained in the kernel of `num`,
+#'   or equivalently, the span of `num` must be contained in the span
+#'   of `denom`.
+#'
+#' @return The pseudo-determinant, with an additional attribute
+#'   `"rank"` giving the number of eigenvalues used.
+#'
+#' @export
+pdet_rat <- function(num, denom, log = FALSE, root = FALSE, ...) {
+  r <- qrssolve(denom, num, ...)
+  rank <- attr(r, "rank")
+  eigen(r, only.values = TRUE)$values[seq_len(rank)] |>
+    log() |>
+    (if (root) mean else sum)() |>
+    (if (log) identity else exp)() |>
+    structure(rank = rank)
+}
+
+
 #' Conveniently covert between coordinate-value and array representations
 #'
 #' These function similarly to \CRANpkg{Matrix}'s utilities but is
