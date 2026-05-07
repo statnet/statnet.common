@@ -489,3 +489,83 @@ set_diag <- function(x, value) {
   diag(x) <- value
   x
 }
+
+
+#' Specialization of Common Functions to Matrices
+#'
+#' Being able to assume two dimensions reduces overhead.
+#'
+#' @param x a matrix.
+#' @param MARGIN,FUN,simplify,check.margin,STATS,... See help for corresponding function.
+#' @name matrix_helpers
+#' @examples
+#'
+#' x <- matrix(runif(1000), ncol = 4)
+NULL
+
+
+#' @describeIn matrix_helpers Highly optimized [`sweep`]`(x, 2, STATS,
+#'   "-")` specifically for numeric matrices.
+#'
+#' @param disable_checks if \code{TRUE}, do not check that \code{x} is a
+#' numeric matrix and its number of columns matches the length of \code{STATS};
+#' set in production code for a significant speed-up.
+#' @examples
+#'
+#' s <- 1:4
+#'
+#' stopifnot(all.equal(sweep_cols.matrix(x, s), sweep(x, 2, s)))
+#'
+#' @export
+sweep_cols.matrix <- function(x, STATS, disable_checks=FALSE){
+  if (!disable_checks)
+    if (!is.matrix(x) || mode(x) != "numeric" || ncol(x) != length(STATS)) warning("x is not a numeric matrix")
+  o <- .Call("sweep2m", x, STATS, PACKAGE = "statnet.common")
+  attributes(o) <- attributes(x)
+  o
+}
+
+#' @describeIn matrix_helpers [`sweep`]`(x, 2L, STATS, FUN, ...)`,
+#'   though for convenience, STATS can also be a function that is
+#'   applied to each column; this also disables the margin check by default.
+#' @examples
+#' stopifnot(all.equal(sweep(x, 2, colMeans(x)), sweep.matrix(x, 2, colMeans(x))))
+#' stopifnot(all.equal(sweep(x, 2, colMeans(x)), sweep.matrix(x, 2, mean)))
+#' @export
+sweep.matrix <- function(x, MARGIN, STATS, FUN = "-", check.margin = TRUE, ...) {
+  FUN <- match.fun(FUN)
+  if (is.function(STATS)) {
+    STATS <- apply.matrix(x, MARGIN, STATS, ...)
+    check.margin <- FALSE
+  }
+
+  if (MARGIN == 1L) {
+    if (check.margin) stopifnot(nrow(x) == length(STATS))
+    for (i in seq_len(nrow(x))) x[i, ] <- FUN(x[i, ], STATS[i], ...)
+  } else if (MARGIN == 2L) {
+    if (check.margin) stopifnot(ncol(x) == length(STATS))
+    for (i in seq_len(ncol(x))) x[, i] <- FUN(x[, i], STATS[i], ...)
+  } else {
+    stop("MARGIN is not 1 or 2")
+  }
+  x
+}
+
+#' @describeIn matrix_helpers [`apply`]`(x, 2L, FUN, ...)`.
+#'
+#' @examples
+#' stopifnot(all.equal(apply.matrix(x, 2, min), apply(x, 2, min)))
+#' @export
+apply.matrix <- function(x, MARGIN, FUN, ..., simplify = TRUE) {
+  FUN <- match.fun(FUN)
+  if (MARGIN == 1L) {
+    l <- seq_len(nrow(x))
+    f <- function(i) FUN(x[i, ], ...)
+  } else if (MARGIN == 2L) {
+    l <- seq_len(ncol(x))
+    f <- function(i) FUN(x[, i], ...)
+  } else {
+    stop("MARGIN is not 1 or 2")
+  }
+  sapply(l, f, simplify = simplify)
+}

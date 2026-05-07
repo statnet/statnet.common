@@ -152,32 +152,3 @@ lweighted.cov <- function(x, y, logw, onerow = NA){
 #'
 #' @export
 log1mexp <- function(x) .Call("log1mexp_wrapper", x)
-
-#' Suptract a elements of a vector from respective columns of a matrix
-#' 
-#' An optimized function equivalent to \code{sweep(x, 2, STATS)} for a matrix
-#' \code{x}.
-#' 
-#' 
-#' @param x a numeric matrix;
-#' @param STATS a numeric vector whose length equals to the number of columns
-#' of \code{x}.
-#' @param disable_checks if \code{TRUE}, do not check that \code{x} is a
-#' numeric matrix and its number of columns matches the length of \code{STATS};
-#' set in production code for a significant speed-up.
-#' @return A matrix of the same attributes as \code{x}.
-#' @examples
-#' 
-#' x <- matrix(runif(1000), ncol=4)
-#' s <- 1:4
-#' 
-#' stopifnot(all.equal(sweep_cols.matrix(x, s), sweep(x, 2, s)))
-#' 
-#' @export 
-sweep_cols.matrix <- function(x, STATS, disable_checks=FALSE){
-  if(!disable_checks)
-    if(!is.matrix(x) || mode(x)!="numeric" || ncol(x)!=length(STATS)) stop("Argument ",sQuote("x")," must be a numeric matrix variable (not an expression that evaluates to a numeric matrix).")
-  o <- .Call("sweep2m", x, STATS, PACKAGE="statnet.common")
-  attributes(o) <- attributes(x)
-  o
-}
