@@ -569,3 +569,31 @@ apply.matrix <- function(x, MARGIN, FUN, ..., simplify = TRUE) {
   }
   sapply(l, f, simplify = simplify)
 }
+
+
+#' Identify Matrix Columns with a Small Range
+#'
+#' @param x a [`matrix`] or a list of matrices, such as an
+#'   [`mcmc.list`].
+#' @param tol a vector (recycled as needed) giving maximum half-ranges
+#'   allowed.
+#'
+#' @return A logical vector.
+#'
+#' @examples
+#' M <- cbind(rnorm(5), rnorm(10, 1, 1e-16))
+#' M
+#' sweep(M, 2L, M[1L, ])
+#' (sweep(M, 2L, M[1L, ]) == 0) |> apply(2, all)
+#' cols_constant(M)
+#'
+#' @export
+cols_constant <- function(x, tol = .Machine$double.eps * 2) {
+  x <- x |>
+    unclass() |>
+    enlist() |>
+    lapply(unclass)
+  mins <- lapply(x, apply.matrix, 2L, min) |> Reduce(x = _, pmin)
+  maxs <- lapply(x, apply.matrix, 2L, max) |> Reduce(x = _, pmax)
+  maxs - mins <= tol * 2
+}
