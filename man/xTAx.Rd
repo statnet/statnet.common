@@ -4,9 +4,12 @@
 \alias{xTAx}
 \alias{xAxT}
 \alias{xTAx_solve}
+\alias{xAxT_solve}
 \alias{xTAx_qrsolve}
+\alias{xAxT_qrsolve}
 \alias{sandwich_solve}
 \alias{xTAx_eigen}
+\alias{xAxT_eigen}
 \alias{sandwich_sginv}
 \alias{sandwich_ginv}
 \title{Common quadratic forms}
@@ -17,11 +20,17 @@ xAxT(x, A)
 
 xTAx_solve(x, A, ...)
 
+xAxT_solve(x, A, ...)
+
 xTAx_qrsolve(x, A, tol = 1e-07, ...)
+
+xAxT_qrsolve(x, A, tol = 1e-07, ...)
 
 sandwich_solve(A, B, ...)
 
 xTAx_eigen(x, A, tol = sqrt(.Machine$double.eps), ...)
+
+xAxT_eigen(x, A, tol = sqrt(.Machine$double.eps), ...)
 
 sandwich_sginv(A, B, ...)
 
@@ -47,14 +56,17 @@ and others.
 }
 \section{Functions}{
 \itemize{
-\item \code{xTAx()}: Evaluate \eqn{x'Ax} for vector \eqn{x} and square
-matrix \eqn{A}.
+\item \code{xTAx()}: Evaluate \eqn{x'Ax} for vector or matrix \eqn{x}
+and square matrix \eqn{A}.
 
-\item \code{xAxT()}: Evaluate \eqn{xAx'} for vector \eqn{x} and square
-matrix \eqn{A}.
+\item \code{xAxT()}: Evaluate \eqn{xAx'} for vector or matrix \eqn{x}
+and square matrix \eqn{A}.
 
-\item \code{xTAx_solve()}: Evaluate \eqn{x'A^{-1}x} for vector \eqn{x} and
-invertible matrix \eqn{A} using \code{\link[=solve]{solve()}}.
+\item \code{xTAx_solve()}: Evaluate \eqn{x'A^{-1}x} for vector or matrix
+\eqn{x} and invertible matrix \eqn{A} using \code{\link[=solve]{solve()}}.
+
+\item \code{xAxT_solve()}: As the corresponding \verb{xTAx_*()} function, but with
+\eqn{x} transposed.
 
 \item \code{xTAx_qrsolve()}: Evaluate \eqn{x'A^{-1}x} for vector \eqn{x} and
 matrix \eqn{A} using QR decomposition and confirming that \eqn{x}
@@ -62,11 +74,14 @@ is in the span of \eqn{A} if \eqn{A} is singular; returns \code{rank}
 and \code{nullity} as attributes just in case subsequent calculations
 (e.g., hypothesis test degrees of freedom) are affected.
 
+\item \code{xAxT_qrsolve()}: As the corresponding \verb{xTAx_*()} function, but with
+\eqn{x} transposed.
+
 \item \code{sandwich_solve()}: Evaluate \eqn{A^{-1}B(A')^{-1}} for \eqn{B} a
 square matrix and \eqn{A} invertible.
 
-\item \code{xTAx_eigen()}: Evaluate \eqn{x' A^{-1} x} for vector \eqn{x} and
-matrix \eqn{A} (symmetric, nonnegative-definite) via
+\item \code{xTAx_eigen()}: Evaluate \eqn{x' A^{-1} x} for vector or matrix
+\eqn{x} and matrix \eqn{A} (symmetric, nonnegative-definite) via
 eigendecomposition and confirming that \eqn{x} is in the span of
 \eqn{A} if \eqn{A} is singular; returns \code{rank} and \code{nullity} as
 attributes just in case subsequent calculations (e.g., hypothesis
@@ -78,5 +93,8 @@ eigenvalues and \eqn{P} orthogonal. Then \eqn{A^{-1} = P L^{-1}
 
 Substituting, \deqn{x' A^{-1} x = x' P L^{-1} P' x
   = h' L^{-1} h} for \eqn{h = P' x}.
+
+\item \code{xAxT_eigen()}: As the corresponding \verb{xTAx_*()} function, but with
+\eqn{x} transposed.
 
 }}

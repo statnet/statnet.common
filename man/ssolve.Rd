@@ -5,10 +5,13 @@
 \alias{sginv}
 \alias{ginv_eigen}
 \alias{xTAx_seigen}
+\alias{xAxT_seigen}
 \alias{srcond}
 \alias{snearPD}
 \alias{xTAx_ssolve}
+\alias{xAxT_ssolve}
 \alias{xTAx_qrssolve}
+\alias{xAxT_qrssolve}
 \alias{sandwich_ssolve}
 \alias{qrssolve}
 \alias{qrsolve}
@@ -25,13 +28,19 @@ ginv_eigen(X, tol = sqrt(.Machine$double.eps), ...)
 
 xTAx_seigen(x, A, tol = sqrt(.Machine$double.eps), ...)
 
+xAxT_seigen(x, A, tol = sqrt(.Machine$double.eps), ...)
+
 srcond(x, ..., snnd = TRUE)
 
 snearPD(x, ...)
 
 xTAx_ssolve(x, A, ...)
 
+xAxT_ssolve(x, A, ...)
+
 xTAx_qrssolve(x, A, tol = 1e-07, ...)
+
+xAxT_qrssolve(x, A, tol = 1e-07, ...)
 
 sandwich_ssolve(A, B, ...)
 

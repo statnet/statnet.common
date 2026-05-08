@@ -30,8 +30,8 @@ is.SPD <- function(x, tol = .Machine$double.eps) {
 #'   and others.
 NULL
 
-#' @describeIn xTAx Evaluate \eqn{x'Ax} for vector \eqn{x} and square
-#'   matrix \eqn{A}.
+#' @describeIn xTAx Evaluate \eqn{x'Ax} for vector or matrix \eqn{x}
+#'   and square matrix \eqn{A}.
 #'
 #' @param x a vector
 #' @param A a square matrix
@@ -41,20 +41,29 @@ xTAx <- function(x, A) {
   drop(crossprod(crossprod(A, x), x))
 }
 
-#' @describeIn xTAx Evaluate \eqn{xAx'} for vector \eqn{x} and square
-#'   matrix \eqn{A}.
+#' @describeIn xTAx Evaluate \eqn{xAx'} for vector or matrix \eqn{x}
+#'   and square matrix \eqn{A}.
 #'
 #' @export
 xAxT <- function(x, A) {
   drop(x %*% tcrossprod(A, x))
 }
 
-#' @describeIn xTAx Evaluate \eqn{x'A^{-1}x} for vector \eqn{x} and
-#'   invertible matrix \eqn{A} using [solve()].
+#' @describeIn xTAx Evaluate \eqn{x'A^{-1}x} for vector or matrix
+#'   \eqn{x} and invertible matrix \eqn{A} using [solve()].
 #'
 #' @export
 xTAx_solve <- function(x, A, ...) {
   drop(crossprod(x, solve(A, x, ...)))
+}
+
+## TODO: The xAxT versions may benefit from optimization.
+
+#' @describeIn xTAx As the corresponding `xTAx_*()` function, but with
+#'   \eqn{x} transposed.
+#' @export
+xAxT_solve <- function(x, A, ...) {
+  xTAx_solve(t(x), A, ...)
 }
 
 #' Check that matrix or vector `b` is in the span of matrix `a`. If so,
@@ -100,6 +109,14 @@ xTAx_qrsolve <- function(x, A, tol = 1e-07, ...) {
   with_qrcoef(\(z) sum(x * z, na.rm = TRUE), A, x, tol)
 }
 
+#' @describeIn xTAx As the corresponding `xTAx_*()` function, but with
+#'   \eqn{x} transposed.
+#' @export
+xAxT_qrsolve <- function(x, A, tol = 1e-07, ...) {
+  xTAx_qrsolve(t(x), A, tol, ...)
+}
+
+
 #' @describeIn xTAx Evaluate \eqn{A^{-1}B(A')^{-1}} for \eqn{B} a
 #'   square matrix and \eqn{A} invertible.
 #'
@@ -111,8 +128,8 @@ sandwich_solve <- function(A, B, ...) {
   solve(A, t(solve(A, B, ...)), ...)
 }
 
-#' @describeIn xTAx Evaluate \eqn{x' A^{-1} x} for vector \eqn{x} and
-#'   matrix \eqn{A} (symmetric, nonnegative-definite) via
+#' @describeIn xTAx Evaluate \eqn{x' A^{-1} x} for vector or matrix
+#'   \eqn{x} and matrix \eqn{A} (symmetric, nonnegative-definite) via
 #'   eigendecomposition and confirming that \eqn{x} is in the span of
 #'   \eqn{A} if \eqn{A} is singular; returns `rank` and `nullity` as
 #'   attributes just in case subsequent calculations (e.g., hypothesis
@@ -135,6 +152,13 @@ xTAx_eigen <- function(x, A, tol=sqrt(.Machine$double.eps), ...) {
 
   h <- h[keep, , drop=FALSE]
   structure(drop(crossprod(h, h/e$values[keep])), rank = sum(keep), nullity = sum(!keep))
+}
+
+#' @describeIn xTAx As the corresponding `xTAx_*()` function, but with
+#'   \eqn{x} transposed.
+#' @export
+xAxT_eigen <- function(x, A, tol=sqrt(.Machine$double.eps), ...) {
+  xTAx_eigen(t(x), A, tol, ...)
 }
 
 .inv_diag <- function(X, zero = .Machine$double.xmax/(1 + .Machine$double.eps)){
@@ -244,6 +268,13 @@ xTAx_seigen <- function(x, A, tol=sqrt(.Machine$double.eps), ...) {
 #' @rdname ssolve
 #'
 #' @export
+xAxT_seigen <- function(x, A, tol=sqrt(.Machine$double.eps), ...) {
+  xTAx_seigen(t(x), A, tol, ...)
+}
+
+#' @rdname ssolve
+#'
+#' @export
 srcond <- function(x, ..., snnd = TRUE) {
   if(snnd) {
     d <- .sqrt_inv_diag(x)
@@ -278,6 +309,13 @@ xTAx_ssolve <- function(x, A, ...) {
 
 #' @rdname ssolve
 #'
+#' @export
+xAxT_ssolve <- function(x, A, ...) {
+  xTAx_ssolve(t(x), A, ...)
+}
+
+#' @rdname ssolve
+#'
 #' @examples
 #' x <- rnorm(2, sd=c(1,1e12))
 #' x <- c(x, sum(x))
@@ -307,6 +345,13 @@ xTAx_qrssolve <- function(x, A, tol = 1e-07, ...) {
 
   with_qrcoef(function(z) sum(x * d * z, na.rm = TRUE),
               A * dd, x * d, tol, c("A", "x"))
+}
+
+#' @rdname ssolve
+#'
+#' @export
+xAxT_qrssolve <- function(x, A, tol = 1e-07, ...) {
+  xTAx_qrssolve(t(x), A, tol, ...)
 }
 
 #' @rdname ssolve
