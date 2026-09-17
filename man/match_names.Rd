@@ -57,11 +57,6 @@ no default is specified.
 \item There is ambiguity that \code{\link[=pmatch]{pmatch()}} cannot resolve.
 }
 }
-\note{
-At this time, passing \code{partial=FALSE} will use a crude
-sentinel to prevent partial matching, which in some, extremely
-improbable, circumstances might not work.
-}
 \examples{
 
 # Unnamed:
