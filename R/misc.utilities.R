@@ -83,10 +83,6 @@ vector.namesmatch<-function(v,names,errname=NULL){
 #'
 #' * There is ambiguity that [pmatch()] cannot resolve.
 #'
-#' @note At this time, passing `partial=FALSE` will use a crude
-#'   sentinel to prevent partial matching, which in some, extremely
-#'   improbable, circumstances might not work.
-#'
 #' @param v a vector
 #' @param names a character vector of element names
 #' @param default value to be used for elements of `names` not found in `v`
@@ -168,9 +164,11 @@ match_names <- function(v, names, default = NULL, partial = TRUE, errname = NULL
       v <- v[!blanks]
     }
 
-    # partial == FALSE -> add a sentinel string at the end of all strings to prevent partial matching.
-    namesmatch <- if(partial) pmatch(names(v), names)
-                  else pmatch(paste(names(v), "\n\xf5\xdc\n"), paste(names, "\n\xf5\xdc\n"))
+    namesmatch <- pmatch(names(v), names)
+    # partial == FALSE -> keep only the exact matches. pmatch() assigns all
+    # exact matches before attempting any partial ones, so this leaves
+    # exactly the sequential exact matches.
+    if(!partial) namesmatch[which(names[namesmatch] != names(v))] <- NA
     used <- !is.na(namesmatch)
     found <- unwhich(na.omit(namesmatch), length(names))
 

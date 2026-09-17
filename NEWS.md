@@ -1,3 +1,9 @@
+# statnet.common 4.14.0
+
+## Bug fixes
+
+* `match_names(partial = FALSE)` no longer embeds a non-UTF-8 sentinel string, which produced "strings not representable in native encoding" warnings when the package was installed in a UTF-8 locale and loaded in a C locale. (#44; originally reported against the `ergm` progress bars)
+
 # statnet.common 4.13.0
 
 ## New utilities
