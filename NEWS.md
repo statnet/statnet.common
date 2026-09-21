@@ -1,8 +1,28 @@
 # statnet.common 4.14.0
 
+## New utilities
+
+* `hasAttr()` analogous to `hasName()`.
+
+* More of the `xTAx_*()` (quadratic form evaluation) functions now have `xAxT_*()` analogues.
+
+* `cols_constant()`, to tell which columns have a small range.
+
+* `pdet_rat()`, for numerically stable calculation of the pseudo-determinant (product of non-zero eigenvalues) of the ratio of two matrices such that the kernel of the numerator matrix contains the kernel of the denominator matrix or, equivalently, that the span of the denominator contains the span of the numerator.
+
+* `apply.matrix()` and `sweep.matrix()` for computing those methods specifically on 2-dimensional matrices, bypassing `aperm()`.
+
+## Enhancements to existing utilities
+
+* A `unique()` method for `term_list` objects.
+
+* `split_len()` now passes unused arguments to `split()`.
+
 ## Bug fixes
 
-* `match_names(partial = FALSE)` no longer embeds a non-UTF-8 sentinel string, which produced "strings not representable in native encoding" warnings when the package was installed in a UTF-8 locale and loaded in a C locale. (#44; originally reported against the `ergm` progress bars)
+* `match_names(partial = FALSE)` no longer embeds a non-UTF-8 sentinel string, which produced "strings not representable in native encoding" warnings when the package was installed in a UTF-8 locale and loaded in a C locale. (#44; originally reported against the `ergm` progress bars) (Thanks, @mbojan!)
+
+* QR-based matrix methods now default to `snnd = FALSE`, that is, do not by default assume that the matrix is symmetric non-negative definite.
 
 # statnet.common 4.13.0
 
@@ -14,7 +34,7 @@
 
 * New function, `which_top_n()`, to return the indices of top or bottom `n` elements of a vector, with several methods for resolving ties.
 
-* New function, `split_len()` to split a split()-able object by lengths.
+* New function, `split_len()` to split a `split()`-able object by lengths.
 
 ## Enhancements to existing utilities
 
