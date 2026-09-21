@@ -37,7 +37,7 @@ version of \code{x}
 whose chains had been passed through \code{FUN}.
 }
 \description{
-\code{colMeans.mcmc.list} is a "method" for (non-generic) \code{\link[=colMeans]{colMeans()}} applicable to \code{\link[coda:mcmc.list]{mcmc.list}} objects.
+\code{colMeans.mcmc.list} is a "method" for (non-generic) \code{\link[base:colMeans]{base::colMeans()}} applicable to \code{\link[coda:mcmc.list]{mcmc.list}} objects.
 
 \code{var.mcmc.list} is a "method" for (non-generic)
 \code{\link[=var]{var()}} applicable to \code{\link[coda:mcmc.list]{mcmc.list}} objects. Since MCMC chains
@@ -84,7 +84,7 @@ stopifnot(isTRUE(all.equal(colMeans.mcmc.list(line)[c(2,3,1)],colMeans.mcmc.list
 \seealso{
 \code{\link[coda:mcmc.list]{mcmc.list}}
 
-\code{\link[=colMeans]{colMeans()}}
+\code{\link[base:colMeans]{base::colMeans()}}
 
 \code{\link[=var]{var()}}
 

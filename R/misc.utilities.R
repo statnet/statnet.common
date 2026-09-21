@@ -602,7 +602,7 @@ opttest <- function(expr, testname=NULL, testvar="ENABLE_statnet_TESTS", yesvals
 #'   returns `TRUE` if and only if `.p()` returns `TRUE` for all the pairs
 #'   involving the first element and the remaining elements.
 #'
-#' @seealso [identical()], [all.equal()]
+#' @seealso [identical()], [base::all.equal()]
 #'
 #' @examples
 #'

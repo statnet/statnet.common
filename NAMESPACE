@@ -189,14 +189,20 @@ export(xTAx_qrssolve)
 export(xTAx_seigen)
 export(xTAx_solve)
 export(xTAx_ssolve)
-importFrom(coda,as.mcmc)
-importFrom(coda,as.mcmc.list)
+importFrom(coda,
+  as.mcmc,
+  as.mcmc.list
+)
 importFrom(methods,is)
-importFrom(stats,as.formula)
-importFrom(stats,na.omit)
-importFrom(stats,setNames)
-importFrom(stats,var)
-importFrom(utils,capture.output)
-importFrom(utils,getAnywhere)
-importFrom(utils,modifyList)
+importFrom(stats,
+  as.formula,
+  na.omit,
+  setNames,
+  var
+)
+importFrom(utils,
+  capture.output,
+  getAnywhere,
+  modifyList
+)
 useDynLib(statnet.common)

@@ -63,7 +63,7 @@ and square matrix \eqn{A}.
 and square matrix \eqn{A}.
 
 \item \code{xTAx_solve()}: Evaluate \eqn{x'A^{-1}x} for vector or matrix
-\eqn{x} and invertible matrix \eqn{A} using \code{\link[=solve]{solve()}}.
+\eqn{x} and invertible matrix \eqn{A} using \code{\link[base:solve]{base::solve()}}.
 
 \item \code{xAxT_solve()}: As the corresponding \verb{xTAx_*()} function, but with
 \eqn{x} transposed.

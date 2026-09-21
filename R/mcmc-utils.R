@@ -10,7 +10,7 @@
 #' @name mcmc-utilities
 #' @title Utility operations for [`mcmc.list`][coda::mcmc.list] objects
 #' 
-#' @description \code{colMeans.mcmc.list} is a "method" for (non-generic) [colMeans()] applicable to [`mcmc.list`][coda::mcmc.list] objects.
+#' @description \code{colMeans.mcmc.list} is a "method" for (non-generic) [base::colMeans()] applicable to [`mcmc.list`][coda::mcmc.list] objects.
 #' 
 #' @param x a [`mcmc.list`][coda::mcmc.list] object.
 #' @param \dots additional arguments to the functions evaluated on each chain.
@@ -24,7 +24,7 @@
 #'
 #' @seealso [`mcmc.list`][coda::mcmc.list]
 #'
-#' [colMeans()]
+#' [base::colMeans()]
 #' @examples
 #' data(line, package="coda")
 #' colMeans(as.matrix(line)) # also coda

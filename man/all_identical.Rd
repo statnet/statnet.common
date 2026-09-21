@@ -49,5 +49,5 @@ all_identical(x[-2], all.equal) # is FALSE
 
 }
 \seealso{
-\code{\link[=identical]{identical()}}, \code{\link[=all.equal]{all.equal()}}
+\code{\link[=identical]{identical()}}, \code{\link[base:all.equal]{base::all.equal()}}
 }

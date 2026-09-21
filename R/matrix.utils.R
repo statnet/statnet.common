@@ -50,7 +50,7 @@ xAxT <- function(x, A) {
 }
 
 #' @describeIn xTAx Evaluate \eqn{x'A^{-1}x} for vector or matrix
-#'   \eqn{x} and invertible matrix \eqn{A} using [solve()].
+#'   \eqn{x} and invertible matrix \eqn{A} using [base::solve()].
 #'
 #' @export
 xTAx_solve <- function(x, A, ...) {
@@ -71,7 +71,7 @@ xAxT_solve <- function(x, A, ...) {
 #' include rank and nullity.
 #'
 #' @param f a function that takes a vector or a matrix
-#' @param a,b,tol passed to [qr()]; `tol` is also used for span
+#' @param a,b,tol passed to [base::qr()]; `tol` is also used for span
 #'   checking.
 #' @param nm a vector of names for `a` and `b` to use; defaults to the
 #'   corresponding expressions in the parent frame.
@@ -190,9 +190,9 @@ xAxT_eigen <- function(x, A, tol=sqrt(.Machine$double.eps), ...) {
 #' eigenvalues is more robust.
 #'
 #' `ssolve()`, `sginv()`, `sginv_eigen()`, and `snearPD()` wrap
-#' [solve()], [MASS::ginv()], `ginv_eigen()`, and [Matrix::nearPD()],
+#' [base::solve()], [MASS::ginv()], `ginv_eigen()`, and [Matrix::nearPD()],
 #' respectively. `srcond()` returns the reciprocal condition number of
-#' [rcond()] net of the above scaling. `xTAx_ssolve()`,
+#' [base::rcond()] net of the above scaling. `xTAx_ssolve()`,
 #' `xTAx_qrssolve()`, `xTAx_seigen()`, and `sandwich_ssolve()` wrap
 #' the corresponding \pkg{statnet.common} functions. `qrssolve()`
 #' solves the linear system via QR decomposition after scaling by

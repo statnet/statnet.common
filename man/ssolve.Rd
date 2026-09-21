@@ -78,9 +78,9 @@ suitable for symmetric matrices, but that detection of negative
 eigenvalues is more robust.
 
 \code{ssolve()}, \code{sginv()}, \code{sginv_eigen()}, and \code{snearPD()} wrap
-\code{\link[=solve]{solve()}}, \code{\link[MASS:ginv]{MASS::ginv()}}, \code{ginv_eigen()}, and \code{\link[Matrix:nearPD]{Matrix::nearPD()}},
+\code{\link[base:solve]{base::solve()}}, \code{\link[MASS:ginv]{MASS::ginv()}}, \code{ginv_eigen()}, and \code{\link[Matrix:nearPD]{Matrix::nearPD()}},
 respectively. \code{srcond()} returns the reciprocal condition number of
-\code{\link[=rcond]{rcond()}} net of the above scaling. \code{xTAx_ssolve()},
+\code{\link[base:rcond]{base::rcond()}} net of the above scaling. \code{xTAx_ssolve()},
 \code{xTAx_qrssolve()}, \code{xTAx_seigen()}, and \code{sandwich_ssolve()} wrap
 the corresponding \pkg{statnet.common} functions. \code{qrssolve()}
 solves the linear system via QR decomposition after scaling by
