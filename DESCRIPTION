@@ -1,6 +1,6 @@
 Package: statnet.common
-Version: 4.14.0-526
-Date: 2026-09-21
+Version: 4.14.0-527
+Date: 2026-11-12
 Title: Common R Scripts and Utilities Used by the Statnet Project Software
 Authors@R: c(
     person(c("Pavel", "N."), "Krivitsky", role=c("aut","cre"), email="pavel@statnet.org", comment=c(ORCID="0000-0002-9101-3362", affiliation="University of New South Wales")),
@@ -21,4 +21,4 @@ Suggests: covr,
           purrr,
           testthat,
           MASS
-Config/roxygen2/version: 8.1.0
+Config/roxygen2/version: 8.1.1

@@ -105,3 +105,35 @@ default_options <- function(...){
   toset <- setdiff(names(x), names(options()))
   do.call(options, x[toset])
 }
+
+#' Version of the package based on namespace metadata
+#'
+#' This is a thin wrapper around [base::getNamespaceVersion()] to
+#' convert the result from string to a [`package_version`] object.
+#'
+#' Under ordinary circumstances, the version returned by
+#' [namespaceVersion()] should be identical to that returned by
+#' [packageVersion()], unless the package was updated on disk after
+#' having been loaded. However, [packageVersion()] rereads the
+#' `DESCRIPTION` file from disk every time it is called, whereas
+#' [namespaceVersion()] uses the loaded package's namespace
+#' metadata. Thus, `namespaceVersion(x)` is likely to be a more
+#' accurate indicator of what code will actually run from that
+#' namespace.
+#'
+#' @note Unlike [packageVersion()], [getNamespaceVersion()] and hence
+#'   `namespaceVersion(pkg)` has a side-effect of loading `pkg` if not
+#'   already loaded. If this is an undesirable side-effect, use
+#'   `packageVersion(pkg)`.
+#'
+#' @param pkg a character string with the package name.
+#'
+#' @examples
+#'
+#' stopifnot(identical(namespaceVersion("statnet.common"), packageVersion("statnet.common")))
+#' stopifnot(identical(namespaceVersion("stats"), packageVersion("stats")))
+#'
+#' @return An object of class `"package_version"`.
+#'
+#' @export
+namespaceVersion <- function(pkg) package_version(unname(getNamespaceVersion(pkg)))
