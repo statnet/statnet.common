@@ -79,7 +79,8 @@
 #'
 #' @importFrom stats simulate
 #' @export
-simulate.formula <- function(object, nsim=1, seed=NULL, ..., basis, newdata, data) {
+simulate.formula <- function(object, nsim=1, seed=NULL, ..., basis, newdata, data, basis_mode = c("copy", "fixed", "test")) {
+  basis_mode <- match.arg(basis_mode)
   ## utility fun for generating new class
   cfun <- function(cc) {
     c(paste0("formula_lhs_", cc), "formula_lhs", class(object))
@@ -119,7 +120,22 @@ simulate.formula <- function(object, nsim=1, seed=NULL, ..., basis, newdata, dat
   }
 
   ## Replace the dispatched-on argument (object) with the updated formula.
-  cl[["object"]] <- object
+
+  pf <- parent.frame()
+  if (basis_mode == "copy") cl[["object"]] <- object
+  else {
+    if (basis_mode == "test") {
+      i <- 0L
+      repeat {
+        new_name <- sprintf(".formula_with_basis%d", i)
+        if (!exists(new_name, pf)) break
+        ## message("Name collision: ", i)
+        i <- i + 1L
+      }
+    } else new_name <- ".formula_with_basis"
+
+    cl[["object"]] <- as.name(new_name)
+  }
   ## If data argument was not actually passed, remove it from the call.
   if(missing(data)) cl <- cl[names(cl)!="data"]
   ## If newdata argument was not actually passed, remove it from the call.
@@ -128,7 +144,8 @@ simulate.formula <- function(object, nsim=1, seed=NULL, ..., basis, newdata, dat
   cl <- cl[names(cl)!="basis"]
 
   # Evaluate the modified call as if in the environment from which simulate.formula() was called. (A poor man's NextMethod().)
-  eval(cl, parent.frame())
+  if (basis_mode == "copy") eval(cl, pf)
+  else eval(cl, setNames(list(object), new_name), pf)
 }
 
 #' @describeIn simulate.formula A function to catch the situation when there is no method implemented for the class to which the LHS evaluates.
