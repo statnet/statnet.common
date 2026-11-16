@@ -12,6 +12,10 @@
 
 * `apply.matrix()` and `sweep.matrix()` for computing those methods specifically on 2-dimensional matrices, bypassing `aperm()`.
 
+* `namespaceVersion()`, like `packageVersion()` but queries the loaded namespace metadata rather than the `DESCRIPTION` file on disk and is therefore significantly faster, albeit with a side-effect of loading the package in question if not already loaded.
+
+* `simulate.formula()`, which dispatches based on the class of LHS formula using a nonce class, has been moved here from the `ergm` package.
+
 ## Enhancements to existing utilities
 
 * A `unique()` method for `term_list` objects.
