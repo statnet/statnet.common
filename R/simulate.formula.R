@@ -79,7 +79,7 @@
 #'
 #' @importFrom stats simulate
 #' @export
-simulate.formula <- function(object, nsim=1, seed=NULL, ..., basis, newdata, data, basis_mode = c("copy", "fixed", "test")) {
+simulate.formula <- function(object, nsim=1, seed=NULL, ..., basis, newdata, data, basis_mode = c("copy", "fixed", "test", "call")) {
   basis_mode <- match.arg(basis_mode)
   ## utility fun for generating new class
   cfun <- function(cc) {
@@ -123,7 +123,9 @@ simulate.formula <- function(object, nsim=1, seed=NULL, ..., basis, newdata, dat
 
   pf <- parent.frame()
   if (basis_mode == "copy") cl[["object"]] <- object
-  else {
+  else if (basis_mode == "call") {
+    cl[["object"]] <- call("$", environment(), quote(object))
+  } else {
     if (basis_mode == "test") {
       i <- 0L
       repeat {
@@ -144,7 +146,7 @@ simulate.formula <- function(object, nsim=1, seed=NULL, ..., basis, newdata, dat
   cl <- cl[names(cl)!="basis"]
 
   # Evaluate the modified call as if in the environment from which simulate.formula() was called. (A poor man's NextMethod().)
-  if (basis_mode == "copy") eval(cl, pf)
+  if (basis_mode == "copy" || basis_mode == "call") eval(cl, pf)
   else eval(cl, setNames(list(object), new_name), pf)
 }
 
