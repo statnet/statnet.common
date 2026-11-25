@@ -75,8 +75,7 @@
 #' [`formula`] object, with additional attribute `.Basis` giving the
 #' evaluated LHS (so that it does not need to be evaluated again).
 #'
-#' @seealso `simulate.ergm()` family of functions in \CRANpkg{ergm},
-#'   which uses this interface.
+#' @seealso \Sexpr[stage=render,results=rd]{statnet.common:::.format_simulate.formula_lhs_methods("simulate")}
 #'
 #' @importFrom stats simulate
 #' @export
@@ -138,4 +137,46 @@ simulate.formula <- function(object, nsim=1, seed=NULL, ..., basis, newdata, dat
 #' @export
 simulate.formula_lhs <- function(object, nsim=1, seed=NULL, ...){
   stop("No applicable method for LHS of type ", paste0(sQuote(class(attr(object, ".Basis"))), collapse=", "), ".")
+}
+
+.simulate.formula_lhs_methods <- function(generic = "simulate") {
+  m <- methods(generic) |> attr("info")
+  m$name <- rownames(m)
+  prefix <- paste0(generic, ".formula_lhs_")
+  m <- m |> subset(startsWith(name, prefix)) |>
+    transform(class = substr(name, nchar(prefix) + 1L, 1e4))
+  lapply(m$name, getAnywhere) |>
+    lapply(`[[`, "where") |>
+    lapply(gsub, pattern = ".*[ :]", replacement = "") |>
+    lapply(unique) |>
+    setNames(m$class)
+}
+
+.format_simulate.formula_lhs_methods <- function(generic = "simulate") {
+  methods <- .simulate.formula_lhs_methods(generic)
+
+  if(length(methods) == 0) return("No currently loaded packages export methods for formula LHS.")
+
+  links <- mapply(function(pkg, cls) {
+    cls <- cls %||% ""
+    fullname <- paste0(generic, ".formula_lhs_", cls)
+    cls <- if (cls == "") "no LHS (one-sided formula)"
+           else sprintf("\\code{%s}", cls)
+
+    links <- sprintf("\\code{\\link[%s:%s]{%s::%s}}", pkg, fullname, pkg, fullname) |>
+      paste.and()
+
+    sprintf("\\item{%s}{%s}", cls, links)
+  }, methods, names(methods))
+
+  pkgs <- unlist(methods) |> unique()
+  pkglist <- sprintf("\\item{\\href{https://cran.r-project.org/package=%s}{\\pkg{%s}}}", pkgs, pkgs)
+
+  sprintf("The following packages export methods for formula LHS: \\itemize{%s}
+
+           The following LHS classes are implemented:
+           \\describe{%s}
+           Note these documentation links might \\emph{not}{} all be valid.",
+          paste(pkglist, collapse = "\n"),
+          paste(links, collapse = "\n"))
 }

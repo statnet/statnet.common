@@ -59,6 +59,5 @@ setting an nonce class name on the formula.
 
 }}
 \seealso{
-\code{simulate.ergm()} family of functions in \CRANpkg{ergm},
-which uses this interface.
+\Sexpr[stage=render,results=rd]{statnet.common:::.format_simulate.formula_lhs_methods("simulate")}
 }
