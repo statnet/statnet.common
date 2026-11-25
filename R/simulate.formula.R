@@ -10,7 +10,8 @@
 ## NOTE: Unlike the rest of the package, the functions in this file
 ## are licensed under the MIT License to encourage incorporation.
 ##
-## Copyright (c) 2020 Pavel N. Krivitsky and Benjamin Bolker
+## Copyright (c) 2020-2026 Pavel N. Krivitsky, Benjamin Bolker, and
+##   Samuel M. Jenness.
 ##
 ## Permission is hereby granted, free of charge, to any person obtaining a copy
 ## of this software and associated documentation files (the "Software"), to deal
@@ -79,8 +80,7 @@
 #'
 #' @importFrom stats simulate
 #' @export
-simulate.formula <- function(object, nsim=1, seed=NULL, ..., basis, newdata, data, basis_mode = c("copy", "fixed", "test", "call")) {
-  basis_mode <- match.arg(basis_mode)
+simulate.formula <- function(object, nsim=1, seed=NULL, ..., basis, newdata, data) {
   ## utility fun for generating new class
   cfun <- function(cc) {
     c(paste0("formula_lhs_", cc), "formula_lhs", class(object))
@@ -119,25 +119,9 @@ simulate.formula <- function(object, nsim=1, seed=NULL, ..., basis, newdata, dat
     class(object) <- cfun("")
   }
 
-  ## Replace the dispatched-on argument (object) with the updated formula.
+  ## Replace the dispatched-on argument (object) with the updated formula (a call grabbing it from simulate.formula()'s frame).
+  cl[["object"]] <- call("$", environment(), quote(object))
 
-  pf <- parent.frame()
-  if (basis_mode == "copy") cl[["object"]] <- object
-  else if (basis_mode == "call") {
-    cl[["object"]] <- call("$", environment(), quote(object))
-  } else {
-    if (basis_mode == "test") {
-      i <- 0L
-      repeat {
-        new_name <- sprintf(".formula_with_basis%d", i)
-        if (!exists(new_name, pf)) break
-        ## message("Name collision: ", i)
-        i <- i + 1L
-      }
-    } else new_name <- ".formula_with_basis"
-
-    cl[["object"]] <- as.name(new_name)
-  }
   ## If data argument was not actually passed, remove it from the call.
   if(missing(data)) cl <- cl[names(cl)!="data"]
   ## If newdata argument was not actually passed, remove it from the call.
@@ -145,9 +129,8 @@ simulate.formula <- function(object, nsim=1, seed=NULL, ..., basis, newdata, dat
   ## Always remove basis from the call (since it's an attribute of object now).
   cl <- cl[names(cl)!="basis"]
 
-  # Evaluate the modified call as if in the environment from which simulate.formula() was called. (A poor man's NextMethod().)
-  if (basis_mode == "copy" || basis_mode == "call") eval(cl, pf)
-  else eval(cl, setNames(list(object), new_name), pf)
+  ## Evaluate the modified call as if in the environment from which simulate.formula() was called. (A poor man's NextMethod().)
+  eval(cl, parent.frame())
 }
 
 #' @describeIn simulate.formula A function to catch the situation when there is no method implemented for the class to which the LHS evaluates.
